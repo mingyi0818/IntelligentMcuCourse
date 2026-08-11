@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>练习题库 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="assets/css/style.css?v=10">
+  <style>
+    /* 练习题页面专用样式 */
+    .ex-toolbar {
+      position: sticky;
+      top: var(--navbar-h);
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      padding: 0.8em 1em;
+      margin: -1em -1.5em 1.5em;
+      z-index: 10;
+      box-shadow: var(--shadow-sm);
+    }
+    .ex-filter-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5em 1em;
+      align-items: center;
+      margin-bottom: 0.5em;
+    }
+    .ex-filter-row:last-child { margin-bottom: 0; }
+    .ex-filter-row label {
+      font-weight: 600;
+      color: var(--color-primary-dark);
+      min-width: 4em;
+    }
+    .ex-filter-row select {
+      padding: 0.3em 0.6em;
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      background: #fff;
+      font-size: 0.92em;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    .ex-filter-row select:focus { outline: none; border-color: var(--color-primary); }
+    .ex-count {
+      color: var(--color-text-light);
+      font-size: 0.9em;
+    }
+    .ex-count strong { color: var(--color-primary); font-weight: 600; }
+    .ex-btn {
+      padding: 0.35em 0.9em;
+      border: 1px solid var(--color-primary);
+      border-radius: 4px;
+      background: var(--color-primary);
+      color: #fff;
+      font-size: 0.88em;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .ex-btn:hover { background: var(--color-primary-dark); }
+    .ex-btn.outline {
+      background: transparent;
+      color: var(--color-primary);
+    }
+    .ex-btn.outline:hover { background: var(--color-bg); }
+
+    .ex-list { list-style: none; padding: 0; margin: 0; }
+    .ex-item {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 1em 1.4em;
+      margin-bottom: 1em;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.2s;
+    }
+    .ex-item:hover { border-color: var(--color-primary-light); }
+    .ex-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6em;
+      margin-bottom: 0.6em;
+      flex-wrap: wrap;
+    }
+    .ex-badge {
+      display: inline-block;
+      padding: 0.15em 0.6em;
+      border-radius: 10px;
+      font-size: 0.75em;
+      font-weight: 600;
+      color: #fff;
+    }
+    .ex-badge.single { background: #3b82f6; }
+    .ex-badge.multiple { background: #8b5cf6; }
+    .ex-badge.judge { background: #f59e0b; }
+    .ex-badge.short { background: #10b981; }
+    .ex-badge.ch {
+      background: rgba(45, 106, 79, 0.12);
+      color: var(--color-primary-dark);
+    }
+    .ex-id { color: var(--color-text-light); font-size: 0.85em; }
+    .ex-question {
+      font-weight: 500;
+      margin: 0.6em 0;
+      line-height: 1.7;
+    }
+    .ex-options { list-style: none; padding-left: 0; margin: 0.5em 0; }
+    .ex-options li {
+      padding: 0.3em 0.8em;
+      margin: 0.2em 0;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .ex-options li:hover { background: var(--color-bg); }
+    .ex-options li.correct { background: #d1fae5; color: var(--color-primary-dark); font-weight: 500; }
+    .ex-options li.wrong { background: #fee2e2; color: #b91c1c; }
+    .ex-judge-options {
+      display: flex;
+      gap: 1.5em;
+      margin: 0.5em 0;
+    }
+    .ex-judge-options label { cursor: pointer; padding: 0.3em 0.8em; }
+    .ex-judge-options label:hover { background: var(--color-bg); border-radius: 4px; }
+    .ex-answer {
+      margin-top: 0.6em;
+      padding: 0.6em 1em;
+      background: #f0fdf4;
+      border-left: 3px solid var(--color-primary);
+      border-radius: 0 4px 4px 0;
+      font-size: 0.92em;
+      display: none;
+    }
+    .ex-answer.show { display: block; }
+    .ex-answer strong { color: var(--color-primary-dark); }
+    .ex-short-answer {
+      margin-top: 0.6em;
+      padding: 0.8em 1em;
+      background: #fefce8;
+      border-left: 3px solid var(--color-warning);
+      border-radius: 0 4px 4px 0;
+      font-size: 0.92em;
+      line-height: 1.7;
+      display: none;
+    }
+    .ex-short-answer.show { display: block; }
+    .ex-actions {
+      margin-top: 0.6em;
+      display: flex;
+      gap: 0.6em;
+    }
+    .ex-empty {
+      text-align: center;
+      padding: 3em 1em;
+      color: var(--color-text-light);
+    }
+    .ex-pagination {
+      text-align: center;
+      margin: 1.5em 0;
+    }
+    .ex-pagination button {
+      padding: 0.4em 1em;
+      margin: 0 0.25em;
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      background: #fff;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .ex-pagination button.active {
+      background: var(--color-primary);
+      color: #fff;
+      border-color: var(--color-primary);
+    }
+    .ex-pagination button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="index.html">首页</a>
+      <a href="syllabus.html">教学大纲</a>
+      <a href="lab/index.html">实验指导</a>
+      <a href="exercises.html" class="active">练习题</a>
+      <a href="resources.html">资源下载</a>
+      <a href="faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+  <main class="content" style="max-width: 1100px;">
+    <div class="breadcrumb">
+      <a href="index.html">首页</a> &gt; <span>练习题库</span>
+    </div>
+
+    <h1>练习题库</h1>
+    <p>本题库收录 <strong id="total-count">--</strong> 道练习题，覆盖 45 章课程内容，包含单选题、多选题、判断题、简答题四种题型。可按篇、章节和题型筛选。点击题目下方的"显示答案"按钮可查看参考答案与解析。</p>
+
+    <div class="ex-toolbar">
+      <div class="ex-filter-row">
+        <label for="filter-part">按篇：</label>
+        <select id="filter-part" onchange="ExApp.onPartChange()">
+          <option value="">全部</option>
+        </select>
+
+        <label for="filter-chapter">按章：</label>
+        <select id="filter-chapter" onchange="ExApp.onChapterChange()">
+          <option value="">全部</option>
+        </select>
+
+        <label for="filter-type">题型：</label>
+        <select id="filter-type" onchange="ExApp.onFilterChange()">
+          <option value="">全部</option>
+          <option value="single">单选题</option>
+          <option value="multiple">多选题</option>
+          <option value="judge">判断题</option>
+          <option value="short">简答题</option>
+        </select>
+
+        <span class="ex-count">显示 <strong id="filtered-count">0</strong> / <strong id="total-count-2">0</strong> 道</span>
+      </div>
+      <div class="ex-filter-row">
+        <label for="search-input">搜索：</label>
+        <input type="text" id="search-input" placeholder="输入关键词搜索题目..." style="padding:0.3em 0.6em;border:1px solid var(--color-border);border-radius:4px;flex:1;min-width:200px;font-size:0.92em;font-family:inherit;" oninput="ExApp.onSearch(this.value)">
+
+        <button class="ex-btn outline" onclick="ExApp.toggleAllAnswers()">显示/隐藏全部答案</button>
+        <button class="ex-btn outline" onclick="ExApp.resetFilters()">重置筛选</button>
+      </div>
+    </div>
+
+    <ul class="ex-list" id="ex-list">
+      <li class="ex-empty">正在加载题库...</li>
+    </ul>
+
+    <div class="ex-pagination" id="ex-pagination"></div>
+
+    <nav class="chapter-nav">
+      <a href="index.html" class="home">← 返回首页</a>
+    </nav>
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+<script src="assets/js/exercises-data.js"></script>
+<script src="assets/js/main.js?v=8"></script>
+<script>
+var ExApp = {
+  pageSize: 20,
+  currentPage: 1,
+  filtered: [],
+  showAllAnswers: false,
+  userAnswers: {},  // { questionId: 'A' | ['A','C'] | true | false }
+
+  init: function() {
+    if (typeof EXERCISES_DATA === 'undefined') {
+      document.getElementById('ex-list').innerHTML = '<li class="ex-empty">题库数据加载失败</li>';
+      return;
+    }
+    // 统计总数
+    var total = EXERCISES_DATA.length;
+    document.getElementById('total-count').textContent = total;
+    document.getElementById('total-count-2').textContent = total;
+
+    // 填充篇下拉框
+    var parts = {};
+    CHAPTERS_INFO.forEach(function(c) {
+      if (!parts[c.part]) parts[c.part] = c.partName;
+    });
+    var partSelect = document.getElementById('filter-part');
+    Object.keys(parts).forEach(function(key) {
+      var opt = document.createElement('option');
+      opt.value = key;
+      opt.textContent = parts[key];
+      partSelect.appendChild(opt);
+    });
+
+    // 初始填充章节下拉框
+    this.onPartChange();
+    // 初始筛选
+    this.applyFilters();
+  },
+
+  onPartChange: function() {
+    var partVal = document.getElementById('filter-part').value;
+    var chSelect = document.getElementById('filter-chapter');
+    chSelect.innerHTML = '<option value="">全部</option>';
+    CHAPTERS_INFO.forEach(function(c) {
+      if (!partVal || c.part === partVal) {
+        var opt = document.createElement('option');
+        opt.value = c.num;
+        opt.textContent = '第 ' + c.num + ' 章 ' + c.name;
+        chSelect.appendChild(opt);
+      }
+    });
+    this.onFilterChange();
+  },
+
+  onChapterChange: function() {
+    this.onFilterChange();
+  },
+
+  onFilterChange: function() {
+    this.currentPage = 1;
+    this.applyFilters();
+  },
+
+  onSearch: function(val) {
+    this.currentPage = 1;
+    this.applyFilters(val);
+  },
+
+  applyFilters: function(searchTerm) {
+    var partVal = document.getElementById('filter-part').value;
+    var chVal = document.getElementById('filter-chapter').value;
+    var typeVal = document.getElementById('filter-type').value;
+    if (!searchTerm) searchTerm = '';
+
+    this.filtered = EXERCISES_DATA.filter(function(q) {
+      // 篇筛选
+      if (partVal) {
+        var chInfo = CHAPTERS_INFO.find(function(c) { return c.num === q.ch; });
+        if (!chInfo || chInfo.part !== partVal) return false;
+      }
+      // 章节筛选
+      if (chVal && q.ch !== chVal) return false;
+      // 题型筛选
+      if (typeVal && q.type !== typeVal) return false;
+      // 关键词搜索
+      if (searchTerm) {
+        var ql = q.q.toLowerCase();
+        var sl = searchTerm.toLowerCase();
+        if (ql.indexOf(sl) < 0) return false;
+      }
+      return true;
+    });
+
+    document.getElementById('filtered-count').textContent = this.filtered.length;
+    this.renderList();
+  },
+
+  resetFilters: function() {
+    document.getElementById('filter-part').value = '';
+    document.getElementById('filter-type').value = '';
+    document.getElementById('search-input').value = '';
+    this.onPartChange();
+  },
+
+  renderList: function() {
+    var list = document.getElementById('ex-list');
+    var pagination = document.getElementById('ex-pagination');
+
+    if (this.filtered.length === 0) {
+      list.innerHTML = '<li class="ex-empty">没有符合条件的题目，请调整筛选条件。</li>';
+      pagination.innerHTML = '';
+      return;
+    }
+
+    // 分页
+    var totalPages = Math.ceil(this.filtered.length / this.pageSize);
+    if (this.currentPage > totalPages) this.currentPage = totalPages;
+    if (this.currentPage < 1) this.currentPage = 1;
+
+    var start = (this.currentPage - 1) * this.pageSize;
+    var end = Math.min(start + this.pageSize, this.filtered.length);
+    var pageItems = this.filtered.slice(start, end);
+
+    var html = '';
+    pageItems.forEach(function(q) {
+      html += ExApp.renderQuestion(q);
+    });
+    list.innerHTML = html;
+
+    // 分页控件
+    if (totalPages <= 1) {
+      pagination.innerHTML = '';
+    } else {
+      var phtml = '';
+      phtml += '<button ' + (this.currentPage === 1 ? 'disabled' : '') + ' onclick="ExApp.goPage(' + (this.currentPage - 1) + ')">上一页</button>';
+      // 显示页码（最多显示 7 个）
+      var ps = Math.max(1, this.currentPage - 3);
+      var pe = Math.min(totalPages, ps + 6);
+      ps = Math.max(1, pe - 6);
+      for (var i = ps; i <= pe; i++) {
+        phtml += '<button class="' + (i === this.currentPage ? 'active' : '') + '" onclick="ExApp.goPage(' + i + ')">' + i + '</button>';
+      }
+      phtml += '<button ' + (this.currentPage === totalPages ? 'disabled' : '') + ' onclick="ExApp.goPage(' + (this.currentPage + 1) + ')">下一页</button>';
+      pagination.innerHTML = phtml;
+    }
+
+    // 滚动到顶部
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  },
+
+  goPage: function(p) {
+    this.currentPage = p;
+    this.renderList();
+  },
+
+  renderQuestion: function(q) {
+    var typeLabels = {single: '单选题', multiple: '多选题', judge: '判断题', short: '简答题'};
+    var chInfo = CHAPTERS_INFO.find(function(c) { return c.num === q.ch; });
+    var chName = chInfo ? chInfo.name : '';
+
+    var html = '<li class="ex-item" id="q-' + q.id + '">';
+    html += '<div class="ex-header">';
+    html += '<span class="ex-badge ' + q.type + '">' + typeLabels[q.type] + '</span>';
+    html += '<span class="ex-badge ch">第 ' + q.ch + ' 章 ' + chName + '</span>';
+    html += '<span class="ex-id">#' + q.id + '</span>';
+    html += '</div>';
+
+    html += '<div class="ex-question">' + this.escape(q.q) + '</div>';
+
+    if (q.type === 'single' || q.type === 'multiple') {
+      html += '<ul class="ex-options">';
+      var letters = ['A','B','C','D','E','F'];
+      q.options.forEach(function(opt, i) {
+        var cls = '';
+        if (ExApp.showAllAnswers) {
+          var ans = q.type === 'single' ? [q.answer] : q.answer;
+          if (ans.indexOf(letters[i]) >= 0) cls = 'correct';
+        }
+        html += '<li class="' + cls + '" onclick="ExApp.toggleOption(' + q.id + ', \'' + letters[i] + '\')">' + letters[i] + '. ' + ExApp.escape(opt) + '</li>';
+      });
+      html += '</ul>';
+    } else if (q.type === 'judge') {
+      html += '<div class="ex-judge-options">';
+      html += '<label><input type="radio" name="judge-' + q.id + '" onchange="ExApp.setJudge(' + q.id + ', true)"> 正确</label>';
+      html += '<label><input type="radio" name="judge-' + q.id + '" onchange="ExApp.setJudge(' + q.id + ', false)"> 错误</label>';
+      html += '</div>';
+    }
+
+    // 答案区
+    if (q.type === 'short') {
+      html += '<div class="ex-short-answer ' + (this.showAllAnswers ? 'show' : '') + '" id="ans-' + q.id + '">';
+      html += '<strong>参考答案：</strong><br>' + this.escape(q.answer).replace(/\n/g, '<br>');
+      if (q.explain) html += '<br><br><strong>解析：</strong>' + this.escape(q.explain);
+      html += '</div>';
+    } else {
+      html += '<div class="ex-answer ' + (this.showAllAnswers ? 'show' : '') + '" id="ans-' + q.id + '">';
+      if (q.type === 'single') {
+        html += '<strong>答案：</strong>' + q.answer;
+      } else if (q.type === 'multiple') {
+        html += '<strong>答案：</strong>' + q.answer.join('');
+      } else if (q.type === 'judge') {
+        html += '<strong>答案：</strong>' + (q.answer ? '正确' : '错误');
+      }
+      if (q.explain) html += '<br><strong>解析：</strong>' + this.escape(q.explain);
+      html += '</div>';
+    }
+
+    html += '<div class="ex-actions">';
+    html += '<button class="ex-btn outline" onclick="ExApp.toggleAnswer(' + q.id + ')">显示/隐藏答案</button>';
+    html += '</div>';
+
+    html += '</li>';
+    return html;
+  },
+
+  toggleAnswer: function(qid) {
+    var el = document.getElementById('ans-' + qid);
+    if (el) el.classList.toggle('show');
+  },
+
+  toggleAllAnswers: function() {
+    this.showAllAnswers = !this.showAllAnswers;
+    this.renderList();
+  },
+
+  toggleOption: function(qid, letter) {
+    // 仅视觉反馈
+    var q = EXERCISES_DATA.find(function(x) { return x.id === qid; });
+    if (!q) return;
+    var ans = q.type === 'single' ? [q.answer] : q.answer;
+    var el = event.target;
+    if (ans.indexOf(letter) >= 0) {
+      el.classList.add('correct');
+      el.classList.remove('wrong');
+    } else {
+      el.classList.add('wrong');
+      el.classList.remove('correct');
+    }
+  },
+
+  setJudge: function(qid, val) {
+    // 仅视觉反馈
+  },
+
+  escape: function(s) {
+    if (!s) return '';
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+};
+
+ExApp.init();
+</script>
+
+</body>
+</html>

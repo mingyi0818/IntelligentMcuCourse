@@ -29,7 +29,12 @@
 *::before,
 *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--navbar-h) + 12px); }
+
+/* 锚点目标标题预留顶部空间，避免被固定导航栏遮挡 */
+.content h1[id], .content h2[id], .content h3[id], .content h4[id] {
+  scroll-margin-top: calc(var(--navbar-h) + 12px);
+}
 
 body {
   margin: 0;

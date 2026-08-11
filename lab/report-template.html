@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实验报告模板 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="../assets/css/style.css?v=10">
+  <style>
+    /* 实验报告专用样式 */
+    @media print {
+      .navbar, .breadcrumb, .back-to-top, .no-print { display: none !important; }
+      .content { padding: 0 !important; max-width: 100% !important; }
+      body { background: #fff !important; }
+      .report-field input, .report-field textarea { border: 1px solid #999 !important; }
+    }
+    .report-sheet {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 2em 2.5em;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+    }
+    .report-title {
+      text-align: center;
+      font-size: 1.5em;
+      color: var(--color-primary-dark);
+      border-bottom: 2px solid var(--color-primary);
+      padding-bottom: 0.5em;
+      margin-bottom: 1.2em;
+    }
+    .report-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6em 1.5em;
+      margin-bottom: 1.5em;
+      padding: 0.8em 1em;
+      background: var(--color-bg);
+      border-radius: var(--radius);
+    }
+    .report-info .full { grid-column: 1 / -1; }
+    .report-info label {
+      font-weight: 600;
+      color: var(--color-primary-dark);
+      display: inline-block;
+      min-width: 4em;
+    }
+    .report-info input {
+      border: none;
+      border-bottom: 1px solid var(--color-border);
+      background: transparent;
+      padding: 0.2em 0.4em;
+      font-size: 0.95em;
+      font-family: inherit;
+      flex: 1;
+      min-width: 0;
+    }
+    .report-info input:focus { outline: none; border-bottom-color: var(--color-primary); }
+    .report-info .field { display: flex; align-items: center; gap: 0.4em; }
+    .report-section {
+      margin-bottom: 1.5em;
+    }
+    .report-section h3 {
+      color: var(--color-primary-dark);
+      font-size: 1.05em;
+      border-left: 4px solid var(--color-primary);
+      padding-left: 0.6em;
+      margin-bottom: 0.5em;
+    }
+    .report-section textarea {
+      width: 100%;
+      min-height: 100px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 0.6em 0.8em;
+      font-family: inherit;
+      font-size: 0.92em;
+      line-height: 1.6;
+      resize: vertical;
+      background: #fafafa;
+    }
+    .report-section textarea:focus { outline: none; border-color: var(--color-primary); background: #fff; }
+    .report-section.purpose textarea { min-height: 60px; }
+    .report-section.content textarea { min-height: 80px; }
+    .report-section.process textarea { min-height: 200px; }
+    .report-section.result textarea { min-height: 150px; }
+    .report-section.comments textarea { min-height: 80px; background: #fffaeb; }
+    .report-actions {
+      text-align: center;
+      margin-top: 1.5em;
+      padding-top: 1em;
+      border-top: 1px solid var(--color-border);
+    }
+    .report-actions button {
+      padding: 0.5em 1.5em;
+      margin: 0 0.4em;
+      border: 1px solid var(--color-primary);
+      border-radius: var(--radius);
+      background: var(--color-primary);
+      color: #fff;
+      cursor: pointer;
+      font-size: 0.95em;
+    }
+    .report-actions button:hover { background: var(--color-primary-dark); }
+    .report-actions button.secondary {
+      background: transparent;
+      color: var(--color-primary);
+    }
+    .report-actions button.secondary:hover { background: var(--color-bg); }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="../index.html">首页</a>
+      <a href="../syllabus.html">教学大纲</a>
+      <a href="index.html">实验指导</a>
+      <a href="../exercises.html">练习题</a>
+      <a href="../resources.html">资源下载</a>
+      <a href="../faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+  <main class="content" style="max-width: 900px;">
+    <div class="breadcrumb no-print">
+      <a href="../index.html">首页</a> &gt; <a href="index.html">实验指导</a> &gt; <span>实验报告模板</span>
+    </div>
+
+    <h1 class="no-print">实验报告模板</h1>
+    <p class="no-print">本页面为在线可填写的实验报告模板。填写完成后点击"打印 / 保存为 PDF"按钮即可生成纸质版或电子版实验报告。也可保持空白直接打印作为课堂用空白实验报告纸。</p>
+
+    <div class="report-sheet">
+      <div class="report-title">嘉应学院计算机学院<br>《单片机原理及应用》实验报告</div>
+
+      <div class="report-info">
+        <div class="field"><label>姓名：</label><input type="text" name="name" placeholder=""></div>
+        <div class="field"><label>学号：</label><input type="text" name="id" placeholder=""></div>
+        <div class="field"><label>班级：</label><input type="text" name="class" placeholder=""></div>
+        <div class="field"><label>实验日期：</label><input type="date" name="date"></div>
+        <div class="field full"><label>实验名称：</label><input type="text" name="exp-name" placeholder="如：实验三 GPIO 输入与按键控制"></div>
+        <div class="field full"><label>同组人：</label><input type="text" name="partner" placeholder="（如无同组人填"无"）"></div>
+      </div>
+
+      <div class="report-section purpose">
+        <h3>一、实验目的</h3>
+        <textarea placeholder="列出本实验的教学目的，如：1. 掌握 STM32 GPIO 输入模式的配置方法；2. 学会使用 HAL 库读取按键状态；3. 理解按键消抖原理与实现方法。"></textarea>
+      </div>
+
+      <div class="report-section content">
+        <h3>二、实验内容</h3>
+        <textarea placeholder="简要描述实验要完成的具体任务，包括硬件接线、软件功能与性能要求。如：使用 STM32F407 的 PA0 引脚连接按键，实现每按下一次按键切换一次 LED 状态，要求软件消抖。"></textarea>
+      </div>
+
+      <div class="report-section process">
+        <h3>三、实验过程</h3>
+        <textarea placeholder="详细记录实验步骤，包括：&#10;1. 硬件接线：列出引脚连接关系，附原理图或接线说明；&#10;2. 软件设计：画出程序流程图，说明关键算法与函数实现；&#10;3. 关键代码：粘贴核心代码片段并加注释；&#10;4. 调试过程：记录遇到的问题与解决方法。"></textarea>
+      </div>
+
+      <div class="report-section result">
+        <h3>四、实验结果与讨论</h3>
+        <textarea placeholder="记录实验结果（含截图、测量数据、串口输出等），并对结果进行分析讨论：&#10;1. 实验现象描述；&#10;2. 数据记录与处理（可附图表）；&#10;3. 与理论预期对比分析；&#10;4. 误差来源分析；&#10;5. 实验心得与改进建议。"></textarea>
+      </div>
+
+      <div class="report-section comments">
+        <h3>五、教师评语</h3>
+        <textarea placeholder="（此栏由教师填写）"></textarea>
+      </div>
+
+      <div class="report-actions no-print">
+        <button onclick="window.print()">打印 / 保存为 PDF</button>
+        <button class="secondary" onclick="clearReport()">清空内容</button>
+      </div>
+    </div>
+
+    <nav class="chapter-nav no-print">
+      <a href="index.html" class="home">← 返回实验指导</a>
+    </nav>
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+<script src="../assets/js/main.js?v=8"></script>
+<script>
+function clearReport() {
+  if (!confirm('确定要清空所有填写内容吗？')) return;
+  document.querySelectorAll('.report-sheet input, .report-sheet textarea').forEach(function(el) {
+    el.value = '';
+  });
+}
+</script>
+
+</body>
+</html>

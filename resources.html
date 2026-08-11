@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>资源下载 - 单片机原理及应用</title>
-  <link rel="stylesheet" href="assets/css/style.css?v=6">
+  <link rel="stylesheet" href="assets/css/style.css?v=10">
 </head>
 <body>
 
@@ -15,6 +15,7 @@
       <a href="index.html">首页</a>
       <a href="syllabus.html">教学大纲</a>
       <a href="lab/index.html">实验指导</a>
+      <a href="exercises.html">练习题</a>
       <a href="resources.html" class="active">资源下载</a>
       <a href="faq.html">FAQ</a>
     </nav>
@@ -23,14 +24,14 @@
 </header>
 
 <div class="layout">
-  <main class="content" style="max-width: 1000px;">
+  <main class="content" style="max-width: 1100px;">
     <div class="breadcrumb">
       <a href="index.html">首页</a> &gt; <span>资源下载</span>
     </div>
 
     <h1>资源下载</h1>
 
-    <p>本页面汇集课程所需的全部可下载资源，包括代码工程、课件、数据手册、工具链安装包等。所有资源均托管在 GitHub 仓库内，可点击直接下载或克隆整个仓库后离线使用。</p>
+    <p>本页面汇集课程所需的全部可下载资源，包括代码工程、数据手册、工具链安装包、实验报告模板等。所有资源均托管在 GitHub 仓库内，可点击直接下载或克隆整个仓库后离线使用。</p>
 
     <h2>一、代码工程</h2>
     <p>所有代码工程位于仓库 <code>/code</code> 目录，按平台与编号组织。每个工程包含 <code>main.c</code> 主程序、<code>platformio.ini</code>（PlatformIO 配置）和 <code>README.md</code>（接线与运行说明）。STC 工程可在 Keil C51 中新建工程后加入 <code>src/main.c</code>；STM32 工程可在 CubeMX 中按 README 描述重新生成各 IDE 工程。</p>
@@ -69,35 +70,56 @@
       </tbody>
     </table>
 
-    <h2>二、课件 PPT</h2>
-    <div class="note">
-      <strong>说明</strong>：课件 PPT 文件由教师在教学过程中持续制作并提交，存放于仓库 <code>/slides</code> 目录。命名规范：<code>chXX-章节名.pptx</code>（例：<code>ch01-mcu-overview.pptx</code>）。下面列出当前可用课件，未列出的章节请等待教师上传或参考在线 HTML 教程。
-    </div>
-    <table>
-      <thead><tr><th>章节</th><th>课件文件</th><th>状态</th></tr></thead>
-      <tbody>
-        <tr><td>第 1 章 单片机概述</td><td><code>ch01-mcu-overview.pptx</code></td><td>待上传</td></tr>
-        <tr><td>第 2 章 计算机基础与数制</td><td><code>ch02-computer-fundamentals.pptx</code></td><td>待上传</td></tr>
-        <tr><td>...</td><td>...</td><td>...</td></tr>
-      </tbody>
-    </table>
+    <h2>二、数据手册与参考文档</h2>
+    <p>下表汇总课程涉及的常用单片机芯片、外设器件与开发板资料。建议学生下载对应数据手册备查，实验前仔细阅读相关章节。</p>
 
-    <h2>三、数据手册与参考文档</h2>
+    <h3>2.1 单片机芯片数据手册</h3>
     <table>
       <thead><tr><th>文档名称</th><th>来源</th><th>说明</th></tr></thead>
       <tbody>
         <tr><td>STC89C52RC 数据手册</td><td><a href="https://www.stcmcudata.com/">STC 官网</a></td><td>STC89C52RC 系列完整手册（中文）</td></tr>
         <tr><td>STC89C52RC 手册英文版</td><td>STC 官网</td><td>—</td></tr>
+        <tr><td>STC8H 系列数据手册</td><td>STC 官网</td><td>新一代 1T 8051 单片机，课程部分章节引用</td></tr>
         <tr><td>STM32F407 参考手册 RM0090</td><td><a href="https://www.st.com/">ST 官网</a></td><td>STM32F405/415/407/417 寄存器与外设详解</td></tr>
         <tr><td>STM32F407 数据手册</td><td>ST 官网</td><td>引脚定义、电气特性</td></tr>
+        <tr><td>STM32F103 数据手册（参考）</td><td>ST 官网</td><td>Cortex-M3 入门级 STM32，部分学生开发板采用</td></tr>
+        <tr><td>STM32G4 系列参考手册</td><td>ST 官网</td><td>高性能混合信号 MCU（参考）</td></tr>
+        <tr><td>ESP32 技术规格书</td><td><a href="https://www.espressif.com/">乐鑫官网</a></td><td>ESP32 Wi-Fi/BLE 芯片，第 27 章</td></tr>
+        <tr><td>ESP32-C3 技术规格书</td><td>乐鑫官网</td><td>RISC-V 单核 Wi-Fi/BLE 芯片（参考）</td></tr>
+        <tr><td>ESP8266EX 数据手册</td><td>乐鑫官网</td><td>常见 Wi-Fi 模块，第 5 篇物联网项目</td></tr>
+        <tr><td>MSP430x5xx 用户手册</td><td><a href="https://www.ti.com/">TI 官网</a></td><td>MSP430F5xx/6xx 系列手册，第 29 章</td></tr>
+        <tr><td>MSP430F5529 数据手册</td><td>TI 官网</td><td>LaunchPad 开发板主控芯片</td></tr>
+        <tr><td>ATmega328P 数据手册</td><td><a href="https://www.microchip.com/">Microchip 官网</a></td><td>Arduino UNO 主控，第 27 章参考</td></tr>
         <tr><td>Cortex-M4 权威指南</td><td>ARM / Joseph Yiu</td><td>内核架构、NVIC、DSP/FPU</td></tr>
         <tr><td>UM1725 STM32 HAL 库用户手册</td><td>ST 官网</td><td>HAL 库函数参考</td></tr>
         <tr><td>FreeRTOS 官方手册</td><td><a href="https://www.freertos.org/">FreeRTOS.org</a></td><td>实时内核使用指南</td></tr>
-        <tr><td>MSP430x5xx 用户手册</td><td><a href="https://www.ti.com/">TI 官网</a></td><td>MSP430F5xx/6xx 系列手册</td></tr>
       </tbody>
     </table>
 
-    <h2>四、工具链安装包</h2>
+    <h3>2.2 外设与传感器数据手册</h3>
+    <table>
+      <thead><tr><th>器件</th><th>来源</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>CH340G/CH340C USB 转串口芯片</td><td><a href="https://www.wch.cn/">沁恒(WCH)官网</a></td><td>USB 转串口，几乎所有 STC/Arduino 开发板使用</td></tr>
+        <tr><td>CP2102 USB 转串口芯片</td><td><a href="https://www.silabs.com/">Silicon Labs 官网</a></td><td>USB 转串口，部分 STM32 开发板使用</td></tr>
+        <tr><td>LM016L / LCD1602 字符液晶</td><td>Hitachi</td><td>16×2 字符液晶显示模块，第 11 章</td></tr>
+        <tr><td>WS2812B RGB LED</td><td>Worldsemi</td><td>内置驱动的智能 RGB LED，第 7 章</td></tr>
+        <tr><td>DS1302 实时时钟</td><td>Maxim</td><td>三线串口 RTC，第 21 章参考</td></tr>
+        <tr><td>DS18B20 温度传感器</td><td>Maxim</td><td>单总线数字温度传感器，第 32 章</td></tr>
+        <tr><td>DHT11/DHT22 温湿度传感器</td><td>Aosong</td><td>单总线温湿度传感器，第 5 篇</td></tr>
+        <tr><td>M701A 七合一空气质量传感器</td><td><a href="https://www.sdshdx.com/">山东传感器</a></td><td>第 34 章空气质量监测站</td></tr>
+        <tr><td>MAX30102 心率血氧传感器</td><td><a href="https://www.maximintegrated.com/">Maxim 官网</a></td><td>第 36 章智能健康监测</td></tr>
+        <tr><td>RC522 RFID 模块</td><td>NXP</td><td>13.56MHz RFID 读写模块，第 35 章</td></tr>
+        <tr><td>HC-SR04 超声波测距模块</td><td>通用</td><td>第 38 章智能停车</td></tr>
+        <tr><td>W25Q64 SPI Flash</td><td>Winbond</td><td>64Mbit SPI Flash，第 20 章</td></tr>
+        <tr><td>AT24C02 I2C EEPROM</td><td>Atmel/Microchip</td><td>2Kbit I2C EEPROM，第 11 章</td></tr>
+        <tr><td>MPU6050 六轴传感器</td><td>InvenSense/TDK</td><td>三轴加速度+陀螺仪（参考）</td></tr>
+        <tr><td>BMP280 气压传感器</td><td>Bosch</td><td>数字气压传感器（参考）</td></tr>
+        <tr><td>OV7670 摄像头模块</td><td>Omnivision</td><td>30 万像素 CMOS 摄像头（参考）</td></tr>
+      </tbody>
+    </table>
+
+    <h2>三、工具链安装包</h2>
     <table>
       <thead><tr><th>工具</th><th>适用平台</th><th>下载地址</th></tr></thead>
       <tbody>
@@ -109,23 +131,38 @@
         <tr><td>STM32CubeProgrammer</td><td>STM32 烧录</td><td>ST 官网（免费）</td></tr>
         <tr><td>VS Code</td><td>通用编辑器</td><td><a href="https://code.visualstudio.com/">VS Code 官网</a></td></tr>
         <tr><td>PlatformIO 插件</td><td>VS Code 内</td><td>VS Code 扩展市场搜索 "PlatformIO IDE"</td></tr>
-        <tr><td>TRAE / GitHub Copilot</td><td>VS Code AI 辅助</td><td>各 AI 工具官网订阅</td></tr>
+        <tr><td>TRAE / GitHub Copilot / Cursor</td><td>VS Code AI 辅助</td><td>各 AI 工具官网订阅</td></tr>
         <tr><td>ST-Link 驱动</td><td>STM32 调试器</td><td>ST 官网（CubeMX/CubeIDE 安装时一并安装）</td></tr>
+        <tr><td>J-Link 驱动</td><td>STM32 调试器（首选）</td><td><a href="https://www.segger.com/downloads/jlink/">SEGGER 官网</a></td></tr>
+        <tr><td>CH340 驱动（Windows）</td><td>USB 转串口芯片</td><td><a href="https://www.wch.cn/downloads/CH341SER_EXE.html">沁恒(WCH) 官网</a>（Win 7/10/11 通用）</td></tr>
+        <tr><td>CH340 驱动（macOS）</td><td>USB 转串口芯片</td><td><a href="https://www.wch.cn/downloads/CH34xSER_MAC_ZIP.html">沁恒(WCH) 官网</a></td></tr>
+        <tr><td>CH340 驱动（Linux）</td><td>USB 转串口芯片</td><td>内核自带 ch341 驱动，无需额外安装</td></tr>
+        <tr><td>CP2102 驱动（Windows）</td><td>USB 转串口芯片</td><td><a href="https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers">Silicon Labs 官网</a></td></tr>
+        <tr><td>CP2102 驱动（macOS）</td><td>USB 转串口芯片</td><td>Silicon Labs 官网（同上）</td></tr>
+        <tr><td>Arduino IDE</td><td>Arduino / ESP32 开发</td><td><a href="https://www.arduino.cc/en/software">Arduino 官网</a></td></tr>
+        <tr><td>DevEco Studio</td><td>OpenHarmony 开发</td><td><a href="https://developer.harmonyos.com/cn/develop/deveco-studio/">鸿蒙开发者官网</a></td></tr>
         <tr><td>Code Composer Studio</td><td>MSP430</td><td><a href="https://www.ti.com/tool/CCSTUDIO">TI 官网</a>（免费）</td></tr>
+        <tr><td>Altium Designer</td><td>PCB 设计（学生版）</td><td><a href="https://www.altium.com/cn/education/students">Altium 官网</a>（学生免费）</td></tr>
+        <tr><td>嘉立创 EDA</td><td>PCB 设计（在线/客户端）</td><td><a href="https://lceda.cn/">嘉立创 EDA 官网</a>（免费）</td></tr>
       </tbody>
     </table>
 
-    <h2>五、实验报告模板与教学文件</h2>
-    <ul>
-      <li><strong>实验报告模板</strong>：<code>docs/实验报告模板.docx</code>（待上传）</li>
-      <li><strong>课程设计说明书模板</strong>：<code>docs/课程设计说明书模板.docx</code>（待上传）</li>
-      <li><strong>教学进度表</strong>：见 <a href="syllabus.html">教学大纲</a> 页面</li>
-    </ul>
+    <div class="tip">
+      <strong>USB 转串口驱动安装提示</strong>：插入开发板后，若 Windows 设备管理器中出现黄色感叹号，请安装对应驱动。STC 开发板多数采用 CH340 芯片，部分 STM32 开发板采用 CP2102 芯片，安装驱动后在"端口(COM 和 LPT)"中会出现 COM 口，<code>STC-ISP</code> 或 <code>STM32CubeProgrammer</code> 通过该 COM 口与开发板通信。
+    </div>
 
-    <h2>六、如何克隆与本地预览</h2>
+    <h2>四、实验报告模板</h2>
+    <p>课程要求学生撰写实验报告，统一使用下列模板。模板为 HTML 格式，可直接在浏览器中打开、填写并打印；也可下载后用 Word 打开另存为 docx 格式。</p>
+    <ul>
+      <li><strong>实验报告模板（HTML 在线版）</strong>：<a href="lab/report-template.html">lab/report-template.html</a>（推荐在线填写后打印为 PDF 提交）</li>
+      <li><strong>实验报告模板（直接打印空白表）</strong>：打开上述 HTML 后不填写任何内容，直接 Ctrl+P 打印即可得到空白实验报告表</li>
+    </ul>
+    <p>实验报告包含以下栏目：姓名、学号、班级、实验日期、实验名称、实验目的、实验内容、实验过程、实验结果与讨论、教师评语。每次实验均需独立完成一份报告。</p>
+
+    <h2>五、如何克隆与本地预览</h2>
     <p>推荐使用 Git 克隆整个仓库到本地：</p>
-<pre><code class="language-bash">git clone &lt;仓库地址&gt;
-cd Intelligent-McuCourse
+<pre><code class="language-bash">git clone https://github.com/mingyi0818/IntelligentMcuCourse.git
+cd IntelligentMcuCourse
 # 启动本地静态服务器预览
 python -m http.server 8000
 # 浏览器访问 http://localhost:8000</code></pre>
@@ -138,7 +175,7 @@ python -m http.server 8000
 </div>
 
 <button class="back-to-top" aria-label="返回顶部">↑</button>
-<script src="assets/js/main.js?v=7"></script>
+<script src="assets/js/main.js?v=8"></script>
 
 </body>
 </html>
