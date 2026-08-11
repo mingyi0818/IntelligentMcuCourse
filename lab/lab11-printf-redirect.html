@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实验11 标准 printf 函数实现 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="../assets/css/style.css?v=6">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="../index.html">首页</a>
+      <a href="../syllabus.html">教学大纲</a>
+      <a href="../lab/index.html" class="active">实验指导</a>
+      <a href="../resources.html">资源下载</a>
+      <a href="../faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+  <main class="content" style="max-width: 1000px;">
+    <div class="breadcrumb">
+      <a href="../index.html">首页</a> &gt;
+      <a href="../lab/index.html">实验指导</a> &gt;
+      <span>实验11 标准 printf 函数实现</span>
+    </div>
+
+    <h1>实验11 标准 printf 函数实现</h1>
+
+    <p><code>printf</code> 是 C 语言标准库最常用的格式化输出函数，能直接输出 <code>%d %s %x %f</code> 等格式数据，远比手工 <code>UART_SendString</code> + <code>itoa</code> 拼接方便。本实验在 STC89C52RC（8 位）与 STM32F407（32 位）两个平台上分别实现 <code>printf</code> 到串口的重定向：STC 通过重写 <code>putchar</code> 钩子接入 Keil C51 的 printf 流；STM32 通过重写 <code>fputc</code>（Keil MDK）或 <code>__io_putchar</code>（STM32CubeIDE）接入 ARM C 库的 printf 流。掌握这一技术后，调试信息输出效率大幅提升。完整工程源码见 <code>/code/stc89c52rc/11-printf/</code> 与 <code>/code/stm32f407/11-hal-printf/</code>。</p>
+
+    <h2>一、实验目的</h2>
+    <ul>
+      <li>理解 C 标准库 <code>printf</code> 的底层调用链与"字符输出钩子"机制。</li>
+      <li>掌握 STC89C52RC（Keil C51）重写 <code>putchar</code> 实现 printf 串口重定向。</li>
+      <li>掌握 STM32F407（HAL 库）重写 <code>fputc</code>/<code>__io_putchar</code> 实现 printf 串口重定向。</li>
+      <li>理解 MicroLIB、半主机模式（Semihosting）、浮点格式化等工程常见坑。</li>
+      <li>能使用 printf 输出多种格式（含 <code>%f</code> 浮点、<code>%ld</code> 长整型）的调试日志。</li>
+    </ul>
+
+    <h2>二、知识点</h2>
+    <ul>
+      <li><strong>printf 调用链</strong>：用户 <code>printf("x=%d", x)</code> → C 库 vfprintf 格式化 → 内部循环调用字符输出钩子 <code>_putchar</code>/<code>__io_putchar</code>/<code>fputc</code> → 该钩子由用户重写为"写一个字节到 UART"。</li>
+      <li><strong>Keil C51 的 putchar</strong>：C51 库 printf 默认调用 <code>putchar(char c)</code>，用户只需在 main.c 中重写该函数即可重定向。无需 MicroLIB，C51 库本身已精简。</li>
+      <li><strong>Keil MDK 的 fputc</strong>：ARM C 库 printf 调用 <code>fputc(int ch, FILE *f)</code>，重写该函数即可。需在 Project Options → Target 勾选 "Use MicroLIB" 以减小代码体积并避免半主机模式卡死。</li>
+      <li><strong>STM32CubeIDE 的 __io_putchar</strong>：基于 GCC newlib-nano，syscalls.c 已桥接 <code>_write → __io_putchar</code>，用户重写 <code>__io_putchar</code> 即可。</li>
+      <li><strong>半主机模式（Semihosting）</strong>：未重写钩子时 printf 会触发 BKPT 指令请求调试器代为输出，脱离调试器运行即卡死。重写钩子后自动关闭半主机。</li>
+      <li><strong>MicroLIB</strong>：ARM 的精简 C 库，体积约标准库 1/3，默认支持 <code>%d %s %x %f</code>，是嵌入式首选。</li>
+      <li><strong>newlib-nano</strong>：GCC 的精简 C 库，效果等同 MicroLIB，STM32CubeIDE 默认启用。</li>
+      <li><strong>\n 自动回车</strong>：串口终端通常 \n 不带回车，需在钩子中检测到 <code>'\n'</code> 先输出 <code>'\r'</code>，否则显示阶梯状错位。</li>
+      <li><strong>性能对比</strong>：阻塞式 printf 在 115200 bps 下每字符约 87 μs，连续输出会占满 CPU；实时性敏感场景应用 DMA + 环形队列 printf。</li>
+    </ul>
+
+    <h2>三、硬件清单</h2>
+    <table>
+      <thead>
+        <tr><th>序号</th><th>器材</th><th>规格</th><th>数量</th><th>备注</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>STC89C52RC 板</td><td>11.0592 MHz, USB 转串口 CH340</td><td>1</td><td>—</td></tr>
+        <tr><td>2</td><td>STM32F407VET6 板</td><td>板载 USB 转串口</td><td>1</td><td>—</td></tr>
+        <tr><td>3</td><td>USB 线</td><td>—</td><td>1</td><td>连接 PC</td></tr>
+        <tr><td>4</td><td>PC</td><td>串口助手软件</td><td>1</td><td>SSCOM/XCOM/MobaXterm</td></tr>
+      </tbody>
+    </table>
+
+    <h2>四、电路连接</h2>
+    <p>STC89C52RC 板载 USB 转串口芯片 (CH340)，单片机 P3.0 (RXD)、P3.1 (TXD) 经 CH340 连接 PC USB。STM32F407 的 USART1 (PA9=TX, PA10=RX) 同样经板载 CH340 连 PC。无需额外连线，插 USB 即可。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/lab11-printf-redirect-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+component "PC 串口助手\n(SSCOM 115200 8N1)" as PC
+component "CH340\nUSB转串口" as CH1
+component "P3.1/PA9 TXD" as TXD1
+component "单片机\nprintf 重定向" as MCU1
+component "P3.0/PA10 RXD" as RXD1
+PC --&amp;gt; CH1 : USB
+CH1 --&amp;gt; RXD1 : TXD
+RXD1 --&amp;gt; MCU1
+MCU1 --&amp;gt; TXD1 : printf 输出字节流
+TXD1 --&amp;gt; CH1
+CH1 --&amp;gt; PC : USB 回显
+note bottom of MCU1
+  printf 调用链:
+  printf → vfprintf → putchar/fputc
+  → HAL_UART_Transmit/SBUF = ch
+end note
+@enduml</code></pre>
+  </details>
+</div>
+
+    <h2>五、代码框架</h2>
+
+    <h3>5.1 STC89C52RC 重写 putchar 实现 printf</h3>
+    <p>工程 <code>/code/stc89c52rc/11-printf/main.c</code>。波特率 115200，8N1，SMOD=1。Keil C51 编译。</p>
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+#include &lt;stdio.h&gt;          /* printf 函数声明 */
+
+/* 串口初始化：方式 1，115200 @11.0592MHz，SMOD=1 */
+void UART_Init(void) {
+    SCON = 0x50;                /* 方式1, 8位UART, REN=1 */
+    PCON |= 0x80;               /* SMOD=1 倍频 */
+    TMOD &amp;= 0x0F;
+    TMOD |= 0x20;               /* T1 方式2 自动重装 */
+    TH1 = 0xFC;                 /* 115200 */
+    TL1 = 0xFC;
+    TR1 = 1;
+    ES = 1;
+    EA = 1;
+}
+
+/* 重写 putchar：C51 printf 底层调用此函数 */
+char putchar(char c) {
+    if (c == '\n') {            /* 自动回车 */
+        SBUF = '\r';
+        while (!TI);
+        TI = 0;
+    }
+    SBUF = c;                   /* 写 SBUF 启动发送 */
+    while (!TI);                /* 等待发送完成 */
+    TI = 0;                     /* 软件清 TI */
+    return c;
+}
+
+void main(void) {
+    unsigned int loop = 0;
+    float temp = 25.6f;
+
+    UART_Init();
+    printf("\r\n============================\r\n");
+    printf(" STC89C52RC printf 重定向演示\r\n");
+    printf(" 晶振: 11.0592 MHz, 波特率: 115200\r\n");
+    printf("============================\r\n");
+
+    while (1) {
+        loop++;
+        printf("loop=%u, temp=%.2f C\r\n", loop, temp);
+        /* 注意：C51 printf 默认不支持 %f 浮点
+         * 需在 Options → Target → Code Generation → 
+         *   勾选 "Use floating-point support" 并链接 -u _printf_float
+         * 或改为 %d 输出整数：temp_x10 = 256 */
+        temp += 0.1f;
+        if (temp &gt; 30.0f) temp = 25.0f;
+        /* 简易延时 */
+        {
+            unsigned int i, j;
+            for (i = 0; i &lt; 1000; i++)
+                for (j = 0; j &lt; 100; j++);
+        }
+    }
+}</code></pre>
+
+    <div class="note">
+      <strong>C51 浮点 printf 注意</strong>：Keil C51 默认链接"小体积"printf，不支持 <code>%f %e %g</code>。需要浮点输出时，在 Project Options → BL51/BL51 Locate → Additional → 输入 <code>?C?CLD</code> 或在源码顶部加 <code>#pragma printf(f)</code>。C51 浮点 printf 体积约增加 1KB，资源紧张时建议改用 <code>%d</code> 输出整数（如 temp×10）。
+    </div>
+
+    <h3>5.2 STM32F407 重写 fputc 实现 printf（Keil MDK + HAL 库）</h3>
+    <p>工程 <code>/code/stm32f407/11-hal-printf/main.c</code>。USART1 PA9/PA10，115200 8N1。需在 Project Options → Target 勾选 "Use MicroLIB"。</p>
+    <pre><code class="language-c">/* main.c - STM32F407 printf 重定向
+ * Keil MDK + HAL 库 + MicroLIB
+ * USART1: PA9(TX) PA10(RX), 115200 8N1
+ */
+#include "stm32f4xx_hal.h"
+#include &lt;stdio.h&gt;
+
+UART_HandleTypeDef huart1;
+
+void MX_USART1_UART_Init(void) {
+    __HAL_RCC_USART1_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+
+    GPIO_InitTypeDef gpio = {0};
+    gpio.Pin = GPIO_PIN_9 | GPIO_PIN_10;
+    gpio.Mode = GPIO_MODE_AF_PP;
+    gpio.Pull = GPIO_PULLUP;
+    gpio.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    gpio.Alternate = GPIO_AF7_USART1;
+    HAL_GPIO_Init(GPIOA, &amp;gpio);
+
+    huart1.Instance = USART1;
+    huart1.Init.BaudRate = 115200;
+    huart1.Init.WordLength = UART_WORDLENGTH_8B;
+    huart1.Init.StopBits = UART_STOPBITS_1;
+    huart1.Init.Parity = UART_PARITY_NONE;
+    huart1.Init.Mode = UART_MODE_TX_RX;
+    huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    HAL_UART_Init(&amp;huart1);
+}
+
+/* USER CODE BEGIN 4 */
+/* 重写 fputc：让 printf 走 USART1 */
+int fputc(int ch, FILE *f)
+{
+    (void)f;
+    if (ch == '\n') {                          /* 自动回车 */
+        uint8_t cr = '\r';
+        HAL_UART_Transmit(&amp;huart1, &amp;cr, 1, 0xFFFF);
+    }
+    uint8_t c = (uint8_t)ch;
+    HAL_UART_Transmit(&amp;huart1, &amp;c, 1, 0xFFFF); /* 阻塞发送 1 字节 */
+    return ch;
+}
+/* USER CODE END 4 */
+
+int main(void)
+{
+    HAL_Init();
+    SystemClock_Config();
+    MX_USART1_UART_Init();
+
+    printf("\r\n============================\r\n");
+    printf(" STM32F407 printf 重定向演示\r\n");
+    printf(" HAL 版本: 0x%08lX\r\n", HAL_GetHalVersion());
+    printf(" 系统时钟: %lu Hz\r\n", SystemCoreClock);
+    printf("============================\r\n");
+
+    float temp = 25.6f;
+    uint32_t loop = 0;
+    while (1) {
+        loop++;
+        printf("loop=%lu, temp=%.2f C, tick=%lu ms\r\n",
+               loop, temp, HAL_GetTick());
+        temp += 0.1f;
+        if (temp &gt; 30.0f) temp = 25.0f;
+        HAL_Delay(1000);
+    }
+}</code></pre>
+
+    <h3>5.3 STM32CubeIDE 重写 __io_putchar（newlib-nano）</h3>
+    <p>STM32CubeIDE 默认使用 GCC newlib-nano，<code>syscalls.c</code> 已桥接 <code>_write → __io_putchar</code>，只需在 main.c 中定义 <code>__io_putchar</code>：</p>
+    <pre><code class="language-c">/* main.c - STM32CubeIDE + newlib-nano */
+#include &lt;stdio.h&gt;
+#include "usart.h"
+
+/* newlib-nano 通过 syscalls.c 调用此函数 */
+int __io_putchar(int ch)
+{
+    if (ch == '\n') {
+        uint8_t cr = '\r';
+        HAL_UART_Transmit(&amp;huart1, &amp;cr, 1, 0xFFFF);
+    }
+    uint8_t c = (uint8_t)ch;
+    HAL_UART_Transmit(&amp;huart1, &amp;c, 1, 0xFFFF);
+    return ch;
+}
+
+int main(void)
+{
+    HAL_Init();
+    SystemClock_Config();
+    MX_USART1_UART_Init();
+    printf("CubeIDE printf demo, tick=%lu\r\n", HAL_GetTick());
+    while (1) { }
+}</code></pre>
+
+    <div class="tip">
+      <strong>性能优化：DMA + 环形队列 printf</strong>：阻塞式 <code>HAL_UART_Transmit</code> 在 115200 bps 下连续 printf 会占满 CPU。工程实践首选方案：
+      <ol>
+        <li>定义发送缓冲 <code>uint8_t tx_buf[128]</code>，<code>vsnprintf</code> 格式化到缓冲。</li>
+        <li>调用 <code>HAL_UART_Transmit_DMA(&amp;huart1, tx_buf, len)</code>，DMA 搬运完成后中断回调释放缓冲。</li>
+        <li>实现"环形队列"避免前次未发完就被覆盖。</li>
+      </ol>
+      DMA printf 不阻塞 CPU，可同时执行其他任务，适合实时性敏感场景。
+    </div>
+
+    <div class="note">
+      <strong>常见坑</strong>：
+      <ul>
+        <li><strong>未勾选 MicroLIB（MDK）</strong>：默认链接完整 ARM C 库，printf 体积约 8KB 且可能因半主机模式导致运行到 <code>__use_no_semihosting</code> 卡死。勾选 MicroLIB 即解决。</li>
+        <li><strong>半主机模式</strong>：未重写 fputc 时 printf 会触发 BKPT 指令进入调试器，脱离调试器运行即卡死。重写 fputc 后自动关闭半主机。</li>
+        <li><strong>浮点不支持</strong>：STM32F4 默认 FPU 开启，但 printf 浮点需在 Linker → Misc 加 <code>-u _printf_float</code>（GCC）或勾选 MicroLIB（MDK）。</li>
+        <li><strong>多线程</strong>：FreeRTOS 多任务同时 printf 会乱序，需用互斥量 <code>osMutexAcquire</code> 包裹或改用 SEGGER RTT。</li>
+        <li><strong>printf 死锁</strong>：在中断服务函数中调用 printf（其内部又开中断/关中断）会导致死锁。中断中应只置标志位，主循环再 printf。</li>
+      </ul>
+    </div>
+
+    <h2>六、调试要点</h2>
+    <ul>
+      <li><strong>波特率匹配</strong>：PC 串口助手必须 115200 8N1，否则乱码。</li>
+      <li><strong>自动回车</strong>：检查钩子中 <code>'\n'</code> 是否先输出 <code>'\r'</code>，否则 PC 端显示阶梯状。</li>
+      <li><strong>STC 晶振核对</strong>：11.0592 MHz 晶振必须与代码中 TH1 计算一致。</li>
+      <li><strong>MicroLIB 勾选</strong>：MDK 工程 Project → Options → Target → 勾选 "Use MicroLIB"，否则 printf 卡死。</li>
+      <li><strong>HAL_UART_Transmit 超时</strong>：参数 0xFFFF 表示最大超时；若硬件接线错（TX/RX 反接）会超时返回 HAL_TIMEOUT。</li>
+      <li><strong>串口助手回显</strong>：先发一个 "Hello\r\n" 确认链路通，再测复杂格式。</li>
+      <li><strong>printf 不输出</strong>：① 检查 huart1 是否已 Init；② 检查 GPIO 复用配置（AF7_USART1）；③ 检查 MicroLIB；④ 检查 fputc 是否在 USER CODE BEGIN 4 区域内（避免 CubeMX 重新生成时被覆盖）。</li>
+      <li><strong>浮点输出 0.00</strong>：MDK 勾选 MicroLIB；GCC 在 Linker flags 加 <code>-u _printf_float</code>。</li>
+    </ul>
+
+    <h2>七、思考题</h2>
+    <ol>
+      <li>简述 printf 从用户调用到串口字节输出的完整调用链，并说明每个环节的作用。</li>
+      <li>Keil C51 与 Keil MDK 在 printf 重定向上的差异是什么？为什么 C51 不需要 MicroLIB？</li>
+      <li>什么是半主机模式？为什么未重写 fputc 时脱离调试器会卡死？如何避免？</li>
+      <li>设计一个 DMA + 环形队列的非阻塞 printf 方案，画出数据流框图，并说明如何处理"前次未发完就被覆盖"问题。</li>
+      <li>对比 printf、逻辑分析仪、SEGGER RTT 三种调试输出方式，各举一个适用场景。</li>
+      <li>FreeRTOS 多任务环境下，如何安全使用 printf？简述互斥量包裹方案与 SEGGER RTT 方案的优缺点。</li>
+    </ol>
+
+    <nav class="chapter-nav">
+      <a href="../lab/lab10-i2c-eeprom.html" class="prev">← 实验10 I2C读写EEPROM</a>
+      <a href="../lab/index.html" class="home">返回实验列表</a>
+      <a href="../lab/lab12-flash-storage.html" class="next">实验12 STM32 Flash 数据存取 →</a>
+    </nav>
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="../assets/js/katex-mermaid-init.js"></script>
+<script src="../assets/js/main.js?v=7"></script>
+</body>
+</html>

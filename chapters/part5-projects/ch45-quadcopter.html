@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第45章 四旋翼无人机（STM32F407 飞控） - 单片机原理及应用</title>
+  <link rel="stylesheet" href="../../assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs/1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="../../index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="../../index.html">首页</a>
+      <a href="../../syllabus.html">教学大纲</a>
+      <a href="../../lab/index.html">实验指导</a>
+      <a href="../../exercises.html">练习题</a>
+      <a href="../../resources.html">资源下载</a>
+      <a href="../../faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+      <a class="sidebar-link" href="../../chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="../../chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="../../chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="../../chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="../../chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="../../chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="../../chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="../../chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="../../chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="../../chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="../../chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="../../chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="../../chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="../../chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="../../chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="../../chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="../../chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="../../chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="../../chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="../../chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="../../chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="../../chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="../../chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+      <a class="sidebar-link active" href="../../chapters/part5-projects/ch45-quadcopter.html">第 45 章 四旋翼无人机</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="../../index.html">首页</a> &gt; 第 5 篇 综合项目 &gt; <span>第 45 章 四旋翼无人机</span>
+    </div>
+
+    <h1>第 45 章 四旋翼无人机（STM32F407 飞控）</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>理解四旋翼无人机的飞行原理（升力、俯仰、横滚、偏航四个基本运动）</li>
+        <li>掌握飞控硬件选型与电气连接方法（电机/电调/IMU/电池/遥控）</li>
+        <li>理解姿态解算的基本原理（互补滤波与 Mahony/Madgwick AHRS 算法）</li>
+        <li>掌握串级 PID 控制器在姿态稳定中的应用与参数整定方法</li>
+        <li>能基于 STM32F407 + MPU6050 完成一个基础飞控系统的搭建与调试</li>
+      </ul>
+    </div>
+
+    <h2>45.1 项目需求分析</h2>
+    <p>四旋翼无人机（Quadcopter）是典型的多旋翼飞行器，通过调节四个电机的转速差实现姿态控制。本项目基于 STM32F407 + MPU6050 六轴 IMU 搭建一个基础飞控系统，重点在于<strong>姿态稳定控制</strong>（悬停），不涉及 GPS 定位、航点飞行等高级功能。具体功能需求：</p>
+    <ul>
+      <li><strong>姿态感知</strong>：通过 MPU6050 实时获取三轴加速度与角速度，采样率 1 kHz。</li>
+      <li><strong>姿态解算</strong>：使用 Mahony 互补滤波算法融合加速度计与陀螺仪，输出 Roll/Pitch 角，更新率 500 Hz。</li>
+      <li><strong>姿态稳定</strong>：串级 PID 控制器（角度环外环 + 角速度环内环），输出四个电机目标转速，控制周期 500 Hz。</li>
+      <li><strong>遥控输入</strong>：通过 PWM/PPM 接收机接收遥控器指令（油门、Yaw、Pitch、Roll），更新率 50 Hz。</li>
+      <li><strong>电机输出</strong>：四个电调通过 PWM 信号控制（400 Hz DShot300 或传统 50 Hz PWM）。</li>
+      <li><strong>安全保护</strong>：① 油门最低且遥控器开关触发时启动电机；② IMU 数据异常或遥控失联 1 秒自动切断电机；③ 电压低于 10.5 V（3S 锂电池）低压保护。</li>
+      <li><strong>调试接口</strong>：UART 输出姿态/控制日志，便于地面站调参与 PID 整定。</li>
+    </ul>
+
+    <div class="note">
+      <strong>安全提示</strong>：四旋翼无人机是<strong>高风险设备</strong>，旋转的螺旋桨可造成人身伤害。调试时务必：① 拆除螺旋桨或在测试架上固定机架；② 远离人群；③ 室内飞行需足够大的空间并加保护罩；④ 锂电池需用防爆袋储存，充电时有人值守。
+    </div>
+
+    <h2>45.2 飞行原理</h2>
+    <p>四旋翼通过四个电机产生升力，并通过<strong>转速差</strong>产生姿态力矩。典型布局为"X 型"，四个电机编号 1-4，对角线上电机转向相同（同向为正反交错），用于抵消反扭矩。</p>
+
+    <h3>45.2.1 升力与油门</h3>
+    <p>每个电机产生的升力 $T_i$ 与转速 $\omega_i$ 平方成正比：</p>
+    <p>$$T_i = k_T \cdot \omega_i^2$$</p>
+    <p>其中 $k_T$ 为升力系数，由螺旋桨尺寸、桨距、空气密度决定。总升力 $T = T_1 + T_2 + T_3 + T_4$。当 $T &gt; mg$（重力）时无人机加速上升，$T = mg$ 时悬停，$T &lt; mg$ 时下降。<strong>油门</strong>控制四个电机同步增减转速，等价于改变总升力。</p>
+
+    <h3>45.2.2 俯仰（Pitch）与横滚（Roll）</h3>
+    <p>通过前后或左右电机的<strong>转速差</strong>产生力矩：</p>
+    <ul>
+      <li><strong>Pitch（俯仰）</strong>：前电机减速、后电机加速 → 机头下俯（向前飞）；反之机头上仰（向后飞）。</li>
+      <li><strong>Roll（横滚）</strong>：左电机减速、右电机加速 → 机身向左倾斜（向左飞）；反之向右。</li>
+    </ul>
+    <p>力矩公式：$\tau_{\text{pitch}} = L \cdot (T_{\text{rear}} - T_{\text{front}})$，$\tau_{\text{roll}} = L \cdot (T_{\text{right}} - T_{\text{left}})$，其中 $L$ 为电机到机身中心的力臂长度。</p>
+
+    <h3>45.2.3 偏航（Yaw）</h3>
+    <p>四旋翼通过<strong>对角线电机转速差</strong>产生偏航力矩：1、3 号电机（假设顺时针）加速、2、4 号电机（逆时针）减速 → 反扭矩不平衡 → 机身顺时针偏航；反之逆时针偏航。力矩公式：$\tau_{\text{yaw}} = k_\tau \cdot (\omega_1^2 + \omega_3^2 - \omega_2^2 - \omega_4^2)$。</p>
+
+    <h3>45.2.4 控制分配（Mixer）</h3>
+    <p>给定四个控制量：油门 $T$、Roll 期望 $\tau_r$、Pitch 期望 $\tau_p$、Yaw 期望 $\tau_y$，分配到四个电机的转速：</p>
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch45-quadcopter-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+skinparam componentStyle rectangle
+
+note "X 型四旋翼电机布局\n        前\n   M2 ↻     M1 ↺\n        ✛\n   M3 ↺     M4 ↮\n        后\n\nM1 M4 顺时针 (CW)\nM2 M3 逆时针 (CCW)" as N1
+
+note "电机控制分配公式（ mixer ）\n\nM1 = T + Pitch + Roll - Yaw\nM2 = T + Pitch - Roll + Yaw\nM3 = T - Pitch - Roll - Yaw\nM4 = T - Pitch + Roll + Yaw\n\n注：M1-M4 已含基线油门 T\n     Pitch/Roll/Yaw 为增量" as N2
+
+N1 -[hidden]right- N2
+@enduml</code></pre>
+  </details>
+</div>
+
+    <p>实际工程中电机控制量还需做归一化（0-1）和饱和限幅（避免单电机超出 PWM 范围）。</p>
+
+    <h2>45.3 系统架构设计</h2>
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch45-quadcopter-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+skinparam componentStyle rectangle
+
+package "飞控硬件" {
+  rectangle "STM32F407VET6\n主控 168MHz" as MCU
+  rectangle "MPU6050\n6轴 IMU (SPI/I2C)" as IMU
+  rectangle "接收机\nPWM/PPM 输入" as RX
+  rectangle "4× ESC 电调\nPWM 输出 400Hz" as ESC
+  rectangle "3S 锂电池\n11.1V 2200mAh" as BAT
+  rectangle "低压检测\nADC 分压" as VSENSE
+}
+
+package "软件架构" {
+  rectangle "Sensor 采集\n1 kHz" as S1
+  rectangle "AHRS 姿态解算\nMahony 500 Hz" as S2
+  rectangle "PID 串级控制\n500 Hz" as S3
+  rectangle "Mixer 分配\n+ PWM 输出\n500 Hz" as S4
+  rectangle "遥控解析\n50 Hz" as S5
+  rectangle "安全监控\n失联/低压/异常" as S6
+}
+
+MCU -down-&gt; S1 : SPI 读 IMU
+IMU -up-&gt; MCU
+RX -down-&gt; S5 : Timer 输入捕获
+S5 -down-&gt; S3 : 期望姿态
+S1 -down-&gt; S2 : raw ax/ay/az gx/gy/gz
+S2 -down-&gt; S3 : roll/pitch/yaw
+S3 -down-&gt; S4 : U1/U2/U3/U4
+S4 -down-&gt; ESC : Timer PWM
+BAT -down-&gt; VSENSE
+VSENSE -down-&gt; S6 : ADC 电压
+S6 .right.&gt; S4 : 紧急切断
+@enduml</code></pre>
+  </details>
+</div>
+
+    <p>整个软件以<strong>定时器中断驱动的主控制循环</strong>为核心，500 Hz 周期（2 ms）。每次循环执行：① 读 IMU → ② AHRS 解算 → ③ 读遥控期望 → ④ PID 计算 → ⑤ Mixer 分配 → ⑥ PWM 输出。遥控解析、安全监控、UART 日志等慢任务在主循环或低优先级任务中执行。</p>
+
+    <h2>45.4 硬件设计</h2>
+
+    <h3>45.4.1 主控选型</h3>
+    <p>本项目选用 <strong>STM32F407VET6</strong> 作为飞控主控，原因：</p>
+    <ul>
+      <li><strong>168 MHz Cortex-M4F</strong>：FPU 加速浮点 PID 运算，2 ms 控制周期足够余量。</li>
+      <li><strong>多路高级定时器</strong>：TIM1/TIM8 可同时输出 4-8 路 PWM，且支持中心对齐模式（适合电机控制）。</li>
+      <li><strong>多路输入捕获</strong>：TIM2/TIM3/TIM4/TIM5 可同时捕获 4 路 PWM/PPM 遥控信号。</li>
+      <li><strong>SPI 高速 IMU 通信</strong>：MPU6050 在 SPI 模式下达 20 MHz，比 I2C 快 10 倍以上。</li>
+      <li><strong>192 KB SRAM</strong>：足够 FreeRTOS + 大量浮点数组。</li>
+    </ul>
+    <p>实际工程中也常用 STM32F411/F405（更小型化）、ESP32-S3（带 WiFi/BLE 可做图传）。</p>
+
+    <h3>45.4.2 硬件清单</h3>
+    <table>
+      <thead>
+        <tr><th>序号</th><th>器材</th><th>规格</th><th>数量</th><th>备注</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>STM32F407VET6 最小系统</td><td>168 MHz, 192KB SRAM</td><td>1</td><td>飞控主控</td></tr>
+        <tr><td>2</td><td>MPU6050 模块</td><td>6 轴 IMU, SPI 接口</td><td>1</td><td>姿态感知</td></tr>
+        <tr><td>3</td><td>无刷电机</td><td>2207 2300KV (典型值)</td><td>4</td><td>5 寸桨</td></tr>
+        <tr><td>4</td><td>电调 ESC</td><td>30A BLHeli_S, DShot300</td><td>4</td><td>—</td></tr>
+        <tr><td>5</td><td>螺旋桨</td><td>5 寸三叶正反桨</td><td>2+2</td><td>正反各 2</td></tr>
+        <tr><td>6</td><td>3S 锂电池</td><td>11.1V 1500mAh 50C</td><td>1</td><td>—</td></tr>
+        <tr><td>7</td><td>遥控接收机</td><td>SBUS/PPM 输出</td><td>1</td><td>如 FS-iA6B</td></tr>
+        <tr><td>8</td><td>机架</td><td>220mm 轴距轮距</td><td>1</td><td>5 寸机架</td></tr>
+        <tr><td>9</td><td>低压报警器</td><td>3S 锂电池低压蜂鸣</td><td>1</td><td>—</td></tr>
+        <tr><td>10</td><td>ST-Link V2</td><td>SWD 调试器</td><td>1</td><td>烧录调试</td></tr>
+      </tbody>
+    </table>
+
+    <h3>45.4.3 电气连接</h3>
+    <table>
+      <thead>
+        <tr><th>STM32 引脚</th><th>外设</th><th>连接对象</th><th>说明</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>PA5/PA6/PA7</td><td>SPI1</td><td>MPU6050 (SCK/MISO/MOSI)</td><td>SPI 20 MHz</td></tr>
+        <tr><td>PC4</td><td>GPIO</td><td>MPU6050 CS</td><td>片选</td></tr>
+        <tr><td>PA0/PA1/PA2/PA3</td><td>TIM2_CH1-4</td><td>接收机 PPM</td><td>输入捕获 50 Hz</td></tr>
+        <tr><td>PC6/PC7/PC8/PC9</td><td>TIM3_CH1-4</td><td>4× 电调 PWM</td><td>400 Hz, DShot300</td></tr>
+        <tr><td>PA9/PA10</td><td>USART1</td><td>USB 转串口</td><td>调试日志</td></tr>
+        <tr><td>PA4</td><td>ADC1_IN4</td><td>电池电压分压</td><td>1:11 分压</td></tr>
+        <tr><td>PB1</td><td>GPIO</td><td>MPU6050 INT</td><td>数据就绪中断</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      <strong>供电注意</strong>：STM32F407 工作电压 3.3 V，电机/电调由 3S 锂电池（11.1 V）供电。逻辑地与电源地必须共地。STM32 板载 5V LDO（如 AMS1117）从 11.1V 降压时发热严重，建议外置 5V BEC（开关电源，转换效率 90%+）。
+    </div>
+
+    <h2>45.5 软件架构</h2>
+
+    <h3>45.5.1 主控制循环</h3>
+    <p>使用 TIM6 触发 500 Hz 中断（2 ms 周期），在中断中执行完整控制流程。也可使用 FreeRTOS 任务 + 高优先级抢占，但本项目为简化代码用裸机中断。</p>
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch45-quadcopter-fig3.svg" alt="PlantUML 图 3" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+
+start
+:TIM6 500Hz 中断触发 (2ms);
+:读 MPU6050\n(raw ax,ay,az,gx,gy,gz);
+:Mpu6050 单位转换\n(陀螺转 rad/s, 加速度转 g);
+:Mahony AHRS 解算\n输出 roll, pitch, yaw;
+:读遥控器输入\n(Thr, Roll, Pitch, Yaw 期望);
+:外环 PID (角度 → 期望角速度);
+:内环 PID (角速度 → 力矩);
+:Mixer 分配 → 4 电机输出;
+:更新 TIM3 PWM 占空比;
+:更新状态机/安全检查;
+stop
+@enduml</code></pre>
+  </details>
+</div>
+
+    <h3>45.5.2 状态机</h3>
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch45-quadcopter-fig4.svg" alt="PlantUML 图 4" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+
+[*] --&gt; Disarmed : 上电
+Disarmed --&gt; Disarming : 遥控器油门最低 + 锁定开关 ON
+Disarmed --&gt; Arming : 油门最低 + 解锁开关 ON (持续 1s)
+Arming --&gt; Armed : IMU 校准完成 + 安全检查通过
+Armed --&gt; Disarmed : 解锁超时 (5s 未完成)
+Armed --&gt; Disarmed : 锁定开关 OFF
+Armed --&gt; Failsafe : 遥控失联 / IMU 异常 / 低压
+Failsafe --&gt; Disarmed : 油门置零 + 等待 3s
+
+state Disarmed {
+  [*] --&gt; Idle
+  Idle : 电机停转\n仅输出 IMU/姿态日志
+}
+
+state Armed {
+  [*] --&gt; Stabilize
+  Stabilize : 串级 PID 姿态稳定\n油门跟随遥控
+}
+
+state Failsafe {
+  [*] --&gt; CutOff
+  CutOff : 4 电机置最低油门\n进入"软停机"
+}
+
+note right of Arming
+  解锁前检查:
+  1. 油门杆在最低位置
+  2. 遥控信号正常
+  3. IMU 数据有效 (|ax|&lt;2g, |gx|&lt;5rad/s)
+  4. 电池电压 &gt; 10.5V
+end note
+@enduml</code></pre>
+  </details>
+</div>
+
+    <h3>45.5.3 MPU6050 驱动（SPI）</h3>
+    <p>MPU6050 通过 SPI 通信，关键寄存器：① PWR_MGMT_1（电源管理，唤醒+时钟源）；② GYRO_CONFIG（陀螺量程 ±2000°/s）；③ ACCEL_CONFIG（加速度量程 ±4g）；④ SMPRT_DIV（采样率分频，设 1 kHz）；⑤ INT_PIN_CFG + INT_ENABLE（数据就绪中断）。每次读 14 字节（ax/ay/az/temp/gx/gy/gz）。</p>
+    <pre><code class="language-c">/* mpu6050.c - SPI 驱动 MPU6050，1 kHz 数据就绪中断 */
+#include "stm32f4xx_hal.h"
+
+extern SPI_HandleTypeDef hspi1;
+#define MPU_CS_LOW()  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET)
+#define MPU_CS_HIGH() HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_SET)
+
+/* 写寄存器 */
+void MPU_WriteReg(uint8_t reg, uint8_t val) {
+    MPU_CS_LOW();
+    uint8_t tx[2] = {reg &amp; 0x7F, val};   /* bit7=0 写 */
+    HAL_SPI_Transmit(&amp;hspi1, tx, 2, 10);
+    MPU_CS_HIGH();
+}
+
+/* 读寄存器 */
+uint8_t MPU_ReadReg(uint8_t reg) {
+    MPU_CS_LOW();
+    uint8_t tx[2] = {reg | 0x80, 0xFF};   /* bit7=1 读 */
+    uint8_t rx[2];
+    HAL_SPI_TransmitReceive(&amp;hspi1, tx, rx, 2, 10);
+    MPU_CS_HIGH();
+    return rx[1];
+}
+
+/* 读 14 字节原始数据 */
+void MPU_ReadRaw(int16_t *ax, int16_t *ay, int16_t *az,
+                 int16_t *gx, int16_t *gy, int16_t *gz)
+{
+    uint8_t buf[14];
+    MPU_CS_LOW();
+    uint8_t tx[15] = {0x3B | 0x80};  /* ACCEL_XOUT_H 起始地址 */
+    uint8_t rx[15];
+    HAL_SPI_TransmitReceive(&amp;hspi1, tx, rx, 15, 50);
+    MPU_CS_HIGH();
+    *ax = (rx[1]&lt;&lt;8)  | rx[2];
+    *ay = (rx[3]&lt;&lt;8)  | rx[4];
+    *az = (rx[5]&lt;&lt;8)  | rx[6];
+    /* rx[7,8] 温度 */
+    *gx = (rx[9]&lt;&lt;8)  | rx[10];
+    *gy = (rx[11]&lt;&lt;8) | rx[12];
+    *gz = (rx[13]&lt;&lt;8) | rx[14];
+}
+
+/* 初始化 MPU6050 */
+void MPU_Init(void) {
+    HAL_Delay(100);
+    MPU_WriteReg(0x6B, 0x80);   /* PWR_MGMT_1 复位 */
+    HAL_Delay(100);
+    MPU_WriteReg(0x6B, 0x01);   /* 唤醒，时钟 PLL X 轴陀螺 */
+    MPU_WriteReg(0x1B, 0x18);   /* GYRO ±2000°/s */
+    MPU_WriteReg(0x1C, 0x08);   /* ACCEL ±4g */
+    MPU_WriteReg(0x19, 0x00);   /* SMPRT_DIV 1kHz */
+    MPU_WriteReg(0x1A, 0x03);   /* CONFIG DLPF 41Hz */
+    MPU_WriteReg(0x37, 0x10);   /* INT_PIN_CFG 推挽低电平 */
+    MPU_WriteReg(0x38, 0x01);   /* INT_ENABLE 数据就绪 */
+}</code></pre>
+
+    <h3>45.5.4 姿态解算（Mahony 互补滤波）</h3>
+    <p>Mahony 算法用陀螺仪积分得到高频姿态，用加速度计向量叉积修正长期漂移。相比 Madgwick 计算量小，适合 STM32F4 高频更新。姿态用四元数表示避免欧拉角奇异。</p>
+    <pre><code class="language-c">/* ahrs.c - Mahony AHRS, 500 Hz 更新 */
+#include &lt;math.h&gt;
+
+static float q0 = 1.0f, q1 = 0.0f, q2 = 0.0f, q3 = 0.0f;   /* 四元数 */
+static float exInt = 0, eyInt = 0, ezInt = 0;                /* 积分项 */
+static float twoKp = 2.0f * 0.5f;     /* 比例增益 */
+static float twoKi = 2.0f * 0.0f;     /* 积分增益 */
+static float sampleFreq = 500.0f;
+
+void Mahony_Update(float gx, float gy, float gz,
+                   float ax, float ay, float az)
+{
+    float recipNorm;
+    float vx, vy, vz;
+    float ex, ey, ez;
+
+    /* 加速度归一化 */
+    recipNorm = sqrtf(ax*ax + ay*ay + az*az);
+    if (recipNorm == 0.0f) return;
+    recipNorm = 1.0f / recipNorm;
+    ax *= recipNorm; ay *= recipNorm; az *= recipNorm;
+
+    /* 估计重力方向（由当前 q 推算） */
+    float q0q0 = q0*q0, q0q1 = q0*q1, q0q2 = q0*q2, q0q3 = q0*q3;
+    float q1q1 = q1*q1, q1q2 = q1*q2, q1q3 = q1*q3;
+    float q2q2 = q2*q2, q2q3 = q2*q3, q3q3 = q3*q3;
+
+    vx = 2.0f * (q1q3 - q0q2);
+    vy = 2.0f * (q0q1 + q2q3);
+    vz = q0q0 - q1q1 - q2q2 + q3q3;
+
+    /* 误差 = 测量 × 估计（叉积） */
+    ex = (ay*vz - az*vy);
+    ey = (az*vx - ax*vz);
+    ez = (ax*vy - ay*vx);
+
+    /* PI 反馈 */
+    exInt += ex * twoKi;
+    eyInt += ey * twoKi;
+    ezInt += ez * twoKi;
+
+    gx += twoKp*ex + exInt;
+    gy += twoKp*ey + eyInt;
+    gz += twoKp*ez + ezInt;
+
+    /* 四元数微分方程 */
+    gx *= (0.5f * (1.0f / sampleFreq));
+    gy *= (0.5f * (1.0f / sampleFreq));
+    gz *= (0.5f * (1.0f / sampleFreq));
+
+    float dq0 = (-q1*gx - q2*gy - q3*gz);
+    float dq1 = ( q0*gx + q2*gz - q3*gy);
+    float dq2 = ( q0*gy - q1*gz + q3*gx);
+    float dq3 = ( q0*gz + q1*gy - q2*gx);
+
+    q0 += dq0; q1 += dq1; q2 += dq2; q3 += dq3;
+
+    /* 归一化 */
+    recipNorm = sqrtf(q0*q0 + q1*q1 + q2*q2 + q3*q3);
+    recipNorm = 1.0f / recipNorm;
+    q0 *= recipNorm; q1 *= recipNorm; q2 *= recipNorm; q3 *= recipNorm;
+}
+
+/* 取欧拉角（度） */
+void Mahony_GetEuler(float *roll, float *pitch, float *yaw)
+{
+    *roll  = atan2f(2.0f*(q0*q1 + q2*q3), 1.0f - 2.0f*(q1*q1 + q2*q2)) * 57.29578f;
+    *pitch = asinf(2.0f*(q0*q2 - q3*q1)) * 57.29578f;
+    *yaw   = atan2f(2.0f*(q0*q3 + q1*q2), 1.0f - 2.0f*(q2*q2 + q3*q3)) * 57.29578f;
+}</code></pre>
+
+    <h3>45.5.5 串级 PID 控制器</h3>
+    <p>采用<strong>串级 PID</strong>：外环控制角度（输入期望角度，输出期望角速度），内环控制角速度（输入期望角速度，输出力矩）。串级比单级响应更快、抗扰性更强，是飞控标配。</p>
+    <pre><code class="language-c">/* pid.c - 串级 PID，每个轴独立 */
+typedef struct {
+    float kp, ki, kd;
+    float i_max;
+    float setpoint;     /* 期望值 */
+    float input;        /* 测量值 */
+    float err;          /* 当前误差 */
+    float err_prev;     /* 上次误差 */
+    float err_integ;   /* 积分项 */
+    float out;          /* 输出 */
+} PID_t;
+
+void PID_Init(PID_t *p, float kp, float ki, float kd, float i_max) {
+    p->kp = kp; p->ki = ki; p->kd = kd; p->i_max = i_max;
+    p->err = p->err_prev = p->err_integ = p->out = 0;
+}
+
+float PID_Update(PID_t *p, float setpoint, float input, float dt) {
+    p->setpoint = setpoint;
+    p->input = input;
+    p->err = setpoint - input;
+
+    /* 积分（带抗饱和） */
+    p->err_integ += p->err * dt;
+    if (p->err_integ &gt; p->i_max) p->err_integ = p->i_max;
+    if (p->err_integ &lt; -p->i_max) p->err_integ = -p->i_max;
+
+    /* 微分（差分） */
+    float deriv = (p->err - p->err_prev) / dt;
+    p->err_prev = p->err;
+
+    /* 输出 */
+    p->out = p->kp * p->err + p->ki * p->err_integ + p->kd * deriv;
+    return p->out;
+}
+
+/* 全局 PID 实例：roll/pitch/yaw 各两组（外环+内环） */
+PID_t pid_roll_angle, pid_roll_rate;
+PID_t pid_pitch_angle, pid_pitch_rate;
+PID_t pid_yaw_rate;     /* yaw 一般只用角速度环 */</code></pre>
+
+    <h3>45.5.6 控制循环与 Mixer</h3>
+    <pre><code class="language-c">/* main.c - 500 Hz 主控制循环 */
+#include "stm32f4xx_hal.h"
+#include &lt;math.h&gt;
+
+volatile float g_roll = 0, g_pitch = 0, g_yaw = 0;
+volatile float rx_thr = 0, rx_roll = 0, rx_pitch = 0, rx_yaw = 0;
+volatile float motor[4] = {0, 0, 0, 0};
+volatile int armed = 0;
+
+extern TIM_HandleTypeDef htim3;
+
+/* TIM6 中断：500 Hz 控制循环 */
+void TIM6_DAC_IRQHandler(void) {
+    HAL_TIM_IRQHandler(&amp;htim6);
+
+    int16_t ax, ay, az, gx, gy, gz;
+    MPU_ReadRaw(&amp;ax, &amp;ay, &amp;az, &amp;gx, &amp;gy, &amp;gz);
+
+    /* 单位换算 */
+    float fax = ax / 8192.0f;            /* ±4g LSB */
+    float fay = ay / 8192.0f;
+    float faz = az / 8192.0f;
+    float fgx = gx * (M_PI / 180.0f) / 16.4f;   /* ±2000°/s LSB → rad/s */
+    float fgy = gy * (M_PI / 180.0f) / 16.4f;
+    float fgz = gz * (M_PI / 180.0f) / 16.4f;
+
+    /* 姿态解算 */
+    Mahony_Update(fgx, fgy, fgz, fax, fay, faz);
+    Mahony_GetEuler((float*)&amp;g_roll, (float*)&amp;g_pitch, (float*)&amp;g_yaw);
+
+    if (!armed) {
+        /* 解锁前：电机停转，仅输出日志 */
+        motor[0] = motor[1] = motor[2] = motor[3] = 0;
+        PWM_Output(motor);
+        return;
+    }
+
+    /* 期望姿态（来自遥控器，限幅 ±30°） */
+    float roll_des  = rx_roll  * 30.0f;
+    float pitch_des = rx_pitch * 30.0f;
+    float yaw_rate_des = rx_yaw * 200.0f;
+
+    /* 串级 PID */
+    float dt = 0.002f;   /* 500 Hz */
+    float roll_rate_des  = PID_Update(&amp;pid_roll_angle,  roll_des,  g_roll,  dt);
+    float pitch_rate_des = PID_Update(&amp;pid_pitch_angle, pitch_des, g_pitch, dt);
+    float u_roll  = PID_Update(&amp;pid_roll_rate,  roll_rate_des,  fgx, dt);
+    float u_pitch = PID_Update(&amp;pid_pitch_rate, pitch_rate_des, fgy, dt);
+    float u_yaw   = PID_Update(&amp;pid_yaw_rate,   yaw_rate_des,   fgz, dt);
+
+    /* Mixer: X 型布局
+     *   M1 = T + Pitch + Roll - Yaw
+     *   M2 = T + Pitch - Roll + Yaw
+     *   M3 = T - Pitch - Roll - Yaw
+     *   M4 = T - Pitch + Roll + Yaw
+     */
+    float t = rx_thr;   /* 0..1 油门 */
+    float m1 = t + u_pitch + u_roll - u_yaw;
+    float m2 = t + u_pitch - u_roll + u_yaw;
+    float m3 = t - u_pitch - u_roll - u_yaw;
+    float m4 = t - u_pitch + u_roll + u_yaw;
+
+    /* 饱和限幅 0..1 */
+    SAT(m1); SAT(m2); SAT(m3); SAT(m4);
+    motor[0] = m1; motor[1] = m2; motor[2] = m3; motor[3] = m4;
+
+    PWM_Output(motor);
+}</code></pre>
+
+    <h2>45.6 完整代码与工程结构</h2>
+    <p>完整工程位于 <code>/code/stm32f407/13-quadcopter/</code>，目录结构如下：</p>
+    <pre><code>13-quadcopter/
+├── main.c                # 主程序 + 状态机
+├── mpu6050.c / mpu6050.h # MPU6050 SPI 驱动
+├── ahrs.c / ahrs.h       # Mahony 姿态解算
+├── pid.c / pid.h         # PID 控制器
+├── mixer.c / mixer.h     # 电机分配
+├── pwm.c / pwm.h         # TIM3 PWM 输出
+├── rx.c / rx.h           # 遥控器输入捕获
+├── safety.c / safety.h  # 安全监控
+├── STM32CubeMX.ioc       # CubeMX 工程配置
+└── README.md            # 编译烧录说明</code></pre>
+
+    <p>使用 STM32CubeIDE 或 Keil MDK + HAL 库开发，ST-Link 烧录。首次调试务必<strong>拆除螺旋桨</strong>，先验证 IMU 数据与遥控器响应正常，再进行 PID 整定。</p>
+
+    <h2>45.7 PID 参数整定方法</h2>
+    <p>PID 整定是飞控调试的核心，常用<strong>试凑法</strong>：</p>
+    <ol>
+      <li><strong>内环（角速度环）整定</strong>：① Ki=0, Kd=0，逐步增大 Kp 直到机身出现高频振荡；② Kp 减小 50%；③ 逐步增大 Kd 直到振荡消失但响应快；④ 适当加 Ki 消除稳态误差。</li>
+      <li><strong>外环（角度环）整定</strong>：内环稳定后，外环 Kp 从 0.5 开始，逐次增大，达到快速跟踪且不振荡。</li>
+      <li><strong>Yaw 轴</strong>：一般只用角速度环（单环），Kp 取 Roll/Pitch 的 2-3 倍。</li>
+    </ol>
+    <p>典型参数（仅参考，不同机架需重调）：内环 Kp=0.20, Ki=0.01, Kd=0.10；外环 Kp=4.0, Ki=0.0, Kd=0.0。</p>
+
+    <div class="tip">
+      <strong>调试工具</strong>：通过 UART 输出 roll/pitch/yaw 与遥控期望，PC 端用 <a href="https://github.com/iNavFlight/INAV-Configurator">INAV Configurator</a>、<a href="https://github.com/betaflight/betaflight-configurator">Betaflight Configurator</a> 或自定义 Python 脚本绘制曲线。MMA 分析振荡频率可辅助 Kd 整定。
+    </div>
+
+    <h2>45.8 安全与扩展方向</h2>
+    <p><strong>安全保护</strong>：</p>
+    <ul>
+      <li><strong>解锁前检查</strong>：油门最低、遥控信号正常、IMU 数据有效、电池电压 &gt; 10.5V。</li>
+      <li><strong>失联保护</strong>：遥控信号 1 秒未更新，自动切断电机或维持油门 0。</li>
+      <li><strong>低压保护</strong>：电池电压 &lt; 10.5V（3S）触发 LED 闪烁报警；&lt; 10.0V 自动降落。</li>
+      <li><strong>姿态异常</strong>：roll/pitch 超过 60° 视为翻车，立即切断电机。</li>
+    </ul>
+    <p><strong>扩展方向</strong>：</p>
+    <ul>
+      <li><strong>气压计高度保持</strong>：增加 BMP280 气压计，实现定高悬停。</li>
+      <li><strong>GPS 定位</strong>：增加 u-blox M8N GPS，实现位置环 PID 与返航功能。</li>
+      <li><strong>光流定位</strong>：下视摄像头光流传感器，室内悬停定位。</li>
+      <li><strong>自主飞行</strong>：移植 PX4/INAV 开源飞控固件，支持航点任务。</li>
+      <li><strong>图传</strong>：ESP32 + 摄像头做实时图传，FPV 飞行。</li>
+    </ul>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>四旋翼通过四个电机转速差产生升力与三轴姿态力矩，控制分配由 Mixer 公式实现。</li>
+        <li>硬件核心是 STM32F407 主控 + MPU6050 IMU + 4× 电调 + 接收机。</li>
+        <li>姿态解算用 Mahony 互补滤波融合陀螺与加速度计，输出欧拉角或四元数。</li>
+        <li>串级 PID（角度环外环 + 角速度环内环）是飞控标配，参数整定需先内环再外环。</li>
+        <li>500 Hz 控制循环由定时器中断驱动，包含传感→解算→控制→输出完整链路。</li>
+        <li>安全保护（解锁前检查、失联保护、低压保护、姿态异常）是飞控不可或缺的部分。</li>
+        <li>实际工程可扩展气压计、GPS、光流、图传等实现更高阶功能。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>推导 X 型四旋翼的 Mixer 公式，说明为什么对角线电机转向相同。</li>
+        <li>简述 Mahony 算法与 Madgwick 算法的区别，并说明为什么陀螺积分会漂移、加速度计可修正。</li>
+        <li>串级 PID 比单级 PID 有什么优势？为什么内环用角速度、外环用角度？</li>
+        <li>设计一个失联保护机制：遥控信号 1 秒未更新时自动切断电机，并恢复"解锁前"状态。给出代码思路。</li>
+        <li>已知电机升力系数 $k_T$、力臂 $L$、机身质量 $m$，推导悬停所需油门（归一化值）。</li>
+        <li>分析 DShot300 与传统 50 Hz PWM 电调协议的优缺点，并说明为什么飞控常用 DShot。</li>
+        <li>查阅 Betaflight 或 INAV 开源飞控源码，对比本章实现的差异，简述可借鉴的工程实践。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>ST 官方. STM32F405/415/407/417 参考手册 RM0090 [Z]. 2024. https://www.st.com/</li>
+        <li>InvenSense. MPU-6000/6050 Six-Axis MEMS Datasheet [Z]. 2013. https://invensense.tdk.com/</li>
+        <li>Robert Mahony, Tarek Hamel, Jean-Michel Pflimlin. Nonlinear Complementary Filters on the Special Orthogonal Group [J]. IEEE Transactions on Automatic Control, 2008, 53(5): 1203-1218.</li>
+        <li>S. Madgwick. An efficient orientation filter for inertial and inertial/magnetic sensor arrays [R]. 2010. https://www.x-io.co.uk/</li>
+        <li>Betaflight 开源飞控. https://github.com/betaflight/betaflight</li>
+        <li>PX4 Autopilot. https://github.com/PX4/PX4-Autopilot</li>
+        <li>全权. 多旋翼飞行器设计与控制 [M]. 北京：科学出版社, 2020.</li>
+        <li>陈志杰. 四旋翼无人机飞行控制算法综述 [J]. 控制与决策, 2022, 37(3): 1-15.</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="../../chapters/part5-projects/ch44-energy-monitor-esp32.html" class="prev">← 第 44 章 智能电能监测</a>
+      <a href="../../index.html" class="home">返回首页</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="../../assets/js/katex-mermaid-init.js"></script>
+<script src="../../assets/js/main.js?v=7"></script>
+
+</body>
+</html>

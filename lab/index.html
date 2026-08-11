@@ -30,10 +30,10 @@
 
     <h1>实验指导书</h1>
 
-    <p>本实验指导书共 10 个基础实验，覆盖 STC89C52RC 与 STM32F407VET6 双平台，由浅入深，每个实验包含<strong>实验目的、知识点、硬件清单、电路连接、代码框架、调试要点、思考题</strong>七个部分。建议按顺序完成，每个实验对应 1-2 次课时间。</p>
+    <p>本实验指导书共 12 个实验，覆盖 STC89C52RC 与 STM32F407VET6 双平台，由浅入深，每个实验包含<strong>实验目的、知识点、硬件清单、电路连接、代码框架、调试要点、思考题</strong>七个部分。建议按顺序完成，每个实验对应 1-2 次课时间。</p>
 
     <div class="tip">
-      <strong>实验平台</strong>：本课程实验同时支持 STC89C52RC 最小系统板（8 位）与 STM32F407VET6 最小系统板（32 位）。前 7 个实验以 STC 为主、STM32 对照；实验 8-10 涉及 ADC/DAC/PWM/I2C 等 STM32 优势外设，以 STM32 为主。
+      <strong>实验平台</strong>：本课程实验同时支持 STC89C52RC 最小系统板（8 位）与 STM32F407VET6 最小系统板（32 位）。前 7 个实验以 STC 为主、STM32 对照；实验 8-10 涉及 ADC/DAC/PWM/I2C 等 STM32 优势外设，以 STM32 为主；实验 11-12 为串口调试与掉电存储进阶实验，分别实现 printf 重定向（双平台）与 STM32 内部 Flash 数据存取（含 MAGIC+CRC32 校验）。
     </div>
 
     <h2>实验列表</h2>
@@ -52,6 +52,8 @@
         <tr><td>实验 8</td><td><a href="../lab/lab08-adc-dac.html">ADC 采集与 DAC 输出</a></td><td>STM32</td><td>ADC 配置、DMA、DAC 波形</td></tr>
         <tr><td>实验 9</td><td><a href="../lab/lab09-pwm-breathing-led.html">PWM 呼吸灯</a></td><td>STM32</td><td>通用定时器、PWM 模式</td></tr>
         <tr><td>实验 10</td><td><a href="../lab/lab10-i2c-eeprom.html">I2C 读写 EEPROM</a></td><td>STC + STM32</td><td>I2C 协议、AT24C02 读写</td></tr>
+        <tr><td>实验 11</td><td><a href="../lab/lab11-printf-redirect.html">标准 printf 函数实现</a></td><td>STC + STM32</td><td>putchar/fputc 重定向、MicroLIB、半主机模式</td></tr>
+        <tr><td>实验 12</td><td><a href="../lab/lab12-flash-storage.html">STM32 Flash 数据存取</a></td><td>STM32</td><td>HAL_FLASH 读写、MAGIC+CRC32 校验、磨损均衡</td></tr>
       </tbody>
     </table>
 
