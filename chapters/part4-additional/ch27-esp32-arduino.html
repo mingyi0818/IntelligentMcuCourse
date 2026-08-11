@@ -1,0 +1,1541 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第27章 ESP32+Arduino 开发 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link active" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 4 篇 单片机开发附加内容 &gt; <span>第 27 章 ESP32+Arduino 开发</span>
+    </div>
+
+    <h1>第 27 章 ESP32+Arduino 开发</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>理解 ESP32 硬件架构与外设资源，能够对比其与 STC89/STM32 的差异并合理选型</li>
+        <li>掌握 Arduino IDE 环境搭建与基础外设编程（GPIO、串口、定时器、PWM、ADC、I2C/SPI）</li>
+        <li>掌握 ESP32 Wi-Fi 与 BLE 联网开发，能够实现 HTTP、Web Server、MQTT 等物联网通信</li>
+        <li>完成 Wi-Fi 温湿度监控综合项目，具备从传感器采集到云端部署的端到端开发能力</li>
+        <li>具备继续自学 OTA 升级、ESP-IDF 原生框架、ESP32-S3/C3 RISC-V 等进阶内容的能力</li>
+      </ul>
+    </div>
+
+    <p>ESP32 是乐鑫科技（Espressif）于 2016 年推出的高性价比物联网 SoC，单芯片集成双核 Xtensa LX6 处理器、Wi-Fi 与 BLE，价格仅 10 元左右。配合 Arduino 框架的简洁 API，初学者只需几行代码即可点亮 LED、连接 Wi-Fi、上传数据到云端。本章从硬件介绍到综合项目，系统讲解 ESP32 + Arduino 开发的完整流程，是物联网入门的事实标准。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch27-esp32-arduino-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+
+rectangle "ESP32+Arduino 开发" as A
+rectangle "§27.1-27.3\n硬件与环境入门" as B
+rectangle "§27.4-27.8\n基础外设编程" as C
+rectangle "§27.9-27.10\nWi-Fi/BLE 联网" as D
+rectangle "§27.11-27.13\n通信总线与调试" as E
+rectangle "§27.14\n综合项目" as F
+rectangle "§27.15\n进阶资源" as G
+rectangle "Blink LED" as B1
+rectangle "GPIO/UART/PWM/ADC" as C1
+rectangle "HTTP/MQTT/WebServer" as D1
+rectangle "I2C/SPI/OTA" as E1
+rectangle "温湿度监控" as F1
+A --&gt; B
+A --&gt; C
+A --&gt; D
+A --&gt; E
+A --&gt; F
+A --&gt; G
+B --&gt; B1
+C --&gt; C1
+D --&gt; D1
+E --&gt; E1
+F --&gt; F1
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 27-1 本章学习路径与知识结构</div>
+
+    <h2>§27.1 ESP32 硬件介绍</h2>
+    <p>ESP32 是乐鑫继 ESP8266 之后推出的第二代物联网芯片，定位"高集成度、低功耗、低成本"。它将双核 CPU、Wi-Fi、BLE、丰富外设集成在同一颗 7×7mm 芯片内，外接一颗 Flash 即可构成完整系统。理解 ESP32 的硬件特性是后续编程的基础。</p>
+
+    <h3>§27.1.1 核心规格</h3>
+    <p>ESP32 的核心规格如下表所示，可以看出其资源远超传统 8 位单片机：</p>
+
+    <table>
+      <thead><tr><th>类别</th><th>规格</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>CPU</td><td>Xtensa LX6 双核</td><td>Core0 用于 Wi-Fi/蓝牙协议栈，Core1 可用于应用</td></tr>
+        <tr><td>主频</td><td>160 MHz / 240 MHz</td><td>可动态调频以降低功耗</td></tr>
+        <tr><td>SRAM</td><td>520 KB</td><td>片内静态 RAM</td></tr>
+        <tr><td>Flash</td><td>4 MB（典型）</td><td>外挂 SPI Flash，存程序与数据</td></tr>
+        <tr><td>Wi-Fi</td><td>802.11 b/g/n</td><td>2.4 GHz，AP/STA/混合模式</td></tr>
+        <tr><td>蓝牙</td><td>BLE 4.2 + 经典蓝牙</td><td>双模蓝牙控制器</td></tr>
+        <tr><td>GPIO</td><td>34 个可编程引脚</td><td>支持中断、上拉/下拉</td></tr>
+        <tr><td>ADC</td><td>2 × 12 位 SAR</td><td>ADC1（8 通道）、ADC2（10 通道）</td></tr>
+        <tr><td>DAC</td><td>2 × 8 位</td><td>GPIO25/26</td></tr>
+        <tr><td>PWM（LEDC）</td><td>16 通道</td><td>0-19 位分辨率可调</td></tr>
+        <tr><td>通信接口</td><td>3 × UART、2 × I2C、4 × SPI、2 × I2S、CAN、以太网 MAC</td><td>资源丰富</td></tr>
+        <tr><td>定时器</td><td>4 × 64 位通用定时器</td><td>支持中断</td></tr>
+        <tr><td>低功耗模式</td><td>Active/Modem Sleep/Light Sleep/Deep Sleep/Hibernation</td><td>Deep Sleep 仅 10 µA</td></tr>
+        <tr><td>工作电压</td><td>2.2-3.6V</td><td>典型 3.3V</td></tr>
+      </tbody>
+    </table>
+
+    <h3>§27.1.2 常见模组与开发板</h3>
+    <p>ESP32 芯片本身是裸 die，实际使用时多采用模组（已封装 Flash、晶振、PCB 天线）或开发板（已集成 USB 转串口、电源、按键）。</p>
+
+    <table>
+      <thead><tr><th>型号</th><th>特点</th><th>典型用途</th></tr></thead>
+      <tbody>
+        <tr><td>ESP32-WROOM-32</td><td>4 MB Flash，PCB 天线，最常见</td><td>通用物联网</td></tr>
+        <tr><td>ESP32-WROVER</td><td>增加 4 MB PSRAM</td><td>需要大内存（图像、LVGL）</td></tr>
+        <tr><td>ESP32-S2</td><td>单核 240 MHz，USB OTG，无 BLE</td><td>USB 设备</td></tr>
+        <tr><td>ESP32-S3</td><td>双核 240 MHz，USB OTG，AI 指令</td><td>USB + AI 推理</td></tr>
+        <tr><td>ESP32-C3</td><td>RISC-V 单核 160 MHz，BLE 5</td><td>低功耗 IoT</td></tr>
+        <tr><td>NodeMCU-32S</td><td>WROOM-32 + CH340 + Type-C</td><td>入门开发板</td></tr>
+        <tr><td>ESP32 DevKitC</td><td>乐鑫官方开发板</td><td>官方参考设计</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>选型建议</strong>：本章基于最通用的 ESP32-WROOM-32 模组（NodeMCU-32S 开发板）讲解。学完后若需要 USB 设备功能选 S3，需要 RISC-V 低功耗选 C3，需要大内存跑图形界面选 WROVER。
+    </div>
+
+    <h3>§27.1.3 引脚说明与启动注意事项</h3>
+    <p>NodeMCU-32S 开发板的引脚标注与芯片 GPIO 编号不完全一致，编程时需对照。下表列出关键引脚及其特性：</p>
+
+    <table>
+      <thead><tr><th>板载标注</th><th>GPIO</th><th>功能/限制</th></tr></thead>
+      <tbody>
+        <tr><td>D0</td><td>GPIO0</td><td>启动模式选择，上电必须为高；下拉进入下载模式</td></tr>
+        <tr><td>D2</td><td>GPIO2</td><td>板载蓝灯，启动时必须为低或悬空</td></tr>
+        <tr><td>D12</td><td>GPIO12</td><td>启动时若为高将导致 Flash 电压错配</td></tr>
+        <tr><td>D15</td><td>GPIO15</td><td>启动时必须为低</td></tr>
+        <tr><td>RX/TX</td><td>GPIO3/1</td><td>UART0，下载与串口监视器</td></tr>
+        <tr><td>D21/D22</td><td>GPIO21/22</td><td>默认 I2C（SDA/SCL）</td></tr>
+        <tr><td>D18/D19/D23/D5</td><td>GPIO18/19/23/5</td><td>默认 VSPI（CLK/MISO/MOSI/CS）</td></tr>
+        <tr><td>VP/VN</td><td>GPIO36/39</td><td>仅输入，ADC1 通道</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>启动模式警告</strong>：GPIO0/2/12/15 在上电瞬间的电平决定 ESP32 是进入<strong>运行模式</strong>还是<strong>下载模式</strong>。如果发现"程序烧不进去"或"上电无反应"，多半是这些引脚外接的下拉/上拉电路导致。Boot 按键接 GPIO0，按住再上电即强制进入下载模式。
+    </div>
+
+    <h3>§27.1.4 与 STC89/STM32 对比</h3>
+    <p>ESP32 与本课程前两篇的 STC89C52RC、STM32F407 定位差异明显：</p>
+
+    <table>
+      <thead><tr><th>维度</th><th>STC89C52RC</th><th>STM32F407</th><th>ESP32</th></tr></thead>
+      <tbody>
+        <tr><td>内核</td><td>8051 8 位 CISC</td><td>Cortex-M4 32 位</td><td>Xtensa LX6 32 位双核</td></tr>
+        <tr><td>主频</td><td>11.0592 MHz</td><td>168 MHz</td><td>240 MHz</td></tr>
+        <tr><td>RAM</td><td>256 B</td><td>192 KB</td><td>520 KB</td></tr>
+        <tr><td>Flash</td><td>8 KB</td><td>1 MB</td><td>4 MB（外挂）</td></tr>
+        <tr><td>Wi-Fi/BT</td><td>无</td><td>无</td><td>内置</td></tr>
+        <tr><td>开发框架</td><td>Keil C51</td><td>HAL/LL + CubeIDE</td><td>Arduino / ESP-IDF</td></tr>
+        <tr><td>实时性</td><td>强（无 OS）</td><td>强（可选 RTOS）</td><td>中（FreeRTOS 内置）</td></tr>
+        <tr><td>价格</td><td>~3 元</td><td>~25 元</td><td>~10 元</td></tr>
+        <tr><td>典型场景</td><td>教学入门</td><td>工业控制</td><td>物联网终端</td></tr>
+      </tbody>
+    </table>
+
+    <p>ESP32 的最大优势是<strong>"单芯片解决联网 + 控制"</strong>，无需外接 Wi-Fi 模块（如 ESP8266 之于 STM32），大幅降低物联网终端的复杂度与成本。</p>
+
+    <h2>§27.2 开发环境搭建</h2>
+    <p>ESP32 的开发方式有多种：Arduino IDE（最简单）、PlatformIO（VS Code 插件）、ESP-IDF（乐鑫官方原生框架）。本章使用 Arduino IDE，因其上手最快，适合初学者。</p>
+
+    <h3>§27.2.1 安装 Arduino IDE</h3>
+    <p>从 Arduino 官网 <a href="https://www.arduino.cc/en/software">https://www.arduino.cc/en/software</a> 下载 Arduino IDE 2.x（Windows 版安装包），按提示安装。安装完成后启动，默认只支持 Arduino AVR 系列。</p>
+
+    <h3>§27.2.2 添加 ESP32 开发板支持</h3>
+    <p>Arduino IDE 通过"开发板管理器"扩展对第三方芯片的支持。操作步骤如下：</p>
+    <ol>
+      <li>打开 <code>文件 → 首选项</code>。</li>
+      <li>在"附加开发板管理器网址"中填入 ESP32 的索引地址：
+        <pre><code class="language-text">https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json</code></pre>
+      </li>
+      <li>点击"确定"保存。</li>
+      <li>打开 <code>工具 → 开发板 → 开发板管理器</code>。</li>
+      <li>搜索 <code>esp32</code>，找到 <code>esp32 by Espressif Systems</code>，点击"安装"。建议安装最新稳定版（本书以 2.0.x 为例）。</li>
+    </ol>
+
+    <div class="tip">
+      <strong>国内网络加速</strong>：由于 GitHub Raw 在国内访问不稳定，可使用镜像地址：
+      <pre><code class="language-text">https://ghproxy.com/https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json</code></pre>
+      或下载离线包：在 Gitee 搜索"arduino-esp32 离线包"。
+    </div>
+
+    <h3>§27.2.3 选择开发板与端口</h3>
+    <p>安装完成后，进行以下配置：</p>
+    <ol>
+      <li>菜单 <code>工具 → 开发板 → esp32</code>，选择 <strong>ESP32 Dev Module</strong>（通用选择，兼容 NodeMCU-32S）。</li>
+      <li><code>Upload Speed</code>：选 <code>921600</code>（下载速度快）。</li>
+      <li><code>CPU Frequency</code>：默认 <code>240MHz (WiFi/BT)</code>。</li>
+      <li><code>Flash Size</code>：默认 <code>4MB (32Mb)</code>。</li>
+      <li>用 USB 数据线连接 ESP32 开发板到电脑，Windows 通常自动安装 CH340/CP210x 驱动。</li>
+      <li>菜单 <code>工具 → 端口</code>，选择对应的 COM 口（如 <code>COM3</code>）。</li>
+    </ol>
+
+    <p>如果电脑没有识别出 COM 口，需要手动安装 USB 转串口芯片驱动：NodeMCU-32S 用 CH340（搜索"CH340 驱动"），DevKitC 用 CP2102（搜索"CP2102 驱动"）。</p>
+
+    <h3>§27.2.4 PlatformIO 简介</h3>
+    <p>PlatformIO 是 VS Code 上的嵌入式开发插件，相比 Arduino IDE 有以下优势：项目管理更规范、库依赖自动管理、Git 集成、代码补全更强。安装方法：在 VS Code 扩展商店搜索"PlatformIO IDE"安装即可。新建项目时选择 <code>Espressif ESP32 Dev Module</code> 平台，代码语法与 Arduino 完全一致，只是工程结构不同。本课程推荐初学者先用 Arduino IDE 入门，再过渡到 PlatformIO。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch27-esp32-arduino-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+
+rectangle "安装 Arduino IDE" as A
+rectangle "首选项添加 ESP32 索引 URL" as B
+rectangle "开发板管理器安装 esp32 包" as C
+rectangle "选择 ESP32 Dev Module" as D
+rectangle "安装 USB 转串口驱动" as E
+rectangle "选择 COM 端口" as F
+rectangle "开始编程" as G
+A --&gt; B
+B --&gt; C
+C --&gt; D
+D --&gt; E
+E --&gt; F
+F --&gt; G
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 27-2 ESP32 开发环境搭建流程</div>
+
+    <h2>§27.3 第一个程序：Blink LED</h2>
+    <p>"Blink LED"是嵌入式开发的"Hello World"。本节通过点亮 NodeMCU-32S 上的板载蓝灯，介绍 Arduino 程序的基本结构。</p>
+
+    <h3>§27.3.1 程序结构</h3>
+    <p>Arduino 程序由两个必备函数组成：</p>
+    <ul>
+      <li><code>setup()</code>：上电或复位后<strong>只执行一次</strong>，用于初始化（配置引脚模式、串口、Wi-Fi 等）。</li>
+      <li><code>loop()</code>：在 <code>setup()</code> 之后<strong>循环执行</strong>，是程序主逻辑。</li>
+    </ul>
+    <p>这种结构相比传统 <code>main()</code> + <code>while(1)</code> 简化了模板代码，让初学者专注于业务逻辑。</p>
+
+    <h3>§27.3.2 代码实现</h3>
+    <p>NodeMCU-32S 板载蓝灯连接 GPIO2，低电平点亮。打开 Arduino IDE，新建 sketch，输入以下代码：</p>
+
+    <pre><code class="language-cpp">// 第一个 ESP32 程序：板载 LED 闪烁
+// NodeMCU-32S 板载蓝灯接 GPIO2，低电平点亮
+
+#define LED_PIN 2   // 板载 LED 引脚
+
+void setup() {
+  // 初始化 GPIO2 为输出模式
+  pinMode(LED_PIN, OUTPUT);
+  // 启动串口，波特率 115200
+  Serial.begin(115200);
+  Serial.println("\n=== ESP32 Blink LED ===");
+}
+
+void loop() {
+  digitalWrite(LED_PIN, LOW);    // 点亮 LED（低电平）
+  Serial.println("LED ON");
+  delay(1000);                   // 延时 1 秒
+
+  digitalWrite(LED_PIN, HIGH);   // 熄灭 LED（高电平）
+  Serial.println("LED OFF");
+  delay(1000);                   // 延时 1 秒
+}
+</code></pre>
+
+    <h3>§27.3.3 上传程序与串口监视器</h3>
+    <p>上传步骤：</p>
+    <ol>
+      <li>点击工具栏的 <code>→</code>（上传）按钮，Arduino IDE 自动编译并下载。</li>
+      <li>如果下载卡住"Connecting..."，按住 ESP32 板上的 <strong>BOOT</strong> 按键，直到出现"Connecting..."变进度条后松开。</li>
+      <li>下载完成后，IDE 底部显示 <code>Hash of data verified. Leaving... Hard resetting via RTS pin...</code>。</li>
+      <li>打开 <code>工具 → 串口监视器</code>，右下角波特率选 <code>115200</code>。</li>
+      <li>按一下 ESP32 板上的 <strong>EN</strong>（RST）按键复位，可看到串口输出 "LED ON"/"LED OFF"，板载蓝灯每秒闪烁一次。</li>
+    </ol>
+
+    <div class="tip">
+      <strong>BOOT 按键的作用</strong>：某些 ESP32 板的自动复位电路（DTR/RTS 二极管组合）与 USB 转串口芯片不兼容，需要手动按 BOOT 进入下载模式。如果每次下载都要按 BOOT，可参考开源电路图加焊两只二极管修复。
+    </div>
+
+    <h2>§27.4 GPIO 数字输入输出</h2>
+    <p>GPIO（General Purpose Input/Output）是最基础的外设。本节讲解 ESP32 GPIO 的输出（控制 LED）和输入（读取按键）。</p>
+
+    <h3>§27.4.1 数字输出</h3>
+    <p>除输入专用引脚（GPIO34-39）外，ESP32 的 GPIO 都可作数字输出。输出高电平为 3.3V，低电平为 0V，驱动能力约 20-40 mA（不可直接驱动大功率负载，需加三极管或继电器）。</p>
+
+    <pre><code class="language-cpp">// 流水灯：6 个 LED 依次点亮
+// 接线：LED 阳极接 GPIO16/17/18/19/21/22，阴极经 220Ω 电阻接地
+
+const int ledPins[] = {16, 17, 18, 19, 21, 22};
+const int numLeds = 6;
+
+void setup() {
+  for (int i = 0; i < numLeds; i++) {
+    pinMode(ledPins[i], OUTPUT);
+    digitalWrite(ledPins[i], LOW);  // 初始全部熄灭
+  }
+}
+
+void loop() {
+  // 正向流水
+  for (int i = 0; i < numLeds; i++) {
+    digitalWrite(ledPins[i], HIGH);
+    delay(100);
+    digitalWrite(ledPins[i], LOW);
+  }
+  // 反向流水
+  for (int i = numLeds - 1; i >= 0; i--) {
+    digitalWrite(ledPins[i], HIGH);
+    delay(100);
+    digitalWrite(ledPins[i], LOW);
+  }
+}
+</code></pre>
+
+    <h3>§27.4.2 数字输入与上拉电阻</h3>
+    <p>按键读取是数字输入的典型应用。ESP32 GPIO 内置可编程上拉/下拉电阻（约 45 kΩ），使用 <code>INPUT_PULLUP</code> 模式可省去外部上拉电阻。按键一端接 GPIO，另一端接地，按下时引脚被拉低。</p>
+
+    <pre><code class="language-cpp">// 按键控制 LED：按下亮，松开灭
+// 接线：按键接 GPIO4 与 GND；LED 接 GPIO2
+
+const int btnPin = 4;
+const int ledPin = 2;
+int lastState = HIGH;
+int ledState  = LOW;
+
+void setup() {
+  pinMode(btnPin, INPUT_PULLUP);  // 启用内部上拉
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(115200);
+}
+
+void loop() {
+  int cur = digitalRead(btnPin);
+  if (cur == LOW && lastState == HIGH) {  // 检测下降沿（按下瞬间）
+    ledState = !ledState;                 // 翻转 LED 状态
+    digitalWrite(ledPin, ledState);
+    Serial.printf("按键按下，LED %s\n", ledState ? "ON" : "OFF");
+    delay(20);  // 简单消抖
+  }
+  lastState = cur;
+}
+</code></pre>
+
+    <h3>§27.4.3 软件消抖</h3>
+    <p>机械按键在按下/松开瞬间会有 5-20 ms 的抖动，导致一次按下被识别为多次。常用消抖方法有：</p>
+    <ul>
+      <li><strong>延时消抖</strong>：检测到电平变化后 <code>delay(20)</code> 再读取，简单但阻塞。</li>
+      <li><strong>定时器消抖</strong>：检测到变化后启动 20 ms 定时器，定时器到期再读取最终电平。非阻塞。</li>
+      <li><strong>状态机消抖</strong>：使用状态机记录按键状态，结合时间戳判定。</li>
+    </ul>
+
+    <div class="tip">
+      <strong>引脚映射注意</strong>：NodeMCU-32S 板上标的"D4"实际对应 GPIO2，"D2"对应 GPIO4，并非一一对应。编程时务必使用 GPIO 编号而非 D 编号，可参考 <a href="https://randomnerdtutorials.com/esp32-pinout-reference-gpios/">Random Nerd Tutorials 的 ESP32 引脚参考</a>。
+    </div>
+
+    <h2>§27.5 串口通信</h2>
+    <p>串口是 ESP32 与电脑、其他设备通信的主要途径。ESP32 有 3 个硬件 UART：UART0 用于下载与串口监视器（GPIO1/3），UART1/UART2 可自由映射到任意 GPIO。</p>
+
+    <h3>§27.5.1 串口输出</h3>
+    <pre><code class="language-cpp">// 串口输出示例：每秒打印计数器
+void setup() {
+  Serial.begin(115200);  // 必须与串口监视器波特率一致
+  Serial.println("ESP32 Serial Demo");
+}
+
+int counter = 0;
+void loop() {
+  Serial.print("counter = ");          // 不换行
+  Serial.println(counter);             // 换行
+  Serial.printf("hex=%#x, bin=%B\n", counter, counter);  // 格式化
+  counter++;
+  delay(1000);
+}
+</code></pre>
+
+    <h3>§27.5.2 串口接收与命令处理</h3>
+    <pre><code class="language-cpp">// 串口命令控制：输入 "on" 点灯，"off" 灭灯
+const int ledPin = 2;
+String input = "";
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(ledPin, OUTPUT);
+  Serial.println("输入 on/off 控制 LED：");
+}
+
+void loop() {
+  while (Serial.available()) {       // 有数据可读
+    char c = Serial.read();          // 读一个字节
+    if (c == '\n') {                 // 遇到换行符表示命令结束
+      input.trim();                  // 去除空白
+      if (input == "on") {
+        digitalWrite(ledPin, LOW);   // 板载灯低电平点亮
+        Serial.println("LED ON");
+      } else if (input == "off") {
+        digitalWrite(ledPin, HIGH);
+        Serial.println("LED OFF");
+      } else {
+        Serial.printf("未知命令：%s\n", input.c_str());
+      }
+      input = "";
+    } else {
+      input += c;
+    }
+  }
+}
+</code></pre>
+
+    <h3>§27.5.3 第二串口与其他设备通信</h3>
+    <pre><code class="language-cpp">// 使用 UART2 与另一设备通信（如 GPS 模块）
+// 接线：GPS TX → GPIO16(RX2)，GPS RX → GPIO17(TX2)
+
+#define RXD2 16
+#define TXD2 17
+
+void setup() {
+  Serial.begin(115200);                    // 与电脑通信
+  Serial2.begin(9600, SERIAL_8N1, RXD2, TXD2);  // 与 GPS 通信
+  Serial.println("UART2 已启动");
+}
+
+void loop() {
+  if (Serial2.available()) {
+    String line = Serial2.readStringUntil('\n');
+    Serial.print("GPS: ");
+    Serial.println(line);
+  }
+}
+</code></pre>
+
+    <div class="tip">
+      <strong>波特率</strong>：ESP32 串口默认波特率为 115200，串口监视器必须设为相同值，否则会显示乱码。某些 AT 命令模块（如 ESP8266 AT 固件、蓝牙模块）使用 9600，需在 <code>Serial2.begin()</code> 中指定。
+    </div>
+
+    <h2>§27.6 定时器与中断</h2>
+    <p>定时器与中断是实现精确时序与非阻塞响应的关键。ESP32 提供硬件定时器、软件定时器（Ticker）和外部中断三种机制。</p>
+
+    <h3>§27.6.1 硬件定时器</h3>
+    <p>ESP64 内置 4 个 64 位通用定时器，分频后可产生微秒级精确中断。Arduino ESP32 提供 <code>HardwareTimer</code> 类（推荐）或 <code>hw_timer_t</code> API。</p>
+
+    <pre><code class="language-cpp">// 硬件定时器每 1 秒翻转 LED
+// 使用 timerBegin / timerAttachInterrupt / timerAlarm
+
+const int ledPin = 2;
+volatile bool toggle = false;
+
+hw_timer_t *timer = NULL;
+portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
+
+void IRAM_ATTR onTimer() {       // 中断服务程序必须加 IRAM_ATTR
+  portENTER_CRITICAL_ISR(&timerMux);
+  toggle = !toggle;
+  portEXIT_CRITICAL_ISR(&timerMux);
+}
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(ledPin, OUTPUT);
+
+  timer = timerBegin(0, 80, true);          // 定时器0，预分频80（1MHz），向上计数
+  timerAttachInterrupt(timer, &onTimer, true);
+  timerAlarmWrite(timer, 1000000, true);    // 1,000,000 µs = 1 秒，自动重装
+  timerAlarmEnable(timer);
+  Serial.println("定时器已启动");
+}
+
+void loop() {
+  bool local;
+  portENTER_CRITICAL(&timerMux);
+  local = toggle;
+  portEXIT_CRITICAL(&timerMux);
+  digitalWrite(ledPin, local ? LOW : HIGH);
+}
+</code></pre>
+
+    <h3>§27.6.2 软件定时器 Ticker</h3>
+    <p>对于精度要求不高的周期任务，<code>Ticker</code> 库更简单：</p>
+
+    <pre><code class="language-cpp">#include &lt;Ticker.h&gt;
+
+Ticker ticker;
+const int ledPin = 2;
+
+void toggleLED() {
+  static bool st = false;
+  digitalWrite(ledPin, st ? LOW : HIGH);
+  st = !st;
+}
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  ticker.attach(0.5, toggleLED);   // 每 0.5 秒调用一次
+}
+
+void loop() {
+  // 主循环可做其他事情
+  delay(10);
+}
+</code></pre>
+
+    <h3>§27.6.3 外部中断</h3>
+    <p>ESP32 任意 GPIO（除输入专用引脚也可）都支持外部中断：</p>
+
+    <pre><code class="language-cpp">// 按键外部中断：按下立即翻转 LED
+const int btnPin = 4;
+const int ledPin = 2;
+volatile bool flag = false;
+
+void IRAM_ATTR isrBtn() {       // 中断函数必须简短，加 IRAM_ATTR
+  flag = true;
+}
+
+void setup() {
+  pinMode(btnPin, INPUT_PULLUP);
+  pinMode(ledPin, OUTPUT);
+  attachInterrupt(digitalPinToInterrupt(btnPin), isrBtn, FALLING);
+  Serial.begin(115200);
+}
+
+bool ledSt = false;
+void loop() {
+  if (flag) {
+    delay(20);                  // 软件消抖
+    if (digitalRead(btnPin) == LOW) {
+      ledSt = !ledSt;
+      digitalWrite(ledPin, ledSt ? LOW : HIGH);
+      Serial.println("按键中断触发");
+    }
+    flag = false;
+  }
+}
+</code></pre>
+
+    <div class="tip">
+      <strong>中断服务程序注意事项</strong>：
+      <ul>
+        <li>函数必须加 <code>IRAM_ATTR</code> 放入内部 RAM，否则可能因 Flash 缓存未命中导致崩溃。</li>
+        <li>不能使用 <code>delay()</code>、<code>Serial.print()</code> 等阻塞或依赖中断的函数。</li>
+        <li>共享变量必须用 <code>portENTER_CRITICAL</code> 保护，或声明为 <code>volatile</code>。</li>
+        <li>执行时间尽量短（&lt;几十微秒），复杂处理放到 <code>loop()</code> 中。</li>
+      </ul>
+    </div>
+
+    <h2>§27.7 PWM 与 LEDC</h2>
+    <p>ESP32 没有传统 AVR 那种简单 PWM，而是使用<strong>LEDC（LED PWM Controller）</strong>硬件。LEDC 提供 16 通道、0-19 位可调分辨率、自动位深过渡，能输出稳定的 PWM 信号，可用于呼吸灯、舵机控制、电机调速等。</p>
+
+    <h3>§27.7.1 LEDC 基本用法</h3>
+    <p>LEDC 的核心三步：</p>
+    <ol>
+      <li><code>ledcSetup(channel, freq, resolution)</code>：配置通道的频率与分辨率。</li>
+      <li><code>ledcAttachPin(pin, channel)</code>：将 GPIO 绑定到通道。</li>
+      <li><code>ledcWrite(channel, duty)</code>：设置占空比。</li>
+    </ol>
+
+    <pre><code class="language-cpp">// 呼吸灯：GPIO2 上的 LED 渐亮渐灭
+const int ledPin = 2;
+const int channel = 0;       // 使用 LEDC 通道 0
+const int freq = 5000;       // 5 kHz
+const int resolution = 8;    // 8 位分辨率，占空比 0-255
+
+void setup() {
+  ledcSetup(channel, freq, resolution);
+  ledcAttachPin(ledPin, channel);
+}
+
+void loop() {
+  // 渐亮
+  for (int duty = 0; duty &lt;= 255; duty++) {
+    ledcWrite(channel, duty);
+    delay(8);
+  }
+  // 渐灭
+  for (int duty = 255; duty >= 0; duty--) {
+    ledcWrite(channel, duty);
+    delay(8);
+  }
+}
+</code></pre>
+
+    <h3>§27.7.2 舵机控制</h3>
+    <p>标准舵机要求 50 Hz PWM，脉宽 0.5-2.5 ms 对应 0-180°。可使用 <code>Servo</code> 库（已适配 ESP32）：</p>
+
+    <pre><code class="language-cpp">#include &lt;ESP32Servo.h&gt;
+
+Servo myservo;
+const int servoPin = 13;
+
+void setup() {
+  ESP32PWM::allocateTimer(0);
+  myservo.setPeriodHertz(50);          // 50 Hz
+  myservo.attach(servoPin, 500, 2400); // 脉宽 500-2400 µs
+}
+
+void loop() {
+  for (int angle = 0; angle &lt;= 180; angle += 10) {
+    myservo.write(angle);
+    delay(200);
+  }
+  for (int angle = 180; angle >= 0; angle -= 10) {
+    myservo.write(angle);
+    delay(200);
+  }
+}
+</code></pre>
+
+    <div class="tip">
+      <strong>LEDC 与传统 AVR PWM 的差异</strong>：AVR 单片机的 PWM 由定时器自动生成，配置寄存器较繁琐；ESP32 LEDC 是独立的 PWM 控制器，通过 API 即可配置，灵活性更高，但概念上更"重"。频率与分辨率的关系为：<code>freq × 2^resolution ≤ 80 MHz</code>，例如 8 位分辨率下最高频率约 312.5 kHz。
+    </div>
+
+    <h2>§27.8 ADC 模数转换</h2>
+    <p>ESP32 内置 2 个 12 位 SAR ADC，共 18 个通道。ADC1（GPIO32-39）8 通道可随时使用；ADC2（GPIO0/2/4/12-15/25-27）10 通道在 Wi-Fi 启用后不可用，这是新手常踩的坑。</p>
+
+    <h3>§27.8.1 基本读取</h3>
+    <pre><code class="language-cpp">// 读取电位器并打印
+const int potPin = 34;   // ADC1 通道，输入专用引脚
+
+void setup() {
+  Serial.begin(115200);
+  analogReadResolution(12);     // 12 位分辨率（默认）
+  analogSetAttenuation(ADC_11db);  // 量程扩展到约 0-3.3V
+}
+
+void loop() {
+  int raw = analogRead(potPin);          // 0-4095
+  float voltage = raw * 3.3 / 4095.0;
+  Serial.printf("raw=%4d  V=%.2f\n", raw, voltage);
+  delay(500);
+}
+</code></pre>
+
+    <h3>§27.8.2 衰减设置</h3>
+    <p>ESP32 ADC 默认量程为 0-1.1 V，需要通过衰减（attenuation）扩展。可选值如下：</p>
+
+    <table>
+      <thead><tr><th>衰减</th><th>有效量程</th><th>推荐</th></tr></thead>
+      <tbody>
+        <tr><td>ADC_0db（0 dB）</td><td>0-1.1 V</td><td>测量小信号</td></tr>
+        <tr><td>ADC_2_5db（2.5 dB）</td><td>0-1.5 V</td><td>—</td></tr>
+        <tr><td>ADC_6db（6 dB）</td><td>0-2.2 V</td><td>—</td></tr>
+        <tr><td>ADC_11db（11 dB）</td><td>0-3.3 V（典型 0-3.6 V）</td><td>常规用途，最常用</td></tr>
+      </tbody>
+    </table>
+
+    <h3>§27.8.3 应用实例：LM35 测温</h3>
+    <pre><code class="language-cpp">// LM35 温度传感器：每 10 mV 对应 1°C
+const int lm35Pin = 35;     // ADC1
+
+void setup() {
+  Serial.begin(115200);
+  analogReadResolution(12);
+  analogSetAttenuation(ADC_11db);
+}
+
+void loop() {
+  int raw = analogRead(lm35Pin);
+  float voltage = raw * 3.3 / 4095.0;
+  float temp = voltage * 100.0;   // LM35: 10 mV/°C
+  Serial.printf("温度: %.1f °C\n", temp);
+  delay(1000);
+}
+</code></pre>
+
+    <div class="tip">
+      <strong>ESP32 ADC 的非线性</strong>：ESP32 的 ADC 在低端和高端存在非线性误差（实测值偏离理想值），且不同芯片之间有差异。需要高精度测量时建议使用 <code>esp_adc_cal</code> 库进行校准（芯片内置 eFuse 校准数据）。ADC2 在 Wi-Fi 启用后不可用，这是新手最常踩的坑——若发现读取始终为 0 或 4095，先检查是否启用了 Wi-Fi 且使用的是 ADC2 引脚。
+    </div>
+
+    <h2>§27.9 Wi-Fi 联网</h2>
+    <p>Wi-Fi 是 ESP32 的核心卖点。Arduino ESP32 自带 <code>WiFi.h</code> 库，几行代码即可连接路由器、获取 IP、发起 HTTP 请求、搭建 Web 服务器。</p>
+
+    <h3>§27.9.1 连接 Wi-Fi</h3>
+    <pre><code class="language-cpp">#include &lt;WiFi.h&gt;
+
+const char* ssid     = "Your_SSID";
+const char* password = "Your_Password";
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.mode(WIFI_STA);                 // STA 模式：连接路由器
+  WiFi.begin(ssid, password);
+  Serial.print("连接 Wi-Fi");
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println();
+  Serial.print("IP 地址: ");
+  Serial.println(WiFi.localIP());
+  Serial.print("信号强度(RSSI): ");
+  Serial.print(WiFi.RSSI());
+  Serial.println(" dBm");
+}
+
+void loop() {
+  if (WiFi.status() != WL_CONNECTED) {  // 断线重连
+    Serial.println("Wi-Fi 断开，尝试重连...");
+    WiFi.reconnect();
+    delay(5000);
+  }
+  delay(10000);
+}
+</code></pre>
+
+    <h3>§27.9.2 HTTP Client</h3>
+    <p>使用 <code>HTTPClient.h</code> 发起 GET/POST 请求，访问 RESTful API：</p>
+
+    <pre><code class="language-cpp">#include &lt;WiFi.h&gt;
+#include &lt;HTTPClient.h&gt;
+
+const char* ssid = "Your_SSID";
+const char* password = "Your_Password";
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) delay(500);
+
+  HTTPClient http;
+  // GET 请求示例：获取天气
+  http.begin("http://www.weather.com.cn/data/sk/101280101.html");
+  int code = http.GET();
+  if (code > 0) {
+    String payload = http.getString();
+    Serial.printf("HTTP %d\n", code);
+    Serial.println(payload);
+  } else {
+    Serial.printf("请求失败: %s\n", http.errorToString(code).c_str());
+  }
+  http.end();
+}
+
+void loop() {}
+</code></pre>
+
+    <h3>§27.9.3 Web Server 控制 LED</h3>
+    <p>使用 <code>WebServer.h</code> 在 ESP32 上搭建简易 Web 服务器，通过浏览器控制 LED：</p>
+
+    <pre><code class="language-cpp">#include &lt;WiFi.h&gt;
+#include &lt;WebServer.h&gt;
+
+const char* ssid = "Your_SSID";
+const char* password = "Your_Password";
+WebServer server(80);
+const int ledPin = 2;
+
+void handleRoot() {
+  String html = "&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset='utf-8'&gt;"
+                "&lt;title&gt;ESP32 LED&lt;/title&gt;&lt;/head&gt;&lt;body&gt;"
+                "&lt;h1&gt;ESP32 LED 控制&lt;/h1&gt;"
+                "&lt;p&gt;&lt;a href='/on'&gt;&lt;button style='font-size:24px'&gt;开&lt;/button&gt;&lt;/a&gt;"
+                "&lt;a href='/off'&gt;&lt;button style='font-size:24px'&gt;关&lt;/button&gt;&lt;/a&gt;&lt;/p&gt;"
+                "&lt;/body&gt;&lt;/html&gt;";
+  server.send(200, "text/html", html);
+}
+
+void handleOn()  { digitalWrite(ledPin, LOW);  server.sendHeader("Location","/"); server.send(303); }
+void handleOff() { digitalWrite(ledPin, HIGH); server.sendHeader("Location","/"); server.send(303); }
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(ledPin, OUTPUT);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) delay(500);
+  Serial.print("IP: "); Serial.println(WiFi.localIP());
+
+  server.on("/", handleRoot);
+  server.on("/on", handleOn);
+  server.on("/off", handleOff);
+  server.begin();
+}
+
+void loop() {
+  server.handleClient();
+}
+</code></pre>
+
+    <p>在浏览器访问 ESP32 的 IP 地址，即可看到控制页面，点击按钮即可开关 LED。</p>
+
+    <h3>§27.9.4 MQTT 物联网通信</h3>
+    <p>MQTT 是物联网最常用的轻量级消息协议。使用 <code>PubSubClient</code> 库（在库管理器安装）连接 MQTT Broker：</p>
+
+    <pre><code class="language-cpp">#include &lt;WiFi.h&gt;
+#include &lt;PubSubClient.h&gt;
+
+const char* ssid = "Your_SSID";
+const char* password = "Your_Password";
+const char* mqttServer = "broker.emqx.io";  // 公共测试 Broker
+const int   mqttPort   = 1883;
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+
+void callback(char* topic, byte* payload, unsigned int length) {
+  Serial.print("收到 ["); Serial.print(topic); Serial.print("]: ");
+  for (int i = 0; i &lt; length; i++) Serial.write((char)payload[i]);
+  Serial.println();
+}
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) delay(500);
+
+  client.setServer(mqttServer, mqttPort);
+  client.setCallback(callback);
+}
+
+void loop() {
+  if (!client.connected()) {
+    while (!client.connect("ESP32Client_001")) delay(2000);
+    client.subscribe("esp32/test/cmd");
+    client.publish("esp32/test/status", "online");
+  }
+  client.loop();
+
+  static unsigned long last = 0;
+  if (millis() - last > 5000) {
+    last = millis();
+    client.publish("esp32/test/uptime", String(millis()/1000).c_str());
+  }
+}
+</code></pre>
+
+    <div class="tip">
+      <strong>常用 MQTT Broker</strong>：公共测试可用 <code>broker.emqx.io</code>、<code>test.mosquitto.org</code>、HiveMQ <code>broker.hivemq.com</code>；生产部署推荐自建 EMQX 或 Mosquitto，或使用阿里云 IoT 平台、腾讯云物联网通信。
+    </div>
+
+    <h2>§27.10 BLE 蓝牙</h2>
+    <p>ESP32 同时支持经典蓝牙（SPP 串口）和低功耗蓝牙（BLE）。本节聚焦 BLE，它是物联网的主流蓝牙协议。</p>
+
+    <h3>§27.10.1 BLE vs 经典蓝牙</h3>
+    <table>
+      <thead><tr><th>维度</th><th>经典蓝牙</th><th>BLE</th></tr></thead>
+      <tbody>
+        <tr><td>版本</td><td>2.1 + EDR</td><td>4.0-5.x</td></tr>
+        <tr><td>功耗</td><td>数十 mA</td><td>µA 级（连接时）</td></tr>
+        <tr><td>速率</td><td>1-3 Mbps</td><td>1-2 Mbps</td></tr>
+        <tr><td>典型场景</td><td>蓝牙耳机、SPP 串口</td><td>传感器、健康设备、智能家居</td></tr>
+        <tr><td>ESP32 API</td><td>BluetoothSerial</td><td>BLEDevice</td></tr>
+      </tbody>
+    </table>
+
+    <h3>§27.10.2 GATT 服务搭建</h3>
+    <p>BLE 使用 GATT（Generic Attribute Profile）协议组织数据：Server 暴露 Service，Service 包含多个 Characteristic，每个 Characteristic 有 UUID 与读写权限。</p>
+
+    <pre><code class="language-cpp">// ESP32 BLE Server：暴露一个可读写的特征值
+#include &lt;BLEDevice.h&gt;
+#include &lt;BLEServer.h&gt;
+#include &lt;BLEUtils.h&gt;
+#include &lt;BLE2902.h&gt;
+
+#define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
+#define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
+
+BLECharacteristic *pChar;
+std::string value = "Hello BLE";
+
+void setup() {
+  Serial.begin(115200);
+  BLEDevice::init("ESP32-BLE-Server");
+  BLEServer *pServer = BLEDevice::createServer();
+  BLEService *pService = pServer->createService(SERVICE_UUID);
+
+  pChar = pService->createCharacteristic(
+            CHARACTERISTIC_UUID,
+            BLECharacteristic::PROPERTY_READ |
+            BLECharacteristic::PROPERTY_WRITE |
+            BLECharacteristic::PROPERTY_NOTIFY);
+  pChar->setValue(value);
+  pChar->addDescriptor(new BLE2902());
+  pService->start();
+
+  BLEAdvertising *pAdv = BLEDevice::getAdvertising();
+  pAdv->addServiceUUID(SERVICE_UUID);
+  BLEDevice::startAdvertising();
+  Serial.println("BLE 已启动，可用 nRF Connect 连接");
+}
+
+void loop() {
+  value = pChar->getValue();
+  if (value.length() > 0) {
+    Serial.printf("收到写入: %s\n", value.c_str());
+    pChar->setValue("Echo: " + value);
+    pChar->notify();
+  }
+  delay(1000);
+}
+</code></pre>
+
+    <h3>§27.10.3 用 nRF Connect 测试</h3>
+    <ol>
+      <li>手机安装 <strong>nRF Connect for Mobile</strong>（Nordic 官方，免费）。</li>
+      <li>打开 APP，扫描设备，找到 <code>ESP32-BLE-Server</code>。</li>
+      <li>点击 Connect → 看到 Unknown Service。</li>
+      <li>展开 Service，找到 Characteristic，点击下行箭头读取、上行箭头写入字符串。</li>
+      <li>ESP32 串口会显示收到的内容，并回送 "Echo: ..."。</li>
+    </ol>
+
+    <div class="tip">
+      <strong>经典蓝牙简单用法</strong>：仅需串口透传时，<code>BluetoothSerial</code> 库更简单：
+      <pre><code class="language-cpp">#include "BluetoothSerial.h"
+BluetoothSerial SerialBT;
+void setup() { SerialBT.begin("ESP32-BT"); }
+void loop() { if (SerialBT.available()) Serial.write(SerialBT.read()); }
+</code></pre>
+      配对后在电脑/手机的蓝牙串口终端即可双向通信。
+    </div>
+
+    <h2>§27.11 I2C 与 SPI 通信</h2>
+    <p>I2C 与 SPI 是连接传感器、显示屏、存储芯片最常用的两种总线。</p>
+
+    <h3>§27.11.1 I2C 基础</h3>
+    <p>ESP32 默认 I2C 引脚：<strong>SDA=GPIO21，SCL=GPIO22</strong>。可使用 <code>Wire</code> 库，引脚也可任意映射。</p>
+
+    <pre><code class="language-cpp">#include &lt;Wire.h&gt;
+
+void setup() {
+  Serial.begin(115200);
+  Wire.begin(21, 22, 100000);   // SDA, SCL, 100 kHz
+  Serial.println("扫描 I2C 设备...");
+}
+
+void loop() {
+  byte count = 0;
+  for (byte addr = 1; addr &lt; 127; addr++) {
+    Wire.beginTransmission(addr);
+    if (Wire.endTransmission() == 0) {
+      Serial.printf("发现设备 @0x%02X\n", addr);
+      count++;
+    }
+  }
+  Serial.printf("共发现 %d 个设备\n\n", count);
+  delay(3000);
+}
+</code></pre>
+
+    <h3>§27.11.2 BMP280 气压传感器</h3>
+    <pre><code class="language-cpp">#include &lt;Wire.h&gt;
+#include &lt;Adafruit_BMP280.h&gt;
+
+Adafruit_BMP280 bmp;
+
+void setup() {
+  Serial.begin(115200);
+  if (!bmp.begin(0x76)) {           // BMP280 默认地址 0x76 或 0x77
+    Serial.println("未找到 BMP280，检查接线！");
+    while (1);
+  }
+  bmp.setSampling(Adafruit_BMP280::MODE_NORMAL,
+                  Adafruit_BMP280::SAMPLING_X2,
+                  Adafruit_BMP280::SAMPLING_X16,
+                  Adafruit_BMP280::FILTER_X16,
+                  Adafruit_BMP280::STANDBY_MS_500);
+}
+
+void loop() {
+  Serial.printf("T=%.2f°C  P=%.2fhPa  Alt=%.2fm\n",
+                bmp.readTemperature(),
+                bmp.readPressure()/100.0,
+                bmp.readAltitude(1013.25));
+  delay(2000);
+}
+</code></pre>
+
+    <h3>§27.11.3 SPI 与 SD 卡</h3>
+    <p>ESP32 默认 VSPI 引脚：<strong>CLK=GPIO18，MISO=GPIO19，MOSI=GPIO23，CS=GPIO5</strong>。读 SD 卡示例：</p>
+
+    <pre><code class="language-cpp">#include &lt;SPI.h&gt;
+#include &lt;SD.h&gt;
+
+#define CS_PIN 5
+
+void setup() {
+  Serial.begin(115200);
+  if (!SD.begin(CS_PIN)) {
+    Serial.println("SD 卡初始化失败！");
+    return;
+  }
+  Serial.println("SD 卡初始化成功");
+
+  File f = SD.open("/test.txt", FILE_WRITE);
+  if (f) {
+    f.println("Hello from ESP32");
+    f.close();
+    Serial.println("写入完成");
+  }
+
+  f = SD.open("/test.txt");
+  if (f) {
+    while (f.available()) Serial.write(f.read());
+    f.close();
+  }
+}
+
+void loop() {}
+</code></pre>
+
+    <h2>§27.12 OTA 升级</h2>
+    <p>OTA（Over-The-Air）无线升级是物联网设备的刚需。Arduino ESP32 支持两种 OTA：ArduinoOTA（通过 WiFi 上传程序）和 HTTP OTA（从服务器下载固件）。</p>
+
+    <h3>§27.12.1 ArduinoOTA 基础</h3>
+    <pre><code class="language-cpp">#include &lt;WiFi.h&gt;
+#include &lt;ESPmDNS.h&gt;
+#include &lt;WiFiUdp.h&gt;
+#include &lt;ArduinoOTA.h&gt;
+
+const char* ssid = "Your_SSID";
+const char* password = "Your_Password";
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) delay(500);
+
+  ArduinoOTA.setHostname("esp32-ota");
+  ArduinoOTA.setPassword("admin");
+  ArduinoOTA.onStart([]() { Serial.println("OTA 开始"); });
+  ArduinoOTA.onEnd([]()   { Serial.println("\nOTA 结束"); });
+  ArduinoOTA.onProgress([](unsigned int p, unsigned int t) {
+    Serial.printf("进度: %u%%\r", p * 100 / t);
+  });
+  ArduinoOTA.onError([](ota_error_t err) {
+    Serial.printf("OTA 错误[%u]\n", err);
+  });
+  ArduinoOTA.begin();
+  Serial.println("OTA 就绪");
+  Serial.print("IP: "); Serial.println(WiFi.localIP());
+}
+
+void loop() {
+  ArduinoOTA.handle();
+}
+</code></pre>
+
+    <p>上传此程序后，重启 Arduino IDE，"工具 → 端口"会出现网络端口 <code>esp32-ota at 192.168.x.x</code>。选择该端口即可无线上传新固件，无需 USB 连接。</p>
+
+    <h3>§27.12.2 HTTP OTA</h3>
+    <p>从 HTTP 服务器下载固件并刷写，适合批量远程升级：</p>
+
+    <pre><code class="language-cpp">#include &lt;WiFi.h&gt;
+#include &lt;HTTPClient.h&gt;
+#include &lt;Update.h&gt;
+
+const char* url = "http://192.168.1.100/firmware.bin";
+
+void doOTAUpdate() {
+  HTTPClient http;
+  http.begin(url);
+  int code = http.GET();
+  if (code == 200) {
+    int total = http.getSize();
+    WiFiClient *stream = http.getStreamPtr();
+    Update.begin(total);
+    size_t written = Update.writeStream(*stream);
+    if (written == total && Update.end()) {
+      Serial.println("OTA 成功，重启");
+      ESP.restart();
+    } else {
+      Serial.println("OTA 写入失败");
+    }
+  }
+  http.end();
+}
+</code></pre>
+
+    <div class="tip">
+      <strong>OTA 应用场景</strong>：已部署在户外的设备（如气象站、传感器节点）若每次升级都拆回烧录成本极高。OTA 允许通过 Wi-Fi 远程推送新固件。但 OTA 也带来安全风险——固件被截获或篡改可导致设备被控制。生产环境应启用 HTTPS 下载固件、签名校验、回滚机制（ESP32 支持 OTA 分区回滚）。
+    </div>
+
+    <h2>§27.13 调试技巧与常见问题</h2>
+    <p>ESP32 功能强大但也容易出现"崩溃、重启、看门狗复位"等问题。本节介绍常见排错方法。</p>
+
+    <h3>§27.13.1 串口调试</h3>
+    <p>串口是最重要的调试手段。建议在每个关键步骤加 <code>Serial.printf()</code> 输出变量值与执行流程，能快速定位"卡在哪一步"。配合 <code>Serial.setDebugOutput(true)</code> 可启用 ESP-IDF 内部日志，看到 Wi-Fi 协议栈、内存分配等底层信息。</p>
+
+    <h3>§27.13.2 Guru Meditation Error 与堆栈解析</h3>
+    <p>ESP32 崩溃时会输出类似下面的信息：</p>
+
+    <pre><code class="language-text">Guru Meditation Error: Core  1 panic'ed (LoadProhibited). Exception was unhandled.
+A0      : 0x800f4abc  A1      : 0x3ffb1e70  ...
+EXCVADDR: 0x00000000
+Backtrace: 0x400d1234:0x3ffb1e70 0x400d2233:0x3ffb1e90 ...
+</code></pre>
+
+    <p>"Guru Meditation Error"是 Amiga 电脑时代遗留的命名，本质是 CPU 异常。处理步骤：</p>
+    <ol>
+      <li>记下 Backtrace 的十六进制地址。</li>
+      <li>打开 <a href="https://github.com/me-no-dev/EspExceptionDecoder">EspExceptionDecoder</a> 工具（Python 脚本）。</li>
+      <li>输入地址与固件 ELF 文件，工具会解析出对应的源代码行号。</li>
+      <li>常见原因：空指针解引用、数组越界、在 ISR 中调用阻塞函数、栈溢出。</li>
+    </ol>
+
+    <h3>§27.13.3 看门狗复位</h3>
+    <p>ESP32 默认启用 Task WDT（任务看门狗），约 5 秒未喂狗就复位。常见触发场景：</p>
+    <ul>
+      <li><code>loop()</code> 中长时间无 <code>delay()</code> 或 <code>yield()</code>。</li>
+      <li>Wi-Fi 连接阻塞超过 5 秒。</li>
+      <li>任务优先级设置不当导致空闲任务饿死。</li>
+    </ul>
+    <p>解决方法：在长循环中加 <code>delay(1)</code> 或 <code>yield()</code> 喂狗；若确实需要长任务，将其放入独立 FreeRTOS 任务并设置较高优先级。</p>
+
+    <h3>§27.13.4 Brownout Detector</h3>
+    <p>串口反复输出 <code>Brownout detector was triggered</code> 后重启，表示<strong>电压跌落</strong>。原因多为：</p>
+    <ul>
+      <li>USB 供电不足（如老旧电脑 USB 2.0 口电流不够）。</li>
+      <li>Wi-Fi 发射瞬间峰值电流（300+ mA）拉低电压。</li>
+      <li>外设（舵机、电机）启动电流过大。</li>
+    </ul>
+    <p>解决：换用 5V/2A 独立电源、外接 3.3V LDO、加大电容（100 µF + 0.1 µF）、避免用 USB 直接驱动大功率负载。</p>
+
+    <h3>§27.13.5 双核任务分配</h3>
+    <p>ESP32 双核：Core0 跑 Wi-Fi/蓝牙协议栈，Core1 用于应用。使用 <code>xTaskCreatePinnedToCore</code> 将任务绑定到指定核心：</p>
+
+    <pre><code class="language-cpp">// 在 Core1 上跑一个独立任务
+void taskLoop(void *pv) {
+  while (1) {
+    Serial.printf("Core %d, free heap=%u\n",
+                  xPortGetCoreID(), ESP.getFreeHeap());
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
+  }
+}
+
+void setup() {
+  Serial.begin(115200);
+  xTaskCreatePinnedToCore(taskLoop, "demo", 4096, NULL, 1, NULL, 1);
+}
+
+void loop() {
+  delay(10);
+}
+</code></pre>
+
+    <h3>§27.13.6 内存管理</h3>
+    <pre><code class="language-cpp">Serial.printf("可用堆: %u bytes\n", ESP.getFreeHeap());
+Serial.printf("最小可用堆: %u bytes\n", ESP.getMinFreeHeap());
+Serial.printf("Sketch 大小: %u bytes\n", ESP.getSketchSize());
+Serial.printf("Flash 大小: %u bytes\n", ESP.getFlashChipSize());
+</code></pre>
+
+    <p>若发现 <code>ESP.getFreeHeap()</code> 持续下降，说明存在内存泄漏。常见原因：String 未释放、动态数组只 malloc 不 free、回调中创建对象未释放。</p>
+
+    <h2>§27.14 综合项目：Wi-Fi 温湿度监控</h2>
+    <p>本节通过一个完整项目整合前面所学：使用 ESP32 + DHT22 + OLED 读取温湿度，本地显示，并通过 Wi-Fi 上传到 MQTT Broker（Home Assistant / ThingsBoard），同时提供 Web 配置页面设置 SSID 密码。</p>
+
+    <h3>§27.14.1 硬件清单</h3>
+    <table>
+      <thead><tr><th>元件</th><th>型号</th><th>接口</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td>主控</td><td>ESP32 NodeMCU-32S</td><td>—</td><td>主处理器与联网</td></tr>
+        <tr><td>温湿度传感器</td><td>DHT22（AM2302）</td><td>单总线 GPIO4</td><td>采集温度湿度</td></tr>
+        <tr><td>显示屏</td><td>0.96" OLED SSD1306</td><td>I2C（SDA=21, SCL=22）</td><td>本地显示</td></tr>
+        <tr><td>电阻</td><td>10 kΩ</td><td>—</td><td>DHT22 数据线上拉</td></tr>
+      </tbody>
+    </table>
+
+    <h3>§27.14.2 数据流</h3>
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch27-esp32-arduino-fig3.svg" alt="PlantUML 图 3" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+
+rectangle "DHT22 传感器" as A
+rectangle "ESP32" as B
+rectangle "OLED 显示" as C
+rectangle "MQTT Broker" as D
+rectangle "Home Assistant" as E
+rectangle "ThingsBoard" as F
+rectangle "手机/电脑浏览器" as G
+rectangle "配置页面\n设置 SSID/密码" as H
+A --&gt; B : 单总线
+B --&gt; C : I2C
+B --&gt; D : Wi-Fi
+D --&gt; E
+D --&gt; F
+G --&gt; B : HTTP
+B --&gt; H
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 27-3 温湿度监控系统数据流</div>
+
+    <h3>§27.14.3 完整代码</h3>
+    <pre><code class="language-cpp">// ESP32 Wi-Fi 温湿度监控
+// 依赖库：DHT sensor library、Adafruit SSD1306、Adafruit GFX、PubSubClient
+#include &lt;WiFi.h&gt;
+#include &lt;WebServer.h&gt;
+#include &lt;PubSubClient.h&gt;
+#include &lt;DHT.h&gt;
+#include &lt;Adafruit_SSD1306.h&gt;
+#include &lt;Preferences.h&gt;
+
+// ---------- 引脚与硬件 ----------
+#define DHT_PIN     4
+#define DHT_TYPE    DHT22
+#define OLED_ADDR   0x3C
+#define SCREEN_W    128
+#define SCREEN_H    64
+
+DHT dht(DHT_PIN, DHT_TYPE);
+Adafruit_SSD1306 display(SCREEN_W, SCREEN_H, &Wire, -1);
+WebServer server(80);
+WiFiClient espClient;
+PubSubClient client(espClient);
+Preferences prefs;
+
+// ---------- MQTT 配置 ----------
+const char* mqttServer = "broker.emqx.io";
+const int   mqttPort   = 1883;
+const char* topicTemp  = "esp32/env/temperature";
+const char* topicHum   = "esp32/env/humidity";
+
+// ---------- 默认 Wi-Fi（可被 Web 修改） ----------
+String staSSID = "";
+String staPass = "";
+
+// ---------- AP 模式配置页面 ----------
+const char* configPage = R"====(
+&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset='utf-8'&gt;
+&lt;title&gt;ESP32 配置&lt;/title&gt;&lt;/head&gt;&lt;body&gt;
+&lt;h1&gt;Wi-Fi 配置&lt;/h1&gt;
+&lt;form action='/save'&gt;
+  SSID:&lt;br&gt;&lt;input name='s'&gt;&lt;br&gt;
+  密码:&lt;br&gt;&lt;input name='p'&gt;&lt;br&gt;&lt;br&gt;
+  &lt;input type='submit' value='保存并连接'&gt;
+&lt;/form&gt;&lt;/body&gt;&lt;/html&gt;
+)====";
+
+void startAPMode() {
+  WiFi.softAP("ESP32-Config-AP");
+  Serial.print("AP IP: "); Serial.println(WiFi.softAPIP());
+  server.on("/", []() { server.send(200, "text/html", configPage); });
+  server.on("/save", []() {
+    staSSID = server.arg("s");
+    staPass = server.arg("p");
+    prefs.putString("ssid", staSSID);
+    prefs.putString("pass", staPass);
+    server.send(200, "text/html", "&lt;h2&gt;已保存，重启中...&lt;/h2&gt;");
+    delay(1500);
+    ESP.restart();
+  });
+  server.begin();
+}
+
+void connectSTA() {
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(staSSID.c_str(), staPass.c_str());
+  Serial.print("连接 Wi-Fi");
+  int tries = 0;
+  while (WiFi.status() != WL_CONNECTED && tries &lt; 20) {
+    delay(500); Serial.print("."); tries++;
+  }
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.print("\nIP: "); Serial.println(WiFi.localIP());
+  } else {
+    Serial.println("\n连接失败，进入 AP 模式");
+    startAPMode();
+  }
+}
+
+void showOLED(float t, float h) {
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(SSD1306_WHITE);
+  display.setCursor(0, 0);
+  display.println("ESP32 Env Monitor");
+  display.drawLine(0, 10, 128, 10, SSD1306_WHITE);
+  display.setCursor(0, 18);
+  display.printf("Temp: %.1f C", t);
+  display.setCursor(0, 32);
+  display.printf("Humi: %.1f %%", h);
+  display.setCursor(0, 48);
+  if (WiFi.status() == WL_CONNECTED) {
+    display.print("IP: "); display.println(WiFi.localIP());
+  } else {
+    display.println("AP: ESP32-Config-AP");
+  }
+  display.display();
+}
+
+void mqttReconnect() {
+  while (!client.connected()) {
+    if (client.connect("ESP32Env_001")) {
+      Serial.println("MQTT 已连接");
+    } else {
+      Serial.print("MQTT 失败 rc="); Serial.print(client.state());
+      delay(2000);
+    }
+  }
+}
+
+void setup() {
+  Serial.begin(115200);
+  dht.begin();
+  if (!display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR))
+    Serial.println("OLED 未找到");
+  display.clearDisplay();
+  display.println("Booting..."); display.display();
+
+  prefs.begin("wifi", true);
+  staSSID = prefs.getString("ssid", "");
+  staPass = prefs.getString("pass", "");
+  prefs.end();
+
+  if (staSSID.length() == 0) {
+    startAPMode();
+  } else {
+    connectSTA();
+    client.setServer(mqttServer, mqttPort);
+  }
+}
+
+unsigned long lastSample = 0;
+void loop() {
+  server.handleClient();
+
+  if (millis() - lastSample > 5000) {
+    lastSample = millis();
+    float t = dht.readTemperature();
+    float h = dht.readHumidity();
+    if (isnan(t) || isnan(h)) {
+      Serial.println("DHT 读取失败");
+      return;
+    }
+    Serial.printf("T=%.1f C  H=%.1f %%\n", t, h);
+    showOLED(t, h);
+
+    if (WiFi.status() == WL_CONNECTED) {
+      if (!client.connected()) mqttReconnect();
+      client.loop();
+      client.publish(topicTemp, String(t, 1).c_str(), true);
+      client.publish(topicHum,  String(h, 1).c_str(), true);
+    }
+  }
+}
+</code></pre>
+
+    <h3>§27.14.4 部署到 Home Assistant</h3>
+    <ol>
+      <li>Home Assistant 安装 <strong>MQTT 集成</strong>，配置 Broker（Mosquitto 或 EMQX）。</li>
+      <li>HA 配置文件 <code>configuration.yaml</code> 添加：
+        <pre><code class="language-yaml">sensor:
+  - platform: mqtt
+    name: "室内温度"
+    state_topic: "esp32/env/temperature"
+    unit_of_measurement: "°C"
+  - platform: mqtt
+    name: "室内湿度"
+    state_topic: "esp32/env/humidity"
+    unit_of_measurement: "%"
+</code></pre>
+      </li>
+      <li>重启 HA，即可在仪表盘看到温度湿度实体，可加入 Lovelace 卡片展示历史曲线。</li>
+      <li>ThingsBoard 部署类似：在设备接入中创建设备，复制 access token 作为 MQTT 用户名，使用 Pico/ESP32 上传 telemetry。</li>
+    </ol>
+
+    <div class="tip">
+      <strong>项目扩展方向</strong>：
+      <ul>
+        <li>增加 OTA 升级：固件更新无需拆回设备。</li>
+        <li>Deep Sleep 模式：电池供电每 10 分钟采集一次，待机功耗降至 µA 级。</li>
+        <li>多传感器：增加 BMP280（气压）、MQ-135（空气质量）、PM2.5 等。</li>
+        <li>数据可视化：接入 Grafana + InfluxDB 做长期数据分析。</li>
+        <li>告警：温度超阈值通过 Telegram/企业微信推送。</li>
+      </ul>
+    </div>
+
+    <h2>§27.15 常见问题与进阶资源</h2>
+    <h3>§27.15.1 FAQ</h3>
+    <table>
+      <thead><tr><th>问题</th><th>原因与解决</th></tr></thead>
+      <tbody>
+        <tr><td>程序烧不进，停在 "Connecting..."</td><td>按住 BOOT 键再点上传，出现进度条后松开；或加焊自动复位二极管</td></tr>
+        <tr><td>串口监视器全是乱码</td><td>波特率不一致：ESP32 默认 115200，串口监视器右下角选 115200</td></tr>
+        <tr><td>Wi-Fi 连不上</td><td>检查 SSID/密码；2.4 GHz 与 5 GHz 不兼容（仅支持 2.4 GHz）；信号太弱</td></tr>
+        <tr><td>ADC2 读数始终 0 或 4095</td><td>Wi-Fi 启用后 ADC2 不可用，改用 ADC1（GPIO32-39）</td></tr>
+        <tr><td>反复重启 + Brownout</td><td>供电不足，换 5V/2A 电源或外接 LDO；避免 USB 直接驱动大功率外设</td></tr>
+        <tr><td>编译错误 "xxx was not declared"</td><td>库未安装：在库管理器搜索并安装；或 #include 缺失</td></tr>
+        <tr><td>OTA 无法发现设备</td><td>电脑与 ESP32 必须在同一子网；关闭防火墙或允许 Arduino IDE 通过</td></tr>
+      </tbody>
+    </table>
+
+    <h3>§27.15.2 进阶方向</h3>
+    <ul>
+      <li><strong>ESP-IDF 原生框架</strong>：乐鑫官方 IoT Development Framework，相比 Arduino 提供更细粒度的控制、更优化的内存管理、更完整的 FreeRTOS 集成。适合商业产品开发。学习资源：<a href="https://docs.espressif.com/projects/esp-idf/">ESP-IDF Programming Guide</a>。</li>
+      <li><strong>ESP32-S3 / C3 RISC-V</strong>：S3 支持 USB OTG 与 AI 向量指令，适合 USB 设备与边缘 AI；C3 是 RISC-V 单核低功耗版本，适合成本敏感的 IoT 节点。两者仍兼容 Arduino 框架。</li>
+      <li><strong>MicroPython</strong>：用 Python 而非 C/C++ 编程 ESP32，适合快速原型与教学。<a href="https://micropython.org/">https://micropython.org/</a>。</li>
+      <li><strong>LVGL 图形库</strong>：在 ESP32 + TFT 屏幕上跑流畅的 GUI，适合做智能家居控制面板。需配合 PSRAM 版本（WROVER）。</li>
+      <li><strong>Edge AI</strong>：ESP-NN 库支持在 ESP32-S3 上跑量化神经网络，结合 TensorFlow Lite Micro 实现语音关键词识别、图像分类。</li>
+    </ul>
+
+    <h3>§27.15.3 推荐项目社区</h3>
+    <ul>
+      <li><strong>Arduino Project Hub</strong>：<a href="https://projecthub.arduino.cc/">https://projecthub.arduino.cc/</a>，Arduino 官方项目库，搜索 ESP32 可找到上百个实战项目。</li>
+      <li><strong>Hackster.io</strong>：<a href="https://www.hackster.io/">https://www.hackster.io/</a>，全球硬件项目社区，ESP32 标签下有大量高质量教程。</li>
+      <li><strong>Random Nerd Tutorials</strong>：<a href="https://randomnerdtutorials.com/">https://randomnerdtutorials.com/</a>，ESP32/ESP8266 入门最权威的博客之一，几乎覆盖所有外设示例。</li>
+      <li><strong>ESP32 Forum</strong>：<a href="https://esp32.com/">https://esp32.com/</a>，乐鑫官方论坛，遇到疑难杂症可在此提问。</li>
+    </ul>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>ESP32 是乐鑫的双核 32 位物联网 SoC，集成 Wi-Fi 802.11 b/g/n、BLE 4.2 与经典蓝牙，520 KB SRAM、4 MB Flash，价格仅 10 元，是物联网终端的事实标准。常见开发板为 NodeMCU-32S 与 DevKitC。</li>
+        <li>开发环境通过 Arduino IDE 添加 ESP32 开发板支持 URL 即可，选择"ESP32 Dev Module"与对应 COM 端口；程序结构是 <code>setup()</code> + <code>loop()</code>，板载蓝灯接 GPIO2，低电平点亮。</li>
+        <li>基础外设编程：GPIO 数字输入输出（注意 GPIO0/2/12/15 影响启动模式）、串口 <code>Serial</code> 三路 UART、定时器（硬件 <code>hw_timer_t</code> 与软件 <code>Ticker</code>）、外部中断（<code>attachInterrupt</code>，需 <code>IRAM_ATTR</code>）。</li>
+        <li>PWM 使用 LEDC 控制器（16 通道、可调分辨率），ADC1（GPIO32-39）可在 Wi-Fi 启用时使用、ADC2 不可；I2C 默认 SDA=21/SCL=22；SPI 默认 VSPI 引脚 18/19/23/5。</li>
+        <li>Wi-Fi 联网：连接路由器用 <code>WiFi.begin</code>，HTTP 请求用 <code>HTTPClient</code>，Web 服务器用 <code>WebServer</code>，MQTT 用 <code>PubSubClient</code>。BLE 通过 <code>BLEDevice</code> 暴露 GATT 服务，可用 nRF Connect 测试。</li>
+        <li>OTA 升级支持 ArduinoOTA（无线上传）与 HTTP OTA（下载固件），是物联网远程维护的关键能力。调试方面要学会串口输出、EspExceptionDecoder 解析崩溃、看门狗喂狗、Brownout 排查。</li>
+        <li>综合项目完整展示了传感器采集 → 本地显示 → Wi-Fi 上传 → MQTT Broker → Home Assistant 的端到端物联网开发流程，并支持 Web 配置页面设置 SSID 密码，可作为毕业设计与产品原型的基础。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>对比 ESP32 与 STC89C52RC、STM32F407 在内核架构、内存、联网能力、开发框架上的差异。说明 ESP32 为什么适合物联网终端。</li>
+        <li>为什么 GPIO0/2/12/15 在上电时的电平会影响 ESP32 启动模式？编写 Blink LED 程序时若把 LED 接到 GPIO0 上会出现什么问题？</li>
+        <li>编写程序：使用 ESP32 读取电位器（接 GPIO34）的 ADC 值，通过 LEDC PWM 输出控制 GPIO2 上的 LED 亮度（电位器旋到一端 LED 最暗，另一端最亮）。</li>
+        <li>使用 WebServer 库搭建一个网页，显示 ESP32 当前 Wi-Fi 信号强度（RSSI）、运行时间（millis/1000 秒）、可用堆内存。访问路径为 <code>/status</code>。</li>
+        <li>编写 MQTT 客户端：订阅主题 <code>home/light/cmd</code>，收到 "on" 点亮 GPIO2，收到 "off" 熄灭；每 30 秒向 <code>home/light/state</code> 发布当前状态。</li>
+        <li>分析 ESP32 程序出现 "Guru Meditation Error: Core 1 panic'ed (LoadProhibited)" 的可能原因，并说明如何使用 EspExceptionDecoder 工具定位到源代码行。</li>
+        <li>设计一个电池供电的户外温湿度记录仪：ESP32 每 10 分钟采集一次温湿度并上传到 MQTT，其余时间进入 Deep Sleep。计算理论待机时长（2000 mAh 锂电池，Deep Sleep 10 µA，Active 80 mA 持续 3 秒）。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>Espressif Systems. ESP32 Series Datasheet [Z]. 2024. https://www.espressif.com/sites/default/files/documentation/esp32-datasheet-en.pdf</li>
+        <li>Espressif Systems. ESP32 Technical Reference Manual [Z]. 2024. https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf</li>
+        <li>Espressif Systems. Arduino-ESP32 Official Documentation [EB/OL]. https://docs.espressif.com/projects/arduino-esp32/</li>
+        <li>Arduino Project. Arduino Language Reference [EB/OL]. https://www.arduino.cc/reference/en/</li>
+        <li>乐鑫科技开源仓库. arduino-esp32 [CP/OL]. https://github.com/espressif/arduino-esp32</li>
+        <li>Random Nerd Tutorials. ESP32 Tutorials [EB/OL]. https://randomnerdtutorials.com/projects-esp32/</li>
+        <li>Neil Kolban. Kolban's Book on ESP32 [M]. 2018. https://leanpub.com/kolban-esp32</li>
+        <li>Espressif Systems. ESP-IDF Programming Guide [EB/OL]. https://docs.espressif.com/projects/esp-idf/</li>
+        <li>Hackster.io. ESP32 Projects Community [EB/OL]. https://www.hackster.io/esp32/projects</li>
+        <li>Adafruit Industries. DHT22 / SSD1306 / BMP280 Library Documentation [EB/OL]. https://learn.adafruit.com/</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/chapters/part4-additional/ch26-jlceda.html" class="prev">← 第 26 章 嘉立创 EDA PCB 设计</a>
+      <a href="/index.html" class="home">返回首页</a>
+      <a href="/chapters/part4-additional/ch28-openharmony.html" class="next">第 28 章 开源鸿蒙 OpenHarmony →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

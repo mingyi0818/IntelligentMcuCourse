@@ -1,0 +1,31 @@
+# IDE 与编辑器临时文件
+.trae/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 操作系统文件
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# 临时测试文件
+test_output/
+test_*.puml
+test_*.svg
+test_*.html
+*_tmp.*
+tmp_*
+
+# Python 临时文件
+__pycache__/
+*.pyc
+*.pyo
+
+# PlantUML 编译过程中产生的临时文件
+temp_puml/
+
+# 日志文件
+*.log

@@ -1,0 +1,322 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第16章 GPIO 与外部中断 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link active" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 3 篇 STM32 &gt; <span>第 16 章 GPIO 与外部中断</span>
+    </div>
+
+    <h1>第 16 章 GPIO 与外部中断</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>掌握 STM32 GPIO 的 8 种工作模式及适用场景</li>
+        <li>能够使用 CubeMX 配置 GPIO 输出/输入/复用/模拟</li>
+        <li>编写 GPIO 输出代码（LED 闪烁、流水灯）</li>
+        <li>编写 GPIO 输入代码（按键查询）与外部中断代码</li>
+        <li>掌握 HAL_GPIO 库函数的使用</li>
+        <li>对比 STM32 与 STC 8位单片机 的 GPIO 差异</li>
+      </ul>
+    </div>
+
+    <h2>16.1 GPIO 工作模式</h2>
+    <p>STM32 每个 GPIO 端口由 MODER、OTYPER、OSPEEDR、PUPDR、IDR、ODR、BSRR、LCKR、AFR 等寄存器控制，可配置成 8 种工作模式。相比 8051 仅有准双向/推挽/输入/开漏 4 种，STM32 的灵活性大幅提升：</p>
+    <table>
+      <thead><tr><th>分类</th><th>模式</th><th>MODER</th><th>OTYPER</th><th>PUPDR</th><th>典型用途</th></tr></thead>
+      <tbody>
+        <tr><td>输入</td><td>浮空输入</td><td>00</td><td>-</td><td>00</td><td>SPI/I2C 总线空闲</td></tr>
+        <tr><td>输入</td><td>上拉输入</td><td>00</td><td>-</td><td>01</td><td>按键输入</td></tr>
+        <tr><td>输入</td><td>下拉输入</td><td>00</td><td>-</td><td>10</td><td>按键输入（另一端接 VCC）</td></tr>
+        <tr><td>输出</td><td>推挽输出</td><td>01</td><td>0</td><td>00</td><td>LED、SPI MOSI、PWM</td></tr>
+        <tr><td>输出</td><td>开漏输出</td><td>01</td><td>1</td><td>00</td><td>I2C、电平转换、线与</td></tr>
+        <tr><td>复用</td><td>复用推挽</td><td>10</td><td>0</td><td>00</td><td>USART TX、SPI SCK</td></tr>
+        <tr><td>复用</td><td>复用开漏</td><td>10</td><td>1</td><td>00</td><td>I2C SCL/SDA</td></tr>
+        <tr><td>模拟</td><td>模拟模式</td><td>11</td><td>-</td><td>00</td><td>ADC 输入、DAC 输出、RTC 旁路</td></tr>
+      </tbody>
+    </table>
+
+    <p>输出速度（OSPEEDR）分 4 档：Low 2 MHz、Medium 25 MHz、High 50 MHz、Very High 100 MHz。一般 LED/按键用 Low 即可，高速总线（SPI、USART）需 High。速度越高，IO 翻转边沿越陡，但高频谐波与 EMI 也越强，应按需选择。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch16-gpio-exti-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+component "GPIO 配置" as A
+component "MODER 模式" as B
+component "OTYPER 输出类型" as C
+component "OSPEEDR 速度" as D
+component "PUPDR 上下拉" as E
+component "AFR 复用功能" as F
+component "输入/输出/复用/模拟 4 大类" as G
+A --&gt; B
+A --&gt; C
+A --&gt; D
+A --&gt; E
+A --&gt; F
+B --&gt; G
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 16-1 GPIO 配置寄存器分工</div>
+
+    <h2>16.2 CubeMX 配置 GPIO</h2>
+    <p>在 CubeMX Pinout 视图中，点击芯片图形上的引脚会弹出可选模式菜单；或在左侧 System Core → GPIO 列表中配置每个引脚。配置 LED 输出与按键输入的典型步骤：</p>
+    <ol>
+      <li>点击 PA6 → 选 GPIO_Output → GPIO_Output 标签页：标签 LED1、Pull 默认 No Pull、Speed Low、默认电平 Low。</li>
+      <li>点击 PE4 → 选 GPIO_Input → Pull-Down（按下接 VCC）或 Pull-Up（按下接 GND）。</li>
+      <li>若使用按键外部中断：PE4 改为 GPIO_EXTI → GPIO 模式选 External Interrupt Mode with Rising edge（或 Falling/Rising_Falling）→ NVIC 标签勾选 EXTI line 4 interrupt。</li>
+      <li>引脚标签（User Label）会被 CubeMX 转换为宏定义（如 LED1_Pin / LED1_GPIO_Port），代码中可直接使用，便于移植。</li>
+    </ol>
+
+    <h2>16.3 GPIO 输出 - LED 闪烁与流水灯</h2>
+    <p>STM32 GPIO 输出驱动能力强（单引脚 25 mA，总灌电流 150 mA），可直接驱动 LED（需串 220-510 Ω 限流电阻）。下例实现 PA6/PA7/PA8/PA9 四个 LED 流水灯：</p>
+    <pre><code class="language-c">/* USER CODE BEGIN 0 */
+#define LED_NUM 4
+const uint16_t LED_Pins[LED_NUM] = {GPIO_PIN_6, GPIO_PIN_7, GPIO_PIN_8, GPIO_PIN_9};
+
+void LED_WaterFlow(uint32_t delay_ms)
+{
+    for (int i = 0; i &lt; LED_NUM; i++) {
+        HAL_GPIO_WritePin(GPIOA, LED_Pins[i], GPIO_PIN_SET);
+        HAL_Delay(delay_ms);
+        HAL_GPIO_WritePin(GPIOA, LED_Pins[i], GPIO_PIN_RESET);
+    }
+}
+/* USER CODE END 0 */
+
+/* USER CODE BEGIN WHILE */
+while (1)
+{
+    LED_WaterFlow(100);          /* 100 ms 流水 */
+    /* USER CODE END WHILE */
+    /* USER CODE BEGIN 3 */
+}
+/* USER CODE END 3 */
+</code></pre>
+
+    <p>相比 STC 用 <code>P1 = 0xFE; delay(); P1 = 0xFD;</code> 直接对端口写整字节，STM32 因端口数据宽度（16 位）与外设结构差异，HAL 库采用 <code>HAL_GPIO_WritePin</code> 单引脚操作；若需一次写整个端口，可使用 <code>GPIOA-&gt;ODR = 0x00F0;</code> 寄存器方式。</p>
+
+    <h2>16.4 GPIO 输入 - 按键查询</h2>
+    <p>下例实现 PE4 按键查询控制 LED 翻转，含软件消抖：</p>
+    <pre><code class="language-c">/* USER CODE BEGIN WHILE */
+while (1)
+{
+    if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_4) == GPIO_PIN_SET) {  /* 检测按下 */
+        HAL_Delay(20);                                            /* 20 ms 消抖 */
+        if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_4) == GPIO_PIN_SET) {
+            HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);                /* 翻转 LED */
+            while (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_4) == GPIO_PIN_SET); /* 等待释放 */
+        }
+    }
+    /* USER CODE END WHILE */
+    /* USER CODE BEGIN 3 */
+}
+/* USER CODE END 3 */
+</code></pre>
+
+    <p>查询方式简单但占用主循环 CPU，不适合多任务场景。若需实时响应，应使用外部中断。</p>
+
+    <h2>16.5 外部中断 EXTI 配置</h2>
+    <p>STM32F407 共有 16 条 EXTI 线（EXTI0~EXTI15），分别对应 PAx~PIx 的 x 号引脚（同一编号同时只能选一个端口）。EXTI5~9 共享 EXTI9_5_IRQn，EXTI10~15 共享 EXTI15_10_IRQn，EXTI0~4 各自独立中断。配置步骤：</p>
+    <ol>
+      <li>CubeMX 中将 PE4 设为 GPIO_EXTI，模式选 Rising/Falling/Falling_Rising。</li>
+      <li>NVIC 设置中勾选 EXTI line 4 interrupt，优先级默认 5/0。</li>
+      <li>生成代码后 CubeMX 自动在 stm32f4xx_it.c 中加入 <code>EXTI4_IRQHandler()</code>，其调用 <code>HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4)</code>，后者清标志并回调 <code>HAL_GPIO_EXTI_Callback</code>。</li>
+      <li>在 main.c USER CODE 区重写回调函数实现业务逻辑。</li>
+    </ol>
+
+    <pre><code class="language-c">/* USER CODE BEGIN 4 */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+    if (GPIO_Pin == GPIO_PIN_4) {
+        HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);
+        printf("KEY4 pressed, LED toggled\r\n");
+    } else if (GPIO_Pin == GPIO_PIN_5) {
+        /* 其他引脚中断处理 */
+    }
+}
+/* USER CODE END 4 */
+</code></pre>
+
+    <p>中断方式下按键响应即时，但仍有抖动问题，可在 ISR 中启动一个软定时器，10-20 ms 后再读引脚确认；或在 EXTI 后改用定时器去抖。</p>
+
+    <h2>16.6 HAL_GPIO 库函数详解</h2>
+    <table>
+      <thead><tr><th>函数</th><th>原型</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td>HAL_GPIO_ReadPin</td><td>GPIO_PinState HAL_GPIO_ReadPin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)</td><td>读 IDR 寄存器对应位，返回 PIN_RESET/PIN_SET</td></tr>
+        <tr><td>HAL_GPIO_WritePin</td><td>void HAL_GPIO_WritePin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState)</td><td>写 BSRR 寄存器，原子操作</td></tr>
+        <tr><td>HAL_GPIO_TogglePin</td><td>void HAL_GPIO_TogglePin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)</td><td>翻转引脚电平</td></tr>
+        <tr><td>HAL_GPIO_LockPin</td><td>HAL_StatusTypeDef HAL_GPIO_LockPin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)</td><td>锁定引脚配置寄存器，下次复位前不可改</td></tr>
+        <tr><td>HAL_GPIO_DeInit</td><td>void HAL_GPIO_DeInit(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)</td><td>恢复引脚为默认状态</td></tr>
+        <tr><td>HAL_GPIO_EXTI_IRQHandler</td><td>void HAL_GPIO_EXTI_IRQHandler(uint16_t GPIO_Pin)</td><td>EXTI ISR 入口，清 PR 标志 + 调回调</td></tr>
+        <tr><td>HAL_GPIO_EXTI_Callback</td><td>__weak void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)</td><td>用户重写的弱回调</td></tr>
+      </tbody>
+    </table>
+
+    <p>注意 <code>HAL_GPIO_WritePin</code> 底层写 BSRR（端口位设置/清除寄存器），是原子操作，不会因并发访问 ODR 引起竞争；若直接写 ODR 寄存器则需自行加锁或使用 <code>__disable_irq()/__enable_irq()</code> 保护。</p>
+
+    <h2>16.7 与 STC 的 GPIO 对比</h2>
+    <table>
+      <thead><tr><th>对比项</th><th>STC89C52RC</th><th>STM32F407</th></tr></thead>
+      <tbody>
+        <tr><td>端口数</td><td>P0/P1/P2/P3 共 32 引脚</td><td>PA/PB/PC/PD/PE 多组，LQFP100 共 82 个 I/O</td></tr>
+        <tr><td>工作模式</td><td>准双向、推挽、开漏、高阻 4 种</td><td>8 种，含上下拉、复用、模拟</td></tr>
+        <tr><td>输出驱动</td><td>约 20 mA</td><td>25 mA 单引脚，可吸收 150 mA 总</td></tr>
+        <tr><td>电平兼容</td><td>5V TTL</td><td>3.3V，多数引脚容忍 5V 输入</td></tr>
+        <tr><td>翻转速率</td><td>固定（约 ns 级）</td><td>2-100 MHz 可配</td></tr>
+        <tr><td>复用功能</td><td>固定映射</td><td>AF 任意切换，部分引脚多至 16 种功能</td></tr>
+        <tr><td>外部中断</td><td>INT0/INT2 共 2 个</td><td>EXTI0-15 共 16 条线</td></tr>
+        <tr><td>开发方式</td><td>寄存器/P1 整字节操作</td><td>HAL 单引脚或 ODR 整字</td></tr>
+      </tbody>
+    </table>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>STM32 GPIO 由 MODER/OTYPER/OSPEEDR/PUPDR/AFR 寄存器配置，支持 8 种工作模式，灵活性远超 8051。</li>
+        <li>CubeMX 图形化配置引脚模式与标签，自动生成初始化代码与宏定义。</li>
+        <li>HAL_GPIO_WritePin/ReadPin/TogglePin 是 GPIO 操作三件套，底层基于 BSRR 原子操作。</li>
+        <li>外部中断 EXTI 共 16 条线，EXTI5-9 与 EXTI10-15 共享中断向量；HAL 通过 __weak 回调机制将事件交还用户处理。</li>
+        <li>STM32 GPIO 在端口数、模式、速率、复用灵活性上全面优于 STC，但配置也更复杂。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>列出 STM32 GPIO 的 8 种工作模式，并各举一个典型应用场景。</li>
+        <li>开漏输出与推挽输出在电路结构与应用上有何区别？为什么 I2C 必须用开漏？</li>
+        <li>使用 CubeMX 配置 PA6/PA7/PA8/PA9 为输出，编写 HAL 代码实现 4 路 LED 流水灯，每路点亮 100 ms。</li>
+        <li>编写按键查询代码，要求实现软件消抖，并区分单击与双击。</li>
+        <li>EXTI9_5 中断为何共享一个中断向量？如何在中断服务函数中区分具体哪个引脚？</li>
+        <li>对比 STC 的 INT0/INT1 与 STM32 的 EXTI，分别从数量、配置、响应延迟角度分析差异。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>ST 官方. STM32F405/415/407/417 参考手册 RM0090 [Z]. 2024. https://www.st.com/</li>
+        <li>ST 官方. STM32F4xx HAL User Manual UM1025 [Z]. 2024. https://www.st.com/</li>
+        <li>ST 官方. STM32 GPIO application note AN4899 [Z]. 2024. https://www.st.com/</li>
+        <li>正点原子. STM32F4 开发指南——库函数版本 [M]. 北京：北京航空航天大学出版社, 2020.</li>
+        <li>野火嵌入式. STM32 HAL 库开发实战指南 [M]. 北京：电子工业出版社, 2020.</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/chapters/part3-stm32f407/ch15-hal-library.html" class="prev">← 第 15 章 STM32 HAL 库与工程结构</a>
+      <a href="/index.html" class="home">返回首页</a>
+      <a href="/chapters/part3-stm32f407/ch17-timer-pwm.html" class="next">第 17 章 定时器与 PWM →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

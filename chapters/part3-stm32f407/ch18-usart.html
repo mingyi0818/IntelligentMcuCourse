@@ -1,0 +1,623 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第18章 串口通信 USART - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link active" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 3 篇 STM32 &gt; <span>第 18 章 串口通信 USART</span>
+    </div>
+
+    <h1>第 18 章 串口通信 USART</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>理解 USART 与 UART 的区别</li>
+        <li>能够使用 CubeMX 配置 USART（波特率 115200 / 8N1）</li>
+        <li>掌握 HAL_UART 库函数（阻塞/中断/DMA）</li>
+        <li>实现中断接收配合环形缓冲区</li>
+        <li>实现 DMA + IDLE 中断接收不定长数据</li>
+        <li>设计简单的多机通信协议</li>
+        <li>掌握逻辑分析仪、printf、SEGGER RTT 三种串口调试技巧</li>
+      </ul>
+    </div>
+
+    <h2>18.1 USART 与 UART 区别</h2>
+    <p>UART（Universal Asynchronous Receiver/Transmitter）是通用异步收发器，仅需 TX/RX/GND 三根线即可通信；USART（Universal Synchronous/Asynchronous Receiver/Transmitter）在 UART 基础上增加了一根时钟线 SCLK，可工作在同步模式，常用于智能卡接口、SPI 兼容主模式等。STM32F407 共有 3 个 USART（USART1/2/3，支持同步）+ 2 个 UART（UART4/5，仅异步）+ 4 个 USART（USART6 仅异步扩展、其它 APB 总线，部分型号含更多）。</p>
+    <table>
+      <thead><tr><th>对比项</th><th>UART</th><th>USART</th></tr></thead>
+      <tbody>
+        <tr><td>同步时钟</td><td>无</td><td>有 SCLK 引脚（可选）</td></tr>
+        <tr><td>异步通信</td><td>支持</td><td>支持</td></tr>
+        <tr><td>同步通信</td><td>不支持</td><td>支持（智能卡/SPI 兼容）</td></tr>
+        <tr><td>硬件流控</td><td>可选 RTS/CTS</td><td>可选 RTS/CTS</td></tr>
+        <tr><td>典型最大波特率</td><td>f_PCLK/16</td><td>f_PCLK/8（过采样 8）</td></tr>
+        <tr><td>STM32F407 数量</td><td>UART4/5 共 2 个</td><td>USART1/2/3/6 共 4 个</td></tr>
+      </tbody>
+    </table>
+
+    <p>异步通信是日常应用主流，本章后续以异步模式为例。USART1 挂在 APB2（最高 168 MHz），最大波特率 10.5 Mbps；USART2/3/UART4/5/USART6 挂在 APB1（84 MHz），最大 5.25 Mbps。教学常用 9600/115200 bps，远低于上限。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch18-usart-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+component "STM32 USART" as A
+component "发送 TX" as B
+component "接收 RX" as C
+component "时钟 SCLK 可选" as D
+component "流控 RTS/CTS 可选" as E
+component "DMA 收发" as F
+component "IDLE 中断" as G
+component "错误检测 NE/FE/ORE/PE" as H
+A --&gt; B
+A --&gt; C
+A --&gt; D
+A --&gt; E
+A --&gt; F
+A --&gt; G
+A --&gt; H
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 18-1 STM32 USART 功能组成</div>
+
+    <h2>18.2 CubeMX 配置 USART</h2>
+    <p>以 USART1 为例（PA9/PA10），在 CubeMX 中配置如下：</p>
+    <ol>
+      <li>Pinout → Connectivity → USART1 → Mode 选 Asynchronous（异步）。</li>
+      <li>Parameter Settings：Baud Rate=115200，Word Length=8 Bits (including Parity)，Parity=None，Stop Bits=1，Data Direction=Receive and Transmit，Over Sampling=16 samples。</li>
+      <li>NVIC Settings → 勾选 USART1 global interrupt（中断接收必备）。</li>
+      <li>DMA Settings → Add → USART1_RX，Circular 模式（DMA 接收必备）。</li>
+      <li>Project Manager → 生成代码。</li>
+    </ol>
+
+    <p>注意：Word Length 含校验位，例如选 8E1（8 数据位 + 偶校验 + 1 停止位）时 Word Length 应设 9 Bits（含校验）。串口调试助手（如 SecureCRT/串口调试器）参数必须与 STM32 完全一致。</p>
+
+    <h2>18.3 HAL_UART 库函数</h2>
+    <table>
+      <thead><tr><th>函数</th><th>模式</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>HAL_UART_Transmit</td><td>阻塞</td><td>发送，超时返回</td></tr>
+        <tr><td>HAL_UART_Receive</td><td>阻塞</td><td>接收指定长度，超时返回</td></tr>
+        <tr><td>HAL_UART_Transmit_IT</td><td>中断</td><td>非阻塞发送，完成后回调 TxCpltCallback</td></tr>
+        <tr><td>HAL_UART_Receive_IT</td><td>中断</td><td>非阻塞接收 N 字节，完成后回调 RxCpltCallback</td></tr>
+        <tr><td>HAL_UART_Transmit_DMA</td><td>DMA</td><td>DMA 发送，零 CPU 占用</td></tr>
+        <tr><td>HAL_UART_Receive_DMA</td><td>DMA</td><td>DMA 接收，零 CPU 占用</td></tr>
+        <tr><td>HAL_UARTEx_ReceiveToIdle_IT</td><td>中断+IDLE</td><td>不定长接收，IDLE 触发 RxEventCallback</td></tr>
+        <tr><td>HAL_UARTEx_ReceiveToIdle_DMA</td><td>DMA+IDLE</td><td>DMA 不定长接收，最优方案</td></tr>
+      </tbody>
+    </table>
+
+    <p>阻塞方式最简单但占用 CPU；中断方式适合少量数据；DMA 方式由 DMA 控制器搬运数据，CPU 完全解放，适合高波特率或大量数据。HAL_UART_Receive_IT 每次接收固定长度，超出部分需再次启动；不定长场景应使用 IDLE + DMA。</p>
+
+    <h2>18.4 中断接收与环形缓冲区</h2>
+    <p>当数据持续到来时，固定长度中断接收难以应对长度可变的情况。常见做法是单字节中断接收 + 环形缓冲区（Ring Buffer）暂存，主循环再解析。下例实现 USART1 单字节中断接收，存入环形缓冲区：</p>
+    <pre><code class="language-c">/* USER CODE BEGIN PV */
+#define RBUF_SIZE 256
+volatile uint8_t rbuf[RBUF_SIZE];
+volatile uint16_t rbuf_head = 0, rbuf_tail = 0;
+/* USER CODE END PV */
+
+/* USER CODE BEGIN 2 */
+HAL_UART_Receive_IT(&amp;huart1, &amp;rx_byte, 1);   /* 启动单字节接收 */
+/* USER CODE END 2 */
+
+/* USER CODE BEGIN 4 */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    if (huart-&gt;Instance == USART1) {
+        rbuf[rbuf_head] = rx_byte;
+        rbuf_head = (rbuf_head + 1) % RBUF_SIZE;
+        HAL_UART_Receive_IT(&amp;huart1, &amp;rx_byte, 1);   /* 重新启动接收 */
+    }
+}
+
+/* 主循环调用：从环形缓冲区取 1 字节，无数据返回 -1 */
+int rbuf_getc(void)
+{
+    if (rbuf_tail == rbuf_head) return -1;
+    uint8_t c = rbuf[rbuf_tail];
+    rbuf_tail = (rbuf_tail + 1) % RBUF_SIZE;
+    return c;
+}
+/* USER CODE END 4 */
+</code></pre>
+
+    <p>环形缓冲区通过 head/tail 两个指针循环递增实现先进先出（FIFO），是嵌入式通信最常用的数据结构。注意单字节中断在高波特率下中断频繁，CPU 占用较高，建议高速场景使用 DMA。</p>
+
+    <h2>18.5 DMA 方式接收不定长数据</h2>
+    <p>STM32 USART 在 RX 长时间空闲（一个字节时长未收到新数据）时会置 IDLE 标志并触发中断。结合 DMA，可实现"任意长度数据自动接收 + 接收完成自动通知"，是工程实践中的最优方案。HAL 库提供 <code>HAL_UARTEx_ReceiveToIdle_DMA</code> 封装：</p>
+    <pre><code class="language-c">/* USER CODE BEGIN 2 */
+HAL_UARTEx_ReceiveToIdle_DMA(&amp;huart1, rx_buf, sizeof(rx_buf));
+/* USER CODE END 2 */
+
+/* USER CODE BEGIN 4 */
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+{
+    if (huart-&gt;Instance == USART1) {
+        /* Size 为本次实际接收字节数 */
+        printf("recv %d bytes: %.*s\r\n", Size, Size, (char *)rx_buf);
+        HAL_UARTEx_ReceiveToIdle_DMA(&amp;huart1, rx_buf, sizeof(rx_buf));  /* 继续接收 */
+    }
+}
+/* USER CODE END 4 */
+</code></pre>
+
+    <p>该方案优势：① DMA 搬运数据，零 CPU 占用；② IDLE 中断精准识别数据帧边界，无需协议头尾；③ 配合 Circular 模式 DMA，无需在回调中重启。广泛用于 GPS NMEA、Modbus、自定义协议解析等场景。</p>
+
+    <h2>18.6 多串口协同与协议设计</h2>
+    <p>实际项目通常多串口同时工作：USART1 接 PC 调试、USART2 接蓝牙模块、UART4 接 GPS、USART3 接 RS485 传感器。设计自定义协议时建议包含以下要素：</p>
+    <ul>
+      <li><strong>帧头</strong>：1-2 字节固定值（如 0xAA 0x55），用于同步帧起始。</li>
+      <li><strong>长度</strong>：1-2 字节，表示后续数据字节数，便于校验完整性。</li>
+      <li><strong>命令字</strong>：1 字节，区分不同指令（如 0x01 读、0x02 写）。</li>
+      <li><strong>数据</strong>：N 字节，可变长。</li>
+      <li><strong>校验</strong>：1-2 字节，CRC8/CRC16/XOR 任选，确保数据正确性。</li>
+    </ul>
+
+    <p>帧格式示意：<code>[AA 55] [LEN] [CMD] [DATA...] [CRC]</code>。解析时建议状态机法：等待帧头 → 读长度 → 等待 LEN 字节数据 → 校验 CRC → 执行命令。CRC 推荐使用 CRC16-Modbus（多项式 0x8005），检错能力强。</p>
+
+    <h3>18.6.1 标准 printf 函数实现（STM32 HAL 库）</h3>
+    <p>STM32 工程（无论 Keil MDK / STM32CubeIDE / GCC）都遵循 ARM CMSIS C 库的"标准 I/O 重定向"约定：<code>printf</code> 底层会调用 <code>__io_putchar(int ch)</code> 或 <code>fputc(int ch, FILE *f)</code>（不同工具链名不同），重写该函数即可让 printf 输出走 USART1。相比 STC，STM32 的优势是支持 <code>%f</code> 浮点、<code>%ld</code> 长整型，并且可用 MicroLIB 进一步缩减代码体积。</p>
+
+    <p><strong>实现原理</strong>：C 库 <code>printf</code> → 内部 <code>_write</code> 系统调用 → <code>__io_putchar</code> 钩子 → 调用 <code>HAL_UART_Transmit</code> 发送一个字节 → 等待发送完成返回。</p>
+
+    <p><strong>实现步骤</strong>（以 Keil MDK + HAL 库 + USART1 为例）：</p>
+    <ol>
+      <li><strong>CubeMX 配置 USART1</strong>：模式 Asynchronous，参数 115200-8-N-1，使能 USART1 global interrupt（推荐用中断发送，避免阻塞）。</li>
+      <li><strong>包含头文件</strong>：在 <code>main.c</code> 顶部 <code>#include &lt;stdio.h&gt;</code> 和 <code>#include "usart.h"</code>（CubeMX 自动生成）。</li>
+      <li><strong>启用 MicroLIB（Keil MDK 特有）</strong>：Project → Options → Target 勾选 "Use MicroLIB"。MicroLIB 体积约为标准 C 库 1/3，但默认支持 <code>%d %s %x %f</code>，是嵌入式调试首选。STM32CubeIDE 则默认用 newlib-nano，效果等同。</li>
+      <li><strong>重写 fputc / __io_putchar</strong>：在 <code>/* USER CODE BEGIN 4 */</code> 区域内添加 fputc 实现，调用 <code>HAL_UART_Transmit(&amp;huart1, (uint8_t*)&amp;ch, 1, 0xFFFF)</code>。Keil MDK 重写 <code>fputc</code>，STM32CubeIDE 重写 <code>__io_putchar</code>。</li>
+      <li><strong>处理 \n 自动回车</strong>：与 STC 同理，检测到 <code>'\n'</code> 先输出 <code>'\r'</code>，否则 PC 端串口助手显示阶梯状。</li>
+      <li><strong>编译验证</strong>：烧录后在 main 循环调用 <code>printf("tick=%lu\r\n", HAL_GetTick());</code>，PC 端 115200 8N1 应收到字符串。</li>
+    </ol>
+
+    <pre><code class="language-c">/* main.c - STM32F407 printf 重定向（Keil MDK + HAL 库）
+ * USART1: PA9(TX) PA10(RX), 115200 8N1
+ */
+/* USER CODE BEGIN Includes */
+#include &lt;stdio.h&gt;
+#include "usart.h"
+/* USER CODE END Includes */
+
+/* USER CODE BEGIN 4 */
+/* 重写 fputc 钩子，让 printf 走 USART1 */
+int fputc(int ch, FILE *f)
+{
+    (void)f;
+    if (ch == '\n') {                          /* 自动回车 */
+        uint8_t cr = '\r';
+        HAL_UART_Transmit(&amp;huart1, &amp;cr, 1, 0xFFFF);
+    }
+    uint8_t c = (uint8_t)ch;
+    HAL_UART_Transmit(&amp;huart1, &amp;c, 1, 0xFFFF); /* 阻塞发送 1 字节 */
+    return ch;
+}
+/* USER CODE END 4 */
+
+/* 主程序 */
+int main(void)
+{
+    HAL_Init();
+    SystemClock_Config();
+    MX_USART1_UART_Init();
+    /* 必须先 Init 再 printf */
+
+    printf("\r\n============================\r\n");
+    printf(" STM32F407 printf 重定向演示\r\n");
+    printf(" HAL 版本: %lu\r\n", HAL_GetHalVersion());
+    printf(" 系统时钟: %lu Hz\r\n", SystemCoreClock);
+    printf("============================\r\n");
+
+    float temp = 25.6f;
+    uint32_t loop = 0;
+    while (1) {
+        loop++;
+        printf("loop=%lu, temp=%.2f C, tick=%lu ms\r\n",
+               loop, temp, HAL_GetTick());
+        HAL_Delay(1000);
+    }
+}
+</code></pre>
+
+    <div class="tip">
+      <strong>STM32CubeIDE 用户</strong>：把 <code>fputc</code> 改名为 <code>__io_putchar</code>（或同时定义两者，由 syscalls.c 选择）。STM32CubeIDE 默认用 newlib-nano，已在 <code>syscalls.c</code> 提供 <code>_write</code> → <code>__io_putchar</code> 桥接，无需手动写 <code>_write</code>。
+    </div>
+
+    <div class="tip">
+      <strong>性能优化</strong>：阻塞式 <code>HAL_UART_Transmit</code> 在 115200 bps 下每字符约 87 μs，连续 <code>printf</code> 会占满 CPU。对实时性敏感场景改用 DMA + 中断发送：
+      <ul>
+        <li>定义发送缓冲 <code>uint8_t tx_buf[128]</code>，<code>vsnprintf</code> 格式化到缓冲。</li>
+        <li>调用 <code>HAL_UART_Transmit_DMA(&amp;huart1, tx_buf, len)</code>，DMA 搬运完成后中断回调释放缓冲。</li>
+        <li>实现"环形队列"避免前次未发完就被覆盖。</li>
+      </ul>
+      这种 DMA printf 是工程实践首选方案。
+    </div>
+
+    <div class="note">
+      <strong>常见坑</strong>：
+      <ul>
+        <li><strong>未勾选 MicroLIB</strong>：Keil MDK 默认链接完整 ARM C 库，<code>printf</code> 体积约 8KB 且可能因半主机模式导致运行到 <code>__use_no_semihosting</code> 卡死。勾选 MicroLIB 即解决。</li>
+        <li><strong>半主机模式（Semihosting）</strong>：未重写 fputc 时 printf 会触发 BKPT 指令进入调试器，脱离调试器运行即卡死。重写 fputc 后自动关闭半主机。</li>
+        <li><strong>浮点不支持</strong>：STM32F4 默认 FPU 开启，但 printf 浮点需在 Linker → Misc 加 <code>-u _printf_float</code>（GCC）或勾选 MicroLIB（MDK）。</li>
+        <li><strong>多线程</strong>：FreeRTOS 多任务同时 printf 会乱序，需用互斥量 <code>osMutexAcquire</code> 包裹或改用 SEGGER RTT。</li>
+      </ul>
+    </div>
+
+    <h3>18.6.2 基于内部 Flash 的掉电存储</h3>
+    <p>实际项目中常常需要保存用户配置（如校准参数、设备地址、阈值上下限、累计电能等），断电或重启后仍能读回。STM32F407 内置 1 MB Flash（部分型号 512 KB），除存放主程序外，可划出一段<strong>未使用的扇区</strong>作为"用户数据区"实现掉电存储。Flash 的特点是：<strong>断电不丢失、写入前必须先擦除、擦除只能整扇区进行、擦除后所有位变 1，写入只能把 1 变 0</strong>。</p>
+
+    <p><strong>STM32F407 Flash 扇区布局</strong>（参考 RM0090 参考手册）：</p>
+    <table>
+      <thead><tr><th>扇区</th><th>起始地址</th><th>大小</th><th>用途建议</th></tr></thead>
+      <tbody>
+        <tr><td>Sector 0</td><td>0x08000000</td><td>16 KB</td><td>中断向量表 + 启动代码</td></tr>
+        <tr><td>Sector 1</td><td>0x08004000</td><td>16 KB</td><td>主程序前半</td></tr>
+        <tr><td>Sector 2</td><td>0x08008000</td><td>16 KB</td><td>主程序中段</td></tr>
+        <tr><td>Sector 3</td><td>0x0800C000</td><td>16 KB</td><td>主程序后半</td></tr>
+        <tr><td>Sector 4</td><td>0x08010000</td><td>64 KB</td><td>主程序主体</td></tr>
+        <tr><td>Sector 5</td><td>0x08020000</td><td>128 KB</td><td>主程序主体</td></tr>
+        <tr><td>Sector 6</td><td>0x08040000</td><td>128 KB</td><td>主程序主体</td></tr>
+        <tr><td>Sector 7</td><td>0x08060000</td><td>128 KB</td><td>主程序主体</td></tr>
+        <tr><td>Sector 8</td><td>0x08080000</td><td>128 KB</td><td>主程序主体（大型工程使用）</td></tr>
+        <tr><td>Sector 9</td><td>0x080A0000</td><td>128 KB</td><td>主程序主体（大型工程使用）</td></tr>
+        <tr><td>Sector 10</td><td>0x080C0000</td><td>128 KB</td><td>主程序主体（大型工程使用）</td></tr>
+        <tr><td><strong>Sector 11</strong></td><td><strong>0x080E0000</strong></td><td><strong>128 KB</strong></td><td><strong>用户数据区（推荐）</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption">表 18-3 STM32F407VE/VG Flash 扇区布局（1 MB 版本）</div>
+
+    <p><strong>设计原则</strong>：选 128 KB 的 Sector 11 作为用户数据区——大多数工程主程序 &lt; 768 KB（Sector 0–10 共 896 KB 足够），Sector 11 完全空闲可专门用于配置存储。若工程确实需要更多空间，可选用 Sector 10 备份，但需在 Linker Script 中明确排除该段，防止编译器填充代码。</p>
+
+    <p><strong>实现原理</strong>：① 定义一个结构体 <code>Config_t</code> 承载所有配置字段；② 写入前解锁 Flash → 擦除 Sector 11 → 按字写入结构体字节流 → 加锁；③ 读取时直接以指针访问 Sector 11 起始地址即可（Flash 映射到 CPU 地址空间，可直接当 ROM 读）。</p>
+
+    <p><strong>实现步骤</strong>：</p>
+    <ol>
+      <li><strong>定义配置结构体</strong>：所有字段打包为 <code>typedef struct</code>，建议末尾加 <code>uint32_t magic</code> 魔数与 <code>uint32_t crc</code> 校验，用于开机判断 Flash 是否已写入有效配置。</li>
+      <li><strong>选择存储地址</strong>：<code>#define CONFIG_ADDR 0x080E0000</code>（Sector 11 起始），<code>#define CONFIG_SECTOR FLASH_SECTOR_11</code>。</li>
+      <li><strong>读配置</strong>：用 <code>Config_t *cfg = (Config_t*)CONFIG_ADDR;</code> 把 Flash 当作 const 指针读，校验 magic 与 crc 通过则用，否则填默认值。</li>
+      <li><strong>写配置</strong>：
+        <ul>
+          <li><code>HAL_FLASH_Unlock()</code> 解锁 Flash 控制寄存器（默认上锁防误写）。</li>
+          <li>构造 <code>FLASH_EraseInitTypeDef</code>：TypeEraser = FLASH_TYPEERASE_SECTORS，Sector = CONFIG_SECTOR，NbSectors = 1，VoltageRange = FLASH_VOLTAGE_RANGE_3（3.3V 供电）。</li>
+          <li><code>HAL_FLASHEx_Erase(&amp;erase, &amp;err)</code> 擦除整个扇区，等待完成。</li>
+          <li>循环 <code>HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, addr, data)</code> 按 32 位字逐个写入结构体字节。</li>
+          <li><code>HAL_FLASH_Lock()</code> 重新加锁。</li>
+        </ul>
+      </li>
+      <li><strong>磨损均衡</strong>：Flash 单扇区擦写寿命约 10000 次。若频繁保存（如每秒一次），应在 Sector 11 内做"页式日志"——每次写下一页未用空间，写满 128 KB 才整体擦除，寿命提升数百倍。</li>
+      <li><strong>异常处理</strong>：写入过程中断电会留下半截数据，靠 magic + crc 在下次开机时识别"损坏"，恢复默认值并提示用户重新配置。</li>
+    </ol>
+
+    <pre><code class="language-c">/* flash_config.c - STM32F407 内部 Flash 掉电存储配置
+ * 存储 Sector 11 (0x080E0000, 128 KB)
+* 编译环境：STM32CubeMX + HAL 库
+ */
+#include "stm32f4xx_hal.h"
+#include &lt;string.h&gt;
+#include &lt;stdint.h&gt;
+
+#define CONFIG_ADDR       0x080E0000UL
+#define CONFIG_SECTOR     FLASH_SECTOR_11
+#define CONFIG_MAGIC      0x434F4E46UL   /* "CONF" */
+
+/* ---------- 1. 配置结构体 ---------- */
+typedef struct __attribute__((packed)) {
+    uint32_t magic;          /* 魔数：标识是否已写入有效配置 */
+    uint32_t baudrate;       /* 串口波特率 */
+    uint8_t  dev_addr;       /* Modbus 设备地址 1-247 */
+    uint8_t  reserved1;
+    uint16_t reserved2;
+    float    temp_high;      /* 温度上限阈值 */
+    float    temp_low;       /* 温度下限阈值 */
+    uint32_t energy_kwh_x10; /* 累计电能 ×10 倍（避免 float 不精确） */
+    uint32_t boot_count;     /* 启动次数计数 */
+    uint32_t crc;            /* CRC32 校验 */
+} Config_t;
+
+/* 默认配置（首次上电或损坏时使用） */
+static const Config_t default_cfg = {
+    .magic         = CONFIG_MAGIC,
+    .baudrate       = 115200,
+    .dev_addr       = 1,
+    .reserved1      = 0,
+    .reserved2      = 0,
+    .temp_high      = 50.0f,
+    .temp_low       = 10.0f,
+    .energy_kwh_x10 = 0,
+    .boot_count     = 0,
+    .crc            = 0,      /* 实际计算后填入 */
+};
+
+/* 简易 CRC32（多项式 0xEDB88320，与 zlib 一致） */
+static uint32_t crc32_calc(const uint8_t *data, uint32_t len)
+{
+    uint32_t crc = 0xFFFFFFFF;
+    for (uint32_t i = 0; i &lt; len; i++) {
+        crc ^= data[i];
+        for (int j = 0; j &lt; 8; j++) {
+            crc = (crc &gt;&gt; 1) ^ (0xEDB88320 &amp; (-(int32_t)(crc &amp; 1)));
+        }
+    }
+    return ~crc;
+}
+
+/* ---------- 2. 读取配置（直接指针访问 Flash） ---------- */
+int Config_Load(Config_t *out)
+{
+    const Config_t *flash_cfg = (const Config_t *)CONFIG_ADDR;
+    /* Flash 可直接当 ROM 读，无需解锁 */
+
+    if (flash_cfg-&gt;magic != CONFIG_MAGIC) {
+        *out = default_cfg;
+        return -1;             /* 未配置，用默认值 */
+    }
+
+    /* 验证 CRC：计算 magic~boot_count 字段的 CRC，应等于 crc 字段 */
+    uint32_t calc = crc32_calc((const uint8_t*)flash_cfg,
+                                sizeof(Config_t) - sizeof(uint32_t));
+    if (calc != flash_cfg-&gt;crc) {
+        *out = default_cfg;
+        return -2;             /* CRC 错，配置损坏 */
+    }
+
+    *out = *flash_cfg;
+    return 0;                  /* OK */
+}
+
+/* ---------- 3. 写入配置（解锁-擦除-写-加锁） ---------- */
+HAL_StatusTypeDef Config_Save(const Config_t *cfg)
+{
+    HAL_StatusTypeDef st;
+    uint32_t err;
+    FLASH_EraseInitTypeDef erase;
+
+    /* 1) 拷贝到 SRAM 并计算 CRC */
+    Config_t buf = *cfg;
+    buf.magic = CONFIG_MAGIC;
+    buf.crc   = crc32_calc((const uint8_t*)&amp;buf,
+                            sizeof(Config_t) - sizeof(uint32_t));
+
+    /* 2) 解锁 Flash */
+    st = HAL_FLASH_Unlock();
+    if (st != HAL_OK) return st;
+
+    /* 3) 擦除 Sector 11 */
+    erase.TypeErase    = FLASH_TYPEERASE_SECTORS;
+    erase.Sector       = CONFIG_SECTOR;
+    erase.NbSectors    = 1;
+    erase.VoltageRange = FLASH_VOLTAGE_RANGE_3;   /* 2.7-3.6V 供电 */
+    st = HAL_FLASHEx_Erase(&amp;erase, &amp;err);
+    if (st != HAL_OK) { HAL_FLASH_Lock(); return st; }
+
+    /* 4) 按字（32 bit）写入 */
+    uint32_t *src  = (uint32_t*)&amp;buf;
+    uint32_t  addr = CONFIG_ADDR;
+    uint32_t  words = (sizeof(Config_t) + 3) / 4;
+    for (uint32_t i = 0; i &lt; words; i++) {
+        st = HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD,
+                                addr, src[i]);
+        if (st != HAL_OK) { HAL_FLASH_Lock(); return st; }
+        addr += 4;
+    }
+
+    /* 5) 重新加锁 */
+    HAL_FLASH_Lock();
+    return HAL_OK;
+}
+
+/* ---------- 4. 使用示例 ---------- */
+Config_t g_cfg;
+
+int main(void)
+{
+    HAL_Init();
+    SystemClock_Config();
+    MX_USART1_UART_Init();
+
+    /* 开机加载配置 */
+    int r = Config_Load(&amp;g_cfg);
+    if (r == 0) {
+        printf("配置加载成功：baud=%lu, dev=%u, temp_h=%.1f\r\n",
+               g_cfg.baudrate, g_cfg.dev_addr, g_cfg.temp_high);
+    } else if (r == -1) {
+        printf("首次启动，使用默认配置\r\n");
+    } else {
+        printf("配置损坏（错误码 %d），已恢复默认\r\n", r);
+    }
+
+    /* 启动计数 +1 并保存 */
+    g_cfg.boot_count++;
+    HAL_StatusTypeDef st = Config_Save(&amp;g_cfg);
+    printf("已保存第 %lu 次启动记录，状态=%d\r\n",
+           g_cfg.boot_count, st);
+
+    while (1) {
+        /* 主循环：可通过串口命令修改 g_cfg 并调用 Config_Save */
+        HAL_Delay(1000);
+    }
+}
+</code></pre>
+
+    <div class="tip">
+      <strong>工程要点</strong>：
+      <ul>
+        <li><strong>对齐</strong>：结构体加 <code>__attribute__((packed))</code> 紧凑布局，但 ARM 32 位字写入要求地址 4 字节对齐——结构体大小应为 4 的倍数，必要时末尾加保留字段补齐。</li>
+        <li><strong>电压范围</strong>：STM32F4 在 2.7-3.6V 供电下擦写用 <code>VOLTAGE_RANGE_3</code>，若用 1.8V 低压需 RANGE_1，但 F407 不支持 1.8V 模式。</li>
+        <li><strong>擦写过程禁止中断</strong>：擦除期间 Flash 不可读，CPU 取指会停顿；若擦除期间触发中断（中断向量在 Sector 0），程序会跑飞。建议在 <code>HAL_FLASHEx_Erase</code> 前 <code>__disable_irq()</code>，结束后 <code>__enable_irq()</code>。</li>
+        <li><strong>OTA 升级冲突</strong>：若用 IAP/OTA 升级，要避免升级过程意外写 Sector 11，导致配置被擦除。建议升级流程先备份 Sector 11 → 擦写主程序 → 恢复配置。</li>
+        <li><strong>磨损均衡</strong>：若每秒保存一次，单扇区寿命 10000 次仅能用 2.7 小时。应改为"环形页写"：Sector 11 分 32 页（每页 4KB），每次写下一页未用空间，写满再整体擦除，寿命可达 32 万次。</li>
+      </ul>
+    </div>
+
+    <div class="note">
+      <strong>对比 STC EEPROM 方案</strong>：STC89C52RC 无内部 EEPROM（STC8 系列才有），通常外挂 AT24C02 I²C EEPROM（参见第 33 章密码锁）。STM32 内置 Flash 方案省一颗 EEPROM 芯片，但擦写次数（10 万次）远低于 EEPROM（100 万次），且擦除粒度大（16-128 KB 整扇区）。频繁写入场景仍推荐外挂 EEPROM 或 FRAM。
+    </div>
+
+    <h2>18.7 串口调试技巧</h2>
+    <table>
+      <thead><tr><th>工具</th><th>优点</th><th>缺点</th><th>典型场景</th></tr></thead>
+      <tbody>
+        <tr><td>printf 重定向</td><td>简单、随时可输出</td><td>占用 UART、阻塞、需串口助手</td><td>调试日志</td></tr>
+        <tr><td>逻辑分析仪</td><td>看到原始波形、时序、协议解码</td><td>需硬件、UI 学习成本</td><td>排查通信异常、协议解码</td></tr>
+        <tr><td>SEGGER RTT</td><td>通过 SWD 输出，不占用 UART，极速</td><td>需 J-Link/ST-Link RTT 通道</td><td>实时日志、密集输出</td></tr>
+        <tr><td>ITM/EventRecorder</td><td>SWO 引脚输出，CMSIS 标准</td><td>需 SWO 物理连接与 IDE 支持</td><td>性能分析</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>调试经验</strong>：通信异常时第一步用逻辑分析仪抓波形，确认波特率与电平；第二步单独发送/接收测试，排除协议层问题；第三步启用 CRC 校验，定位是否数据丢失。RTT 适合在不影响时序的场合输出大量调试信息，是 printf 的高级替代。
+    </div>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>USART 比 UART 多一根 SCLK，可同步通信；STM32F407 有 USART1/2/3/6 + UART4/5。</li>
+        <li>CubeMX 配置 USART 115200 8N1 是最常用配置，参数需与上位机完全一致。</li>
+        <li>HAL_UART 库函数分阻塞/中断/DMA 三类，DMA 性能最优。</li>
+        <li>环形缓冲区配合单字节中断接收是经典的可变长数据处理方案。</li>
+        <li>DMA + IDLE 中断是接收不定长数据的最优方案，HAL_UARTEx_ReceiveToIdle_DMA 已封装。</li>
+        <li>多机通信协议建议含帧头/长度/命令/数据/CRC 五要素，状态机解析。</li>
+        <li>重写 <code>fputc</code>（Keil MDK）或 <code>__io_putchar</code>（STM32CubeIDE）+ 勾选 MicroLIB 即可让 printf 走 USART；DMA + 环形队列方案适合实时性敏感场景。</li>
+        <li>利用内部 Flash 末尾空闲扇区（推荐 Sector 11，0x080E0000，128 KB）可实现掉电配置存储：结构体 + magic + CRC32 校验，写入流程为 Unlock → Erase → Program → Lock。</li>
+        <li>printf、逻辑分析仪、SEGGER RTT 是三大调试利器，按场景选用。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>简述 USART 与 UART 的区别，并说明同步模式在什么场景下使用。</li>
+        <li>已知 USART1 时钟 84 MHz、过采样 16，要实现 921600 bps 波特率，给出 BRR 整数与小数部分。</li>
+        <li>编写代码：USART1 阻塞发送字符串 "Hello STM32"，并通过中断接收 5 字节回显到 PC。</li>
+        <li>设计一个简单通信协议：帧头 0xAA55 + 长度 + 数据 + CRC8，写出 STM32 端解析状态机伪代码。</li>
+        <li>说明 DMA + IDLE 中断接收不定长数据的原理，对比单字节中断接收的优势。</li>
+        <li>对比 printf、逻辑分析仪、SEGGER RTT 三种调试方式，各举一个适用场景。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>ST 官方. STM32F405/415/407/417 参考手册 RM0090 [Z]. 2024. https://www.st.com/</li>
+        <li>ST 官方. STM32F4xx HAL User Manual UM1025 [Z]. 2024. https://www.st.com/</li>
+        <li>ST 官方. Using the USART on STM32F4 AN4031 [Z]. 2024. https://www.st.com/</li>
+        <li>SEGGER. RTT User Guide [Z]. 2024. https://www.segger.com/</li>
+        <li>野火嵌入式. STM32 HAL 库开发实战指南 [M]. 北京：电子工业出版社, 2020.</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/chapters/part3-stm32f407/ch17-timer-pwm.html" class="prev">← 第 17 章 定时器与 PWM</a>
+      <a href="/index.html" class="home">返回首页</a>
+      <a href="/chapters/part3-stm32f407/ch19-adc-dac.html" class="next">第 19 章 ADC 与 DAC →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

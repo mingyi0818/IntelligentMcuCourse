@@ -1,0 +1,1197 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第26章 嘉立创 EDA PCB 设计 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link active" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 4 篇 单片机开发附加内容 &gt; <span>第 26 章 嘉立创 EDA PCB 设计</span>
+    </div>
+
+    <h1>第 26 章 嘉立创 EDA PCB 设计</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>理解嘉立创 EDA（JLCEDA）在国产 EDA 工具中的定位与特点，能与 Altium Designer 进行合理对比</li>
+        <li>掌握嘉立创 EDA 在线版与客户端版的差异，能够根据场景选择合适版本并完成账号注册与环境搭建</li>
+        <li>掌握原理图设计、元件库与封装管理、PCB 布局布线的完整流程</li>
+        <li>理解 DRC 设计规则检查与"一键下单"打样流程，能够将设计文件发送到嘉立创工厂并跟踪生产进度</li>
+        <li>完成 STM32F407 最小系统板实战项目，从原理图到收板焊接测试打通完整闭环</li>
+      </ul>
+    </div>
+
+    <p>第 25 章介绍了行业主流的专业 EDA 软件 Altium Designer，功能强大但学习曲线较陡、授权费用高昂。对于学生、爱好者以及中小型项目而言，国产 EDA 工具——<strong>嘉立创 EDA（JLCEDA）</strong>提供了一种更易上手、完全免费、且与 PCB 工厂无缝对接的替代方案。本章将系统讲解嘉立创 EDA 的使用方法，并以 STM32F407 最小系统板为实战项目，带领读者完成从原理图设计到 PCB 下单打样的全过程。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch26-jlceda-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+
+rectangle "嘉立创 EDA" as A
+rectangle "在线版\neditor.lceda.cn" as B
+rectangle "客户端版\nWin/Mac/Linux" as C
+rectangle "原理图设计" as D
+rectangle "元件库与封装" as E
+rectangle "PCB 布局布线" as F
+rectangle "DRC 检查" as G
+rectangle "一键下单" as H
+rectangle "嘉立创工厂" as I
+rectangle "收板焊接" as J
+A --&gt; B
+A --&gt; C
+B --&gt; D
+C --&gt; D
+D --&gt; E
+E --&gt; F
+F --&gt; G
+G --&gt; H
+H --&gt; I
+I --&gt; J
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 26-1 嘉立创 EDA 完整工作流程</div>
+
+    <h2>§26.1 嘉立创 EDA 简介与定位</h2>
+    <p>嘉立创 EDA 是由深圳市嘉立创科技有限公司（JLC）开发的国产 EDA 软件，定位为"让更多人轻松完成 PCB 设计"。嘉立创科技本身是中国最大的 PCB 打样与 SMT 贴片代工厂之一，日均处理订单数万单，因此其 EDA 工具与自家工厂的工艺能力、物料库存深度绑定，形成"<strong>设计-下单-制造-发货</strong>"的一站式闭环。</p>
+
+    <h3>§26.1.1 国产 EDA 的发展背景</h3>
+    <p>长期以来，PCB 设计软件市场被 Altium Designer、Cadence Allegro、Mentor Graphics PADS 等国外软件垄断，授权费用动辄数万元，对个人开发者和小公司极不友好。近年来，国产 EDA 软件开始崛起：</p>
+    <ul>
+      <li><strong>立创 EDA（嘉立创 EDA）</strong>：在线起家，免费、易用、对接自家工厂，学生和创客群体用户量大。</li>
+      <li><strong>华大九天九天 EDA</strong>：面向模拟电路与平板显示设计，工业级定位。</li>
+      <li><strong>概伦电子 NanoSpice</strong>：面向集成电路仿真验证。</li>
+      <li><strong>芯和半导体芯和 EDA</strong>：高速仿真与封装协同设计。</li>
+    </ul>
+    <p>对单片机课程而言，嘉立创 EDA 是最合适的国产 EDA 入门工具——它的目标是"5 分钟画完一块 LED 闪烁板"，对学生和初学者极为友好。</p>
+
+    <h3>§26.1.2 嘉立创 EDA 的核心特点</h3>
+    <table>
+      <thead><tr><th>特性</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>完全免费</td><td>个人与教育用户永久免费，无功能限制，无水印</td></tr>
+        <tr><td>在线 + 客户端</td><td>浏览器即开即用，也可下载客户端离线工作</td></tr>
+        <tr><td>云端存储</td><td>工程自动同步到云端，多设备访问，永不丢失</td></tr>
+        <tr><td>官方封装库</td><td>数十万个元件已绑定嘉立创实物料号，可一键 BOM 下单</td></tr>
+        <tr><td>一键下单</td><td>设计完成后直接发送到嘉立创工厂，5 片 10×10cm 双层板 5 元起</td></tr>
+        <tr><td>实时协作</td><td>在线版支持多人同时编辑同一工程，类似 Google Docs</td></tr>
+        <tr><td>3D 预览</td><td>PCB 设计阶段即可查看 3D 立体效果，验证机械尺寸</td></tr>
+        <tr><td>开源工程广场</td><td>内置大量开源工程，可一键复制修改，适合学习</td></tr>
+      </tbody>
+    </table>
+
+    <h3>§26.1.3 与 Altium Designer 的对比</h3>
+    <p>第 25 章已详细介绍 Altium Designer（简称 AD）。下表从多个维度对比 AD 与嘉立创 EDA，帮助读者根据自身需求选择：</p>
+
+    <table>
+      <thead><tr><th>维度</th><th>Altium Designer</th><th>嘉立创 EDA</th></tr></thead>
+      <tbody>
+        <tr><td>授权费用</td><td>数万元（教育版免费但需申请）</td><td>完全免费</td></tr>
+        <tr><td>学习曲线</td><td>陡峭，菜单复杂</td><td>平缓，引导完善</td></tr>
+        <tr><td>功能深度</td><td>专业级，多层高速设计、SI/PI 仿真</td><td>中端，2-6 层板足够</td></tr>
+        <tr><td>运行环境</td><td>Windows，硬件要求高</td><td>跨平台，浏览器即可</td></tr>
+        <tr><td>元件库</td><td>需自建或购买，工作量大</td><td>官方维护，数十万料号</td></tr>
+        <tr><td>下单流程</td><td>导出 Gerber 后另找板厂</td><td>一键下单到嘉立创工厂</td></tr>
+        <tr><td>协作能力</td><td>支持有限（需 365 订阅）</td><td>在线版原生实时协作</td></tr>
+        <tr><td>适用人群</td><td>专业工程师、大公司</td><td>学生、创客、小公司</td></tr>
+        <tr><td>典型场景</td><td>多层高速板、复杂项目</td><td>2-4 层教学/原型板</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>选型建议</strong>：学生阶段或个人学习，优先使用嘉立创 EDA——免费、易学、能直接下单出实物板，反馈闭环短。进入大公司实习或工作后，根据公司要求学习 Altium Designer 或 Cadence。两者原理图与 PCB 的设计思想相通，掌握一个后迁移到另一个只需 1-2 周。
+    </div>
+
+    <h2>§26.2 在线版与客户端版对比</h2>
+    <p>嘉立创 EDA 提供<strong>在线版</strong>和<strong>客户端版</strong>两种形态，功能基本一致，但运行环境和使用体验有所差异。初学者常困惑该选哪个版本，本节详细对比。</p>
+
+    <h3>§26.2.1 在线版（editor.lceda.cn）</h3>
+    <p>在线版是嘉立创 EDA 的旗舰形态，访问地址为 <code>https://editor.lceda.cn/</code>（标准版）或 <code>https://pro.lceda.cn/</code>（专业版）。打开浏览器登录账号即可开始设计，无需安装任何软件。</p>
+
+    <p><strong>在线版优点：</strong></p>
+    <ul>
+      <li><strong>跨平台</strong>：Windows、Mac、Linux、Chromebook 都能使用，只需现代浏览器。</li>
+      <li><strong>云端存储</strong>：工程自动保存到云端，永不丢失，多设备无缝切换。</li>
+      <li><strong>实时协作</strong>：可邀请多人同时编辑同一工程，类似 Google Docs，适合团队开发。</li>
+      <li><strong>无需维护</strong>：版本自动更新，无需手动升级，始终使用最新功能。</li>
+      <li><strong>分享便捷</strong>：工程可生成分享链接，他人点击即可查看或克隆。</li>
+    </ul>
+
+    <p><strong>在线版缺点：</strong></p>
+    <ul>
+      <li><strong>依赖网络</strong>：断网无法工作，网络不稳定时体验差。</li>
+      <li><strong>大文件慢</strong>：元件数超过 500 个的大型工程，加载和操作会卡顿。</li>
+      <li><strong>浏览器限制</strong>：受浏览器内存上限影响，超大型 PCB 渲染会变慢。</li>
+      <li><strong>无法离线</strong>：飞机、高铁等无网环境完全无法使用。</li>
+    </ul>
+
+    <h3>§26.2.2 客户端版</h3>
+    <p>客户端版是嘉立创 EDA 的本地安装版本，支持 Windows、macOS、Linux 三大平台，可从官网 <code>https://lceda.cn/page/download</code> 下载。</p>
+
+    <p><strong>客户端版优点：</strong></p>
+    <ul>
+      <li><strong>本地速度快</strong>：大型工程加载和操作流畅，不受浏览器限制。</li>
+      <li><strong>离线工作</strong>：断网仍可编辑，联网后自动同步到云端。</li>
+      <li><strong>原生体验</strong>：符合操作系统原生窗口、快捷键习惯。</li>
+      <li><strong>大文件友好</strong>：上千元件的复杂工程也能流畅运行。</li>
+    </ul>
+
+    <p><strong>客户端版缺点：</strong></p>
+    <ul>
+      <li><strong>单机使用</strong>：不支持多人实时协作（但可同步后他人接力编辑）。</li>
+      <li><strong>需手动更新</strong>：新版本需手动下载安装。</li>
+      <li><strong>占用磁盘</strong>：安装包约 300-500 MB，工程文件本地缓存占用空间。</li>
+    </ul>
+
+    <h3>§26.2.3 版本选择建议</h3>
+    <table>
+      <thead><tr><th>使用场景</th><th>推荐版本</th><th>理由</th></tr></thead>
+      <tbody>
+        <tr><td>学生个人学习</td><td>客户端版</td><td>本地速度快，宿舍断网也能用</td></tr>
+        <tr><td>课堂演示教学</td><td>在线版</td><td>机房免安装，即开即用</td></tr>
+        <tr><td>团队协作开发</td><td>在线版</td><td>实时多人编辑，沟通成本低</td></tr>
+        <tr><td>复杂大型工程</td><td>客户端版</td><td>性能稳定，避免浏览器卡顿</td></tr>
+        <tr><td>出差/移动办公</td><td>在线版</td><td>任何电脑都能访问</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>本章推荐</strong>：建议学生使用<strong>客户端版</strong>完成本章学习。客户端版响应速度快，断网也能继续设计，更适合长时间专注练习。下载地址：<code>https://lceda.cn/page/download</code>。
+    </div>
+
+    <h2>§26.3 环境搭建与账号注册</h2>
+    <p>本节以客户端版为例，介绍嘉立创 EDA 的账号注册、软件下载、安装与首次配置流程。</p>
+
+    <h3>§26.3.1 注册嘉立创账号</h3>
+    <p>嘉立创 EDA 的账号与嘉立创商城、嘉立创工厂共用一套账号体系，注册一次即可在所有平台通用。注册方式：</p>
+    <ol>
+      <li>访问 <code>https://lceda.cn/</code>，点击右上角"注册"。</li>
+      <li>支持三种注册方式：
+        <ul>
+          <li><strong>手机号注册</strong>：输入手机号 + 短信验证码 + 设置密码。</li>
+          <li><strong>邮箱注册</strong>：输入邮箱 + 邮箱验证码 + 设置密码。</li>
+          <li><strong>微信扫码注册</strong>：使用微信扫一扫自动完成注册与登录。</li>
+        </ul>
+      </li>
+      <li>填写昵称、行业（学生选"教育"）、用途等信息，完成注册。</li>
+      <li>注册成功后，使用同一账号登录 <code>https://www.jlc.com/</code>（嘉立创工厂）和 <code>https://lcsc.com/</code>（立创商城），账号已自动打通。</li>
+    </ol>
+
+    <div class="tip">
+      <strong>实名认证</strong>：下单 PCB 时需要进行实名认证（中国大陆用户）。建议注册后立即在"个人中心 → 账户安全"中完成实名认证，否则下单时会被拦截。学生可使用本人身份证，无需企业资质。
+    </div>
+
+    <h3>§26.3.2 下载与安装客户端版</h3>
+    <p>客户端版下载与安装步骤：</p>
+    <ol>
+      <li>访问 <code>https://lceda.cn/page/download</code>。</li>
+      <li>选择对应平台：
+        <ul>
+          <li><strong>Windows</strong>：下载 <code>Lceda_Win_x.y.z.exe</code>（约 200 MB）。</li>
+          <li><strong>macOS</strong>：下载 <code>Lceda_Mac_x.y.z.dmg</code>。</li>
+          <li><strong>Linux</strong>：下载 <code>Lceda_Linux_x.y.z.AppImage</code>。</li>
+        </ul>
+      </li>
+      <li>Windows 安装：双击 <code>.exe</code>，按向导选择安装路径（建议默认 <code>C:\Program Files\Lceda\</code>），点击"下一步"直至完成。</li>
+      <li>macOS 安装：双击 <code>.dmg</code>，将 Lceda 图标拖入 Applications 文件夹。</li>
+      <li>首次启动时，使用注册的嘉立创账号登录。</li>
+    </ol>
+
+    <p>安装完成后，建议在"帮助 → 检查更新"中确认已安装最新版本。嘉立创 EDA 更新频繁（每月 1-2 次），新版本会修复 bug 并增加新功能。</p>
+
+    <h3>§26.3.3 首次运行配置</h3>
+    <p>首次启动客户端版后，建议进行以下配置：</p>
+
+    <ol>
+      <li><strong>设置默认库路径</strong>：在"系统设置 → 立创商城"中勾选"使用立创商城基础库"，这样放置元件时优先从官方库搜索，避免使用未授权封装。</li>
+      <li><strong>设置工程目录</strong>：在"系统设置 → 同步设置"中指定本地工程缓存目录，建议放在 <code>D:\JLCEDA_Projects\</code>（不要放 C 盘，避免系统重装丢失）。</li>
+      <li><strong>设置主题</strong>：在"系统设置 → 主题"中选择"亮色"或"暗色"，根据个人喜好。</li>
+      <li><strong>开启自动保存</strong>：默认每 30 秒自动保存，建议保留。</li>
+      <li><strong>绑定嘉立创工厂</strong>：在"系统设置 → 嘉立创下单"中确认账号已绑定，后续才能一键下单。</li>
+    </ol>
+
+    <h3>§26.3.4 工程文件结构</h3>
+    <p>嘉立创 EDA 的工程文件结构与 Altium Designer 类似，但扩展名不同：</p>
+
+    <table>
+      <thead><tr><th>文件类型</th><th>扩展名</th><th>说明</th><th>AD 对应</th></tr></thead>
+      <tbody>
+        <tr><td>工程文件</td><td><code>.epro</code></td><td>管理整个工程，包含原理图、PCB、库的引用关系</td><td><code>.PrjPcb</code></td></tr>
+        <tr><td>原理图</td><td><code>.esch</code></td><td>原理图文件，可多张</td><td><code>.SchDoc</code></td></tr>
+        <tr><td>PCB 文件</td><td><code>.epcb</code></td><td>PCB 布局布线文件</td><td><code>.PcbDoc</code></td></tr>
+        <tr><td>符号库</td><td><code>.elib</code></td><td>自定义元件符号库</td><td><code>.SchLib</code></td></tr>
+        <tr><td>封装库</td><td><code>.plib</code></td><td>自定义封装库</td><td><code>.PcbLib</code></td></tr>
+      </tbody>
+    </table>
+
+    <p>一个典型工程目录结构如下：</p>
+
+    <pre><code class="language-text">STM32F407_MinSystem/
+├── STM32F407_MinSystem.epro      # 工程文件
+├── schematic/
+│   ├── main.esch                  # 主原理图（电源、晶振、复位）
+│   └── mcu.esch                   # MCU 子图
+├── pcb/
+│   └── STM32F407.epcb             # PCB 文件
+└── libraries/
+    ├── my_symbols.elib            # 自建符号库
+    └── my_footprints.plib         # 自建封装库</code></pre>
+
+    <div class="tip">
+      <strong>云端同步</strong>：客户端版每次保存都会自动同步到云端。在网页版登录同一账号，可以看到本地工程。这种设计使得"宿舍用客户端、机房用网页版"无缝切换。
+    </div>
+
+    <h2>§26.4 原理图设计</h2>
+    <p>原理图是 PCB 设计的起点，描述电路的电气连接关系。本节以一个简单的 STC89C52RC LED 闪烁电路为例，演示嘉立创 EDA 的原理图设计流程。</p>
+
+    <h3>§26.4.1 新建工程与原理图</h3>
+    <ol>
+      <li>启动嘉立创 EDA 客户端，点击"文件 → 新建 → 工程"。</li>
+      <li>在弹出的对话框中：
+        <ul>
+          <li>工程名称：<code>LED_Blink</code></li>
+          <li>工程路径：<code>D:\JLCEDA_Projects\</code></li>
+          <li>工程类型：选择"板级设计"（包含原理图 + PCB）</li>
+        </ul>
+      </li>
+      <li>点击"确定"，工程创建完成后，左侧工程面板会出现 <code>LED_Blink.epro</code>。</li>
+      <li>右键工程 → "新增 → 原理图"，创建一张原理图 <code>Sheet1.esch</code>，自动打开原理图编辑器。</li>
+    </ol>
+
+    <p>原理图编辑器界面主要由以下部分组成：</p>
+
+    <ul>
+      <li><strong>顶部菜单栏</strong>：文件、编辑、放置、设计、工具、帮助等。</li>
+      <li><strong>左侧面板</strong>：工程树、元件库、属性、图层（PCB 时）。</li>
+      <li><strong>中央画布</strong>：原理图绘制区域，白色背景，A4 大小。</li>
+      <li><strong>右侧面板</strong>：元件属性、设计管理器。</li>
+      <li><strong>底部状态栏</strong>：坐标、缩放、网格设置。</li>
+    </ul>
+
+    <h3>§26.4.2 放置元件</h3>
+    <p>嘉立创 EDA 提供三种放置元件的方式：</p>
+
+    <p><strong>方式一：从元件库面板搜索</strong>（最常用）</p>
+    <ol>
+      <li>在左侧"元件库"面板的搜索框中输入元件型号或关键词。</li>
+      <li>例如输入 <code>STC89C52RC</code>，会显示嘉立创官方库中的匹配元件。</li>
+      <li>双击元件或拖拽到画布上即可放置。</li>
+      <li>放置后按 <code>Tab</code> 键可编辑元件属性。</li>
+    </ol>
+
+    <p><strong>方式二：使用快捷键 P</strong></p>
+    <ul>
+      <li>按 <code>P</code> 键弹出"放置元件"对话框。</li>
+      <li>可在搜索框中输入元件名称，回车后放置。</li>
+    </ul>
+
+    <p><strong>方式三：从基础库分类浏览</strong></p>
+    <ul>
+      <li>元件库面板下方有分类树：电阻、电容、二极管、集成电路、接插件等。</li>
+      <li>适合不熟悉型号但知道类别的初学者。</li>
+    </ul>
+
+    <p>下表列出单片机课程常用的元件及其在嘉立创 EDA 中的搜索关键词：</p>
+
+    <table>
+      <thead><tr><th>元件</th><th>搜索关键词</th><th>典型封装</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>STC89C52RC</td><td><code>STC89C52RC</code></td><td>DIP-40 / LQFP-44</td><td>本课程 8 位单片机</td></tr>
+        <tr><td>STM32F407VGT6</td><td><code>STM32F407VGT6</code></td><td>LQFP-100</td><td>本课程 32 位单片机</td></tr>
+        <tr><td>电阻</td><td><code>0805 resistor</code> 或 <code>R 0805</code></td><td>0805 / 0603</td><td>贴片电阻</td></tr>
+        <tr><td>电容</td><td><code>0805 capacitor</code> 或 <code>C 0805</code></td><td>0805 / 0603</td><td>贴片电容</td></tr>
+        <tr><td>LED</td><td><code>LED 0805</code></td><td>0805 / 0603</td><td>贴片 LED</td></tr>
+        <tr><td>晶振</td><td><code>crystal 8MHz</code></td><td>HC-49S / 5032</td><td>主时钟晶振</td></tr>
+        <tr><td>排针</td><td><code>header 2.54 1x20</code></td><td>2.54mm 1×20</td><td>GPIO 引出</td></tr>
+        <tr><td>AMS1117-3.3</td><td><code>AMS1117-3.3</code></td><td>SOT-223</td><td>3.3V LDO 稳压</td></tr>
+        <tr><td>USB Type-C</td><td><code>USB Type-C</code></td><td>TYPE-C-31-M-12</td><td>供电与通信</td></tr>
+      </tbody>
+    </table>
+
+    <h3>§26.4.3 放置导线与网络标签</h3>
+    <p>元件放置完成后，需要用导线连接它们。嘉立创 EDA 的导线操作：</p>
+
+    <ul>
+      <li><strong>绘制导线</strong>：按 <code>W</code> 键或菜单"放置 → 导线"，进入布线模式。鼠标点击元件引脚端点开始，再次点击结束。中间可多次点击转折。</li>
+      <li><strong>取消布线</strong>：按 <code>Esc</code> 退出布线模式。</li>
+      <li><strong>删除导线</strong>：选中导线后按 <code>Delete</code>。</li>
+    </ul>
+
+    <p>当电路连接较复杂、导线交叉过多时，可使用<strong>网络标签</strong>代替直接连线。网络标签是给一个电气节点命名，相同名字的节点自动连接。</p>
+
+    <ul>
+      <li><strong>放置网络标签</strong>：按 <code>N</code> 键，输入标签名（如 <code>LED1</code>、<code>UART_TX</code>），放置到导线上。</li>
+      <li><strong>命名规范</strong>：建议使用大写英文 + 下划线，如 <code>UART_TX</code>、<code>SPI_MOSI</code>、<code>I2C_SCL</code>。</li>
+      <li><strong>电源网络</strong>：电源端口（VCC/GND/3V3）本质上也是网络标签，但用专门的图形符号表示。</li>
+    </ul>
+
+    <h3>§26.4.4 电源端口</h3>
+    <p>嘉立创 EDA 提供专门的电源端口符号，便于标识电源网络。按 <code>Shift+P</code> 或菜单"放置 → 电源端口"，可选择以下符号：</p>
+
+    <table>
+      <thead><tr><th>符号</th><th>网络名</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td>VCC（圆形）</td><td>VCC</td><td>通用正电源</td></tr>
+        <tr><td>+5V（箭头向上）</td><td>+5V / 5V</td><td>5V 电源</td></tr>
+        <tr><td>+3.3V（箭头向上）</td><td>+3V3 / 3V3</td><td>3.3V 电源</td></tr>
+        <tr><td>GND（三角向下）</td><td>GND</td><td>地</td></tr>
+        <tr><td>AGND（三角向下）</td><td>AGND</td><td>模拟地</td></tr>
+        <tr><td>VBAT（圆形）</td><td>VBAT</td><td>电池电源</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>电源命名一致性</strong>：在同一个工程中，电源网络名必须完全一致。例如 <code>3V3</code> 和 <code>+3V3</code> 是两个不同的网络，会导致 PCB 上连接断开。建议工程开始时就统一命名规范。
+    </div>
+
+    <h3>§26.4.5 总线与层次化设计</h3>
+    <p>当多条相关信号并行（如 STM32 的 GPIOA 0-15 共 16 根线）时，使用<strong>总线</strong>可以简化原理图：</p>
+    <ol>
+      <li>按 <code>Shift+B</code> 进入总线绘制模式。</li>
+      <li>绘制一条粗总线（默认蓝色粗线）。</li>
+      <li>用普通导线将每根 GPIO 引脚连到总线。</li>
+      <li>每根导线在汇入总线处放置网络标签（如 <code>PA0</code>、<code>PA1</code>…<code>PA15</code>）。</li>
+      <li>在另一端用相同网络标签引出，电气上即自动连接。</li>
+    </ol>
+
+    <p>对于复杂电路（如 MCU + 电源 + 外设三大模块），可使用<strong>层次化设计</strong>将原理图分多张：</p>
+    <ul>
+      <li>在主原理图中放置"图纸符号"（rectangle），代表子图。</li>
+      <li>每个图纸符号添加"端口"（port），对应子图的输入输出。</li>
+      <li>双击图纸符号进入子图编辑。</li>
+      <li>这种设计类似 C 语言的函数调用，使原理图层次清晰。</li>
+    </ul>
+
+    <h3>§26.4.6 元件属性编辑</h3>
+    <p>放置元件后，需要编辑其属性。双击元件或按 <code>Tab</code> 打开属性对话框，关键属性包括：</p>
+
+    <table>
+      <thead><tr><th>属性</th><th>说明</th><th>示例</th></tr></thead>
+      <tbody>
+        <tr><td>位号（Designator）</td><td>元件唯一编号，必须填写</td><td><code>R1</code>、<code>C3</code>、<code>U1</code></td></tr>
+        <tr><td>注释（Comment）</td><td>元件型号，显示在原理图</td><td><code>STC89C52RC</code></td></tr>
+        <tr><td>封装（Footprint）</td><td>PCB 上的物理形状，决定 PCB</td><td><code>DIP-40</code></td></tr>
+        <tr><td>值（Value）</td><td>元件参数值</td><td><code>10k</code>、<code>100nF</code></td></tr>
+        <tr><td>物料号（LCSC）</td><td>嘉立创物料编号，用于下单</td><td><code>C89317</code></td></tr>
+        <tr><td>描述</td><td>补充说明</td><td><code>10kΩ 0805 1%</code></td></tr>
+      </tbody>
+    </table>
+
+    <p>批量编号位号可使用"工具 → 元件编号"功能，自动将所有 <code>R?</code> 改为 <code>R1, R2, R3…</code>，避免重号。</p>
+
+    <h2>§26.5 元件库与封装管理</h2>
+    <p>元件库是 EDA 软件的核心资源。嘉立创 EDA 的最大优势之一就是拥有官方维护的庞大元件库，且每个元件都绑定了嘉立创商城的实物料号，可直接下单采购。</p>
+
+    <h3>§26.5.1 内置元件库</h3>
+    <p>嘉立创 EDA 内置元件库分为两类：</p>
+
+    <ul>
+      <li><strong>基础库</strong>：嘉立创官方精选的常用元件，每个都有完整符号、封装、3D 模型，且绑定嘉立创实物料号。基础库元件可在下单时自动加入 BOM，无需手动管理。</li>
+      <li><strong>扩展库</strong>：社区贡献的元件，数量更多但质量参差不齐，使用前需自行核对封装尺寸。</li>
+    </ul>
+
+    <p>在元件库面板顶部可切换"基础库"/"扩展库"/"我的库"。建议优先使用基础库元件，特别是下单生产的项目，确保料号有效、库存充足。</p>
+
+    <h3>§26.5.2 嘉立创官方封装库</h3>
+    <p>嘉立创官方封装库的元件已绑定立创商城（LCSC）的实物料号（如 <code>C89317</code> 表示某款 10kΩ 0805 电阻）。这种绑定带来以下好处：</p>
+
+    <ul>
+      <li><strong>一键 BOM 下单</strong>：原理图设计完成后，可一键生成 BOM 表，所有料号自动填入，点击即可加入嘉立创购物车。</li>
+      <li><strong>库存实时查询</strong>：元件属性中显示当前库存数量，缺货物件会标记红色。</li>
+      <li><strong>价格透明</strong>：直接显示元件单价，便于成本预估。</li>
+      <li><strong>SMT 贴片可行</strong>：基础库元件均支持嘉立创 SMT 贴片，无需自购元件。</li>
+    </ul>
+
+    <p>查询物料详情可访问立创商城 <code>https://lcsc.com/</code>，搜索料号即可查看 datasheet、规格、价格、库存。</p>
+
+    <h3>§26.5.3 自建元件</h3>
+    <p>当内置库没有需要的元件时，需要自建元件。嘉立创 EDA 的自建元件流程：</p>
+
+    <p><strong>步骤 1：绘制符号</strong></p>
+    <ol>
+      <li>菜单"工具 → 符号库管理"，新建符号库。</li>
+      <li>新建符号，命名（如 <code>MyModule_X9C103</code>）。</li>
+      <li>使用绘图工具绘制符号外形（矩形、圆等）。</li>
+      <li>添加引脚：菜单"放置 → 引脚"，设置引脚编号、名称、电气类型（输入/输出/电源/无连接）。</li>
+      <li>保存符号。</li>
+    </ol>
+
+    <p><strong>步骤 2：绘制封装</strong></p>
+    <ol>
+      <li>菜单"工具 → 封装库管理"，新建封装库。</li>
+      <li>新建封装，命名（如 <code>SOP-8_150mil</code>）。</li>
+      <li>放置焊盘：菜单"放置 → 焊盘"，设置焊盘编号、形状、尺寸、位置。</li>
+      <li>绘制丝印外形：菜单"放置 → 线条/圆弧/文字"，绘制元件外形轮廓。</li>
+      <li>设置原点（菜单"编辑 → 设置原点"），便于 PCB 布局时定位。</li>
+      <li>保存封装。</li>
+    </ol>
+
+    <p><strong>步骤 3：绑定 3D 模型（可选）</strong></p>
+    <ol>
+      <li>在封装编辑器中，菜单"工具 → 3D 模型管理"。</li>
+      <li>可上传 STEP 文件或使用内置 3D 模型生成器（按封装尺寸自动生成长方体）。</li>
+      <li>3D 模型用于 PCB 3D 预览和机械干涉检查。</li>
+    </ol>
+
+    <p><strong>步骤 4：创建元件并关联</strong></p>
+    <ol>
+      <li>菜单"工具 → 元件库管理"，新建元件。</li>
+      <li>关联刚绘制的符号和封装。</li>
+      <li>填写属性：物料号、值、描述等。</li>
+      <li>保存元件，即可在原理图中使用。</li>
+    </ol>
+
+    <h3>§26.5.4 与 Altium Designer 库对比</h3>
+    <table>
+      <thead><tr><th>特性</th><th>嘉立创 EDA</th><th>Altium Designer</th></tr></thead>
+      <tbody>
+        <tr><td>库文件格式</td><td><code>.elib</code> / <code>.plib</code></td><td><code>.SchLib</code> / <code>.PcbLib</code></td></tr>
+        <tr><td>内置库数量</td><td>数十万（基础+扩展）</td><td>需自建或购买</td></tr>
+        <tr><td>官方维护</td><td>嘉立创团队持续更新</td><td>需用户自行维护</td></tr>
+        <tr><td>物料号绑定</td><td>原生支持，一键下单</td><td>需手动填写 Manufacturer / Part Number</td></tr>
+        <tr><td>3D 模型</td><td>内置自动生成 + STEP 上传</td><td>需 STEP 文件，配置复杂</td></tr>
+        <tr><td>云端共享</td><td>用户库可一键发布共享</td><td>需通过 Vault 或 Git 共享</td></tr>
+        <tr><td>导入 AD 库</td><td>支持导入 <code>.SchLib</code>/<code>.PcbLib</code></td><td>原生格式</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>库迁移技巧</strong>：从 AD 迁移到嘉立创 EDA 时，可使用"文件 → 导入 → Altium Designer"功能，直接导入 <code>.PrjPcb</code> 工程及其 <code>.SchLib</code> / <code>.PcbLib</code> 库，符号和封装会自动转换。但部分高级对象（如多部件元件、复杂 3D）可能需要手动修正。
+    </div>
+
+    <h2>§26.6 PCB 设计</h2>
+    <p>原理图完成后，下一步是将原理图导入到 PCB，进行布局布线。本节介绍 PCB 设计的完整流程。</p>
+
+    <h3>§26.6.1 从原理图导入到 PCB</h3>
+    <ol>
+      <li>在原理图编辑器中，菜单"设计 → 更新/转换原理图到 PCB"。</li>
+      <li>弹出"工程变更"对话框，列出所有待添加的元件、网络。</li>
+      <li>点击"接受变更"，系统自动创建 PCB 文件并放置所有元件。</li>
+      <li>元件会按网格排列在板框右侧，等待布局。</li>
+    </ol>
+
+    <p>导入后，PCB 编辑器界面包含以下层：</p>
+
+    <table>
+      <thead><tr><th>层</th><th>颜色</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td>Top Layer（顶层）</td><td>红色</td><td>顶层信号走线</td></tr>
+        <tr><td>Bottom Layer（底层）</td><td>蓝色</td><td>底层信号走线</td></tr>
+        <tr><td>Top Solder（顶层阻焊）</td><td>紫色</td><td>顶层阻焊开窗，露出铜箔</td></tr>
+        <tr><td>Bottom Solder（底层阻焊）</td><td>紫色</td><td>底层阻焊开窗</td></tr>
+        <tr><td>Top Silkscreen（顶层丝印）</td><td>黄色</td><td>顶层白色文字、图形</td></tr>
+        <tr><td>Bottom Silkscreen（底层丝印）</td><td>黄色</td><td>底层白色文字、图形</td></tr>
+        <tr><td>Board Outline（板框）</td><td>绿色</td><td>PCB 外形轮廓</td></tr>
+        <tr><td>Multi-Layer（多层）</td><td>灰色</td><td>过孔、贯穿所有层</td></tr>
+      </tbody>
+    </table>
+
+    <h3>§26.6.2 板框绘制</h3>
+    <p>板框定义了 PCB 的物理外形。绘制步骤：</p>
+    <ol>
+      <li>切换到"板框"层（图层下拉框选择 Board Outline）。</li>
+      <li>按 <code>Shift+R</code> 或菜单"放置 → 线条"。</li>
+      <li>在画布上点击绘制矩形或自定义形状，首尾闭合即形成板框。</li>
+      <li>常见板尺寸：
+        <ul>
+          <li>STC89 最小系统板：60mm × 80mm</li>
+          <li>STM32F407 最小系统板：50mm × 50mm</li>
+          <li>Arduino UNO 兼容板：53mm × 69mm</li>
+        </ul>
+      </li>
+      <li>若需要圆角板框，使用"工具 → 板框 → 圆角"功能。</li>
+      <li>若需要异形板框（如圆形、心形），可在板框层绘制任意闭合曲线。</li>
+    </ol>
+
+    <div class="tip">
+      <strong>定位孔</strong>：建议在四个角各放置一个 Φ3.2mm 安装孔（用焊盘实现，孔径 3.2mm，焊盘外径 5mm），便于用 M3 螺丝固定 PCB。这是机械设计的基本常识。
+    </div>
+
+    <h3>§26.6.3 设计规则设置</h3>
+    <p>设计规则（Design Rule）定义了 PCB 制造的工艺约束。嘉立创 EDA 默认规则已适配嘉立创工厂工艺，但建议了解关键参数。菜单"设计 → 设计规则"打开设置：</p>
+
+    <table>
+      <thead><tr><th>规则</th><th>推荐值</th><th>嘉立创工艺下限</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>最小线宽</td><td>6 mil (0.15mm)</td><td>3.5 mil (0.09mm)</td><td>电源线建议 20-30 mil</td></tr>
+        <tr><td>最小间距</td><td>6 mil (0.15mm)</td><td>3.5 mil (0.09mm)</td><td>线与线、线与焊盘间</td></tr>
+        <tr><td>过孔外径</td><td>24 mil (0.6mm)</td><td>16 mil (0.4mm)</td><td>建议 0.6mm 外径</td></tr>
+        <tr><td>过孔内径</td><td>12 mil (0.3mm)</td><td>8 mil (0.2mm)</td><td>建议 0.3mm 钻孔</td></tr>
+        <tr><td>阻焊开窗</td><td>4 mil (0.1mm)</td><td>3 mil (0.075mm)</td><td>比焊盘大 0.1mm</td></tr>
+        <tr><td>丝印线宽</td><td>6 mil (0.15mm)</td><td>5 mil (0.127mm)</td><td>文字最小 0.8mm 高</td></tr>
+      </tbody>
+    </table>
+
+    <p>对于学生项目，建议<strong>保守设置</strong>：线宽 10 mil、间距 10 mil、过孔 24/12 mil。这样制造良率高、成本低，且焊接容易。</p>
+
+    <h3>§26.6.4 元件布局原则</h3>
+    <p>布局是 PCB 设计的<strong>关键环节</strong>，决定了 70% 的设计质量。原则如下：</p>
+
+    <ol>
+      <li><strong>先大后小</strong>：先放置核心元件（MCU、电源芯片、接插件），再放置周边小元件。</li>
+      <li><strong>信号流向</strong>：按信号流向布局，输入接插件在一侧，输出在另一侧，避免信号交叉。</li>
+      <li><strong>就近原则</strong>：去耦电容（0.1µF）紧贴芯片电源引脚；晶振紧贴 MCU 时钟引脚。</li>
+      <li><strong>模数分离</strong>：模拟电路（ADC 输入、传感器）与数字电路（MCU、晶振）分区布局，避免数字噪声干扰模拟信号。</li>
+      <li><strong>电源分区</strong>：稳压器（AMS1117）放在电源输入附近，电源地与信号地在一点共地。</li>
+      <li><strong>避免重叠</strong>：元件之间留 0.5mm 以上间距，便于焊接和检修。</li>
+      <li><strong>方向一致</strong>：同类元件（如电阻阵列）方向一致，美观且便于贴片。</li>
+      <li><strong>预留空间</strong>：调试接口（SWD、UART）放在板边，便于接插件插入。</li>
+    </ol>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch26-jlceda-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+top to bottom direction
+
+rectangle "USB Type-C 供电" as A
+rectangle "AMS1117-3.3 稳压" as B
+rectangle "3.3V 电源滤波" as C
+rectangle "STM32F407 MCU" as D
+rectangle "8MHz 晶振" as E
+rectangle "32.768kHz RTC 晶振" as F
+rectangle "复位电路" as G
+rectangle "SWD 调试接口" as H
+rectangle "LED 指示" as I
+rectangle "按键" as J
+rectangle "GPIO 排针引出" as K
+A --&gt; B
+B --&gt; C
+C --&gt; D
+E --&gt; D
+F --&gt; D
+G --&gt; D
+H --&gt; D
+D --&gt; I
+D --&gt; J
+D --&gt; K
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 26-2 STM32F407 最小系统板布局信号流向</div>
+
+    <h3>§26.6.5 交互式布线</h3>
+    <p>布线是将元件用铜线连接的过程。嘉立创 EDA 提供<strong>交互式布线</strong>，自动避让其他对象。操作：</p>
+
+    <ol>
+      <li>按 <code>W</code> 进入布线模式。</li>
+      <li>点击起始焊盘，鼠标移动会自动跟随。</li>
+      <li>系统自动选择当前活动层（顶层/底层），按 <code>*</code> 键切换层（自动添加过孔）。</li>
+      <li>点击目标焊盘完成连线。</li>
+      <li>推荐设置：
+        <ul>
+          <li>信号线宽：8-10 mil</li>
+          <li>电源线宽：20-30 mil（VCC/GND）</li>
+          <li>过孔：外径 24 mil / 内径 12 mil</li>
+        </ul>
+      </li>
+    </ol>
+
+    <p>布线技巧：</p>
+    <ul>
+      <li><strong>先电源后信号</strong>：先布 VCC 和 GND 主干，再布信号线。电源线尽量短而粗。</li>
+      <li><strong>顶层横向、底层纵向</strong>：双层板建议顶层主要走横向，底层主要走纵向，避免大面积遮挡。</li>
+      <li><strong>避免直角走线</strong>：直角走线高频时易产生反射，嘉立创 EDA 默认会自动倒角为 45° 或圆弧。</li>
+      <li><strong>时钟线最短</strong>：晶振到 MCU 的连线越短越好，减少干扰。</li>
+      <li><strong>差分对走线</strong>：USB D+/D- 等差分信号需等长走线，使用"工具 → 差分对布线"。</li>
+    </ul>
+
+    <h3>§26.6.6 铺铜（覆铜）</h3>
+    <p>铺铜是将 PCB 上空白区域填充铜箔，常用于 GND 网络，可降低地阻抗、提高 EMC 性能。操作：</p>
+    <ol>
+      <li>切换到底层（或顶层）。</li>
+      <li>菜单"放置 → 铺铜"，或在工具栏点击铺铜图标。</li>
+      <li>沿着板框绘制闭合区域（覆盖整板）。</li>
+      <li>在属性面板中设置：
+        <ul>
+          <li>网络：<code>GND</code></li>
+          <li>间距：10 mil（与其他对象的安全距离）</li>
+          <li>填充模式：实心填充（Solid）</li>
+          <li>去除死铜：勾选（移除孤立的小块铜箔）</li>
+        </ul>
+      </li>
+      <li>点击"应用"，系统自动计算并填充。</li>
+    </ol>
+
+    <p>建议<strong>顶层和底层都铺铜到 GND</strong>，形成完整地平面，提升信号完整性。铺铜后右键"铺铜 → 重建"可重新计算（修改布线后需重建）。</p>
+
+    <h3>§26.6.7 丝印文字</h3>
+    <p>丝印是 PCB 表面的白色文字，标注元件位号、版本号、LOGO 等。在丝印层添加文字：</p>
+    <ol>
+      <li>切换到 Top Silkscreen 层。</li>
+      <li>菜单"放置 → 字符串"或按 <code>Shift+T</code>。</li>
+      <li>输入文字（如 <code>STM32F407 MIN</code>、<code>V1.0</code>、<code>2026-08</code>）。</li>
+      <li>设置字号（建议 0.8-1.2mm 高）、线宽（建议 0.2mm）。</li>
+      <li>放置到合适位置，避免遮挡焊盘。</li>
+    </ol>
+
+    <div class="tip">
+      <strong>丝印规范</strong>：每个元件应有清晰的位号丝印；极性元件（LED、电解电容、二极管）需标注正负极；接插件需标注引脚功能（如 <code>3V3</code>、<code>GND</code>、<code>TX</code>、<code>RX</code>）。这些细节决定焊接体验。
+    </div>
+
+    <h3>§26.6.8 测量工具</h3>
+    <p>设计过程中经常需要测量尺寸，如元件间距、板框尺寸等。嘉立创 EDA 提供多种测量工具：</p>
+    <ul>
+      <li><strong>测量距离</strong>：菜单"工具 → 测量距离"或快捷键 <code>Ctrl+M</code>，点击两点显示直线距离。</li>
+      <li><strong>测量边到边</strong>：测量两个对象边缘的最短距离。</li>
+      <li><strong>坐标显示</strong>：鼠标位置实时显示在状态栏，单位可切换 mm/mil。</li>
+      <li><strong>网格</strong>：按 <code>G</code> 切换网格大小，常用 1mm、0.5mm、10mil。</li>
+    </ul>
+
+    <h2>§26.7 DRC 检查与一键下单打样</h2>
+    <p>PCB 设计完成后，需要经过<strong>DRC 检查</strong>确认无错误，然后才能下单制造。嘉立创 EDA 的最大优势——<strong>一键下单</strong>——也是这一阶段的核心。</p>
+
+    <h3>§26.7.1 DRC 规则设置</h3>
+    <p>DRC（Design Rule Check，设计规则检查）会扫描 PCB 上所有对象，找出违反规则的地方。规则在"设计 → 设计规则"中设置，关键项包括：</p>
+
+    <ul>
+      <li><strong>电气规则</strong>：短路（不同网络连通）、断路（网络未连接完整）、悬空连接。</li>
+      <li><strong>布线规则</strong>：线宽、间距、过孔尺寸是否满足工艺要求。</li>
+      <li><strong>placement 规则</strong>：元件间距、元件重叠、元件超出板框。</li>
+      <li><strong>制造规则</strong>：阻焊、丝印、孔径等是否在工艺范围内。</li>
+    </ul>
+
+    <h3>§26.7.2 运行 DRC</h3>
+    <ol>
+      <li>菜单"设计 → 设计规则检查"或按 <code>Shift+D</code>。</li>
+      <li>系统扫描后弹出 DRC 报告，列出所有错误和警告。</li>
+      <li>错误分为：
+        <ul>
+          <li><strong>错误（红色）</strong>：必须修复，否则无法下单，如短路、断路。</li>
+          <li><strong>警告（黄色）</strong>：建议修复，可下单但有风险，如丝印上焊盘。</li>
+        </ul>
+      </li>
+      <li>点击报告中的错误项，PCB 自动定位到出错位置。</li>
+    </ol>
+
+    <h3>§26.7.3 常见错误及修正</h3>
+    <table>
+      <thead><tr><th>错误类型</th><th>原因</th><th>修正方法</th></tr></thead>
+      <tbody>
+        <tr><td>未连接网络（Unrouted Net）</td><td>有飞线未布线</td><td>检查飞线，补全布线</td></tr>
+        <tr><td>短路（Short Circuit）</td><td>不同网络铜箔接触</td><td>移动或修剪铜箔，分离网络</td></tr>
+        <tr><td>间距不足（Clearance）</td><td>线/焊盘间距小于规则</td><td>移动对象或减小线宽</td></tr>
+        <tr><td>丝印上焊盘（Silk to Pad）</td><td>丝印文字覆盖焊盘</td><td>移动丝印或缩小字号</td></tr>
+        <tr><td>元件超出板框</td><td>元件放置在板框外</td><td>移动元件到板框内</td></tr>
+        <tr><td>未指定封装</td><td>原理图元件缺封装</td><td>回到原理图，给元件添加封装</td></tr>
+      </tbody>
+    </table>
+
+    <p>DRC 通过后（0 个错误，警告可接受），即可进入下单流程。</p>
+
+    <h3>§26.7.4 一键下单流程</h3>
+    <p>嘉立创 EDA 的"一键下单"是其核心差异化功能。完整流程：</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch26-jlceda-fig3.svg" alt="PlantUML 图 3" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+
+rectangle "DRC 检查通过" as A
+rectangle "菜单: 一键下单" as B
+rectangle "检查 BOM 和坐标" as C
+rectangle "生成 Gerber 制造文件" as D
+rectangle "自动上传到嘉立创工厂" as E
+rectangle "选择下单参数" as F
+rectangle "提交订单并付款" as G
+rectangle "工厂生产" as H
+rectangle "发货" as I
+rectangle "收板" as J
+A --&gt; B
+B --&gt; C
+C --&gt; D
+D --&gt; E
+E --&gt; F
+F --&gt; G
+G --&gt; H
+H --&gt; I
+I --&gt; J
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 26-3 嘉立创 EDA 一键下单流程</div>
+
+    <p><strong>详细步骤：</strong></p>
+    <ol>
+      <li><strong>启动下单</strong>：在 PCB 编辑器中，菜单"制造 → 一键 PCB 下单"（或工具栏图标）。</li>
+      <li><strong>检查 BOM</strong>：系统自动从原理图生成 BOM 表，显示每个元件的料号、数量、单价、库存。缺货物件会标记，需要替换。</li>
+      <li><strong>检查坐标文件</strong>：SMT 贴片需要坐标文件（Pick & Place），系统自动生成。</li>
+      <li><strong>生成 Gerber</strong>：系统自动生成 Gerber 文件、钻孔文件、IPC-2581 文件。</li>
+      <li><strong>选择下单参数</strong>：
+        <ul>
+          <li>板子尺寸：自动检测（如 50×50mm）</li>
+          <li>板厚：1.6mm（默认）/ 1.0mm / 0.8mm / 2.0mm</li>
+          <li>层数：2 层（双层板）/ 4 层 / 6 层</li>
+          <li>颜色：绿色（默认）/ 红 / 黄 / 蓝 / 黑 / 白 / 紫</li>
+          <li>表面工艺：HASL（喷锡，默认）/ ENIG（沉金，加 30 元）</li>
+          <li>铜厚：1oz（默认）/ 2oz（大电流）</li>
+          <li>数量：5 片起订</li>
+        </ul>
+      </li>
+      <li><strong>预览价格</strong>：系统实时显示总价。5 片 10×10cm 双层板绿色 HASL 仅 <strong>5 元</strong>（首单赠 5 元券，相当于免费）。</li>
+      <li><strong>提交订单</strong>：确认参数后，点击"提交订单"，跳转到嘉立创官网支付。</li>
+      <li><strong>付款</strong>：支持微信、支付宝、银行卡。学生首单常赠送 5-50 元新人券。</li>
+      <li><strong>跟踪进度</strong>：在"我的订单"中实时查看：生产中 → 成品检验 → 发货 → 物流追踪。一般 24-48 小时发货。</li>
+      <li><strong>收货</strong>：顺丰或京东快递送达，签收后开箱检查 PCB 质量。</li>
+    </ol>
+
+    <h3>§26.7.5 价格参考</h3>
+    <p>嘉立创 PCB 打样价格非常亲民，是学生和创客的首选。下表列出常见规格的价格（2026 年参考价，具体以官网实时报价为准）：</p>
+
+    <table>
+      <thead><tr><th>规格</th><th>5 片价格</th><th>10 片价格</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>10×10cm 双层板 绿色 HASL</td><td>5 元</td><td>10 元</td><td>首单常赠 5 元券</td></tr>
+        <tr><td>10×10cm 双层板 黑色/白色</td><td>15 元</td><td>30 元</td><td>非绿色加价</td></tr>
+        <tr><td>10×10cm 双层板 ENIG 沉金</td><td>35 元</td><td>70 元</td><td>沉金工艺加价</td></tr>
+        <tr><td>10×10cm 4 层板</td><td>50 元</td><td>100 元</td><td>4 层起价较高</td></tr>
+        <tr><td>超出 10×10cm</td><td>按面积加价</td><td>—</td><td>大于 100cm² 按面积计</td></tr>
+      </tbody>
+    </table>
+
+    <p>运费另计：顺丰快递 12-20 元，普通快递 6-12 元。学生下单建议几个项目合并，节省运费。</p>
+
+    <h3>§26.7.6 SMT 贴片服务</h3>
+    <p>除 PCB 空板外，嘉立创还提供<strong>SMT 贴片服务</strong>，将元件贴焊到 PCB 上。流程：</p>
+    <ol>
+      <li>在订单中勾选"SMT 贴片"。</li>
+      <li>选择需要贴片的元件（BOM 中勾选）。</li>
+      <li>上传坐标文件（嘉立创 EDA 自动生成）。</li>
+      <li>选择钢网（通常选"嘉立创代制钢网"）。</li>
+      <li>选择贴片面：单面（顶层）/ 双面（顶+底层，加价）。</li>
+      <li>确认价格，付款下单。</li>
+    </ol>
+
+    <p>SMT 贴片费用：开机费 50 元（首单常赠送）+ 工程费 30 元 + 每个贴片元件 0.01-0.5 元。5 片小批量贴片总费用通常在 100-300 元。SMT 适合不易手工焊接的 QFP/BGA 封装。</p>
+
+    <div class="tip">
+      <strong>学生省钱技巧</strong>：嘉立创定期有"新人首单 5 元打样"活动，注册后可在"优惠券"中领取。建议关注嘉立创公众号，每月有 9.9 元打样秒杀。SMT 贴片每月也有 5 片免费券（开机费免除）。
+    </div>
+
+    <h2>§26.8 实战项目：STM32F407 最小系统板</h2>
+    <p>本节通过一个完整实战项目——<strong>STM32F407 最小系统板</strong>，将前几节所学知识串联起来。本项目设计一块 50×50mm 的双层 PCB，包含 STM32F407VGT6 最小系统所需的所有电路，完成后下单打样并焊接测试。</p>
+
+    <h3>§26.8.1 设计目标</h3>
+    <table>
+      <thead><tr><th>项目</th><th>规格</th></tr></thead>
+      <tbody>
+        <tr><td>主控</td><td>STM32F407VGT6（LQFP-100，Cortex-M4，168MHz，1MB Flash，192KB RAM）</td></tr>
+        <tr><td>电源</td><td>USB Type-C 5V 输入，AMS1117-3.3 稳压到 3.3V</td></tr>
+        <tr><td>主晶振</td><td>8MHz（HSE，用于主时钟 PLL）</td></tr>
+        <tr><td>RTC 晶振</td><td>32.768kHz（LSE，用于 RTC 时钟）</td></tr>
+        <tr><td>调试接口</td><td>SWD（SWDIO/SWCLK/RST/3V3/GND）</td></tr>
+        <tr><td>BOOT 配置</td><td>BOOT0/BOOT1 跳线，支持从 Flash/系统存储/SRAM 启动</td></tr>
+        <tr><td>指示</td><td>1 颗电源 LED（红色）+ 1 颗用户 LED（蓝色，接 PC13）</td></tr>
+        <tr><td>按键</td><td>1 个复位按键 + 1 个用户按键（接 PA0）</td></tr>
+        <tr><td>GPIO 引出</td><td>2×20 排针，引出所有 GPIO</td></tr>
+        <tr><td>板尺寸</td><td>50mm × 50mm 双层板，1.6mm 厚，绿色 HASL</td></tr>
+      </tbody>
+    </table>
+
+    <h3>§26.8.2 原理图设计</h3>
+    <p>原理图按以下模块设计：</p>
+
+    <p><strong>1. USB Type-C 供电模块</strong></p>
+    <ul>
+      <li>USB Type-C 母座（6 引脚简化版：VBUS、GND、D+、D-、CC1、CC2）</li>
+      <li>VBUS（5V）经 SS14 肖特基二极管防反接，到 AMS1117-3.3 输入</li>
+      <li>5V 输入端加 100µF 电解电容 + 100nF 陶瓷电容滤波</li>
+      <li>D+/D- 通过 22Ω 电阻连接到 MCU 的 PA12/PA11（USB OTG）</li>
+      <li>CC1/CC2 各串联 5.1kΩ 下拉到 GND（识别为 UFP 设备）</li>
+    </ul>
+
+    <p><strong>2. AMS1117-3.3 稳压模块</strong></p>
+    <ul>
+      <li>AMS1117-3.3（SOT-223 封装），输入 5V，输出 3.3V</li>
+      <li>输入端：10µF 陶瓷电容</li>
+      <li>输出端：10µF 陶瓷电容 + 100nF 陶瓷电容</li>
+      <li>输出端串接红色 LED + 1kΩ 电阻到 GND，作为电源指示</li>
+    </ul>
+
+    <p><strong>3. STM32F407VGT6 主控模块</strong></p>
+    <ul>
+      <li>每个 VDD 引脚配 100nF 去耦电容（共 4 组 VDD/VSS）</li>
+      <li>VDDA（模拟电源）串接磁珠（如 BLM18 系列）+ 1µF + 10nF 滤波</li>
+      <li>VBAT 接 3V3（无电池后备）+ 100nF</li>
+      <li>VCAP_1/VCAP_2 各接 2.2µF 到 GND（内部 LDO 电容）</li>
+      <li>PH0/PH1 接 8MHz 晶振 + 2×22pF 负载电容</li>
+      <li>PC14/PC15 接 32.768kHz 晶振 + 2×12pF 负载电容</li>
+      <li>NRST 接复位电路（10kΩ 上拉 + 100nF + 按键到 GND）</li>
+      <li>BOOT0 通过 10kΩ 下拉到 GND，跳线可选 3V3</li>
+      <li>BOOT1（PB2）通过 10kΩ 下拉到 GND</li>
+    </ul>
+
+    <p><strong>4. SWD 调试接口</strong></p>
+    <ul>
+      <li>4 针 2.54mm 排针：SWDIO（PA13）、SWCLK（PA14）、GND、3V3</li>
+      <li>可选 5 针：加 NRST</li>
+    </ul>
+
+    <p><strong>5. LED 与按键</strong></p>
+    <ul>
+      <li>用户 LED：PC13 → 510Ω 电阻 → 蓝色 LED → GND（低电平点亮）</li>
+      <li>用户按键：PA0 上拉 10kΩ 到 3V3，按键到 GND（按下为低电平，唤醒休眠）</li>
+    </ul>
+
+    <p><strong>6. GPIO 引出排针</strong></p>
+    <ul>
+      <li>2×20 排针（2.54mm 间距），引出所有 GPIO</li>
+      <li>排针 1：3V3、GND、PA0-PA15</li>
+      <li>排针 2：3V3、GND、PB0-PB15</li>
+      <li>排针 3：3V3、GND、PC0-PC15</li>
+      <li>排针 4：3V3、GND、PD0-PD15</li>
+    </ul>
+
+    <p>完整原理图建议参考嘉立创开源工程广场中的"STM32F407 最小系统"项目，可直接克隆修改。</p>
+
+    <h3>§26.8.3 PCB 布局布线</h3>
+
+    <p><strong>布局规划（50×50mm 双层板）：</strong></p>
+    <ol>
+      <li>左上角放置 USB Type-C 母座（朝左）。</li>
+      <li>USB 右侧放置 AMS1117-3.3 稳压器及输入输出电容。</li>
+      <li>板中央放置 STM32F407VGT6（LQFP-100，正放）。</li>
+      <li>MCU 下方放置 8MHz 晶振 + 负载电容。</li>
+      <li>MCU 左下角放置 32.768kHz 晶振。</li>
+      <li>右上角放置 SWD 排针。</li>
+      <li>右侧放置 4 个 2×20 排针（GPIO 引出）。</li>
+      <li>板边四角放置 Φ3.2mm 安装孔。</li>
+      <li>电源 LED 和用户 LED 放在板边可见处。</li>
+      <li>复位按键和用户按键放在板边易触及处。</li>
+    </ol>
+
+    <p><strong>布线策略：</strong></p>
+    <ul>
+      <li>电源线（5V、3V3）粗走线 20mil，尽量短。</li>
+      <li>GND 通过铺铜实现，顶底层都铺 GND。</li>
+      <li>晶振走线最短，包地处理（晶振四周铺 GND，与其他信号隔离）。</li>
+      <li>USB D+/D- 差分走线，等长，90Ω 差分阻抗。</li>
+      <li>SWD 走线 8mil，普通信号。</li>
+      <li>GPIO 引出走线 8mil，分组排列整齐。</li>
+      <li>去耦电容紧贴 MCU 电源引脚。</li>
+    </ul>
+
+    <p><strong>设计检查清单：</strong></p>
+    <ul>
+      <li>所有元件位号已编号（无 <code>?</code>）</li>
+      <li>所有元件已指定封装（无空封装）</li>
+      <li>DRC 0 错误（警告可接受）</li>
+      <li>顶底层铺铜到 GND</li>
+      <li>四角安装孔已添加</li>
+      <li>丝印清晰，无遮挡焊盘</li>
+      <li>板框尺寸确认 50×50mm</li>
+      <li>3D 预览无元件干涉</li>
+    </ul>
+
+    <h3>§26.8.4 一键下单</h3>
+    <p>设计检查无误后，按 §26.7.4 流程一键下单：</p>
+    <ol>
+      <li>菜单"制造 → 一键 PCB 下单"。</li>
+      <li>确认 BOM：STM32F407VGT6（料号 C50522，约 35 元/片）、AMS1117-3.3（C6186，0.15 元）、USB Type-C（C165948，0.5 元）等。</li>
+      <li>PCB 参数：5 片，50×50mm，1.6mm，绿色，HASL，1oz 铜 → 总价约 5 元。</li>
+      <li>勾选 SMT 贴片（可选）：5 片贴片费约 150 元（含开机费）。</li>
+      <li>提交订单，付款，等待发货。</li>
+    </ol>
+
+    <p>典型生产周期：PCB 空板 24-48 小时；PCB + SMT 贴片 3-5 个工作日；快递 1-3 天。从下单到收板约 5-10 天。</p>
+
+    <h3>§26.8.5 收板焊接与测试</h3>
+    <p>收到 PCB 后，开箱检查：</p>
+    <ul>
+      <li>板面无划伤、无短路、无断线。</li>
+      <li>阻焊绿色均匀，丝印清晰可读。</li>
+      <li>孔位对齐，无堵塞。</li>
+      <li>板边切割整齐，无毛刺。</li>
+    </ul>
+
+    <p>若选择 SMT 贴片，工厂已贴焊好元件，可直接测试。若为空板，需手工焊接：</p>
+    <ol>
+      <li><strong>焊接顺序</strong>：先低矮元件（电阻、电容、二极管）→ 集成电路（MCU）→ 接插件（排针、USB、按键）。</li>
+      <li><strong>MCU 焊接</strong>：LQFP-100 引脚间距 0.5mm，建议用拖焊法（先固定对角，再涂助焊剂，用烙铁拖焊）。或使用热风枪 + 焊膏。</li>
+      <li><strong>检查</strong>：用万用表蜂鸣档检查 3V3 与 GND 是否短路（无短路才可上电）。</li>
+    </ol>
+
+    <p>测试流程：</p>
+    <ol>
+      <li><strong>电源测试</strong>：USB 通电，红色 LED 亮起，万用表测 3V3 引脚电压（应为 3.3V ± 0.1V）。</li>
+      <li><strong>SWD 连接</strong>：用 ST-Link 连接 SWD 接口，打开 STM32CubeProgrammer，能识别到芯片说明连接正常。</li>
+      <li><strong>下载程序</strong>：烧录一个 LED 闪烁程序（PC13 翻转），观察蓝色 LED 是否按预期闪烁。</li>
+      <li><strong>晶振测试</strong>：用 ST-Link 在 System Clock 配置中读取 HSE 频率，应为 8MHz。系统时钟配置为 168MHz 后运行。</li>
+      <li><strong>串口测试</strong>：USART1（PA9/PA10）通过 USB-TTL 连接电脑，输出 "Hello STM32"，串口助手能收到说明正常。</li>
+      <li><strong>GPIO 测试</strong>：在排针上接 LED，配置对应 GPIO 输出，验证引出功能。</li>
+    </ol>
+
+    <div class="tip">
+      <strong>排错技巧</strong>：若上电后电源 LED 不亮，先检查 USB 线是否数据线（部分线只供电不传输，但 Type-C 一般都支持）。若 3V3 电压偏低，可能是焊接短路，立即断电排查。若 ST-Link 无法识别，检查 SWD 接线（SWDIO/SWCLK 不要接反）和复位脚电平。
+    </div>
+
+    <h2>§26.9 常见问题与技巧</h2>
+
+    <h3>§26.9.1 常见报错与解决</h3>
+    <table>
+      <thead><tr><th>报错</th><th>原因</th><th>解决方法</th></tr></thead>
+      <tbody>
+        <tr><td>原理图元件未指定封装</td><td>元件属性中 Footprint 为空</td><td>双击元件，在"封装"字段选择或搜索封装</td></tr>
+        <tr><td>PCB 飞线未连接</td><td>有网络未布线</td><td>按飞线提示布线，或用网络标签连接</td></tr>
+        <tr><td>DRC 间距不足</td><td>线/焊盘间距小于规则</td><td>移动对象、减小线宽或调整规则</td></tr>
+        <tr><td>丝印上焊盘</td><td>丝印文字覆盖焊盘</td><td>移动丝印位置或缩小字号</td></tr>
+        <tr><td>元件位号重复</td><td>多个元件位号相同（如两个 R1）</td><td>使用"工具 → 元件编号"重新编号</td></tr>
+        <tr><td>导入 PCB 时元件缺失</td><td>原理图元件未指定封装</td><td>回到原理图补全封装后重新导入</td></tr>
+        <tr><td>下单时 BOM 物料号缺失</td><td>自建元件未绑定嘉立创料号</td><td>改用基础库元件，或手动填写料号</td></tr>
+        <tr><td>铺铜后死铜过多</td><td>铺铜区域被分割</td><td>调整布线，让 GND 铺铜连通</td></tr>
+      </tbody>
+    </table>
+
+    <h3>§26.9.2 常用快捷键</h3>
+    <p>嘉立创 EDA 的快捷键与 Altium Designer 类似，便于迁移。常用快捷键：</p>
+
+    <table>
+      <thead><tr><th>快捷键</th><th>功能</th><th>适用场景</th></tr></thead>
+      <tbody>
+        <tr><td><code>W</code></td><td>布线（原理图导线 / PCB 走线）</td><td>原理图与 PCB 通用</td></tr>
+        <tr><td><code>P</code></td><td>放置元件</td><td>原理图与 PCB 通用</td></tr>
+        <tr><td><code>M</code></td><td>移动对象</td><td>选中后按 M 移动</td></tr>
+        <tr><td><code>R</code></td><td>旋转对象（90°）</td><td>选中后按 R 旋转</td></tr>
+        <tr><td><code>Shift+R</code></td><td>旋转对象（任意角度）</td><td>PCB 中使用</td></tr>
+        <tr><td><code>N</code></td><td>放置网络标签</td><td>原理图</td></tr>
+        <tr><td><code>Shift+P</code></td><td>放置电源端口</td><td>原理图</td></tr>
+        <tr><td><code>Shift+B</code></td><td>绘制总线</td><td>原理图</td></tr>
+        <tr><td><code>Shift+T</code></td><td>放置字符串</td><td>丝印层</td></tr>
+        <tr><td><code>*</code></td><td>切换顶层/底层</td><td>PCB 布线时</td></tr>
+        <tr><td><code>Ctrl+M</code></td><td>测量距离</td><td>PCB</td></tr>
+        <tr><td><code>Shift+D</code></td><td>运行 DRC</td><td>PCB</td></tr>
+        <tr><td><code>Space</code></td><td>布线时翻转方向</td><td>PCB 布线</td></tr>
+        <tr><td><code>G</code></td><td>切换网格大小</td><td>PCB</td></tr>
+        <tr><td><code>Esc</code></td><td>退出当前操作</td><td>通用</td></tr>
+      </tbody>
+    </table>
+
+    <h3>§26.9.3 协作功能</h3>
+    <p>在线版的<strong>实时协作</strong>功能允许团队成员同时编辑同一工程。使用方法：</p>
+    <ol>
+      <li>在工程面板右键工程 → "分享"。</li>
+      <li>设置权限：只读 / 可编辑。</li>
+      <li>生成分享链接，发送给协作者。</li>
+      <li>协作者点击链接，登录后即可进入编辑。</li>
+      <li>多人同时编辑时，每位用户的光标位置和操作实时同步显示。</li>
+      <li>右侧面板显示在线成员列表，可在聊天框沟通。</li>
+    </ol>
+
+    <p>协作场景：毕业设计小组中，一人设计电源模块、一人设计 MCU 模块、一人设计外设模块，三人同时在一块 PCB 上工作，效率倍增。</p>
+
+    <h3>§26.9.4 版本管理</h3>
+    <p>嘉立创 EDA 提供<strong>历史版本</strong>功能，类似 Git：</p>
+    <ul>
+      <li>每次保存自动创建一个版本快照。</li>
+      <li>在"工程 → 历史版本"中查看所有快照。</li>
+      <li>可对比任意两个版本的差异（原理图/PCB）。</li>
+      <li>可回溯到任意历史版本。</li>
+      <li>支持手动添加版本说明（如"V1.0 首版"）。</li>
+    </ul>
+
+    <p>建议在重大节点（如原理图完成、PCB 完成布局、完成布线、DRC 通过）手动保存版本并添加说明，便于回溯。</p>
+
+    <h2>§26.10 学习路径与进阶</h2>
+
+    <h3>§26.10.1 从 JLCEDA 到 Altium Designer 的迁移</h3>
+    <p>掌握嘉立创 EDA 后，迁移到 Altium Designer 的学习成本较低，因为两者原理图与 PCB 的设计思想完全相通。主要差异：</p>
+
+    <table>
+      <thead><tr><th>功能</th><th>嘉立创 EDA</th><th>Altium Designer</th></tr></thead>
+      <tbody>
+        <tr><td>新建工程</td><td>文件 → 新建 → 工程</td><td>File → New → Project</td></tr>
+        <tr><td>原理图</td><td><code>.esch</code></td><td><code>.SchDoc</code></td></tr>
+        <tr><td>PCB</td><td><code>.epcb</code></td><td><code>.PcbDoc</code></td></tr>
+        <tr><td>放置元件</td><td>P 键</td><td>Place → Part（P）</td></tr>
+        <tr><td>布线</td><td>W 键</td><td>Place → Track（P, T）</td></tr>
+        <tr><td>铺铜</td><td>放置 → 铺铜</td><td>Place → Polygon Pour（P, G）</td></tr>
+        <tr><td>DRC</td><td>设计 → 设计规则检查</td><td>Tools → Design Rule Check (T, D, R)</td></tr>
+        <tr><td>导出 Gerber</td><td>一键下单自动生成</td><td>File → Fabrication Outputs → Gerber Files</td></tr>
+      </tbody>
+    </table>
+
+    <p>AD 的优势在以下场景才会显现：</p>
+    <ul>
+      <li><strong>多层高速设计</strong>：6 层以上、阻抗控制、SI/PI 仿真。</li>
+      <li><strong>大公司协同</strong>：与 SVN/Git 集成、企业库管理。</li>
+      <li><strong>复杂封装</strong>：BGA、多芯片模块（MCM）。</li>
+      <li><strong>仿真</strong>：Spice 仿真、Signal Integrity 仿真。</li>
+    </ul>
+
+    <p>对于 2-4 层的教学/原型项目，嘉立创 EDA 完全够用。</p>
+
+    <h3>§26.10.2 工程师建议</h3>
+    <p>结合教学和工程实践，给出以下建议：</p>
+
+    <ul>
+      <li><strong>学生阶段</strong>：优先使用嘉立创 EDA。免费、易学、能快速出实物板，反馈闭环短。完成 2-3 个项目（如 LED 闪烁板、STM32 最小系统板、传感器扩展板）后，PCB 设计能力已足够应对毕业设计。</li>
+      <li><strong>实习/求职</strong>：简历中可同时列出"嘉立创 EDA"和"Altium Designer"。面试时强调"理解 PCB 设计流程，掌握一种 EDA 工具，能快速迁移到其他工具"。</li>
+      <li><strong>进入大公司</strong>：根据公司工具链要求学习 AD 或 Cadence。一般 1-2 周可适应。重点学习公司规范（命名规则、库管理、设计评审流程）。</li>
+      <li><strong>持续学习</strong>：关注嘉立创 EDA 官方公众号和 B 站教程，新版本会增加功能。参加嘉立创开源硬件大赛，提升实战能力。</li>
+    </ul>
+
+    <div class="tip">
+      <strong>核心建议</strong>：EDA 工具只是<strong>工具</strong>，PCB 设计的<strong>核心是电路知识和工程经验</strong>。多看别人的开源工程（嘉立创开源广场、GitHub），学习布局布线技巧；多动手做项目，从错误中学习。工具的切换成本远低于电路知识的积累。
+    </div>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li><strong>嘉立创 EDA</strong>是国产免费 EDA 工具，定位学生、创客和小型项目，与嘉立创工厂无缝对接，支持在线版与客户端版。相比 Altium Designer，免费、易学、一键下单是其核心优势。</li>
+        <li><strong>在线版</strong>跨平台、云端存储、实时协作，但依赖网络；<strong>客户端版</strong>本地速度快、可离线，适合学生个人学习。本章推荐使用客户端版。</li>
+        <li><strong>原理图设计</strong>：新建工程 → 放置元件（从基础库搜索）→ 绘制导线 → 添加网络标签和电源端口 → 编辑元件属性。复杂电路可使用总线和层次化设计。</li>
+        <li><strong>元件库与封装</strong>：嘉立创官方库数十万元件已绑定实物料号，可一键 BOM 下单。自建元件需绘制符号、封装、3D 模型，并关联为完整元件。</li>
+        <li><strong>PCB 设计</strong>：从原理图导入 → 绘制板框 → 设置设计规则 → 元件布局（先大后小、信号流向、就近原则）→ 交互式布线（先电源后信号）→ 铺铜到 GND → 添加丝印。</li>
+        <li><strong>DRC 检查与一键下单</strong>：DRC 通过后，一键下单流程自动生成 Gerber 并发送到嘉立创工厂，5 片 10×10cm 双层板 5 元起，24-48 小时发货。SMT 贴片服务可实现贴片焊接一站式交付。</li>
+        <li><strong>实战项目</strong>：STM32F407 最小系统板（50×50mm）覆盖 USB 供电、AMS1117 稳压、8MHz/32.768kHz 晶振、SWD 调试、BOOT 跳线、LED 指示、按键、GPIO 引出等典型电路，是单片机课程综合实践的优秀选题。</li>
+        <li><strong>进阶路径</strong>：掌握 JLCEDA 后可迁移到 Altium Designer，两者设计思想相通，迁移成本 1-2 周。学生阶段优先 JLCEDA，进入大公司后按需学习 AD/Cadence。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>对比嘉立创 EDA 与 Altium Designer 在授权费用、学习曲线、元件库、下单流程四个维度的差异，并说明在什么场景下应优先选择嘉立创 EDA。</li>
+        <li>嘉立创 EDA 在线版与客户端版各有什么优缺点？为什么本章推荐学生使用客户端版？</li>
+        <li>简述从新建工程到下单打样的完整流程，并说明每个阶段的关键操作和注意事项。</li>
+        <li>PCB 元件布局有哪些基本原则？以 STM32F407 最小系统板为例，说明晶振、去耦电容、电源稳压器的布局要点。</li>
+        <li>DRC 检查发现的"未连接网络""短路""丝印上焊盘"分别是什么原因？如何修正？</li>
+        <li>使用嘉立创 EDA 设计一个 STC89C52RC 最小系统板：包含 USB 供电（CH340 USB 转串口）、电源 LED、复位按键、12MHz 晶振、P0/P1/P2/P3 排针引出。要求绘制完整原理图，完成 PCB 布局布线，并通过 DRC 检查。完成后尝试一键下单（可选）。</li>
+        <li>讨论：为什么说"EDA 工具只是工具，PCB 设计的核心是电路知识和工程经验"？请结合嘉立创 EDA 到 Altium Designer 的迁移过程说明。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>嘉立创 EDA. 嘉立创 EDA 帮助文档 [EB/OL]. https://docs.lceda.cn/</li>
+        <li>嘉立创 EDA. 立创 EDA 官方教程 [EB/OL]. https://lceda.cn/page/course</li>
+        <li>嘉立创科技. 嘉立创 PCB 打样下单指南 [EB/OL]. https://www.jlc.com/</li>
+        <li>立创商城. 元器件搜索与 datasheet 查询 [EB/OL]. https://lcsc.com/</li>
+        <li>嘉立创开源硬件. 开源工程广场 [EB/OL]. https://oshwhub.com/</li>
+        <li>STMicroelectronics. STM32F407 Datasheet (RM0090 Reference Manual) [Z]. 2017. https://www.st.com/</li>
+        <li>Altium LLC. Altium Designer Documentation [EB/OL]. https://www.altium.com/documentation/</li>
+        <li>嘉立创 EDA. 嘉立创 EDA 快捷键速查表 [EB/OL]. https://docs.lceda.cn/cn/shortcut/</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/chapters/part4-additional/ch25-altium-designer.html" class="prev">← 第 25 章 Altium Designer PCB 设计</a>
+      <a href="/index.html" class="home">返回首页</a>
+      <a href="/chapters/part4-additional/ch27-esp32-arduino.html" class="next">第 27 章 ESP32+Arduino 开发 →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

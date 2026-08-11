@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>教学大纲 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html" class="active">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+  <main class="content" style="max-width: 1000px;">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; <span>教学大纲</span>
+    </div>
+
+    <h1>教学大纲</h1>
+
+    <h2>一、课程基本信息</h2>
+    <table>
+      <tbody>
+        <tr><td>课程中文名称</td><td>单片机原理及应用</td></tr>
+        <tr><td>课程英文名称</td><td>Principle and Application of Single Chip Microcomputer</td></tr>
+        <tr><td>课程代码</td><td>21103203</td></tr>
+        <tr><td>课程性质</td><td>专业限选课</td></tr>
+        <tr><td>学分 / 总学时 / 周学时</td><td>3 / 68 / 4</td></tr>
+        <tr><td>理论学时 / 实践学时</td><td>34 / 34</td></tr>
+        <tr><td>适用专业</td><td>物联网工程、计算机科学与技术</td></tr>
+        <tr><td>先修课程</td><td>程序设计基础、电路与电子技术、数据结构、计算机组成原理</td></tr>
+        <tr><td>在线课程网址</td><td><a href="https://github.com/mingyi0818/IntelligentMcuCourse/index.html" target="_blank" rel="noopener">https://github.com/mingyi0818/IntelligentMcuCourse/index.html</a></td></tr>
+        <tr><td>开课单位</td><td>计算机学院</td></tr>
+        <tr><td>课程负责人</td><td>曾镜源</td></tr>
+        <tr><td>课程组成员</td><td>周汉达、侯跃恩、陈世文</td></tr>
+        <tr><td>大纲执笔人</td><td>曾镜源</td></tr>
+      </tbody>
+    </table>
+
+    <h2>二、课程简介</h2>
+    <p>本课程是物联网工程专业中一门至关重要的核心课程，它处于专业知识体系的基础与应用的交汇点，对于培养学生的硬件设计与软件编程能力具有不可替代的作用。本课程旨在通过理论讲授与实践操作相结合的方式，使学生深刻理解单片机的工作原理、体系结构、编程方法及接口技术，为后续物联网系统开发、嵌入式系统设计等高级课程打下坚实基础。</p>
+    <p>课程设计思路围绕"理论-实践-创新"三位一体展开，首先介绍单片机的基本概念、发展历程和内部结构；随后深入讲解指令系统、汇编语言及 C 语言编程，强化学生的编程技能；最后通过丰富的项目实例，如 LED 控制、传感器数据采集等，让学生在实践中掌握单片机的外围设备接口技术及应用开发流程。</p>
+    <p>该课程与《程序设计基础》、《电路与电子技术》、《数据结构》等基础课程紧密相连，同时是《嵌入式 Linux 系统驱动开发》、《嵌入式 Linux 系统应用开发》等高级课程的前置基础，为学生构建全面的物联网工程知识体系提供了关键支撑，对提升学生解决实际问题的能力、促进创新思维发展具有重要意义。</p>
+
+    <h2>三、课程目标</h2>
+    <p>本课程面向应用型人才培养定位，达成以下目标：</p>
+    <ol>
+      <li><strong>知识与技能</strong>：掌握 MCS-51 单片机体系结构、指令系统与 C51 程序设计；掌握 STM32 基于 Cortex-M4 内核的体系结构与 HAL 库开发；了解 MSP430 低功耗单片机、ESP32+Arduino、开源鸿蒙等多种单片机开发方式。能够独立完成基于单片机的简单控制系统设计与实现，具备解决物联网工程中基础硬件问题的能力。（支撑毕业要求中的"专业技术应用能力"）</li>
+      <li><strong>过程与方法</strong>：通过项目驱动的学习模式，能够独立完成 STC 8 位单片机与 STM32 平台的工程开发，包括硬件连接、Keil/CubeMX/PlatformIO 环境配置、程序编写与下载调试；能够运用 TRAE/Copilot 等 AI 工具提升开发效率，形成分析问题、设计解决方案、实施并测试系统的科学严谨实验态度。（支撑培养目标中的"实践与创新能力"）</li>
+      <li><strong>素质与思政</strong>：建立工程系统思维，培养严谨的工程态度与动手能力，具备查阅数据手册与持续学习新技术的能力；激发学生对物联网技术的兴趣，强化责任意识与职业道德，关注国家科技发展战略，理解单片机技术在国产自主可控系统中的重要性，培养家国情怀与担当精神。（课程思政目标，强调"科技伦理与社会责任"与"爱国情怀"）</li>
+    </ol>
+
+    <h2>四、课程内容与学时分配</h2>
+    <p>课程共 34 次课（每次 2 学时，共 68 学时，理论 34 + 实践 34），按 6 篇内容递进编排（含第 0 篇前导复习），最后 2 次课为复习与答疑。下表给出 34 次课与章节内容的映射关系，另含第 0 章前导预习建议。</p>
+
+    <table>
+      <thead>
+        <tr><th>序号</th><th>篇 / 章节</th><th>教学内容</th><th>类型</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>预习</td><td>第 0 章 §0.1-0.3</td><td>模拟电路、电源电路（LDO）、数字电路常识</td><td>前导预习</td></tr>
+        <tr><td>预习</td><td>第 0 章 §0.4-0.5</td><td>ANSI C 语言基础、C51 概览</td><td>前导预习</td></tr>
+        <tr><td>1</td><td>第 1 章 §1.1-1.3</td><td>单片机概述、发展历程、应用领域</td><td>理论</td></tr>
+        <tr><td>2</td><td>第 1 章 §1.4-1.6</td><td>主流单片机对比、课程定位、学习方法</td><td>理论</td></tr>
+        <tr><td>3</td><td>第 2 章 §2.1-2.3</td><td>数制转换、编码、布尔代数</td><td>理论</td></tr>
+        <tr><td>4</td><td>第 2-3 章 §2.4-2.5, §3.1-3.2</td><td>计算机体系结构、CPU 与存储器</td><td>理论</td></tr>
+        <tr><td>5</td><td>第 3 章 §3.3-3.6</td><td>总线、时钟、复位、最小系统</td><td>理论</td></tr>
+        <tr><td>6</td><td>第 4 章 §4.1-4.3</td><td>MCS-51 内部结构、CPU、存储器</td><td>理论</td></tr>
+        <tr><td>7</td><td>第 4 章 §4.4-4.7</td><td>I/O 端口、时序、STC 差异</td><td>理论</td></tr>
+        <tr><td>8</td><td>第 5 章 §5.1-5.4</td><td>STC-ISP、Keil C51、点亮 LED</td><td>实践</td></tr>
+        <tr><td>9</td><td>第 5 章 §5.5-5.6</td><td>VS Code + PlatformIO + TRAE AI 辅助</td><td>实践</td></tr>
+        <tr><td>10</td><td>第 6 章 §6.1-6.4</td><td>C51 数据类型、sfr/sbit、位操作</td><td>理论+实践</td></tr>
+        <tr><td>11</td><td>第 6 章 §6.5-6.8</td><td>中断函数、模块化编程、Keil 优化</td><td>实践</td></tr>
+        <tr><td>12</td><td>第 7 章 §7.1-7.3</td><td>I/O 原理、LED、按键消抖</td><td>实践</td></tr>
+        <tr><td>13</td><td>第 7 章 §7.4-7.6</td><td>矩阵键盘、蜂鸣器、继电器</td><td>实践</td></tr>
+        <tr><td>14</td><td>第 8 章 §8.1-8.3</td><td>中断概念、MCS-51 中断系统、外部中断</td><td>理论+实践</td></tr>
+        <tr><td>15</td><td>第 8 章 §8.4-8.6</td><td>中断嵌套、优先级、响应时间</td><td>实践</td></tr>
+        <tr><td>16</td><td>第 9 章 §9.1-9.3</td><td>定时/计数器结构、模式、初值计算</td><td>理论+实践</td></tr>
+        <tr><td>17</td><td>第 9 章 §9.4-9.6</td><td>方波、秒表、计数器、定时器 2</td><td>实践</td></tr>
+        <tr><td>18</td><td>第 10 章 §10.1-10.4</td><td>串行通信基础、串口结构、波特率计算</td><td>理论+实践</td></tr>
+        <tr><td>19</td><td>第 10 章 §10.5-10.6</td><td>与 PC 通信、双机/多机通信</td><td>实践</td></tr>
+        <tr><td>20</td><td>第 11 章 §11.1-11.3</td><td>数码管、LCD1602、I2C 总线</td><td>实践</td></tr>
+        <tr><td>21</td><td>第 11 章 §11.4-11.6</td><td>AT24C02、DS1302、74HC595</td><td>实践</td></tr>
+        <tr><td>22</td><td>第 12 章</td><td>STC89C52RC 综合实验：多功能数字钟</td><td>综合实践</td></tr>
+        <tr><td>23</td><td>第 13 章</td><td>STM32 与 Cortex-M4 概述</td><td>理论</td></tr>
+        <tr><td>24</td><td>第 14 章 §14.1-14.4</td><td>STM32 开发环境：CubeMX / CubeIDE / Keil MDK</td><td>实践</td></tr>
+        <tr><td>25</td><td>第 14 章 §14.5-14.7</td><td>VS Code + PlatformIO + TRAE / ST-Link 烧录</td><td>实践</td></tr>
+        <tr><td>26</td><td>第 15-16 章</td><td>HAL 库工程结构、GPIO 与外部中断</td><td>实践</td></tr>
+        <tr><td>27</td><td>第 17 章</td><td>STM32 定时器与 PWM（呼吸灯、输入捕获）</td><td>实践</td></tr>
+        <tr><td>28</td><td>第 18-19 章</td><td>USART 通信、ADC 与 DAC</td><td>实践</td></tr>
+        <tr><td>29</td><td>第 20-21 章</td><td>SPI/I2C 总线、DMA 与 RTC</td><td>实践</td></tr>
+        <tr><td>30</td><td>第 22 章</td><td>FreeRTOS 基础与 CubeMX 集成</td><td>理论+实践</td></tr>
+        <tr><td>31</td><td>第 23 章</td><td>STM32 综合实验</td><td>综合实践</td></tr>
+        <tr><td>32</td><td>第 30-44 章</td><td>综合项目展示与答辩（任选 1 个项目独立完成）</td><td>项目考查</td></tr>
+        <tr><td>33</td><td>全书</td><td>课程总复习：核心知识梳理、典型例题讲解</td><td>复习</td></tr>
+        <tr><td>34</td><td>—</td><td>答疑课：作业与实验问题解答、考查说明</td><td>答疑</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      <strong>说明</strong>：本课程为<strong>考查课</strong>，不设期末闭卷考试。第 34 次课为答疑课，不安排新教学内容。每次课的具体时间不在教程页面显示，仅在此大纲中作为教学安排参考。
+    </div>
+
+    <h2>五、考核方式</h2>
+    <p>本课程为<strong>考查课</strong>，不组织期末闭卷笔试，采用过程性评价与终结性考查相结合的方式。成绩构成如下：</p>
+    <table>
+      <thead>
+        <tr><th>考核项</th><th>占比</th><th>说明</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>平时成绩</td><td>10%</td><td>出勤、课堂表现、随堂小测</td></tr>
+        <tr><td>实验</td><td>60%</td><td>10 个基础实验 + 综合实验，<strong>线下检查 + 超星平台实验报告</strong>双轨制评分</td></tr>
+        <tr><td>期末</td><td>40%</td><td>期末综合考查：从第 5 篇综合项目中独立完成 1 个并进行现场答辩</td></tr>
+      </tbody>
+    </table>
+
+    <h3>实验考核规则</h3>
+    <ul>
+      <li><strong>独立完成</strong>：实验不分组，每位同学必须<strong>独立完成</strong>所有实验，禁止代写、抄袭。</li>
+      <li><strong>线下检查（必备）</strong>：每个实验须在课堂或约定时间向教师<strong>线下当面演示</strong>运行效果并回答提问；<strong>未线下检查者该项实验记 0 分</strong>。</li>
+      <li><strong>开发环境介绍（必备）</strong>：在进行每个实验的线下检查前，学生必须先向教师<strong>口述介绍</strong>当前实验所用的开发环境搭建流程（如 Keil/CubeMX/PlatformIO 安装配置、驱动安装、烧录工具使用等），介绍不通过者不予检查。</li>
+      <li><strong>线上报告（必备）</strong>：每个实验须在<strong>超星平台</strong>按时提交实验报告（含代码、现象截图、问题分析等）；<strong>未在超星平台提交实验报告者该项实验记 0 分</strong>。</li>
+      <li><strong>双轨均达标</strong>：仅线下检查通过、未提交超星报告，或仅提交报告、未线下检查，<strong>均不得分</strong>。</li>
+    </ul>
+
+    <h2>六、教材与参考书目</h2>
+    <h3>推荐教材</h3>
+    <ul>
+      <li>张毅刚. 《单片机原理及应用——C51 编程 + Proteus 仿真》（第 4 版）. 高等教育出版社.</li>
+      <li>STC 官方手册. 《STC89C52RC 数据手册》. STC 官网下载.</li>
+      <li>ST 官方. 《STM32F407 参考手册 RM0090》. ST 官网下载.</li>
+    </ul>
+    <h3>参考书目</h3>
+    <ul>
+      <li>野火. 《零死磕精通 STM32—F429 挑战者 V2》. 野火电子.</li>
+      <li>正点原子. 《STM32F4 开发指南-库函数版本》. 正点原子.</li>
+      <li>Joseph Yiu. 《The Definitive Guide to ARM Cortex-M3 and Cortex-M4 Processors》（3rd Edition）. Newnes.</li>
+      <li>Richard Barry. 《Mastering the FreeRTOS Real Time Kernel》. Real Time Engineers Ltd.</li>
+    </ul>
+
+    <h2>七、教学方法</h2>
+    <ul>
+      <li><strong>理论讲授</strong>：体系结构、原理公式、协议规范等。</li>
+      <li><strong>演示教学</strong>：教师现场演示工程创建、代码编写、烧录调试全过程。</li>
+      <li><strong>动手实践</strong>：学生人手一块最小系统板，边学边做。</li>
+      <li><strong>项目驱动</strong>：综合项目由学生<strong>独立完成</strong>，培养工程实践与问题解决能力。</li>
+      <li><strong>AI 辅助</strong>：示范使用 TRAE/Copilot 等工具进行代码生成、Bug 排查、注释文档生成，提升工程效率。</li>
+    </ul>
+
+    <nav class="chapter-nav">
+      <a href="/index.html" class="home">← 返回首页</a>
+    </nav>
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

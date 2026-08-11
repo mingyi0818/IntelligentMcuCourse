@@ -1,0 +1,2468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>常见问题 FAQ - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=6">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <style>
+    /* FAQ 页面专用样式 */
+    .faq-search-box {
+      margin: 20px 0 12px;
+      position: relative;
+    }
+    .faq-search-input {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 16px;
+      border: 2px solid #2d6a4f;
+      border-radius: 8px;
+      box-sizing: border-box;
+      outline: none;
+      transition: box-shadow 0.2s;
+    }
+    .faq-search-input:focus {
+      box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.2);
+    }
+    .faq-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 12px 0 16px;
+      flex-wrap: wrap;
+    }
+    .faq-toolbar button {
+      padding: 6px 14px;
+      background: #2d6a4f;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+    .faq-toolbar button:hover { background: #1b4332; }
+    .faq-toolbar #faqCount {
+      margin-left: auto;
+      color: #6c757d;
+      font-size: 14px;
+    }
+    .faq-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 16px 0 24px;
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    .faq-nav a {
+      display: inline-block;
+      padding: 4px 12px;
+      background: #2d6a4f;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 14px;
+      font-size: 13px;
+      transition: background 0.2s;
+    }
+    .faq-nav a:hover { background: #40916c; }
+    .faq-category { margin: 30px 0; }
+    .faq-category h2 {
+      border-bottom: 2px solid #2d6a4f;
+      padding-bottom: 8px;
+      color: #1b4332;
+    }
+    .faq-item {
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      margin: 10px 0;
+      overflow: hidden;
+      background: #fff;
+    }
+    .faq-question {
+      padding: 14px 18px;
+      cursor: pointer;
+      font-weight: 600;
+      background: #f8f9fa;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+      gap: 10px;
+    }
+    .faq-question:hover { background: #e9ecef; }
+    .faq-question .arrow { transition: transform 0.2s; flex-shrink: 0; color: #2d6a4f; }
+    .faq-item.open .faq-question { background: #d4edda; }
+    .faq-item.open .faq-question .arrow { transform: rotate(90deg); }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      padding: 0 18px;
+    }
+    .faq-item.open .faq-answer { max-height: 5000px; padding: 16px 18px; }
+    .faq-answer h4 { margin-top: 12px; color: #2d6a4f; }
+    .faq-answer p { margin: 8px 0; line-height: 1.7; }
+    .faq-answer pre { margin: 8px 0; border-radius: 6px; }
+    .faq-answer ul, .faq-answer ol { margin: 8px 0; padding-left: 24px; }
+    .faq-answer li { margin: 4px 0; line-height: 1.7; }
+    .faq-answer code {
+      background: #e9ecef;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 0.9em;
+    }
+    .faq-answer pre code { background: transparent; padding: 0; }
+    .faq-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+      margin-right: 4px;
+      font-weight: normal;
+    }
+    .faq-tag-stc { background: #d4edda; color: #155724; }
+    .faq-tag-stm32 { background: #cce5ff; color: #004085; }
+    .faq-tag-vscode { background: #d1ecf1; color: #0c5460; }
+    .faq-tag-hardware { background: #fff3cd; color: #856404; }
+    .faq-tag-interview { background: #f8d7da; color: #721c24; }
+    .no-result {
+      display: none;
+      text-align: center;
+      padding: 40px;
+      color: #6c757d;
+    }
+    @media (max-width: 768px) {
+      .faq-question { font-size: 14px; padding: 12px 14px; }
+      .faq-toolbar #faqCount { margin-left: 0; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html" class="active">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+  <main class="content" style="max-width: 1000px;">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; <span>常见问题 FAQ</span>
+    </div>
+
+    <h1>常见问题 FAQ</h1>
+    <p>本页面汇总 114 个高频问题，覆盖 STC 开发环境、STM32 开发环境、VS Code/PlatformIO、调试器烧录、编译链接、硬件仪器、代码设计与求职面试等八大场景。使用搜索框快速定位，或按分类浏览，点击问题展开答案。</p>
+
+    <!-- 搜索框 -->
+    <div class="faq-search-box">
+      <input type="text" class="faq-search-input" id="faqSearch" placeholder="输入关键词搜索，如：ST-Link、乱码、HardFault、volatile、PWM..." autofocus>
+    </div>
+
+    <!-- 工具栏 -->
+    <div class="faq-toolbar">
+      <button onclick="expandAll()">展开全部</button>
+      <button onclick="collapseAll()">收起全部</button>
+      <span id="faqCount">共 114 个问题</span>
+    </div>
+
+    <!-- 分类导航 -->
+    <div class="faq-nav">
+      <a href="#cat1">STC 开发环境(15)</a>
+      <a href="#cat2">STM32 开发环境(15)</a>
+      <a href="#cat3">VS Code/PlatformIO(15)</a>
+      <a href="#cat4">调试器/烧录(12)</a>
+      <a href="#cat5">编译链接(15)</a>
+      <a href="#cat6">硬件调试/仪器(12)</a>
+      <a href="#cat7">代码设计/调试(15)</a>
+      <a href="#cat8">求职面试(15)</a>
+    </div>
+
+    <!-- ============ 一、STC 开发环境 ============ -->
+    <div class="faq-category" id="cat1">
+      <h2>一、STC 开发环境（15 题）</h2>
+
+      <div class="faq-item" data-keywords="STC-ISP 烧录 检测不到芯片 CH340 串口 冷启动 USB线 COM口">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stc">STC</span>Q1. STC-ISP 烧录失败，提示"检测不到目标芯片"？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>按以下顺序排查（详见 <a href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章</a>）：</p>
+          <ol>
+            <li>检查 USB 转串口驱动是否安装成功（CH340/CP2102/FT232），设备管理器中应能看到对应的 <code>COM</code> 口。</li>
+            <li>确认 STC-ISP 软件中"芯片型号"选择正确（STC89C52RC）。</li>
+            <li>确认串口号选择正确，与设备管理器一致。</li>
+            <li>STC 单片机下载机制是<strong>冷启动</strong>：先点击"下载/编程"按钮，再给单片机上电（或按复位键）。不能先上电再点下载。</li>
+            <li>检查 USB 线是否为数据线（部分 USB 线仅供电无数据传输）。</li>
+            <li>换一根 USB 线、换一个 USB 接口、换一台电脑逐一排除。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="Keil C51 License expired 许可证过期 评估版 2K限制 编译错误">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stc">STC</span>Q2. Keil C51 安装后无法编译，提示"License expired"？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>常见原因与解决方案：</p>
+          <ul>
+            <li>评估版有 <strong>2K 代码限制</strong>，正式使用需购买许可证或申请教育版授权。</li>
+            <li>以管理员身份运行 Keil，在 <code>File → License Management</code> 中重新注册。</li>
+            <li>确认安装的是 <strong>Keil C51</strong>（用于 8051 内核）而非 Keil MDK-ARM（用于 ARM 内核），两者是不同产品。</li>
+            <li>系统时间被改回旧日期会导致许可证失效，请同步网络时间。</li>
+            <li>卸载时清理注册表 <code>HKEY_CURRENT_USER\Software\Keil\Products\MDK</code> 后重装。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="Keil 安装路径 中文 空格 路径 编译报错">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stc">STC</span>Q3. Keil C51 安装路径能否含中文或空格？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p><strong>不能。</strong>Keil 及其工具链对路径敏感，含中文、空格或特殊字符的路径会导致编译器、链接器找不到文件，报错如 <code>cannot open source input file</code>。建议安装到 <code>C:\Keil_v5</code>，工程文件也放在纯英文路径下（如 <code>D:\projects\led_blink</code>）。同样，Windows 用户名若为中文，建议工程放在非用户目录下。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="STC 冷启动 上电 下载原理 复位 串口握手 ISP">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stc">STC</span>Q4. STC-ISP 下载时必须先断电再上电（冷启动）的原理？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>STC 8位单片机没有独立的 SWD/JTAG 调试接口，烧录通过<strong>串口 ISP（In-System Programming）</strong>完成。芯片上电时，内部的<strong>引导加载程序（Bootloader）</strong>会先检测串口是否收到 <code>0x7F</code> 握手字节：若收到，则进入 ISP 模式接收用户程序；若超时未收到，则跳转到用户程序区运行。因此必须<strong>先点下载，再上电</strong>，让 Bootloader 有机会拦截启动流程。已上电的芯片不会重新检测握手字节，按复位键也可触发重新检测。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="CH340 驱动 黄色感叹号 设备管理器 USB转串口 安装失败">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stc">STC</span><span class="faq-tag faq-tag-hardware">硬件</span>Q5. CH340 驱动安装失败、设备管理器有黄色感叹号？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>排查步骤：</p>
+          <ol>
+            <li>从<a href="https://www.wch.cn/downloads/CH341SER_EXE.html">沁恒官网</a>下载最新版 CH341SER 驱动，勿用驱动精灵等第三方软件。</li>
+            <li>以管理员身份运行 <code>SETUP.EXE</code>，点击"安装"。</li>
+            <li>若提示"预安装成功"但仍报错，在设备管理器中右键黄色设备 → 更新驱动 → 浏览计算机 → 指向 CH340 解压目录。</li>
+            <li>Win11 强制驱动签名，旧版驱动可能不兼容，务必用 3.8 以上版本。</li>
+            <li>换一根 USB 线或换一个 USB 口排除硬件问题；CH340 芯片本身损坏也会导致无法识别。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="STC-ISP 波特率 下载速度慢 115200 38400">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stc">STC</span>Q6. STC-ISP 波特率如何选择，下载速度慢？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>STC-ISP 软件中"最低波特率"与"最高波特率"建议分别设为 <code>2400</code> 和 <code>115200</code>，软件会自动协商。下载速度慢的常见原因：</p>
+          <ul>
+            <li>晶振非 <strong>11.0592MHz</strong>，导致高波特率通信误码，软件被迫降速。</li>
+            <li>USB 转串口芯片性能差（如劣质 CH340 山寨芯片），换 CP2102/FT232 可提升。</li>
+            <li>USB 延长线过长或质量差，导致信号衰减。</li>
+            <li>程序较大接近 8K，本身就需要较长时间，属正常现象。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="Keil 评估版 2K代码限制 代码限制 解决办法 正版">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stc">STC</span>Q7. Keil C51 评估版 2K 代码限制如何解决？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>评估版限制最终 <code>.hex</code> 文件不超过 <strong>2K 字节</strong>，超出会报 <code>*** ERROR L107: ADDRESS SPACE OVERFLOW</code>。解决途径：</p>
+          <ul>
+            <li>购买正版 Keil C51 许可证（个人版约 ¥2000+）。</li>
+            <li>申请学校的教育版授权（部分高校有 Keil 教育许可）。</li>
+            <li>改用 <strong>SDCC</strong>（Small Device C Compiler），开源免费，无代码限制，VS Code/PlatformIO 默认使用。语法与 Keil C51 略有差异（如 <code>__sfr</code> 替代 <code>sfr</code>）。</li>
+            <li>代码优化：去除未使用变量、合并函数、关闭不必要的中断。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="晶振 11.0592MHz 12MHz 波特率 串口 误差 定时器">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stc">STC</span><span class="faq-tag faq-tag-hardware">硬件</span>Q8. STC89C52RC 晶振选 11.0592MHz 还是 12MHz？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>需要串口通信时<strong>必须选 11.0592MHz</strong>，因为该频率能被波特率发生器整除，常用波特率（9600/19200/115200）误差为 0%。12MHz 在 9600 波特率下误差达 <strong>8.5%</strong>，会导致通信乱码。仅做 LED/定时器/数码管等不涉及串口的项目时，12MHz 计算更直观（1 机器周期 = 1μs）。一般建议<strong>统一用 11.0592MHz</strong>，避免后期加串口功能时返工。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="Keil 工程 添加文件 移除文件 编译参与 右键 Source Group">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stc">STC</span>Q9. Keil 工程中如何添加/移除 .c 文件参与编译？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p><strong>添加</strong>：在 Project 窗口右键 <code>Source Group 1</code> → <code>Add Existing Files to Group</code> → 选择 <code>.c</code> 文件 → Add。新建文件：<code>File → New</code> 保存为 <code>.c</code> 后再用上述方法加入。</p>
+          <p><strong>移除</strong>：在 Project 窗口右键该文件 → <code>Remove File</code>。注意：移除只是不参与编译，文件本身仍在磁盘上。仅添加 <code>.c</code> 即可，对应的 <code>.h</code> 通过 <code>#include</code> 引入，无需单独添加。多个 <code>.c</code> 之间通过头文件互相调用。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="STC-ISP 软件延时计算器 延时 生成代码 for循环">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stc">STC</span>Q10. STC-ISP"软件延时计算器"如何使用？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>步骤：</p>
+          <ol>
+            <li>打开 STC-ISP 软件 → 右侧"软件延时计算器"标签。</li>
+            <li>设置<strong>系统频率</strong>（如 11.0592MHz）、<strong>定时长度</strong>（如 1ms 或 500μs）、<strong>8051 指令集</strong>（选 STC89C52RC 对应的 12T 模式）。</li>
+            <li>点击"生成代码"，复制 <code>Delay1ms()</code> 函数到工程中调用。</li>
+          </ol>
+          <p>生成的代码本质是嵌套 <code>for</code> 循环消耗 CPU 周期，精度受中断影响，仅用于对时序要求不高的场景。精确延时建议用<strong>定时器</strong>。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="sfr sbit undefined identifier 寄存器 头文件 reg52.h 定义报错">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stc">STC</span>Q11. Keil C51 中 sfr/sbit 定义报错"undefined identifier"？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>原因：未包含对应头文件，或寄存器名在该头文件中未定义。</p>
+          <ul>
+            <li>检查 <code>#include &lt;reg52.h&gt;</code> 是否包含；STC89C52RC 用 <code>&lt;STC89C5xRC.H&gt;</code>（从 STC-ISP 软件导出后放入 Keil 的 <code>INC</code> 目录）。</li>
+            <li>常见寄存器（P0/P1/TMOD/SCON）已定义，新增外设寄存器需手动 <code>sfr WDT_CONTR = 0xE1;</code>。</li>
+            <li><code>sbit LED = P1^0;</code> 必须在文件顶部全局定义，不能在函数内部。</li>
+            <li>SDCC 语法不同：需写 <code>__sfr __at 0xE1 WDT_CONTR;</code> 和 <code>__sbit __at 0x90 LED;</code>。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="看门狗 WDT 喂狗 STC89C52 WDT_CONTR 复位">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stc">STC</span>Q12. STC89C52RC 看门狗如何配置与喂狗？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>看门狗定时器（WDT）溢出会触发系统复位，防止程序跑飞。配置寄存器 <code>WDT_CONTR</code>（地址 0xE1）：</p>
+<pre><code class="language-c">#include &lt;STC89C5xRC.H&gt;
+
+void WDT_Init() {
+    WDT_CONTR = 0x35;  // 0011 0101: 开WDT, 空闲模式停止, 预分频=2^6=64 (约2.27s@11.0592MHz)
+}
+
+void WDT_Feed() {
+    WDT_CONTR |= 0x10; // 写1清零WDT计数器（喂狗）
+}
+
+void main() {
+    WDT_Init();
+    while (1) {
+        // 业务代码
+        WDT_Feed();  // 必须在溢出周期内调用
+    }
+}</code></pre>
+          <p>喂狗周期必须<strong>小于</strong>溢出时间，但也不能太频繁否则失去防护意义。详见 <a href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章</a>。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="hex bin 区别 烧录文件 格式 Intel HEX Motorola">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stc">STC</span>Q13. Keil 编译产生 .hex 和 .bin 的区别？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p><strong>.hex（Intel HEX 格式）</strong>：ASCII 文本，每行包含地址、数据、校验和，烧录器能据此将数据写入正确地址，是单片机烧录的<strong>标准格式</strong>，STC-ISP 默认使用 <code>.hex</code>。</p>
+          <p><strong>.bin（二进制格式）</strong>：纯二进制数据流，不含地址信息，体积更小但需指定烧录起始地址。Keil 默认输出 <code>.hex</code>，若需 <code>.bin</code> 要用 <code>fromelf --bin</code> 工具转换。日常 STC 开发用 <code>.hex</code> 即可。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="烧录成功 不运行 晶振 复位电路 EA引脚 程序跑飞">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stc">STC</span>Q14. STC-ISP 烧录成功但程序不运行？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>烧录成功说明通信正常，问题在硬件或代码：</p>
+          <ol>
+            <li><strong>晶振未起振</strong>：用示波器测 XTAL2 引脚，应有正弦波。晶振损坏或电容（22-30pF）不匹配。</li>
+            <li><strong>EA/VPP 引脚（31 脚）未接高电平</strong>：STC89C52RC 必须接 VCC 才能从内部 Flash 启动。</li>
+            <li><strong>复位电路问题</strong>：RESET 引脚（9 脚）常态应为低，上电瞬间高脉冲。若一直为高则持续复位。</li>
+            <li><strong>代码问题</strong>：<code>main()</code> 中 while 循环提前退出、看门狗未喂狗、堆栈溢出。</li>
+            <li><strong>电源不足</strong>：VCC 应稳定在 5V±0.3V，带负载后不能跌落。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="reg52.h 头文件 找不到 include路径 INC目录 Keil">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stc">STC</span>Q15. Keil C51 头文件 reg52.h 找不到？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>报错 <code>cannot open source input file 'reg52.h'</code> 的原因：</p>
+          <ul>
+            <li>Keil 安装目录 <code>C:\Keil_v5\C51\INC</code> 下应有 <code>reg52.h</code>，若缺失说明安装不完整，需重装。</li>
+            <li>工程未正确指定 C51 编译器：Options → Target → Device 中重新选择 STC89C52RC。</li>
+            <li>使用了 MDK-ARM 而非 C51：两者头文件不通用，需在 Keil License Manager 中激活 C51。</li>
+            <li>自定义头文件需在 Options → C51 → Include Paths 中添加路径。</li>
+            <li>STC 专用头文件 <code>STC89C5xRC.H</code> 需从 STC-ISP 软件导出后手动放入 INC 目录。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 二、STM32 开发环境 ============ -->
+    <div class="faq-category" id="cat2">
+      <h2>二、STM32 开发环境（15 题）</h2>
+
+      <div class="faq-item" data-keywords="STM32CubeMX 无法启动 Java报错 JRE JDK 版本">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stm32">STM32</span>Q16. STM32CubeMX 安装后无法启动/Java 报错？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>STM32CubeMX 基于 Java 运行，环境问题导致启动失败：</p>
+          <ul>
+            <li>需要 <strong>JRE 8 或 JDK 11</strong>，不要使用 JDK 17+（不兼容）。</li>
+            <li>命令行执行 <code>java -version</code> 确认版本与位数（必须 64 位）。</li>
+            <li>建议从 <a href="https://www.st.com/en/development-tools/stm32cubemx.html">ST 官网</a>下载最新版 CubeMX，自带运行时无需单独装 Java。</li>
+            <li>环境变量 <code>JAVA_HOME</code> 指向 JDK 安装目录，<code>PATH</code> 包含 <code>%JAVA_HOME%\bin</code>。</li>
+            <li>防火墙/杀毒软件拦截：临时关闭后重试。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="CubeMX Keil 编译报错 找不到芯片包 DFP STM32F4 Pack Installer">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stm32">STM32</span>Q17. CubeMX 生成代码后 Keil 编译报错找不到芯片包？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>需要在 Keil 中安装 STM32F4 系列 CMSIS 包（详见 <a href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章</a>）：</p>
+          <ol>
+            <li>打开 Keil → <code>Pack Installer</code>（图标为绿色方块）。</li>
+            <li>左侧 Devices 树搜索 <code>STM32F4</code>，或 Packs 标签搜索 <code>Keil::STM32F4xx_DFP</code>。</li>
+            <li>点击 <code>Download</code> 下载芯片支持包（约 100-200MB，需联网）。</li>
+            <li>下载完成后重启 Keil，重新打开 CubeMX 生成的工程编译。</li>
+            <li>若下载慢，可从 ST 官网下载 <code>.pack</code> 文件后双击离线安装。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="ST-Link 连接不上 SWD 接线 驱动 No target connected">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stm32">STM32</span>Q18. ST-Link 连接不上 STM32 开发板？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>按以下顺序排查：</p>
+          <ol>
+            <li>检查 ST-Link 驱动是否安装（设备管理器中应有 "STM32 STLink"）。</li>
+            <li>SWD 接线：<code>SWDIO↔SWDIO</code>、<code>SWCLK↔SWCLK</code>、<code>GND↔GND</code>、<code>3.3V↔3.3V</code>（共 4 根线）。</li>
+            <li>开发板供电正常，电源指示灯亮。</li>
+            <li>Keil → Options → Debug → ST-Link Debugger → Settings 中确认 SW 模式下能识别到芯片 ID。</li>
+            <li>如显示 "No target connected"，可能是 SWD 引脚被复用为 GPIO（检查代码）或芯片处于低功耗模式。</li>
+            <li>若 BOO0 拉高进入系统存储区，可通过 UART 烧录后重新连接。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="STM32 烧录后 LED不亮 GPIO 推挽输出 时钟使能 引脚">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stm32">STM32</span>Q19. STM32 程序烧录后 LED 不亮？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>按以下顺序排查（详见 <a href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章</a>）：</p>
+          <ol>
+            <li>用万用表测量 LED 引脚电压是否变化，确认 GPIO 是否真的输出。</li>
+            <li>检查 GPIO 工作模式：输出应配置为 <strong>Push-Pull（推挽输出）</strong>，不要用 Open-Drain。</li>
+            <li>检查时钟：STM32 每个外设有独立时钟使能，手写代码容易漏掉 <code>__HAL_RCC_GPIOx_CLK_ENABLE()</code>，CubeMX 生成的代码会自动开启。</li>
+            <li>检查引脚是否与 CubeMX 配置一致（端口号 A/B/C/D 和引脚号）。</li>
+            <li>开发板自带 LED 确认引脚（查原理图），常见 STM32F407 板载 LED 在 <code>PE0/PE1</code> 或 <code>PA6/PA7</code>。</li>
+            <li>低电平点亮还是高电平点亮取决于硬件电路，多数板子是<strong>低电平点亮</strong>。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="STM32CubeIDE Keil MDK 选择 区别 免费 授权">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stm32">STM32</span>Q20. STM32CubeIDE vs Keil MDK 如何选择？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>对比：</p>
+          <ul>
+            <li><strong>Keil MDK-ARM</strong>：老牌 IDE，调试体验好，社区资料多；评估版有 32K 代码限制，正版较贵（¥3000+）。工业界主流。</li>
+            <li><strong>STM32CubeIDE</strong>：ST 官方免费，基于 Eclipse，无代码限制，集成 CubeMX；界面较重，启动慢，中文支持一般。</li>
+            <li><strong>VS Code + PlatformIO</strong>：轻量灵活，适合熟悉命令行的开发者，调试依赖外部插件。</li>
+          </ul>
+          <p>初学者建议 <strong>Keil MDK</strong>（资料最多），预算有限或追求正版用 <strong>CubeIDE</strong>。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="HAL库 版本 兼容性 升级 STM32Cube_FW STM32CubeMX">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stm32">STM32</span>Q21. STM32 HAL 库版本选择与兼容性？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>HAL 库随 STM32Cube 固件包发布（如 <code>STM32Cube_FW_F4_V1.27.1</code>）：</p>
+          <ul>
+            <li>建议用 CubeMX 中自带的最新版，与 CubeMX 版本配套。</li>
+            <li>不同大版本 API 可能有变化（如 F4 V1.24 后 <code>HAL_UART_Transmit</code> 参数未变但内部实现优化）。</li>
+            <li>跨芯片移植（如 F4→F1）需更换 HAL 库，CubeMX 重新生成代码。</li>
+            <li>LL 库（Low-Layer）更接近寄存器，体积小、效率高，但可移植性差。</li>
+            <li>升级 HAL 库后建议重新全量编译，清理旧 <code>.o</code> 文件。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="CubeMX 时钟树 配置 HSE PLL HCLK APB1 APB2">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stm32">STM32</span>Q22. CubeMX 中时钟树配置步骤？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>STM32F407 时钟树配置（详见 <a href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章</a>）：</p>
+          <ol>
+            <li>Pinout → RCC → High Speed Clock (HSE) 选 <code>Cystal/Ceramic Resonator</code>（板载 8MHz 晶振）。</li>
+            <li>Clock Configuration 标签 → Input frequency 设为 <code>8 MHz</code>。</li>
+            <li>PLL Source Mux 选 <code>HSE</code>，PLLM=<code>/8</code>，PLLN=<code>336</code>，PLLP=<code>/2</code> → SYSCLK = <strong>168MHz</strong>。</li>
+            <li>HCLK = <code>168</code>，APB1 Prescaler = /4 → APB1 = 42MHz；APB2 Prescaler = /2 → APB2 = 84MHz。</li>
+            <li>绿色框表示配置正确，红色表示超限，必须满足 APB1 ≤ 42MHz、APB2 ≤ 84MHz。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="STM32F407VET6 最小系统板 引脚 资源 LQFP100 封装">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stm32">STM32</span><span class="faq-tag faq-tag-hardware">硬件</span>Q23. STM32F407VET6 最小系统板认识？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>STM32F407VET6 核心：ARM Cortex-M4F 内核，<strong>168MHz</strong>主频，<strong>512KB Flash + 192KB SRAM</strong>（含 64KB CCM），LQFP100 封装。最小系统板通常包含：</p>
+          <ul>
+            <li>8MHz HSE 晶振 + 32.768kHz LSE 晶振（RTC 用）。</li>
+            <li>USB 转串口（CH340/CP2102）+ Micro-USB 接口。</li>
+            <li>SWD 调试接口（4 针：SWDIO/SWCLK/GND/3V3）。</li>
+            <li>板载 LED（常见 PE0/PE1）、按键（PA0 唤醒、复位）。</li>
+            <li>3.3V LDO（AMS1117-3.3），支持 5V USB 供电。</li>
+            <li>引出全部 GPIO（约 82 个），排针间距 2.54mm。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="CubeMX 用户代码 添加位置 USER CODE BEGIN END 注释">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stm32">STM32</span>Q24. CubeMX 生成代码后用户代码添加位置？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>必须在 <code>/* USER CODE BEGIN XXX */</code> 与 <code>/* USER CODE END XXX */</code> 之间添加代码，否则重新生成代码时<strong>会被覆盖</strong>：</p>
+<pre><code class="language-c">/* USER CODE BEGIN 1 */
+// 你的代码写在这里，CubeMX 重新生成时会保留
+printf("Hello STM32\n");
+/* USER CODE END 1 */</code></pre>
+          <p>常见插入点：<code>BEGIN Includes</code>（头文件）、<code>BEGIN 0/1/2</code>（函数）、<code>BEGIN WHILE</code>（主循环）、<code>BEGIN 4</code>（文件末尾）。新增 <code>.c/.h</code> 文件不受影响，可放心编辑。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="STM32 下载方式 SWD JTAG 区别 选择 引脚">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stm32">STM32</span>Q25. STM32 下载方式 SWD vs JTAG 选择？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p><strong>SWD（Serial Wire Debug）</strong>：2 线调试（SWDIO+SWCLK），占用引脚少，速度足够，<strong>推荐日常使用</strong>。</p>
+          <p><strong>JTAG</strong>：5 线（TCK/TMS/TDI/TDO/TRST），支持边界扫描，调试功能更全，但占用引脚多。</p>
+          <p>STM32 默认启动后 SWD 与 JTAG 都可用（PA13/PA14/PA15/PB3/PB4）。如果这些引脚被复用为 GPIO，则只能用其中一种或都无法使用。CubeMX 中 SYS → Debug 选 <code>Serial Wire</code> 可保留 SWD。SWD 引脚：PA13=SWDIO，PA14=SWCLK。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="CubeMO PlatformIO 移植 工程转换 platformio.ini 框架">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stm32">STM32</span><span class="faq-tag faq-tag-vscode">VSCode</span>Q26. CubeMX 工程如何移植到 PlatformIO？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>步骤：</p>
+          <ol>
+            <li>CubeMX 中 Project Manager → Toolchain/IDE 选 <code>STM32CubeIDE</code>（生成 Makefile 工程）。</li>
+            <li>PlatformIO 新建工程：Board 选 <code>black_f407vg</code> 或 <code>stm32f407vet6</code>，Framework 选 <code>stm32cube</code>。</li>
+            <li>将 CubeMX 生成的 <code>Src/</code>、<code>Inc/</code>、<code>Drivers/</code> 复制到 PlatformIO 工程的 <code>src/</code> 与 <code>lib/</code>。</li>
+            <li>在 <code>platformio.ini</code> 中配置：</li>
+          </ol>
+<pre><code class="language-ini">[env:black_f407vg]
+platform = ststm32
+board = black_f407vg
+framework = stm32cube
+upload_protocol = stlink
+debug_tool = stlink
+build_flags = -IInc -IDrivers/STM32F4xx_HAL_Driver/Inc</code></pre>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="STM32 复位后不运行 反复复位 看门狗 硬件错误 选项字节">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stm32">STM32</span>Q27. STM32 复位后不运行/反复复位？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>排查思路：</p>
+          <ul>
+            <li><strong>看门狗复位</strong>：IWDG/WWDG 启用但未喂狗，检查 <code>RCC->CSR</code> 的 IWDGRST 标志。</li>
+            <li><strong>硬件错误</strong>：HardFault 触发系统复位，在 HardFault_Handler 中打印 <code>SCB->HFSR</code> 定位。</li>
+            <li><strong>软件复位</strong>：代码中调用 <code>NVIC_SystemReset()</code>，检查逻辑。</li>
+            <li><strong>电源不足</strong>：上电瞬间电流冲击导致电压跌落，增加大电容。</li>
+            <li><strong>BOO0 引脚状态</strong>：BOO0=1 进入系统存储区，不会运行用户程序；BOO0=0 才正常运行。</li>
+            <li><strong>选项字节配置错误</strong>：用 ST-Link Utility 检查 Option Bytes，看是否误设读保护或看门狗硬件启动。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="HAL库 函数命名规则 查阅 文档 HAL_前缀 Handle">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stm32">STM32</span>Q28. HAL 库函数命名规则与查阅方法？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>HAL 库命名规则：<code>HAL_&lt;外设&gt;_&lt;操作&gt;(&amp;h&lt;外设&gt;, 参数)</code>。例如：</p>
+          <ul>
+            <li><code>HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET)</code> — GPIO 写引脚</li>
+            <li><code>HAL_UART_Transmit(&amp;huart1, buf, len, timeout)</code> — UART 发送</li>
+            <li><code>HAL_TIM_PWM_Start(&amp;htim, TIM_CHANNEL_1)</code> — 启动 PWM</li>
+            <li><code>HAL_Delay(ms)</code> — 毫秒延时（阻塞，基于 SysTick）</li>
+          </ul>
+          <p>查阅方式：Keil 中右键函数 → Open Documentation；或 ST 官方 <code>STM32F4xx_HAL_Driver_UM.chm</code>；或 <a href="https://www.st.com/en/embedded-software/stm32cube-mcu-mpu-packages.html">ST 官网固件包文档</a>。句柄（Handle）如 <code>huart1</code> 在 <code>usart.c</code> 中定义，通过 <code>&amp;huart1</code> 传参。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="STM32F407 Flash RAM 分配 内存映射 地址 资源">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stm32">STM32</span>Q29. STM32F407 Flash 与 RAM 分配？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>STM32F407VET6 内存映射：</p>
+          <ul>
+            <li><strong>Flash</strong>：起始 <code>0x08000000</code>，大小 512KB（0x80000），存放用户程序代码与常量。</li>
+            <li><strong>SRAM</strong>：起始 <code>0x20000000</code>，大小 128KB（0x20000），存放全局/静态变量、栈、堆。</li>
+            <li><strong>CCM RAM</strong>：起始 <code>0x10000000</code>，大小 64KB，仅供 CPU 访问，DMA 不能用，适合放栈或关键数据。</li>
+            <li>Keil 中 Options → Target → Read/Only Memory Areas 配置 Flash 起始与大小；Read/Write Memory Areas 配置 RAM。</li>
+            <li>链接脚本（.sct/.ld）中 <code>ER_IROM1</code> 与 <code>RW_IRAM1</code> 决定代码与数据存放位置。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="CubeMX FreeRTOS 配置 堆栈大小 任务 CMSIS-RTOS">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stm32">STM32</span>Q30. CubeMX 中 FreeRTOS 配置与堆栈大小？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>CubeMX 中间件启用 FreeRTOS（详见 <a href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章</a>）：</p>
+          <ol>
+            <li>MiddleWares → FREERTOS → 勾选 <code>CMSIS_V1</code> 或 <code>CMSIS_V2</code>（推荐 V2）。</li>
+            <li>SYS → Timebase Source 选 <code>TIMx</code>（不要用 SysTick，已被 FreeRTOS 占用）。</li>
+            <li>FreeRTOS → Config parameters → <code>TOTAL_HEAP_SIZE</code> 默认 15KB，任务多时需增大（保证不超过 SRAM）。</li>
+            <li>Tasks and Queues → 添加任务，每个任务设置堆栈大小（单位字，1 字=4 字节），普通任务 <code>128-256</code> 字足够，调用 <code>printf</code> 或嵌套深需 <code>512+</code>。</li>
+            <li><code>MINIMAL_STACK_SIZE</code> 默认 128 字（空闲任务）。</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 三、VS Code + PlatformIO 环境 ============ -->
+    <div class="faq-category" id="cat3">
+      <h2>三、VS Code + PlatformIO 环境（15 题）</h2>
+
+      <div class="faq-item" data-keywords="PlatformIO 安装失败 下载缓慢 镜像 源 pip">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-vscode">VSCode</span>Q31. PlatformIO 安装失败/下载缓慢？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>PlatformIO 通过 pip 安装，国内网络问题导致失败：</p>
+          <ul>
+            <li>使用清华源：<code>pip install platformio -i https://pypi.tuna.tsinghua.edu.cn/simple</code></li>
+            <li>确保 Python 3.6+ 已加入 PATH，命令行 <code>python --version</code> 验证。</li>
+            <li>VS Code 中安装 "PlatformIO IDE" 扩展后会自动下载核心，首次需 5-10 分钟。</li>
+            <li>设置环境变量 <code>PLATFORMIO_CORE_DIR</code> 指向非系统盘目录，避免 C 盘空间不足。</li>
+            <li>平台包下载慢：设置 <code>PLATFORMIO_PLATFORMS_DIR</code>，或手动从 <a href="https://registry.platformio.org/">PIO Registry</a> 下载。</li>
+            <li>防火墙拦截 python.exe 联网，需放行。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="PlatformIO 无法识别 开发板 串口 COM 权限 驱动">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-vscode">VSCode</span>Q32. PlatformIO 无法识别开发板/串口？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>排查步骤：</p>
+          <ol>
+            <li>设备管理器确认串口出现（如 COM3），驱动已安装。</li>
+            <li>VS Code 中 PlatformIO 主页 → Devices 查看可用串口列表。</li>
+            <li>Windows 下串口被其他软件占用（如 STC-ISP、串口助手）会无法识别，关闭占用程序。</li>
+            <li><code>platformio.ini</code> 中 <code>upload_port</code> 与 <code>monitor_port</code> 显式指定 COM 口。</li>
+            <li>USB 线质量问题或开发板未供电。</li>
+            <li>权限问题：Linux 需将用户加入 <code>dialout</code> 组：<code>sudo usermod -aG dialout $USER</code>。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="PlatformIO 上传失败 could not open port 端口占用 stcgal avrdude">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-vscode">VSCode</span>Q33. PlatformIO 上传失败"could not open port"？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>常见原因：</p>
+          <ul>
+            <li><strong>串口被占用</strong>：关闭串口监视器、STC-ISP、其他串口助手后再上传。PlatformIO 串口监视器与上传不能同时进行。</li>
+            <li><strong>权限不足</strong>：Windows 用管理员运行 VS Code；Linux 加 <code>dialout</code> 组。</li>
+            <li><strong>STC 冷启动未执行</strong>：STC 单片机需先点上传再上电，PlatformIO 不会自动断电。</li>
+            <li><strong>波特率不匹配</strong>：<code>upload_speed</code> 与芯片支持的不符。</li>
+            <li><strong>烧录器型号错</strong>：<code>upload_protocol</code> 选错（如 STC 应用 <code>stcgal</code>，STM32 用 <code>stlink</code>）。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="VS Code C/C++扩展 IntelliSense 配置 头文件 红色波浪线 c_cpp_properties">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-vscode">VSCode</span>Q34. VS Code 中 C/C++ 扩展配置与 IntelliSense？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>PlatformIO 自动配置 IntelliSense，但偶尔需手动调整：</p>
+          <ul>
+            <li>安装 "C/C++" 扩展（Microsoft 官方）。</li>
+            <li>PlatformIO 工程已自动生成 <code>.vscode/c_cpp_properties.json</code>，包含头文件路径。</li>
+            <li>手动添加路径：在 <code>includePath</code> 数组中加入 <code>"${workspaceFolder}/Inc"</code> 等。</li>
+            <li>IntelliSense Mode 选 <code>gcc-arm</code>（STM32）或 <code>gcc-51</code>（STC）。</li>
+            <li>红色波浪线但能编译：通常是 IntelliSense 索引未更新，<code>Ctrl+Shift+P</code> → "C/C++: Reset IntelliSense Database"。</li>
+            <li>PlatformIO 中按 <code>Ctrl+Shift+P</code> → "Rebuild IntelliSense Index"。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="PlatformIO 串口监视器 波特率 monitor_speed monitor_port">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-vscode">VSCode</span>Q35. PlatformIO 串口监视器使用与波特率设置？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>使用方法：</p>
+          <ul>
+            <li>底部状态栏点击"插头"图标启动监视器，或 <code>Ctrl+Shift+P</code> → "PlatformIO: Serial Monitor"。</li>
+            <li><code>platformio.ini</code> 中配置：<code>monitor_speed = 115200</code>、<code>monitor_port = COM3</code>。</li>
+            <li>常用波特率：9600、115200（最常用）、460800。</li>
+            <li>退出监视器：<code>Ctrl+C</code>。</li>
+            <li>高级过滤：<code>monitor_filters = direct, time</code> 显示时间戳；<code>esp8266_exception_decoder</code> 解析 ESP 异常。</li>
+            <li>注意：监视器与上传共用串口时，上传前会自动关闭监视器。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="PlatformIO 库依赖 lib_deps 库管理 注册表">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-vscode">VSCode</span>Q36. PlatformIO 库依赖管理（lib_deps）？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>PlatformIO 自动管理库依赖，在 <code>platformio.ini</code> 中：</p>
+<pre><code class="language-ini">[env:stc89c52rc]
+lib_deps =
+  SPI
+  Adafruit SSD1306 @ ^2.5.0
+  https://github.com/user/repo.git</code></pre>
+          <ul>
+            <li>库会下载到 <code>.pio/libdeps</code> 目录，不影响系统。</li>
+            <li>本地库放 <code>lib/</code> 目录，自动参与编译。</li>
+            <li><code>lib_extra_dirs</code> 指定额外库搜索路径。</li>
+            <li><code>lib_ldf_mode = chain+</code> 启用深度依赖解析。</li>
+            <li>更新库：<code>pio pkg update</code>。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="VS Code 代码补全 不工作 红色波浪线 IntelliSense 索引">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-vscode">VSCode</span>Q37. VS Code 中代码补全不工作/红色波浪线？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>常见原因与解决：</p>
+          <ul>
+            <li>IntelliSense 索引未完成：右下角状态栏显示"Indexing..."，等待几秒。</li>
+            <li>头文件路径未配置：检查 <code>c_cpp_properties.json</code> 的 <code>includePath</code>。</li>
+            <li>编译器路径错误：<code>compilerPath</code> 指向错误的 GCC。</li>
+            <li>PlatformIO 未生成配置：重新执行 <code>pio init</code> 或在 VS Code 中"Rebuild C/C++ Project Index"。</li>
+            <li>多个 C/C++ 扩展冲突：禁用非 Microsoft 的 C/C++ 扩展。</li>
+            <li>文件编码非 UTF-8：右下角切换编码为 UTF-8。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="PlatformIO 多环境 envs 配置 release debug 不同开发板">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-vscode">VSCode</span>Q38. PlatformIO 多环境配置（envs）？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>一个工程支持多套配置（如 debug/release、不同开发板）：</p>
+<pre><code class="language-ini">[env]
+platform = ststm32
+framework = stm32cube
+build_flags = -DGLOBAL_DEFINE=1
+
+[env:debug]
+board = black_f407vg
+build_type = debug
+build_flags = -g -O0
+
+[env:release]
+board = black_f407vg
+build_type = release
+build_flags = -Os -DNDEBUG
+
+[env:stc89]
+platform = intel_mcs51
+board = stc89c52rc
+framework = sdcc</code></pre>
+          <p>公共配置放 <code>[env]</code>，子环境继承并覆盖。VS Code 底部切换环境。编译指定环境：<code>pio run -e debug</code>。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="VS Code 终端 中文乱码 编码 GBK UTF-8 PowerShell">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-vscode">VSCode</span>Q39. VS Code 终端中文乱码？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>Windows 默认 GBK，VS Code 默认 UTF-8，编码不匹配导致乱码：</p>
+          <ul>
+            <li>设置 → 搜索 <code>terminal.integrated.profiles.windows</code> → PowerShell 参数加 <code>-NoProfile -Command chcp 65001</code>。</li>
+            <li>或终端中执行 <code>chcp 65001</code> 切换到 UTF-8。</li>
+            <li>文件编码：右下角点击编码 → "Reopen with Encoding" 选 GBK 或 "Save with Encoding" 选 UTF-8。</li>
+            <li>设置 <code>"files.encoding": "utf8"</code> 统一文件编码。</li>
+            <li>Keil 输出的中文注释在 VS Code 中乱码：Keil 默认 GBK，可在 Keil → Edit → Configuration → Encoding 改为 UTF-8。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="PlatformIO 构建缓存 清理 重新下载 .pio pio pkg">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-vscode">VSCode</span>Q40. PlatformIO 构建缓存清理与重新下载？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>清理操作：</p>
+          <ul>
+            <li><strong>清理编译产物</strong>：底部状态栏"垃圾桶"图标，或命令 <code>pio run -t clean</code>，删除 <code>.pio/build</code>。</li>
+            <li><strong>完全重建</strong>：删除整个 <code>.pio</code> 目录，下次编译重新下载依赖。</li>
+            <li><strong>重装平台包</strong>：<code>pio pkg uninstall -p platformio/ststm32</code> 后 <code>pio pkg install -p platformio/ststm32</code>。</li>
+            <li><strong>清理全局缓存</strong>：删除 <code>%USERPROFILE%\.platformio</code>（谨慎，会重下所有包）。</li>
+            <li>遇到莫名其妙的编译错误，先 clean 再 rebuild 往往能解决。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="TRAE Copilot AI辅助开发 配置 补全 代码生成">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-vscode">VSCode</span>Q41. VS Code + TRAE/Copilot AI 辅助开发配置？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>AI 工具能加速单片机开发，但需谨慎使用：</p>
+          <ul>
+            <li><strong>GitHub Copilot</strong>：VS Code 扩展商店搜索安装，登录 GitHub 账号，订阅 $10/月。</li>
+            <li><strong>TRAE</strong>：字节跳动免费 AI 编程助手，国内访问快，支持中文对话。</li>
+            <li><strong>Codeium/Tabnine</strong>：免费替代品，适合个人开发者。</li>
+            <li>配置：<code>Settings → Editor: Inline Suggest</code> 开启行内补全；<code>Tab</code> 接受建议。</li>
+            <li>提示技巧：注释中说明意图（如 <code>// 延时 1ms @11.0592MHz</code>），AI 生成更准确。</li>
+            <li><strong>重要</strong>：AI 生成的代码必须对照数据手册验证引脚、寄存器、时序，不能盲目使用。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="PlatformIO 开发STC89C52RC 配置 SDCC stcgal 8051">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-vscode">VSCode</span><span class="faq-tag faq-tag-stc">STC</span>Q42. PlatformIO 中开发 STC89C52RC 的配置？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>详见 <a href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 §5.5</a>。<code>platformio.ini</code>：</p>
+<pre><code class="language-ini">[env:stc89c52rc]
+platform = intel_mcs51
+board = stc89c52rc
+framework = sdcc
+upload_protocol = stcgal
+upload_speed = 9600
+upload_port = COM3
+build_flags = -DSTC89C52RC
+
+; SDCC 语法注意：
+; __sfr P0 = 0x80;      (非 sfr P0 = 0x80;)
+; __sbit LED = P1^0;    (非 sbit LED = P1^0;)
+; 头文件 &lt;8052.h&gt;       (非 reg52.h)</code></pre>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="PlatformIO 开发STM32F407 配置 ststm32 stm32cube stlink">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-vscode">VSCode</span><span class="faq-tag faq-tag-stm32">STM32</span>Q43. PlatformIO 中开发 STM32F407 的配置？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p><code>platformio.ini</code>：</p>
+<pre><code class="language-ini">[env:black_f407vg]
+platform = ststm32
+board = black_f407vg
+framework = stm32cube
+upload_protocol = stlink
+debug_tool = stlink
+monitor_speed = 115200
+build_flags = 
+    -DUSE_HAL_DRIVER
+    -DSTM32F407xx
+    -DBOARD_BLACK_F407VG
+    -O2 -g
+
+; 调试：F5 启动，支持断点、单步、变量查看
+; 烧录：底部 → 箭头图标
+; 串口监视器：底部 插头图标</code></pre>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="VS Code 调试 launch.json debug 配置 断点 单步">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-vscode">VSCode</span>Q44. VS Code 调试配置 launch.json？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>PlatformIO 自动生成调试配置，无需手动写 <code>launch.json</code>：</p>
+          <ul>
+            <li>确保 <code>platformio.ini</code> 中 <code>debug_tool = stlink</code>（STM32）或 <code>jlink</code>。</li>
+            <li>按 <code>F5</code> 启动调试，自动编译、烧录、附加调试器。</li>
+            <li>支持断点、单步（F10/F11）、变量查看、寄存器查看、内存查看。</li>
+            <li>STC89C52RC <strong>不支持在线调试</strong>（无 SWD/JTAG），只能用串口 printf 调试。</li>
+            <li>手动配置 <code>.vscode/launch.json</code> 适用于纯 C/C++ 项目（非 PlatformIO），需指定 <code>miDebuggerPath</code> 为 arm-none-eabi-gdb。</li>
+            <li>调试时关闭优化 <code>-O0</code>，否则变量可能被优化掉。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="PlatformIO 自定义构建脚本 platformio.ini 高级选项 extra_scripts build_flags">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-vscode">VSCode</span>Q45. PlatformIO 自定义构建脚本与 platformio.ini 高级选项？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>高级选项：</p>
+<pre><code class="language-ini">[env:custom]
+platform = ststm32
+board = black_f407vg
+framework = stm32cube
+
+; 自定义构建脚本
+extra_scripts = pre:tools/pre_build.py
+                post:tools/post_build.py
+
+; 构建标志
+build_flags = 
+    -O2
+    -Wall
+    -Wextra
+    -DDEBUG=1
+    -ffunction-sections -fdata-sections
+    -Wl,--gc-sections
+
+; 链接脚本
+board_build.ldscript = linker.ld
+
+; 上传前/后命令
+pre_build = echo "Building..."
+post_build = echo "Done!"</code></pre>
+          <p>Python 脚本通过 <code>env.AddPreAction()</code>、<code>env.AddPostAction()</code> 钩子介入 SCons 构建流程，可实现自动生成版本号、合并 hex、计算校验和等。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 四、调试器与烧录工具 ============ -->
+    <div class="faq-category" id="cat4">
+      <h2>四、调试器与烧录工具（12 题）</h2>
+
+      <div class="faq-item" data-keywords="J-Link No CPU detected 连接故障 SWD 接线 复位">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q46. J-Link 连接故障"No CPU detected"排查？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>排查顺序：</p>
+          <ol>
+            <li>接线：SWDIO、SWCLK、GND、VTref（参考电压，必须接目标板 3.3V）4 根线，少一根都不行。</li>
+            <li>目标板供电：J-Link 不供电，需开发板自带电源，电源灯亮。</li>
+            <li>SWD 引脚未被复用：用 ST-Link Utility 尝试连接，排除代码占用 SWD 引脚。</li>
+            <li>BOO0=0（正常运行模式），BOO0=1 会进入系统存储区。</li>
+            <li>J-Link Configurator 中确认固件已升级。</li>
+            <li>J-Link Commander 中 <code>connect</code> → 选 SWD → 选目标芯片，看具体报错。</li>
+            <li>若芯片加密或选项字节锁死，需先擦除。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="J-Link 驱动安装 USB识别 Win11 签名">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q47. J-Link 驱动安装问题与 USB 识别？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>从 <a href="https://www.segger.com/downloads/jlink/">SEGGER 官网</a>下载 J-Link 软件包（含驱动与工具）：</p>
+          <ul>
+            <li>安装后插入 J-Link，设备管理器应出现 "J-Link driver"。</li>
+            <li>Win11 强制签名，山寨 J-Link（如 J-Link OB）可能驱动不兼容，需用正版或刷 EDU 固件。</li>
+            <li>USB 3.0 口兼容性问题：换 USB 2.0 口或机箱后置 USB。</li>
+            <li>J-Link Configurator 中查看序列号，正版有唯一 SN，山寨 SN 固定为固定值。</li>
+            <li>驱动冲突：先卸载旧版 J-Link 驱动再装新版。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="ST-Link 固件升级 STLinkUpgrade STM32CubeProgrammer">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q48. ST-Link 固件升级方法？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>ST-Link 固件升级步骤：</p>
+          <ol>
+            <li>下载 <a href="https://www.st.com/en/development-tools/stsw-link007.html">STSW-LINK007</a>（ST-Link 固件升级工具）或使用 STM32CubeProgrammer 内置升级功能。</li>
+            <li>插入 ST-Link，关闭所有占用 ST-Link 的软件（Keil、CubeIDE、串口助手）。</li>
+            <li>运行 ST-Link Upgrade，点击 "Device Connect"。</li>
+            <li>显示当前版本与最新版本，点击 "Yes ===&gt;" 开始升级。</li>
+            <li>升级过程中<strong>切勿拔 USB</strong>，否则 ST-Link 变砖。</li>
+            <li>升级后重新插拔 USB，确认设备正常识别。</li>
+          </ol>
+          <p>建议定期升级，新固件修复兼容性 BUG。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="J-Link ST-Link 区别 选型 价格 速度 兼容性">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q49. J-Link vs ST-Link 区别与选型？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>对比：</p>
+          <ul>
+            <li><strong>支持芯片</strong>：J-Link 支持几乎所有 ARM Cortex-M（STM32/GD32/NXP/Nordic 等）；ST-Link 仅支持 STM32/Spartan 系列。</li>
+            <li><strong>速度</strong>：J-Link 下载速度更快（最高 4MHz SWD），ST-Link V2 约 1.8MHz，ST-Link V3 提升到 24MHz。</li>
+            <li><strong>调试功能</strong>：J-Link 支持无限断点、实时跟踪（ETM/ITM）；ST-Link 功能较基础。</li>
+            <li><strong>价格</strong>：J-Link 正版 ¥1500+（EDU 版 ¥500+）；ST-Link V2 山寨 ¥15-30，正版 ¥200+；ST-Link V3 ¥400+。</li>
+            <li><strong>选型</strong>：只开发 STM32 用 ST-Link 足够；多平台开发或追求调试体验选 J-Link。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="SWD JTAG 接口选择 接线 引脚 SWDIO SWCLK TCK TMS">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q50. SWD vs JTAG 接口选择与接线？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p><strong>SWD 接线（2 线 + 电源地，共 4 根）</strong>：</p>
+          <ul>
+            <li><code>SWDIO</code> ↔ <code>SWDIO</code>（PA13）</li>
+            <li><code>SWCLK</code> ↔ <code>SWCLK</code>（PA14）</li>
+            <li><code>GND</code> ↔ <code>GND</code></li>
+            <li><code>VTref</code> ↔ <code>3.3V</code>（参考电压，必须接，调试器据此判断电平）</li>
+          </ul>
+          <p><strong>JTAG 接线（5 线 + 电源地，共 7 根）</strong>：TCK、TMS、TDI、TDO、TRST、GND、VTref。</p>
+          <p>日常开发<strong>优先 SWD</strong>：引脚少、速度足够、占用 PCB 空间小。JTAG 用于需要边界扫描或 ETM 实时跟踪的场合。STM32 默认两种都可用，CubeMX 中可配置保留哪种。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="J-Link Could not start CPU 复位 失败 时钟 看门狗">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q51. J-Link 提示"Could not start CPU"原因？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>常见原因：</p>
+          <ul>
+            <li><strong>SWD 频率过高</strong>：J-Link Commander 中 <code>speed 1000</code> 降到 1MHz 以下重试。</li>
+            <li><strong>芯片处于低功耗模式</strong>：Stop/Standby 模式下 SWD 时钟关闭，需先复位唤醒。</li>
+            <li><strong>看门狗或硬件错误复位</strong>：在 <code>connect</code> 前按住复位，<code>connect</code> 后松开。</li>
+            <li><strong>SWD 引脚被复用</strong>：用户代码将 PA13/PA14 配为 GPIO，连接前先擦除 Flash。</li>
+            <li><strong>电源不稳</strong>：用万用表测 VCC，3.3V±5%。</li>
+            <li><strong>调试器与目标板不共地</strong>：GND 必须可靠连接。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="调试器 单步执行 断点不生效 优化 inline Flash断点">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q52. 调试器无法单步执行/断点不生效？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>原因与解决：</p>
+          <ul>
+            <li><strong>编译优化</strong>：<code>-O2/-O3</code> 下代码被重排或内联，断点无法精确定位。调试时用 <code>-O0</code>。</li>
+            <li><strong>Flash 硬件断点数量有限</strong>：Cortex-M4 只有 6 个硬件断点（指令）+ 4 个数据观察点，超限无法设置。</li>
+            <li><strong>断点设在 inline 函数或宏</strong>：展开后无对应代码行，设断点无效。</li>
+            <li><strong>断点在库函数中</strong>：库以 <code>.a</code> 形式链接，无源码行信息。</li>
+            <li><strong>RAM 调试</strong>：代码下载到 RAM 才能用软件断点，但需配置链接脚本。</li>
+            <li><strong>启动文件优化</strong>：检查 <code>startup_stm32f407xx.s</code> 是否正确加入工程。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="J-Link 速度设置 SWD频率 JTAG速度 speed">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q53. J-Link 速度设置与 SWD 频率？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>速度选择原则：</p>
+          <ul>
+            <li>SWD 默认 4MHz，JTAG 默认 4MHz。</li>
+            <li>连线短（&lt;20cm）且信号质量好：可用 4-10MHz。</li>
+            <li>连线长或杜邦线：降到 1MHz 甚至 400kHz。</li>
+            <li>调试低功耗芯片：Stop 模式唤醒后 SWD 需降速。</li>
+            <li>J-Link Commander：<code>speed 1000</code> 设为 1MHz。</li>
+            <li>Keil：Options → Debug → Settings → SW → Max Clock。</li>
+            <li>速度过高表现为连接不稳定、烧录失败、读取寄存器错误。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="ST-Link 烧录失败 Flash Download failed 写保护 选项字节">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q54. ST-Link 烧录失败"Error: Flash Download failed"？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>排查：</p>
+          <ol>
+            <li><strong>Flash 写保护</strong>：用 STM32CubeProgrammer → Option Bytes → 检查 WRP（Write Protection），取消后重新烧录。</li>
+            <li><strong>读保护（RDP）</strong>：Level 2 保护后无法读写，需设为 Level 0（会擦除 Flash）。</li>
+            <li><strong>Flash 满或地址越界</strong>：检查 <code>.map</code> 文件，确认代码大小不超过 512KB。</li>
+            <li><strong>SWD 速度过快</strong>：降到 1MHz 重试。</li>
+            <li><strong>_erase 失败</strong>：Flash 解锁序列错误（<code>FLASH->KEYR</code>），检查 HAL_FLASH_Unlock()。</li>
+            <li><strong>电源不足</strong>：烧录时电流大，电压跌落导致失败。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="调试器 连接不稳定 时断时续 USB线 接地 干扰">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q55. 调试器连接不稳定/时断时续？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>常见原因：</p>
+          <ul>
+            <li><strong>杜邦线松动</strong>：用质量好的杜邦线，或焊接排针排母固定。</li>
+            <li><strong>线太长</strong>：SWD/JTAG 线建议 &lt;20cm，过长导致信号反射。</li>
+            <li><strong>GND 未共地或接触不良</strong>：GND 是基础，必须可靠连接。</li>
+            <li><strong>USB 供电不足</strong>：用带独立供电的 USB Hub 或外接 5V 电源。</li>
+            <li><strong>电磁干扰</strong>：远离电机、继电器等干扰源，SWD 线加磁环。</li>
+            <li><strong>调试器过热</strong>：山寨调试器散热差，工作一段时间后不稳定。</li>
+            <li><strong>降低 SWD 速度</strong>：速度越高对信号完整性要求越高。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="J-Link Commander 命令 connect erase load halt mem read write">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q56. J-Link Commander 基本命令？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>J-Link Commander（JLink.exe）常用命令：</p>
+<pre><code class="language-text">connect            # 连接目标，依次选设备(STM32F407)、接口(SWD)、速度(4000)
+?                  # 显示帮助
+halt               # 停止 CPU
+r                  # 复位 CPU（SYSRESETREQ）
+g                  # 继续 CPU 运行
+erase              # 擦除整个 Flash
+loadbin demo.bin 0x08000000  # 烧录 bin 文件到 0x08000000
+loadfile demo.hex  # 烧录 hex 文件
+mem 0x08000000 0x100  # 读取 0x08000000 起 256 字节
+w4 0x40020000 0x01 # 写 4 字节到地址
+q                  # 退出</code></pre>
+          <p>适合无 IDE 场景下的命令行烧录调试，也可写成 <code>.jdebug</code> 脚本批量执行。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="调试器 低功耗模式 停止 待机 Stop Standby 连接不上">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q57. 调试器无法连接低功耗模式下的芯片？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>STM32 进入 Stop/Standby 模式后，SWD 时钟关闭，调试器无法连接：</p>
+          <ul>
+            <li><strong>连接前按复位</strong>：复位唤醒芯片，调试器立即连接。</li>
+            <li><strong>DBGMCU 寄存器</strong>：代码中 <code>DBGMCU-&gt;CR |= DBGMCU_CR_DBG_STOP</code> 使 Stop 模式下保持调试时钟，可调试低功耗。</li>
+            <li>HAL 库：<code>__HAL_DBGMCU_FREEZE_PCD()</code> 等宏冻结特定外设。</li>
+            <li>Standby 模式下 SRAM 内容丢失（除备份域），唤醒后等于复位，无法保持调试会话。</li>
+            <li>低功耗调试时 SWD 速度需降到 1MHz 以下。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 五、编译与链接问题 ============ -->
+    <div class="faq-category" id="cat5">
+      <h2>五、编译与链接问题（15 题）</h2>
+
+      <div class="faq-item" data-keywords="undefined reference 链接错误 找不到函数 未定义 引用 extern">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q58. undefined reference to xxx 链接错误？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>链接阶段找不到函数或变量的定义，常见原因：</p>
+          <ul>
+            <li><strong>未将 .c 文件加入工程</strong>：在 Project 窗口右键 Source Group → Add 添加。</li>
+            <li><strong>函数声明与定义不匹配</strong>：头文件声明 <code>void func(void)</code>，源文件写成 <code>void func(int)</code>。</li>
+            <li><strong>extern 声明但无定义</strong>：<code>extern int g_var;</code> 必须在某 .c 文件中 <code>int g_var;</code> 定义。</li>
+            <li><strong>静态库未链接</strong>：Options → Linker → Misc → 添加 <code>.a</code> 或 <code>.lib</code>。</li>
+            <li><strong>C/C++ 混编</strong>：C++ 调用 C 函数需 <code>extern "C"</code> 包裹头文件。</li>
+            <li><strong>条件编译导致定义被排除</strong>：检查 <code>#ifdef</code> 宏是否定义。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="multiple definition 重复定义 多文件 全局变量 链接冲突">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q59. 多文件工程编译报错"multiple definition"？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>同一符号在多个 .c 文件中被定义：</p>
+          <ul>
+            <li><strong>全局变量重复定义</strong>：<code>int g_var;</code> 写在头文件中被多个 .c 包含。正确做法：头文件中 <code>extern int g_var;</code>，仅在一个 .c 中 <code>int g_var;</code>。</li>
+            <li><strong>函数重复定义</strong>：函数实现写在头文件中。应放 .c 中，头文件只留声明。或在头文件中加 <code>static</code> 或 <code>inline</code>。</li>
+            <li><strong>.c 文件被重复包含</strong>：A.c 包含 B.c，又有其他文件包含 B.c。不要在 .c 中 <code>#include</code> 其他 .c。</li>
+            <li><strong>库重复链接</strong>：同一库被添加两次，移除多余引用。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="头文件 重复包含 重复定义 ifdef ifndef pragma once 守卫">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q60. 头文件重复包含导致重复定义？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>头文件被同一 .c 多次包含（间接包含）会导致类型重定义错误。解决方法：</p>
+          <p><strong>方法 1：宏守卫（推荐，C51 不支持 pragma once）</strong></p>
+<pre><code class="language-c">#ifndef __LED_H__
+#define __LED_H__
+// 头文件内容
+#endif // __LED_H__</code></pre>
+          <p><strong>方法 2：pragma once（GCC/Keil ARM 支持，C51 不支持）</strong></p>
+<pre><code class="language-c">#pragma once
+// 头文件内容</code></pre>
+          <p>守卫宏命名建议用 <code>__文件名_H__</code>，避免与系统头文件冲突。每个头文件都应加守卫，养成习惯。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="extern 变量 声明 定义 区别 头文件 全局变量">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q61. extern 变量声明与定义的区别？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p><strong>定义（Definition）</strong>：分配存储空间，只能在一处。</p>
+          <p><strong>声明（Declaration）</strong>：告诉编译器该变量存在，类型是什么，但不分配空间，可多处声明。</p>
+<pre><code class="language-c">// config.c
+int g_count = 0;          // 定义（分配空间）
+
+// config.h
+extern int g_count;       // 声明（不分配空间）
+
+// main.c
+#include "config.h"
+void main() { g_count++; } // 使用</code></pre>
+          <p>规则：定义放 .c，声明（带 <code>extern</code>）放 .h。其他文件 <code>#include</code> 头文件即可使用，无需重复 <code>extern</code>。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="undefined symbol 警告 但能运行 链接器 弱符号 weak">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q62. Keil 编译警告"undefined symbol"但能运行？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>这种情况通常是<strong>弱符号（Weak Symbol）</strong>或库函数缺失但未实际调用：</p>
+          <ul>
+            <li>HAL 库中 <code>__weak void HAL_Delay_Callback()</code> 是弱定义，用户可重写，不重写也能链接。</li>
+            <li>启动文件中 <code>WEAK</code> 标记的中断服务函数，未实现时用默认空函数。</li>
+            <li>printf 相关的 <code>__use_no_semihosting</code> 警告：未实现 <code>_sys_exit</code> 等函数，但若不调用 printf 也能运行。</li>
+            <li>能运行不代表没问题，建议<strong>消除所有警告</strong>：用 <code>-Wall</code> 严格编译，避免潜在风险。</li>
+            <li>真正缺失的符号会报 <code>undefined reference</code> 错误（链接失败），而非警告。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="STM32 HAL库 编译错误 FLASH_SIZE not defined 宏定义 芯片型号">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stm32">STM32</span>Q63. STM32 HAL 库编译错误"FLASH_SIZE not defined"？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>原因：未定义芯片型号宏，HAL 库不知道目标芯片的 Flash 大小。</p>
+          <ul>
+            <li>Keil：Options → C/C++ → Define 中添加 <code>STM32F407xx,USE_HAL_DRIVER</code>。</li>
+            <li>CubeMX 自动生成时会添加，手动建工程容易漏。</li>
+            <li>PlatformIO：<code>build_flags = -DSTM32F407xx -DUSE_HAL_DRIVER</code>。</li>
+            <li>检查 <code>stm32f4xx.h</code> 顶部 <code>#define STM32F407xx</code> 是否激活。</li>
+            <li>选错 Device（如选 STM32F405 却定义 STM32F407xx）也会出错。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="C51 code data idata xdata pdata 存储区 区别 8051 内存">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stc">STC</span>Q64. C51 中 code/data/idata/xdata/pdata 存储区区别？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>8051 哈佛结构下不同存储区：</p>
+          <ul>
+            <li><code>code</code>：程序存储器（Flash），只读，存常量、字模表。如 <code>unsigned char code font[] = {...};</code></li>
+            <li><code>data</code>：直接寻址 RAM（0x00-0x7F），访问最快，存常用变量。</li>
+            <li><code>idata</code>：间接寻址 RAM（0x00-0xFF），包含 data 区，访问稍慢。</li>
+            <li><code>xdata</code>：外部 RAM（最大 64KB），用 <code>MOVX</code> 访问，最慢，存大数组。</li>
+            <li><code>bdata</code>：位寻址区（0x20-0x2F），可位操作。</li>
+            <li><code>pdata</code>：xdata 的低 256 字节，访问比 xdata 快（8 位地址）。</li>
+          </ul>
+          <p>STC89C52RC 内部 512B RAM（data+idata）+ 无 xdata。建议常用变量放 <code>data</code>，大表放 <code>code</code>。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="map文件 作用 查看 方法 地址 符号 内存分配">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q65. 编译产生的 .map 文件作用与查看方法？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p><code>.map</code> 文件是链接器生成的内存映射表，记录每个符号（函数、变量）的地址、大小、所属模块：</p>
+          <ul>
+            <li><strong>查看代码体积</strong>：Image component sizes 表列出各模块 Flash/RAM 占用。</li>
+            <li><strong>定位符号地址</strong>：搜索函数名找到地址，调试时对照反汇编。</li>
+            <li><strong>检查内存溢出</strong>：总 RW size 超过 RAM 大小说明溢出。</li>
+            <li><strong>分析栈堆</strong>：<code>__initial_sp</code>、<code>__heap_base</code>、<code>__heap_limit</code> 显示栈堆位置。</li>
+            <li>Keil：编译后双击 Output 窗口的 .map 链接；或用文本编辑器打开 <code>工程名.map</code>。</li>
+            <li>PlatformIO：在 <code>.pio/build</code> 目录下找到 <code>.map</code> 文件。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="Flash空间不足 优化代码体积 体积减小 优化选项 精简">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q66. Flash 空间不足如何优化代码体积？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>优化策略（按效果排序）：</p>
+          <ul>
+            <li><strong>编译优化</strong>：Options → C/C++ → Optimization 选 <code>-Os</code>（优化大小），可减少 20-40%。</li>
+            <li><strong>开启 MicroLIB</strong>（Keil）：减小 printf 等标准库体积，但功能受限（不支持浮点 printf）。</li>
+            <li><strong>移除未使用代码</strong>：<code>-ffunction-sections -fdata-sections -Wl,--gc-sections</code> 链接器自动删除未引用函数。</li>
+            <li><strong>常量放 Flash</strong>：C51 用 <code>code</code>，STM32 用 <code>const</code>，避免占用 RAM。</li>
+            <li><strong>精简 printf</strong>：用 <code>snprintf</code> 或自定义轻量 printf。</li>
+            <li><strong>查 .map 文件</strong>：定位占用大的模块针对性优化。</li>
+            <li><strong>关闭调试信息</strong>：发布版去掉 <code>-g</code>，但 .hex 不含调试信息（无影响），主要是 .elf 变小。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="RAM溢出 bss data段过大 SRAM overflow 内存不足 局部变量">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q67. RAM 溢出（.bss/.data 段过大）排查？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>报错 <code>section .bss exceeded reserved size</code> 或 <code>L6406E</code>：</p>
+          <ul>
+            <li><strong>查 .map 文件</strong>：定位占用 RAM 最大的变量，常是大数组。</li>
+            <li><strong>大数组改 Flash</strong>：常量表加 <code>const</code>（STM32）或 <code>code</code>（C51）。</li>
+            <li><strong>减小栈大小</strong>：STM32 默认 0x400（1KB），无递归可减到 0x200。</li>
+            <li><strong>局部大数组改静态</strong>：<code>char buf[1024];</code> 在函数内占栈，改 <code>static char buf[1024];</code> 占 .bss 但不占栈。</li>
+            <li><strong>使用 CCM RAM</strong>（STM32F407 独有 64KB）：链接脚本中将关键变量放 CCM。</li>
+            <li><strong>动态分配</strong>：用 <code>malloc</code> 按需分配，但单片机慎用（碎片化）。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="编译优化等级 -O0 -O1 -O2 -Os 影响 调试 代码体积">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q68. 编译优化等级（-O0/-O1/-O2/-Os）对代码的影响？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>各等级特点：</p>
+          <ul>
+            <li><code>-O0</code>：不优化，调试首选，变量不被优化掉，断点精确，但代码体积大、速度慢。</li>
+            <li><code>-O1</code>：轻度优化，减少代码体积，适度提升速度，调试基本可用。</li>
+            <li><code>-O2</code>：标准优化，速度优先，代码可能重排，单步跳行。</li>
+            <li><code>-Os</code>：优化大小（size），适合 Flash 受限的单片机，体积最小。</li>
+            <li><code>-O3</code>：最高优化（含循环展开、内联），体积反而变大，单片机少用。</li>
+            <li><code>-Og</code>：调试优化（GCC 推荐），兼顾优化与可调试性。</li>
+          </ul>
+          <p>建议：开发阶段 <code>-O0</code>，发布阶段 <code>-Os</code> 或 <code>-O2</code>。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="volatile 关键字 使用场景 原理 中断 寄存器 编译器优化">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q69. volatile 关键字使用场景与原理？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p><code>volatile</code> 告诉编译器"该变量可能被意想不到地改变，每次访问必须从内存读取，不要缓存到寄存器"。</p>
+          <p><strong>三大使用场景</strong>：</p>
+          <ol>
+            <li><strong>中断与主循环共享的变量</strong>：主循环读取的变量可能被中断修改，不加 volatile 可能读到缓存的旧值。</li>
+            <li><strong>硬件寄存器</strong>：如 <code>volatile uint32_t *GPIOA_IDR = (uint32_t*)0x40020010;</code>，寄存器值由硬件改变。</li>
+            <li><strong>多线程共享变量</strong>（RTOS 任务间通信）。</li>
+          </ol>
+<pre><code class="language-c">volatile int flag = 0;  // 中断置位，主循环检查
+void EXTI0_IRQHandler() { flag = 1; }
+void main() {
+    while (!flag);  // 不加 volatile 可能死循环
+}</code></pre>
+          <p>注意：volatile 不保证原子性，多变量操作仍需关中断或互斥量。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="static 关键字 作用 局部 全局 文件作用域 C语言">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q70. static 关键字在 C 中的作用？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>三种用法：</p>
+          <ol>
+            <li><strong>局部变量</strong>：<code>static int cnt = 0;</code> 在函数内，变量存于 .bss/.data（非栈），函数退出后值保留，下次调用延续。但作用域仍限于函数内。</li>
+            <li><strong>全局变量</strong>：<code>static int g_var;</code> 在文件外不可见（internal linkage），仅本文件可用，避免命名冲突。</li>
+            <li><strong>函数</strong>：<code>static void func()</code> 仅本文件可调用，实现模块封装。</li>
+          </ol>
+<pre><code class="language-c">// file1.c
+static int private_var = 0;  // 仅 file1.c 可见
+static void helper() { }      // 仅 file1.c 可调用
+void public_api() {           // 其他文件可调用
+    static int count = 0;     // 函数内静态变量，值保留
+    count++;
+}</code></pre>
+          <p>模块化设计中，内部函数和私有变量都应加 <code>static</code>。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="结构体 内存对齐 pragma pack 字节对齐 sizeof 填充">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q71. 结构体内存对齐与 #pragma pack？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>编译器默认按成员大小对齐，提高访问效率但浪费空间：</p>
+<pre><code class="language-c">struct A {
+    char a;     // 1B + 3B 填充
+    int  b;     // 4B
+};  // sizeof = 8（而非 5）
+
+#pragma pack(push, 1)  // 1 字节对齐
+struct B {
+    char a;     // 1B
+    int  b;     // 4B
+};  // sizeof = 5
+#pragma pack(pop)</code></pre>
+          <p>规则：</p>
+          <ul>
+            <li>每个成员相对结构体首地址的偏移必须是其大小的整数倍。</li>
+            <li>结构体总大小是最大成员大小的整数倍。</li>
+            <li>通信协议、存储帧格式用 <code>#pragma pack(1)</code> 紧凑对齐，避免填充字节。</li>
+            <li>性能敏感代码用默认对齐，访问更快。</li>
+            <li>STM32 HAL 库中寄存器结构体用 <code>__packed</code> 或 <code>__attribute__((packed))</code>。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="条件编译 ifdef ifndef 防止重复包含 头文件守卫 define">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q72. 条件编译 #ifdef/#ifndef 防止头文件重复包含？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>经典模式：</p>
+<pre><code class="language-c">#ifndef __CONFIG_H__    // 若未定义 __CONFIG_H__
+#define __CONFIG_H__    // 则定义
+
+// 头文件内容（声明、类型定义、宏）
+
+#endif // __CONFIG_H__</code></pre>
+          <p>原理：第一次包含时 <code>__CONFIG_H__</code> 未定义，进入并定义；第二次包含时已定义，跳过整个文件。条件编译的其他用途：</p>
+          <ul>
+            <li><code>#define DEBUG</code> + <code>#ifdef DEBUG</code> 控制调试代码。</li>
+            <li><code>#if (CHIP == STC89)</code> 跨平台代码切换。</li>
+            <li><code>#pragma once</code>（部分编译器支持）等价于上述守卫，更简洁。</li>
+            <li>C51 不支持 <code>#pragma once</code>，必须用 <code>#ifndef</code> 守卫。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 六、硬件调试与仪器使用 ============ -->
+    <div class="faq-category" id="cat6">
+      <h2>六、硬件调试与仪器使用（12 题）</h2>
+
+      <div class="faq-item" data-keywords="示波器 基本使用 通道 时基 触发 耦合 探头">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q73. 示波器基本使用方法？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>四大要素：</p>
+          <ol>
+            <li><strong>通道（Channel）</strong>：选择 CH1/CH2，设置耦合方式（DC 直流、AC 交流、GND 接地），调整垂直刻度（V/div）使波形占屏幕 1/2-2/3。</li>
+            <li><strong>时基（Timebase）</strong>：调整水平刻度（s/div），使 2-3 个周期波形显示在屏幕上。</li>
+            <li><strong>触发（Trigger）</strong>：选择触发源（CH1）、触发沿（上升/下降）、触发电平（旋转 LEVEL 旋钮使触发电平在波形中间），稳定显示波形。</li>
+            <li><strong>耦合（Coupling）</strong>：DC 耦合显示直流+交流分量；AC 耦合滤除直流，只看交流；测电源纹波用 AC，测数字信号用 DC。</li>
+          </ol>
+          <p>测量前先按 AUTO 自动设置，再手动微调。探头开关 x1/x10，x10 档位输入阻抗高（10MΩ），适合测高频信号，读数需 ×10。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="示波器 探头补偿 方波校准 调节 补偿电容">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q74. 示波器探头补偿调节（方波校准）？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>探头内部有可调电容，需与示波器输入电容匹配，否则测量失真：</p>
+          <ol>
+            <li>探头接到示波器自带的 <strong>1kHz 方波校准信号端</strong>（通常标 "PROBE COMP" 或 "CAL"）。</li>
+            <li>探头开关拨到 <code>x10</code>，示波器通道也设为 x10。</li>
+            <li>观察方波：理想为<strong>平整方波</strong>。</li>
+            <li><strong>过补偿</strong>（前沿上冲）：用小螺丝刀调节探头补偿电容，逆时针微调。</li>
+            <li><strong>欠补偿</strong>（前沿圆角）：顺时针微调。</li>
+            <li>调到方波平整为止，每月或更换探头后校准一次。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="示波器 测量 PWM 频率 占空比 脉宽">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q75. 示波器测量 PWM 信号频率与占空比？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>步骤：</p>
+          <ol>
+            <li>探头接 PWM 输出引脚，GND 夹接开发板 GND。</li>
+            <li>触发设为上升沿，触发电平在波形高低电平中间。</li>
+            <li>调整时基使屏幕显示 2-3 个完整周期。</li>
+            <li>使用示波器 <strong>Measure（自动测量）</strong>功能：选"频率"、"占空比"、"正脉宽"，直接读数。</li>
+            <li>手动计算：频率 = 1/周期，占空比 = 正脉宽 / 周期 × 100%。</li>
+            <li>测呼吸灯 PWM 时，频率通常 1-10kHz，占空比 0-100% 变化。</li>
+            <li>高频率 PWM（&gt;100kHz）需用 x10 探头档位，减小探头电容影响。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="示波器 测量 串口 UART 波形 起始位 数据位 波特率">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q76. 示波器测量串口 UART 波形？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>UART 通信调试：</p>
+          <ol>
+            <li>探头接 TX 或 RX 引脚，GND 夹接共地。</li>
+            <li>UART 空闲为<strong>高电平</strong>，起始位为低电平。</li>
+            <li>触发设为<strong>下降沿</strong>（捕捉起始位），触发电平设在高电平的 50%。</li>
+            <li>时基设为 1 个 bit 时间的 2-3 倍，如 9600 波特率每位约 104μs，时基设 50μs/div。</li>
+            <li>读取波形：起始位（低）→ D0-D7（LSB first）→ 奇偶校验（可选）→ 停止位（高）。</li>
+            <li>测量位宽：1/波特率 = 位宽。9600 → 104μs，115200 → 8.68μs。</li>
+            <li>若波形畸变或位宽不对，检查波特率配置和晶振频率。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="逻辑分析仪 使用方法 协议解析 采样率 触发">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q77. 逻辑分析仪使用方法与协议解析？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>逻辑分析仪专测数字信号，可解码多种协议（UART/SPI/I2C/CAN 等）：</p>
+          <ol>
+            <li>连接：通道数对应协议线数（UART 需 1-2 通道，SPI 需 3-4 通道，I2C 需 2 通道），GND 接共地。</li>
+            <li>采样率设置：至少为信号频率的 4-10 倍，如测 115200 UART 用 1MHz 采样。</li>
+            <li>触发设置：设为特定协议事件（如 UART 起始位、I2C START 条件）。</li>
+            <li>采集后用软件（如 Saleae Logic、PulseView）添加协议解码器，自动显示数据。</li>
+            <li>USB 逻辑分析仪（8 通道 24MHz）淘宝 ¥30-100，适合教学。</li>
+            <li>对比示波器：逻辑分析仪看数字时序与协议数据，示波器看模拟波形与电平。</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="万用表 测量 电压 电流 通断 二极管 蜂鸣档">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q78. 万用表测量电压/电流/通断/二极管？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>各档位用法：</p>
+          <ul>
+            <li><strong>直流电压（DCV）</strong>：红表笔接 VΩ，黑表笔接 COM。并联在被测电路两端，量程从大到小选。测 STM32 VCC 应为 3.3V。</li>
+            <li><strong>直流电流（mA/A）</strong>：红表笔换到 mA 或 10A 插孔，<strong>串联</strong>入电路（断开回路测）。注意大电流需用 10A 档，否则烧保险丝。</li>
+            <li><strong>通断（蜂鸣档）</strong>：测两点是否导通，电阻 &lt;50Ω 蜂鸣。检查短路、断线、焊点。</li>
+            <li><strong>二极管档</strong>：红表笔接正极、黑接负极，显示正向压降（硅管 0.5-0.7V，LED 1.5-3V）；反接显示 OL（无穷）。</li>
+            <li><strong>电阻（Ω）</strong>：断电测量，量程选接近被测值。</li>
+            <li><strong>安全</strong>：勿用电流档测电压（短路）；测高压注意绝缘。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="电源纹波 测量 去耦电容 滤波 示波器 AC耦合">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q79. 电源纹波测量与去耦电容选择？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>电源纹波是叠加在直流上的交流分量，影响芯片稳定性：</p>
+          <ul>
+            <li><strong>测量</strong>：示波器 AC 耦合（滤除直流），探头接地环贴近测试点（减小环路面积），带宽限制 20MHz。</li>
+            <li><strong>正常值</strong>：数字电路 &lt;50mV，模拟电路 &lt;10mV。</li>
+            <li><strong>去耦电容选择</strong>：每个 VDD 引脚就近放一个 <strong>0.1μF 陶瓷电容</strong>（高频去耦），电源入口放 <strong>10μF 钽电容或电解</strong>（低频去耦）。</li>
+            <li><strong>布局</strong>：电容尽量贴近芯片 VDD 引脚，走线短粗。</li>
+            <li><strong>多容值并联</strong>：0.1μF + 1μF + 10μF 覆盖宽频段。</li>
+            <li>高频设计（&gt;50MHz）用 0.01μF 甚至 1000pF。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="上拉电阻 下拉电阻 阻值选择 OC开漏 OD开漏 GPIO">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q80. 上拉电阻/下拉电阻阻值选择？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>选择原则（平衡功耗与驱动能力）：</p>
+          <ul>
+            <li><strong>典型值</strong>：4.7kΩ、10kΩ 最常用。</li>
+            <li><strong>高速信号</strong>（I2C 400kHz）：4.7kΩ 或更小（1kΩ-2.2kΩ），减小 RC 时间常数。</li>
+            <li><strong>低速信号</strong>（按键、复位）：10kΩ-100kΩ，降低功耗。</li>
+            <li><strong>开漏总线</strong>：I2C 标准模式 4.7kΩ，快速模式 2.2kΩ。</li>
+            <li>阻值过小：功耗大，输出低电平时灌电流大。</li>
+            <li>阻值过大：上升沿慢，信号畸变。</li>
+            <li><strong>STM32 内部上拉</strong>约 40kΩ，仅适合低速信号；外部上拉更可靠。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="去耦电容 0.1μF 10μF 选择 放置 滤波 高频低频">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q81. 去耦电容 0.1μF vs 10μF 选择与放置？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>不同容值去耦不同频段噪声：</p>
+          <ul>
+            <li><strong>0.1μF（100nF）</strong>：低 ESR，去耦高频噪声（10-100MHz），响应快。每个芯片 VDD 旁放一个。</li>
+            <li><strong>10μF</strong>：去耦低频噪声与瞬时电流需求（如 GPIO 翻转、ADC 采样），储能。</li>
+            <li><strong>组合使用</strong>：0.1μF + 10μF 并联，覆盖宽频段。小电容靠近芯片，大电容稍远。</li>
+            <li><strong>放置</strong>：电容 VDD 引脚到芯片 VDD 距离 &lt;5mm，走线短粗，避免过孔。</li>
+            <li><strong>材料</strong>：选 X7R 或 X5R 陶瓷电容（温度稳定），Y5V 容量随温度剧变勿用。</li>
+            <li><strong>多 VDD 芯片</strong>（如 STM32 有多个 VDD）：每个 VDD 都要独立去耦。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="LED 限流电阻 计算公式 功率 欧姆定律 正向压降">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q82. LED 限流电阻计算公式与功率？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>计算公式（欧姆定律）：</p>
+<pre><code class="language-text">R = (Vcc - Vf) / If
+
+Vcc: 电源电压（如 5V 或 3.3V）
+Vf:  LED 正向压降（红/黄 1.8-2.0V，绿/蓝/白 2.8-3.2V）
+If:  LED 工作电流（指示用 5-10mA，照明用 20mA）</code></pre>
+          <p>示例：5V 供电，红色 LED（Vf=2V, If=10mA）：</p>
+          <pre><code class="language-text">R = (5 - 2) / 0.01 = 300Ω，选标称值 330Ω</code></pre>
+          <p><strong>功率</strong>：P = I²R = 0.01² × 330 = 0.033W，用 1/8W 或 1/4W 电阻足够。</p>
+          <p>STM32 GPIO 输出 3.3V，灌电流上限 25mA，建议 If 取 5-8mA，计算 R = (3.3-2)/0.005 = 260Ω，选 270Ω 或 330Ω。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="继电器 驱动电路 三极管 续流二极管 反电动势 MCU控制">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q83. 继电器驱动电路设计？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>MCU IO 口无法直接驱动继电器（电流大、线圈反电动势），需用三极管驱动：</p>
+<pre><code class="language-text">MCU GPIO ──[1kΩ]── Base
+                    │
+                  NPN(S8050)
+                    │
+       +5V ──[继电器线圈]── Collector
+                    │
+                  (续流二极管 1N4148 反并联在线圈两端，阴极接 +5V)
+                    │
+                   GND</code></pre>
+          <p>关键点：</p>
+          <ul>
+            <li><strong>三极管</strong>：S8050（NPN）或 S8550（PNP），根据继电器电压选。</li>
+            <li><strong>基极电阻</strong>：1kΩ-2kΩ，限制基极电流。</li>
+            <li><strong>续流二极管</strong>：必须加！继电器断电瞬间线圈产生反电动势（可达百伏），会击穿三极管。二极管反并联（阴极接正电源），泄放反电动势。</li>
+            <li><strong>隔离</strong>：强电场合用光耦（如 PC817）隔离 MCU 与继电器。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="电平转换 3.3V 5V 电阻分压 专用IC TXS0108 74LVC">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-hardware">硬件</span>Q84. 电平转换电路（3.3V↔5V）？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>常见方案：</p>
+          <ul>
+            <li><strong>电阻分压（5V→3.3V 单向）</strong>：用 2kΩ + 3.3kΩ 分压，简单但速度慢，仅适合低速信号。</li>
+            <li><strong>二极管钳位</strong>：用肖特基二极管 + 上拉电阻，简单但有压降。</li>
+            <li><strong>专用电平转换 IC</strong>：<code>TXS0108E</code>（8 通道双向）、<code>74LVC245</code>（8 通道单向）、<code>SN74LVC1T45</code>（单通道双向），适合高速信号（I2C/SPI/UART）。</li>
+            <li><strong>MOSFET 电平转换</strong>：BSS138 + 上拉电阻，双向自动感应，常用于 I2C。</li>
+            <li><strong>STM32 5V 容忍引脚</strong>：标注 FT（5V Tolerant）的引脚可直接接 5V 输入，但输出仍是 3.3V。</li>
+            <li>选型：单向用 74LVC245，双向用 TXS0108E，I2C 用 MOSFET 方案。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 七、代码设计与调试 ============ -->
+    <div class="faq-category" id="cat7">
+      <h2>七、代码设计与调试（15 题）</h2>
+
+      <div class="faq-item" data-keywords="C51 精确延时 软件 定时器 _nop_ INTRINS 微秒 毫秒">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stc">STC</span>Q85. C51 中如何精确延时？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>三种方法：</p>
+          <ol>
+            <li><strong>软件延时</strong>：用 <code>for</code> 或 <code>while</code> 循环，配合 STC-ISP 软件的"软件延时计算器"生成代码。精度低、占用 CPU，易被中断打断。</li>
+            <li><strong>定时器延时</strong>：配置定时器中断，精度高，可释放 CPU。是工程实践首选。</li>
+            <li><strong>_nop_()</strong>：来自 <code>&lt;INTRINS.H&gt;</code>，执行一个机器周期（12T 模式下 12 个时钟周期），适合微秒级精确延时。</li>
+          </ol>
+<pre><code class="language-c">#include &lt;INTRINS.H&gt;
+void delay_us(unsigned char us) {
+    while (us--) _nop_();  // 11.0592MHz 下约 1.085μs/次
+}
+void delay_ms(unsigned int ms) {
+    while (ms--) delay_us(1000);  // 粗略，实际需校准
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="STM32 HAL库 重定向 printf 串口 fputc __io_putchar MicroLIB">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stm32">STM32</span>Q86. STM32 HAL 库重定向 printf 到串口？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>在工程中添加以下代码（详见 <a href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 §15.5</a>）：</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#ifdef __GNUC__
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+#else
+#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#endif
+PUTCHAR_PROTOTYPE {
+    HAL_UART_Transmit(&amp;huart1, (uint8_t *)&amp;ch, 1, 0xFFFF);
+    return ch;
+}</code></pre>
+          <p>并在 Keil 中勾选 "Use MicroLIB"，或在 CubeIDE 中确保链接 newlib-nano。注意 printf 比较占栈（约 1-2KB），任务栈需留足空间。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="程序跑飞 复位 卡死 HardFault 看门狗 栈溢出 排查">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q87. 程序跑飞/复位/卡死排查方法？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <ul>
+            <li><strong>HardFault</strong>：STM32 进入硬件错误中断，可在 HardFault_Handler 中打印寄存器现场（PC/LR/R0-R3）定位出错位置。</li>
+            <li><strong>看门狗复位</strong>：检查是否启用了看门狗但未及时喂狗。</li>
+            <li><strong>栈溢出</strong>：递归过深、局部数组过大，可增大栈空间或改为静态变量。</li>
+            <li><strong>数组越界 / 空指针</strong>：用调试器单步执行观察变量。</li>
+            <li><strong>电源不稳</strong>：示波器观察 VCC 是否有大幅跌落，增加去耦电容。</li>
+            <li><strong>死循环</strong>：while 条件中变量未加 volatile，编译器优化导致永远为真。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="中断服务函数 注意事项 短小 不加延时 不加printf ISR">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q88. 中断服务函数注意事项？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>中断服务函数（ISR）设计原则：</p>
+          <ul>
+            <li><strong>短小</strong>：只做必要操作（置标志、读寄存器），耗时处理放主循环或任务中。</li>
+            <li><strong>不加延时</strong>：<code>HAL_Delay()</code> 在 ISR 中不工作（依赖 SysTick 中断，优先级问题）。</li>
+            <li><strong>不加 printf</strong>：printf 阻塞且占栈大，会严重影响实时性。可用环形缓冲区暂存数据，主循环再打印。</li>
+            <li><strong>不复用变量</strong>：ISR 与主循环共享变量必须加 <code>volatile</code>，多变量操作需关中断。</li>
+            <li><strong>清中断标志</strong>：进入 ISR 后先清标志，否则退出后又立即触发。</li>
+            <li><strong>不调用非可重入函数</strong>：如 <code>malloc</code>、<code>strtok</code> 等。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="全局变量 中断 主循环 volatile 原子操作 关中断">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q89. 全局变量在中断与主循环中的 volatile 问题？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>主循环读取的变量若被中断修改，<strong>必须加 volatile</strong>，否则编译器可能缓存到寄存器，读到旧值：</p>
+<pre><code class="language-c">volatile uint8_t rx_flag = 0;  // 必须加 volatile
+void USART1_IRQHandler() { rx_flag = 1; }
+void main() {
+    while (1) {
+        if (rx_flag) { rx_flag = 0; process(); }
+    }
+}</code></pre>
+          <p>多字节变量（如 uint32_t 在 8 位机上）的读写非原子，可能读到半新半旧的值。解决方法：读取时<strong>关中断</strong>：</p>
+<pre><code class="language-c">uint32_t safe_read() {
+    __disable_irq();
+    uint32_t v = g_var;
+    __enable_irq();
+    return v;
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="按键消抖 软件 延时 状态机 硬件 RC 滤波">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q90. 按键消抖方法？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>机械按键抖动期 5-20ms，需消抖：</p>
+          <ul>
+            <li><strong>软件延时消抖</strong>：检测到按下后延时 10-20ms 再次确认。简单但阻塞 CPU。</li>
+            <li><strong>状态机消抖</strong>（推荐）：定时器 10ms 采样一次，连续 N 次相同才确认按下。非阻塞，适合 RTOS。</li>
+            <li><strong>硬件 RC 消抖</strong>：电阻 + 电容低通滤波，简单但占 PCB 空间。</li>
+            <li><strong>专用 IC</strong>：如 STM8 的触摸按键外设。</li>
+          </ul>
+<pre><code class="language-c">// 状态机消抖示例
+enum { IDLE, DEBOUNCE, PRESSED };
+uint8_t key_state = IDLE;
+void key_scan() {  // 10ms 调用一次
+    static uint8_t cnt = 0;
+    uint8_t cur = HAL_GPIO_ReadPin(KEY_GPIO, KEY_PIN);
+    switch (key_state) {
+        case IDLE:    if (cur == 0) { cnt = 0; key_state = DEBOUNCE; } break;
+        case DEBOUNCE: if (cur == 0) { if (++cnt >= 3) key_state = PRESSED; } else key_state = IDLE; break;
+        case PRESSED:  if (cur == 1) key_state = IDLE; break;
+    }
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="状态机 设计模式 switch-case 表驱动 状态转换">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q91. 状态机设计模式（switch-case vs 表驱动）？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>状态机适合按键、菜单、协议解析等有明确状态流转的场景：</p>
+          <p><strong>switch-case 法</strong>：直观易读，状态少时首选。</p>
+<pre><code class="language-c">switch (state) {
+    case S_IDLE:  if (evt == E_START) state = S_RUN; break;
+    case S_RUN:   if (evt == E_STOP)  state = S_IDLE; break;
+}</code></pre>
+          <p><strong>表驱动法</strong>：状态多时更清晰，用查表代替 switch：</p>
+<pre><code class="language-c">typedef struct { int cur; int evt; int next; void (*action)(); } Trans;
+const Trans t[] = {
+    {S_IDLE, E_START, S_RUN,  start_motor},
+    {S_RUN,  E_STOP,  S_IDLE, stop_motor},
+};
+void fsm(int evt) {
+    for (int i = 0; i &lt; sizeof(t)/sizeof(t[0]); i++)
+        if (t[i].cur == state &amp;&amp; t[i].evt == evt) {
+            state = t[i].next; t[i].action(); break;
+        }
+}</code></pre>
+          <p>表驱动便于扩展，新增状态只需加表项，不改逻辑。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="环形缓冲区 实现 应用 串口接收 ring buffer FIFO">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q92. 环形缓冲区实现与应用（串口接收）？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>环形缓冲区（Ring Buffer）适合生产者-消费者场景，如中断接收、主循环处理：</p>
+<pre><code class="language-c">#define BUF_SIZE 128
+volatile uint8_t buf[BUF_SIZE];
+volatile uint16_t head = 0, tail = 0;
+
+// 中断中调用（生产者）
+void push(uint8_t d) {
+    buf[head] = d;
+    head = (head + 1) % BUF_SIZE;
+}
+
+// 主循环调用（消费者）
+int pop(uint8_t *d) {
+    if (head == tail) return -1;  // 空
+    *d = buf[tail];
+    tail = (tail + 1) % BUF_SIZE;
+    return 0;
+}</code></pre>
+          <p>优势：无锁（单生产者+单消费者）、O(1) 入队出队、不需移动数据。注意 head/tail 需 <code>volatile</code>，判断满时保留一个空位避免覆盖。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="软件I2C 硬件I2C 选择 优缺点 GPIO模拟 时序">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q93. 软件 I2C vs 硬件 I2C 选择？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>对比：</p>
+          <ul>
+            <li><strong>硬件 I2C</strong>：专用外设，不占 CPU，速度快（标准 100kHz、快速 400kHz、高速 3.4MHz），时序精确。但引脚固定（需查数据手册 I2C_SCL/SDA 引脚），部分 STM32F4 硬件 I2C 有已知 BUG。</li>
+            <li><strong>软件 I2C</strong>：GPIO 模拟，任意引脚，灵活。占用 CPU，速度受限（&lt;100kHz），时序受中断影响。</li>
+            <li><strong>选型</strong>：速度要求高用硬件；调试方便或引脚受限用软件；STM32F4 早期型号硬件 I2C 不稳定，业内多用软件。</li>
+            <li>软件 I2C 关键：<code>SDA</code> 需开漏输出 + 上拉电阻，<code>SCL</code> 普通推挽即可。</li>
+            <li>移植性：软件 I2C 跨平台，硬件 I2C 依赖芯片外设。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="FreeRTOS 任务栈大小 确定 方法 uxTaskGetStackHighWaterMark">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stm32">STM32</span>Q94. FreeRTOS 任务栈大小确定方法？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>任务栈太小会溢出（导致 HardFault 或数据错乱），太大会浪费 RAM：</p>
+          <ul>
+            <li><strong>估算</strong>：局部变量 + 函数调用层级（每层约 8-32 字节）+ 中断嵌套（约 32-64 字节）。调用 <code>printf</code> 需额外 1-2KB。</li>
+            <li><strong>经验值</strong>：简单任务 128 字（512B），中等 256 字（1KB），用 printf 或复杂逻辑 512 字（2KB）。</li>
+            <li><strong>运行时检测</strong>：用 <code>uxTaskGetStackHighWaterMark()</code> 查看剩余栈空间（水印）：</li>
+          </ul>
+<pre><code class="language-c">UBaseType_t free = uxTaskGetStackHighWaterMark(NULL);
+printf("Free stack: %lu words\n", free);</code></pre>
+          <ul>
+            <li>建议水印保持总栈的 20% 以上，若长期低于 10% 则增大栈。</li>
+            <li>STM32F4 启用 <code>configCHECK_FOR_STACK_OVERFLOW</code> 可在溢出时触发钩子函数。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="临界区 保护 关中断 互斥量 信号量 优先级反转">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q95. 临界区保护（关中断/互斥量/信号量）？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>不同场景选择不同保护机制：</p>
+          <ul>
+            <li><strong>关中断</strong>（<code>__disable_irq()</code>）：保护极短代码（几行），主循环与 ISR 共享变量。缺点：影响实时性，长时间关中断会丢中断。</li>
+            <li><strong>互斥量（Mutex）</strong>：RTOS 任务间保护共享资源。获取/释放有开销，但有优先级继承机制避免优先级反转。<strong>注意：ISR 中不能用普通 Mutex，只能用 <code>xSemaphoreGiveFromISR</code>。</strong></li>
+            <li><strong>信号量（Semaphore）</strong>：用于同步（如 ISR 通知任务处理数据），或计数资源池。</li>
+            <li><strong>自旋锁（Spinlock）</strong>：多核系统用，单片机少用。</li>
+            <li><strong>无锁设计</strong>：单生产者+单消费者用环形缓冲区，head/tail 用 volatile，无需锁。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="看门狗 使用 喂狗策略 IWDG WWDG 喂狗周期">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q96. 看门狗使用与喂狗策略？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>STM32 有独立看门狗（IWDG）和窗口看门狗（WWDG）：</p>
+          <ul>
+            <li><strong>IWDG</strong>：独立时钟 LSI（约 32kHz），主时钟挂了仍能复位。适合防止程序死锁。</li>
+            <li><strong>WWDG</strong>：基于 APB1 时钟，可检测程序跑飞（喂狗太早或太晚都复位）。</li>
+            <li><strong>喂狗策略</strong>：在主循环合适位置调用 <code>HAL_IWDG_Refresh(&amp;hiwdg)</code>，周期必须小于溢出时间。</li>
+            <li><strong>不要在中断中喂狗</strong>：主循环卡死但中断仍运行，喂狗会掩盖问题。</li>
+            <li><strong>多任务</strong>（RTOS）：可创建专门的喂狗任务，监控其他任务心跳，全正常才喂狗。</li>
+          </ul>
+<pre><code class="language-c">// CubeMX 配置 IWDG: 预分频 64, 重装值 625 → 约 2s 溢出
+HAL_IWDG_Refresh(&amp;hiwdg);  // 在主循环调用</code></pre>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="代码模块化设计 .h .c分离 接口 实现 分离 封装">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q97. 代码模块化设计（.h/.c 分离/接口与实现分离）？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>模块化原则：</p>
+          <ul>
+            <li><strong>.h 文件</strong>：对外接口——类型定义、函数声明、宏定义、extern 变量声明。不放实现。</li>
+            <li><strong>.c 文件</strong>：实现细节——函数定义、内部变量（加 <code>static</code>）、内部函数（加 <code>static</code>）。</li>
+            <li><strong>接口最小化</strong>：只暴露必要的 API，内部细节用 static 隐藏（信息隐藏原则）。</li>
+            <li><strong>头文件守卫</strong>：每个 .h 都加 <code>#ifndef __XXX_H__</code>。</li>
+          </ul>
+<pre><code class="language-c">// led.h - 接口
+#ifndef __LED_H__
+#define __LED_H__
+#include &lt;stdint.h&gt;
+void LED_On(uint8_t ch);
+void LED_Off(uint8_t ch);
+void LED_Toggle(uint8_t ch);
+#endif
+
+// led.c - 实现
+#include "led.h"
+static GPIO_TypeDef* led_port[] = {GPIOA, GPIOB};
+static const uint16_t led_pin[] = {GPIO_PIN_5, GPIO_PIN_0};
+void LED_On(uint8_t ch) { HAL_GPIO_WritePin(led_port[ch], led_pin[ch], 0); }</code></pre>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="数组越界 缓冲区溢出 防止 边界检查 snprintf 安全">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span>Q98. 防止数组越界与缓冲区溢出？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>数组越界是单片机最常见的崩溃原因：</p>
+          <ul>
+            <li><strong>边界检查</strong>：访问数组前检查索引 <code>if (idx &lt; ARRAY_SIZE) arr[idx] = val;</code></li>
+            <li><strong>用 snprintf 替代 sprintf</strong>：<code>snprintf(buf, sizeof(buf), "%d", val)</code> 限制写入长度。</li>
+            <li><strong>用 strncpy 替代 strcpy</strong>：<code>strncpy(dst, src, sizeof(dst)-1); dst[sizeof(dst)-1] = '\0';</code></li>
+            <li><strong>用 strncat 替代 strcat</strong>：限制追加长度。</li>
+            <li><strong>启用编译器栈保护</strong>：<code>-fstack-protector-all</code>，GCC 检测栈溢出。</li>
+            <li><strong>静态分析</strong>：用 <code>cppcheck</code>、<code>PVS-Studio</code> 扫描潜在越界。</li>
+            <li><strong>STM32 MPU</strong>：F4 的内存保护单元可设置区域访问权限，越界访问触发 MemManage 异常。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="低功耗设计 睡眠模式 外设关闭 中断唤醒 Stop Standby">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-stm32">STM32</span>Q99. 低功耗设计技巧？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>STM32 低功耗模式（功耗从高到低）：</p>
+          <ul>
+            <li><strong>Sleep</strong>：CPU 停止，外设运行，任意中断唤醒。功耗约几 mA。</li>
+            <li><strong>Stop</strong>：内核停，1.2V 域停，SRAM 保留，RTC/EXTI 唤醒，唤醒快（μs 级）。功耗约几十 μA。</li>
+            <li><strong>Standby</strong>：全部断电（除备份域），SRAM 丢失，WKUP 引脚或 RTC 唤醒，唤醒慢（ms 级）等于复位。功耗约 2-3μA。</li>
+          </ul>
+          <p>设计技巧：</p>
+          <ul>
+            <li><strong>关闭未用外设时钟</strong>：<code>__HAL_RCC_GPIOx_CLK_DISABLE()</code>。</li>
+            <li><strong>GPIO 配置为模拟输入或下拉</strong>：避免悬空引脚漏电。</li>
+            <li><strong>降低主频</strong>：任务少时降到 16MHz。</li>
+            <li><strong>关闭 Flash prefetch</strong>，降低 Flash 访问功耗。</li>
+            <li><strong>用中断唤醒</strong>：EXTI、RTC Alarm、UART 起始位检测。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 八、求职面试常见问题 ============ -->
+    <div class="faq-category" id="cat8">
+      <h2>八、求职面试常见问题（15 题）</h2>
+
+      <div class="faq-item" data-keywords="单片机 嵌入式系统 区别 MCU ARM 定义">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-interview">面试</span>Q100. 单片机与嵌入式系统的区别？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p><strong>单片机（MCU）</strong>：将 CPU、RAM、ROM、外设集成在一块芯片上的微型计算机，如 STC 8位单片机、STM32。强调芯片本身。</p>
+          <p><strong>嵌入式系统</strong>：以应用为中心，以计算机技术为基础，软硬件可裁剪，对功能、可靠性、成本、体积、功耗有严格要求的专用计算机系统。强调系统形态。</p>
+          <p>关系：单片机是嵌入式系统的<strong>硬件载体之一</strong>。嵌入式系统还可基于 ARM（Cortex-A）、DSP、FPGA、SoC 等，运行 Linux/Android 等复杂 OS。单片机通常跑裸机或 RTOS，资源受限。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="STM32 Arduino 区别 8位 32位 HAL 库">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-interview">面试</span>Q101. STM32 和 Arduino 有什么区别？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>对比：</p>
+          <ul>
+            <li><strong>Arduino</strong>：8 位 AVR（如 ATmega328）或 32 位 ARM（如 SAMD21），封装了简单易用的 API（<code>digitalWrite()</code>），适合初学者和快速原型。开发效率高但性能弱。</li>
+            <li><strong>STM32</strong>：32 位 ARM Cortex-M，性能强（168MHz+）、外设丰富（USB/CAN/Ethernet）、资源多（512KB Flash）。开发需理解寄存器和 HAL 库，适合工业产品。</li>
+            <li><strong>生态</strong>：Arduino 库多但杂；STM32 有 ST 官方 HAL/LL 库、CubeMX 生态规范。</li>
+            <li><strong>选型</strong>：教学/原型用 Arduino；量产/高性能用 STM32。STM32 也可用 Arduino IDE（STM32duino）开发。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="中断上下文 ISR printf 能否调用 可重入 阻塞">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-interview">面试</span>Q102. 什么是中断上下文，能否在中断中调用 printf？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p><strong>中断上下文</strong>：CPU 响应中断时切换到的特殊执行环境，使用的是被中断任务的栈（或独立的中断栈），不能阻塞（无任务调度）。</p>
+          <p><strong>不能在中断中调用 printf</strong>，原因：</p>
+          <ul>
+            <li>printf 是<strong>阻塞函数</strong>，等待串口发送完成，会长时间占用 CPU。</li>
+            <li>printf 内部用 <code>malloc</code>、全局变量，<strong>非可重入</strong>，若主循环也在 printf 会冲突。</li>
+            <li>printf 占栈大（1-2KB），可能溢出中断栈。</li>
+            <li>影响实时性，其他高优先级中断被延迟。</li>
+          </ul>
+          <p>替代方案：ISR 中将数据写入环形缓冲区，主循环或任务中再 printf。或用 <code>ITM_SendChar()</code>（SWO 跟踪，非阻塞）。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="大端序 小端序 字节序 判断 本机 endian union">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-interview">面试</span>Q103. 大端序与小端序，如何判断本机字节序？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p><strong>大端序（Big-Endian）</strong>：高位字节存低地址。如 0x12345678 存为 <code>[12][34][56][78]</code>。网络传输常用。</p>
+          <p><strong>小端序（Little-Endian）</strong>：低位字节存低地址。存为 <code>[78][56][34][12]</code>。x86、ARM（默认）用小端。</p>
+          <p>判断代码：</p>
+<pre><code class="language-c">int check_endian() {
+    uint32_t val = 0x12345678;
+    uint8_t *p = (uint8_t*)&amp;val;
+    return (*p == 0x78) ? 1 : 0;  // 1=小端, 0=大端
+}
+
+// 或用 union
+union { uint32_t i; uint8_t c[4]; } u = {0x12345678};
+printf("%s\n", u.c[0] == 0x78 ? "Little" : "Big");</code></pre>
+          <p>STM32 默认小端。网络通信（TCP/IP）用大端，需 <code>htonl()</code>/<code>ntohl()</code> 转换。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="volatile const 同时修饰 含义 只读寄存器 硬件">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-interview">面试</span>Q104. volatile 和 const 同时修饰变量的含义？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p><code>const volatile uint32_t *reg = (uint32_t*)0x40020010;</code></p>
+          <p>看似矛盾，实则合理：</p>
+          <ul>
+            <li><strong>const</strong>：程序代码不能修改该变量（编译期检查，写会报错）。</li>
+            <li><strong>volatile</strong>：该变量可能被硬件意外改变，每次访问必须从内存读取，不缓存。</li>
+          </ul>
+          <p><strong>典型场景</strong>：硬件状态寄存器，如 GPIO 输入数据寄存器（IDR）。程序只能读不能写（const），但其值由外部引脚电平决定，随时变化（volatile）。</p>
+          <p>其他组合： <code>const int *p</code>（指向 const 的指针）、<code>int *const p</code>（指针本身 const）、<code>volatile int x</code>（变量可被中断/硬件改）。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="指针 数组 区别 联系 sizeof 指针大小 退化">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-interview">面试</span>Q105. 指针和数组的区别与联系？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p><strong>区别</strong>：</p>
+          <ul>
+            <li>数组名是<strong>地址常量</strong>（不可自增、不可赋值），指针是<strong>变量</strong>（可修改）。</li>
+            <li><code>sizeof(arr)</code> 返回整个数组字节数；<code>sizeof(ptr)</code> 返回指针大小（4/8 字节）。</li>
+            <li>数组在栈/静态区分配连续空间；指针指向任意地址。</li>
+          </ul>
+          <p><strong>联系</strong>：</p>
+          <ul>
+            <li>数组名可作为指针使用：<code>arr[i]</code> 等价于 <code>*(arr+i)</code>。</li>
+            <li>数组传参时<strong>退化为指针</strong>：<code>void func(int a[10])</code> 实际是 <code>void func(int *a)</code>，函数内 <code>sizeof(a)</code> 是指针大小，无法获取数组长度。</li>
+          </ul>
+<pre><code class="language-c">int arr[5] = {1,2,3,4,5};
+int *p = arr;               // p 指向 arr[0]
+printf("%d", *(p+2));       // arr[2] = 3
+printf("%lu", sizeof(arr)); // 20 (5x4)
+printf("%lu", sizeof(p));   // 4/8 (指针大小)</code></pre>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="内存泄漏 野指针 避免 malloc free 悬垂指针">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-interview">面试</span>Q106. 什么是内存泄漏与野指针，如何避免？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p><strong>内存泄漏</strong>：<code>malloc</code> 的内存未 <code>free</code>，导致可用堆逐渐减少。避免：</p>
+          <ul>
+            <li>每 <code>malloc</code> 配对 <code>free</code>，谁分配谁释放。</li>
+            <li>单片机慎用 <code>malloc</code>（碎片化、不确定性），优先用静态分配或内存池。</li>
+            <li>用 Valgrind（Linux）/ AddressSanitizer 检测。</li>
+          </ul>
+          <p><strong>野指针</strong>：指向已释放或未初始化的内存。避免：</p>
+          <ul>
+            <li><code>free(p)</code> 后立即 <code>p = NULL;</code></li>
+            <li>指针定义时初始化：<code>int *p = NULL;</code></li>
+            <li>使用前检查 <code>if (p != NULL)</code>。</li>
+          </ul>
+          <p><strong>悬垂指针</strong>：指向栈上已回收的局部变量地址。返回指针必须是 static、全局或动态分配的。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="进程 线程 区别 RTOS任务 Linux线程 并发调度">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-interview">面试</span>Q107. 进程与线程的区别（RTOS 任务 vs Linux 线程）？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p><strong>进程</strong>：资源分配的基本单位，有独立地址空间。Linux 下进程间不共享内存（除共享内存 IPC）。</p>
+          <p><strong>线程</strong>：CPU 调度的基本单位，同一进程的线程共享地址空间（代码、全局变量、堆），仅栈独立。</p>
+          <p>嵌入式对应：</p>
+          <ul>
+            <li><strong>RTOS 任务</strong>：类似线程，共享同一地址空间（无 MMU 隔离），每个任务有独立栈。一个任务崩溃可能影响整个系统。</li>
+            <li><strong>Linux 线程</strong>：基于进程，有 MMU 保护，一个线程崩溃不一定导致整个进程崩溃。</li>
+            <li>RTOS 任务切换 ns-μs 级，Linux 进程切换 μs-ms 级。</li>
+            <li>RTOS 任务栈通常几百字节-几 KB；Linux 线程栈默认 8MB。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="信号量 互斥量 区别 优先级继承 二进制 计数">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-interview">面试</span>Q108. 信号量与互斥量的区别？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>对比：</p>
+          <ul>
+            <li><strong>互斥量（Mutex）</strong>：用于<strong>互斥访问</strong>共享资源。有所有权概念——谁获取谁释放，其他任务释放无效。支持优先级继承（解决优先级反转）。类似一把钥匙。</li>
+            <li><strong>信号量（Semaphore）</strong>：用于<strong>同步</strong>或计数资源。无所有权，任何任务都可释放。二进制信号量（0/1）类似 Mutex 但无优先级继承；计数信号量管理多个相同资源（如停车场车位）。</li>
+            <li><strong>核心区别</strong>：Mutex 强调"互斥"（保护资源），Semaphore 强调"同步"（通知事件）。</li>
+            <li>ISR 中不能用 Mutex，可用 <code>xSemaphoreGiveFromISR()</code> 给二进制/计数信号量。</li>
+            <li>FreeRTOS 中 Mutex 用 <code>xSemaphoreCreateMutex()</code>，二进制信号量用 <code>xSemaphoreCreateBinary()</code>。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="死锁 四个必要条件 互斥 占有等待 不剥夺 循环等待">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-interview">面试</span>Q109. 死锁产生的四个必要条件？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>死锁必须<strong>同时满足</strong>以下四个条件（破坏任一即可预防）：</p>
+          <ol>
+            <li><strong>互斥条件</strong>：资源一次只能被一个任务占用。</li>
+            <li><strong>占有并等待</strong>：任务持有资源 A 同时等待资源 B。</li>
+            <li><strong>不剥夺条件</strong>：资源不能被强制夺走，只能由持有者主动释放。</li>
+            <li><strong>循环等待</strong>：存在任务-资源的循环链，如 T1 等 T2 的资源，T2 等 T1 的资源。</li>
+          </ol>
+          <p><strong>预防策略</strong>：</p>
+          <ul>
+            <li>破坏循环等待：所有任务按固定顺序获取锁（如先 A 后 B）。</li>
+            <li>破坏占有等待：一次申请所有资源。</li>
+            <li>设置超时：<code>xSemaphoreTake(mutex, 100)</code> 超时返回避免永久阻塞。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="优先级反转 避免 优先级继承 天花板协议 继承">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-interview">面试</span>Q110. 什么是优先级反转，如何避免？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p><strong>优先级反转</strong>：高优先级任务因等待低优先级任务持有的资源而被阻塞，低优先级任务又被中等优先级任务抢占，导致高优先级任务长时间得不到执行。</p>
+          <p>经典案例：火星探路者号（1997）因优先级反转导致系统重启。</p>
+          <p><strong>避免方法</strong>：</p>
+          <ul>
+            <li><strong>优先级继承（Priority Inheritance）</strong>：低优先级任务持有资源时，临时继承等待该资源的最高优先级任务的优先级，加速执行完释放资源。FreeRTOS Mutex 自带此机制。</li>
+            <li><strong>优先级天花板（Priority Ceiling）</strong>：每个资源预设一个天花板优先级（等于所有可能使用该资源的任务中最高优先级），任务获取资源时立即提升到天花板。</li>
+            <li>用 Mutex（有优先级继承）而非二进制信号量保护资源。</li>
+            <li>缩短临界区，减少资源持有时间。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="I2C SPI 区别 总线 主从 串行 两线 四线">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-interview">面试</span>Q111. I2C 和 SPI 总线的主要区别？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p>对比：</p>
+          <ul>
+            <li><strong>线数</strong>：I2C 2 线（SDA+SCL）；SPI 4 线（MOSI+MISO+SCK+CS）。</li>
+            <li><strong>主从</strong>：I2C 多主多从（7 位/10 位地址）；SPI 单主多从（CS 片选）。</li>
+            <li><strong>速度</strong>：I2C 标准 100kHz、快速 400kHz、高速 3.4MHz；SPI 可达几十 MHz（STM32F4 可达 42MHz）。</li>
+            <li><strong>双工</strong>：I2C 半双工；SPI 全双工。</li>
+            <li><strong>应答</strong>：I2C 每字节有 ACK/NACK 应答，可靠性高；SPI 无应答，需自定义校验。</li>
+            <li><strong>选型</strong>：引脚少、多设备、低速用 I2C（传感器、EEPROM）；高速、全双工、短距离用 SPI（Flash、LCD、ADC）。</li>
+            <li>I2C 适合板内长距离（上拉电阻）；SPI 适合近距离高速（PCB 走线短）。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="UART 通信协议 同步 异步 起始位 停止位 波特率">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-interview">面试</span>Q112. UART 通信协议与同步/异步区别？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p><strong>UART（异步串行通信）</strong>帧格式：</p>
+          <ol>
+            <li><strong>空闲</strong>：总线为高电平。</li>
+            <li><strong>起始位</strong>：1 位低电平，标志帧开始。</li>
+            <li><strong>数据位</strong>：5-9 位，LSB first（低位先传）。</li>
+            <li><strong>奇偶校验</strong>（可选）：1 位，奇校验/偶校验/无校验。</li>
+            <li><strong>停止位</strong>：1、1.5、2 位高电平，标志帧结束。</li>
+          </ol>
+          <p><strong>异步 vs 同步</strong>：</p>
+          <ul>
+            <li><strong>异步</strong>（UART）：无独立时钟线，收发双方约定相同波特率（如 115200），靠起始位同步。线少但速率受限、需精确时钟（11.0592MHz 晶振）。</li>
+            <li><strong>同步</strong>（SPI/I2C）：有独立时钟线（SCK/SCL），主设备提供时钟，速率快、抗干扰。线多。</li>
+          </ul>
+          <p>常见参数：9600/115200 波特率，8 数据位，无校验，1 停止位（8N1）。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="ADC 采样原理 逐次逼近 采样率 分辨率 SAR">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-interview">面试</span>Q113. ADC 采样原理（逐次逼近/采样率/分辨率）？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p><strong>ADC（模数转换器）</strong>将模拟电压转为数字量。关键参数：</p>
+          <ul>
+            <li><strong>分辨率</strong>：位数，如 12 位 ADC 输出 0-4095，对应 0-3.3V，精度 3.3/4096 ≈ 0.8mV。</li>
+            <li><strong>采样率</strong>：每秒转换次数（SPS）。STM32F407 ADC 最高 2.4MSPS。需 ≥ 2 倍信号频率（奈奎斯特定理）。</li>
+            <li><strong>逐次逼近型（SAR）</strong>：STM32 用的结构。从高位到低位依次比较，类似二分查找，N 位需 N 个时钟周期。速度快、功耗低。</li>
+            <li><strong>参考电压（Vref）</strong>：决定量程，通常 3.3V。精度要求高时用外部基准（如 TL431）。</li>
+            <li><strong>采样时间</strong>：ADC 内部采样保持电容充电时间，信号源内阻大需更长采样时间。</li>
+          </ul>
+          <p>公式：<code>V = (ADC_Value / 2^N) × Vref</code>。如 12 位、3.3V、读数 2048 → V = 2048/4096×3.3 = 1.65V。</p>
+        </div>
+      </div>
+
+      <div class="faq-item" data-keywords="DMA 工作原理 使用场景 直接内存访问 外设 内存">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span><span class="faq-tag faq-tag-interview">面试</span>Q114. DMA 工作原理与使用场景？</span>
+          <span class="arrow">▶</span>
+        </div>
+        <div class="faq-answer">
+          <p><strong>DMA（Direct Memory Access，直接内存访问）</strong>：外设与内存、内存与内存之间直接传输数据，不需 CPU 介入，大幅降低 CPU 负载。</p>
+          <p><strong>工作流程</strong>：</p>
+          <ol>
+            <li>CPU 配置 DMA：源地址、目的地址、传输长度、方向、触发源。</li>
+            <li>CPU 启动 DMA，转去执行其他任务。</li>
+            <li>外设（如 UART 收到数据）触发 DMA，DMA 自动搬运数据到内存。</li>
+            <li>传输完成后 DMA 产生中断通知 CPU。</li>
+          </ol>
+          <p><strong>使用场景</strong>：</p>
+          <ul>
+            <li><strong>UART 大数据接收</strong>：DMA 接收几百字节到缓冲区，避免每字节中断一次。</li>
+            <li><strong>ADC 连续采样</strong>：DMA 将多个采样值搬到内存，实现示波器效果。</li>
+            <li><strong>SPI/I2C 传输大块数据</strong>：如读写 SD 卡、LCD 刷屏。</li>
+            <li><strong>内存到内存</strong>：大块数据复制（如双缓冲切换）。</li>
+          </ul>
+          <p>STM32F407 有 2 个 DMA 控制器，每个 8 流（stream）×8 通道（channel），支持循环模式和双缓冲。详见 <a href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章</a>。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 无搜索结果提示 -->
+    <div class="no-result" id="noResult">
+      <p>未找到匹配的问题，请尝试其他关键词。</p>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/index.html" class="home">← 返回首页</a>
+    </nav>
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<!-- 脚本 -->
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+<!-- FAQ 专用脚本 -->
+<script>
+  function toggleFaq(element) {
+    element.parentElement.classList.toggle('open');
+  }
+  function expandAll() {
+    document.querySelectorAll('.faq-item').forEach(function(item) {
+      item.classList.add('open');
+    });
+  }
+  function collapseAll() {
+    document.querySelectorAll('.faq-item').forEach(function(item) {
+      item.classList.remove('open');
+    });
+  }
+  // 搜索过滤
+  document.getElementById('faqSearch').addEventListener('input', function(e) {
+    var query = e.target.value.toLowerCase().trim();
+    var visibleCount = 0;
+    var total = document.querySelectorAll('.faq-item').length;
+    document.querySelectorAll('.faq-item').forEach(function(item) {
+      var text = (item.textContent + ' ' + (item.dataset.keywords || '')).toLowerCase();
+      var match = !query || text.indexOf(query) !== -1;
+      item.style.display = match ? '' : 'none';
+      if (match) visibleCount++;
+    });
+    // 隐藏无匹配项的分类标题
+    document.querySelectorAll('.faq-category').forEach(function(cat) {
+      var hasVisible = false;
+      cat.querySelectorAll('.faq-item').forEach(function(i) {
+        if (i.style.display !== 'none') hasVisible = true;
+      });
+      cat.style.display = hasVisible ? '' : 'none';
+    });
+    document.getElementById('faqCount').textContent = query
+      ? '匹配 ' + visibleCount + ' / ' + total + ' 个问题'
+      : '共 ' + total + ' 个问题';
+    document.getElementById('noResult').style.display = visibleCount === 0 ? 'block' : 'none';
+  });
+</script>
+
+</body>
+</html>

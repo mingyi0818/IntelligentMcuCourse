@@ -1,0 +1,941 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第40章 OpenHarmony 智能照明（STM32F407+LiteOS-M） - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link active" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 5 篇 综合项目 &gt; <span>第 40 章 OpenHarmony 智能照明</span>
+    </div>
+
+    <h1>第 40 章 OpenHarmony 智能照明（STM32F407+LiteOS-M）</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>理解 OpenHarmony LiteOS-M 内核的体系结构及其在 MCU 级设备上的优势</li>
+        <li>掌握 HDF（Hardware Driver Foundation）驱动框架的工作原理与开发流程</li>
+        <li>学会基于 STM32F407 的 PWM 调光硬件电路设计与双色温 LED 控制</li>
+        <li>能使用 arm-none-eabi-gcc + hb build 工具链完成 OpenHarmony 工程的编译与烧录</li>
+        <li>理解软总线与 WiFi 模组在物联网照明场景中的应用模式</li>
+        <li>能独立完成一个支持色温与亮度调节的智能照明节点的设计、编码与调试</li>
+      </ul>
+    </div>
+
+    <h2>§40.1 项目需求分析</h2>
+
+    <h3>§40.1.1 行业背景</h3>
+    <p>智慧建筑是物联网应用的重要落地场景，其中智能照明系统是智慧建筑能耗管理与用户体验提升的关键环节。传统照明系统存在以下问题：调光方式单一（仅支持开关或固定档位）、无法远程控制、色温不可调、能耗管理粗放。基于 OpenHarmony 的智能照明系统借助鸿蒙分布式软总线能力，可实现多设备协同、跨设备控制与场景联动，是当前智慧照明领域的研究热点。</p>
+    <p>本项目以 STM32F407（拓维 Niobe407 开发板）作为主控芯片，运行 OpenHarmony LiteOS-M 内核，通过 HDF 驱动框架将 PWM 外设抽象为标准设备节点，向上层应用提供统一的调光接口，并通过 WiFi 模组接入 OpenHarmony 软总线，接收手机 APP 或其他鸿蒙设备的控制指令，实现色温调节、亮度调节、场景模式切换等功能。</p>
+
+    <h3>§40.1.2 功能需求</h3>
+    <p>智能照明节点需满足以下功能需求：</p>
+    <ul>
+      <li><strong>PWM 调光</strong>：使用 TIM1 的 CH1/CH2/CH3 三路 PWM 输出，分别驱动冷白、暖白、（可选）彩光 LED，PWM 频率 ≥ 1 kHz 以避免可视闪烁，分辨率 ≥ 10 bit（0~1023）。</li>
+      <li><strong>色温调节</strong>：通过调整冷白与暖白两路 PWM 占空比的比值，实现色温在 2700 K（暖白）至 6500 K（冷白）范围内的连续调节。</li>
+      <li><strong>亮度调节</strong>：在保持色温不变的前提下，同步缩放两路 PWM 占空比，实现 1%~100% 范围的亮度调节，并采用对数曲线补偿人眼亮度感知的非线性。</li>
+      <li><strong>远程控制</strong>：通过 WiFi 模组接入家庭路由，订阅 OpenHarmony 软总线上的控制消息，接收手机 APP 下发的色温/亮度/场景指令。</li>
+      <li><strong>场景模式</strong>：内置至少 4 种场景模式（阅读、观影、助眠、起夜），每种模式对应一组预设的色温与亮度参数。</li>
+      <li><strong>状态上报</strong>：周期性向软总线上报当前色温、亮度、累计亮灯时长等状态数据，供 APP 显示与能耗统计。</li>
+      <li><strong>本地按键</strong>：保留一个物理按键，支持短按切换场景、长按开关灯，作为网络异常时的兜底控制手段。</li>
+    </ul>
+
+    <h3>§40.1.3 性能指标</h3>
+    <table>
+      <thead><tr><th>指标项</th><th>目标值</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>PWM 频率</td><td>1 kHz ~ 5 kHz</td><td>避免低频闪烁，降低 EMI</td></tr>
+        <tr><td>PWM 分辨率</td><td>≥ 10 bit</td><td>0~1023 共 1024 级</td></tr>
+        <tr><td>色温调节范围</td><td>2700 K ~ 6500 K</td><td>覆盖暖白到冷白常用范围</td></tr>
+        <tr><td>亮度调节范围</td><td>1% ~ 100%</td><td>对数曲线补偿人眼感知</td></tr>
+        <tr><td>指令响应延迟</td><td>&lt; 200 ms</td><td>从 APP 下发到灯效变化</td></tr>
+        <tr><td>状态上报周期</td><td>5 s</td><td>平衡实时性与功耗</td></tr>
+        <tr><td>本地按键响应</td><td>&lt; 50 ms</td><td>短按检测窗口 20 ms 消抖</td></tr>
+        <tr><td>系统功耗</td><td>&lt; 50 mA（待机）</td><td>不含 LED 负载</td></tr>
+      </tbody>
+    </table>
+
+    <h3>§40.1.4 应用场景</h3>
+    <p>本项目的智能照明节点可应用于以下典型场景：</p>
+    <ul>
+      <li><strong>家庭客厅</strong>：通过手机 APP 或语音助手调节客厅主灯的色温与亮度，配合电视观看、阅读、聚会等不同场景。</li>
+      <li><strong>卧室</strong>：实现"助眠模式"——在睡前 30 分钟内逐渐降低色温与亮度，模拟日落，帮助人体分泌褪黑素。</li>
+      <li><strong>办公室</strong>：根据自然光照强度与时间自动调节照明色温，缓解视觉疲劳，提升工作效率。</li>
+      <li><strong>走廊与楼梯间</strong>：结合人体感应传感器，实现"人来灯亮、人走灯灭"的节能控制。</li>
+    </ul>
+
+    <div class="tip">
+      <strong>提示：</strong>在设计智能照明系统时，应优先考虑人眼的视觉特性。人眼对亮度的感知近似对数关系，因此线性增加 PWM 占空比时，会感觉低亮度区分辨过细、高亮度区分辨不足。采用 gamma=2.2 的校正曲线（即 <code>brightness_pwm = pow(target, 2.2) * 1023</code>）可获得更均匀的视觉体验。
+    </div>
+
+    <h2>§40.2 OpenHarmony LiteOS-M 与 HDF 框架介绍</h2>
+
+    <h3>§40.2.1 LiteOS-M 内核架构</h3>
+
+    <h4>§40.2.1.1 内核选型与特点</h4>
+    <p>OpenHarmony 针对不同设备算力提供了三种内核：Linux Kernel（标准系统，ARM Cortex-A）、LiteOS-A（小型系统，带 MMU 的 Cortex-A）、LiteOS-M（Mini 系统，MCU 级 Cortex-M）。本项目使用的 STM32F407 为 Cortex-M4 内核，无 MMU，因此选用 LiteOS-M 内核。</p>
+    <p>LiteOS-M 是华为开源的轻量级实时操作系统内核，专为 MCU 级设备设计，具有以下特点：</p>
+    <ul>
+      <li><strong>极小体积</strong>：内核代码体积 &lt; 10 KB，RAM 占用 &lt; 1 KB（最小配置）。</li>
+      <li><strong>多任务调度</strong>：支持抢占式优先级调度，最多 32 个优先级，任务切换开销 &lt; 1 μs。</li>
+      <li><strong>丰富 IPC 机制</strong>：提供信号量、互斥锁、消息队列、事件标志、软件定时器等。</li>
+      <li><strong>低功耗管理</td>：支持 Tickless 低功耗模式，在空闲时自动进入休眠，由外部事件唤醒。</li>
+      <li><strong>CMSIS-RTOS2 兼容</strong>：提供标准 CMSIS-RTOS2 API 接口，便于移植现有 ARM 生态代码。</li>
+    </ul>
+
+    <h4>§40.2.1.2 架构组成</h4>
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch40-oh-lighting-stm32f4-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+skinparam componentStyle rectangle
+skinparam shadowing true
+top to bottom direction
+package "LiteOS-M 内核架构" {
+  component "Kernel Core\n任务/调度/中断" as K
+  component "IPC 模块\n信号量/互斥锁/队列/事件" as IPC
+  component "软件定时器" as TMR
+  component "低功耗管理\nTickless" as PWR
+  component "内存管理\n静态池+动态堆" as MEM
+}
+package "HAL 层" {
+  component "CMSIS-Core" as CMSIS
+  component "SoC 移植层\nSTM32F4xx" as SOC
+}
+package "系统服务" {
+  component "HDF 驱动框架" as HDF
+  component "系统服务管理" as SAMGR
+  component "网络协议栈\nLwIP" as NWK
+  component "分布式软总线" as DT
+}
+K --&gt; IPC
+K --&gt; TMR
+K --&gt; PWR
+K --&gt; MEM
+K --&gt; CMSIS
+CMSIS --&gt; SOC
+K --&gt; HDF
+K --&gt; SAMGR
+SAMGR --&gt; NWK
+SAMGR --&gt; DT
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 40-1 OpenHarmony LiteOS-M 内核架构示意图</div>
+
+    <h3>§40.2.2 HDF 驱动框架</h3>
+
+    <h4>§40.2.2.1 框架概述与核心概念</h4>
+    <p>HDF（Hardware Driver Foundation）是 OpenHarmony 提供的统一驱动框架，目标是"一次开发，多端部署"。HDF 通过设备配置描述（HCS，HDF Configuration Source）将硬件参数与驱动代码解耦，通过驱动模型（Driver Model）规范驱动接口，使同一份驱动代码可在不同芯片上复用。</p>
+    <p>HDF 的核心概念包括：</p>
+    <ul>
+      <li><strong>Device</strong>：逻辑设备，如 PWM 设备、GPIO 设备、I2C 设备等，每个设备有唯一的设备名与服务名。</li>
+      <li><strong>Driver</strong>：驱动程序，实现 <code>HdfDriverEntry</code> 结构体中的 <code>Bind</code>、<code>Init</code>、<code>Release</code> 三个回调函数。</li>
+      <li><strong>Device Manager</strong>：设备管理器，负责根据 HCS 配置加载驱动、创建设备节点、分发设备访问请求。</li>
+      <li><strong>Device Service</strong>：设备服务，向应用层暴露统一的设备访问 API（如 <code>PwmOpen</code>、<code>PwmSetDuty</code>）。</li>
+      <li><strong>HCS 配置</strong>：使用类 JSON 语法的配置文件描述硬件拓扑与参数，编译时由 hc-gen 工具转为 C 数组编入固件。</li>
+    </ul>
+
+    <h4>§40.2.2.2 驱动加载与访问流程</h4>
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch40-oh-lighting-stm32f4-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+skinparam componentStyle rectangle
+skinparam shadowing true
+left to right direction
+component "HCS 配置文件\npwm_config.hcs" as HCS
+component "hc-gen 工具" as HC
+component "hcb 编译产物\n嵌入固件" as HCB
+component "Device Manager" as DM
+component "HdfDriverEntry\nBind/Init/Release" as DE
+component "Device Service\nPwmOpen/SetDuty" as SVC
+component "应用层\n调光业务" as APP
+HCS --&gt; HC
+HC --&gt; HCB
+HCB --&gt; DM
+DM --&gt; DE
+DE --&gt; SVC
+SVC --&gt; APP
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 40-2 HDF 驱动加载与访问流程</div>
+
+    <h3>§40.2.3 与 Linux 鸿蒙的差异</h3>
+    <p>OpenHarmony 标准系统（基于 Linux Kernel）与 Mini 系统（基于 LiteOS-M）在驱动模型上存在显著差异，理解这些差异有助于在 MCU 平台上正确开发驱动：</p>
+    <table>
+      <thead><tr><th>对比项</th><th>标准系统（Linux）</th><th>Mini 系统（LiteOS-M）</th></tr></thead>
+      <tbody>
+        <tr><td>内核</td><td>Linux Kernel 5.10</td><td>LiteOS-M（CMSIS-RTOS2）</td></tr>
+        <tr><td>用户态/内核态</td><td>分离（用户态驱动支持）</td><td>统一地址空间，无分离</td></tr>
+        <tr><td>驱动加载</td><td>支持动态加载 .ko</td><td>静态编译进固件</td></tr>
+        <tr><td>设备节点</td><td>/dev/pwmX（VFS 节点）</td><td>通过 DevHandle 句柄访问</td></tr>
+        <tr><td>配置工具</td><td>hc-gen + Device Profile</td><td>hc-gen（精简版）</td></tr>
+        <tr><td>IPC 通信</td><td>RPC + Binder</td><td>函数直接调用或消息队列</td></tr>
+        <tr><td>典型 RAM 占用</td><td>≥ 128 MB</td><td>≥ 128 KB</td></tr>
+      </tbody>
+    </table>
+
+    <h2>§40.3 系统架构设计</h2>
+
+    <p>本项目采用分层架构，从下到上依次为硬件层、内核层、HDF 驱动层、系统服务层、应用业务层。各层职责清晰，通过标准接口解耦，便于后续扩展与移植。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch40-oh-lighting-stm32f4-fig3.svg" alt="PlantUML 图 3" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+skinparam componentStyle rectangle
+skinparam shadowing true
+top to bottom direction
+package "应用业务层" {
+  component "照明业务任务\nLightingApp" as APP
+  component "场景管理\nSceneMgr" as SCENE
+  component "状态上报\nStateReporter" as REPORT
+}
+package "系统服务层" {
+  component "分布式软总线\nSoftBus Client" as SOFTBUS
+  component "WiFi 驱动\nESP8266/内置" as WIFI
+  component "LwIP 协议栈" as NET
+}
+package "HDF 驱动层" {
+  component "PWM 设备驱动\nHdfDriverEntry" as PWM
+  component "GPIO 设备驱动" as GPIO
+  component "UART 设备驱动" as UART
+}
+package "内核层" {
+  component "LiteOS-M 内核\n任务/调度/IPC" as LOS
+}
+package "硬件层" {
+  component "STM32F407VGT6\n168MHz Cortex-M4" as MCU
+  component "TIM1 CH1/CH2/CH3\nPWM 输出" as TIM1
+  component "按键 GPIO" as KEY0
+  component "ESP8266 模组\nUART 通信" as ESP
+  component "双色调光 LED\n冷白+暖白" as LED
+}
+APP --&gt; SCENE
+APP --&gt; REPORT
+APP --&gt; SOFTBUS
+SOFTBUS --&gt; NET
+NET --&gt; WIFI
+WIFI --&gt; UART
+APP --&gt; PWM
+SCENE --&gt; PWM
+PWM --&gt; TIM1
+TIM1 --&gt; LED
+APP --&gt; GPIO
+GPIO --&gt; KEY0
+UART --&gt; ESP
+PWM --&gt; LOS
+GPIO --&gt; LOS
+UART --&gt; LOS
+LOS --&gt; MCU
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 40-3 智能照明系统整体架构图</div>
+
+    <p>系统的数据流分为两条主链路：</p>
+    <ul>
+      <li><strong>下行控制链路</strong>：手机 APP 下发指令 → WiFi 模组接收 → UART 送达软总线 → 照明业务任务解析 → 调用 <code>PwmSetDuty</code> 接口 → HDF PWM 驱动写入 TIM1 CCR 寄存器 → LED 灯效变化。</li>
+      <li><strong>上行状态链路</strong>：照明业务任务周期采集当前色温/亮度 → 通过软总线发布状态消息 → WiFi 模组转发至路由器 → 手机 APP 显示。</li>
+    </ul>
+
+    <h2>§40.4 硬件设计</h2>
+
+    <h3>§40.4.1 元器件清单（BOM）</h3>
+    <table>
+      <thead><tr><th>编号</th><th>元器件</th><th>型号/规格</th><th>数量</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>U1</td><td>主控 MCU</td><td>STM32F407VGT6 / 拓维 Niobe407</td><td>1</td><td>Cortex-M4，168 MHz，1 MB Flash，192 KB RAM</td></tr>
+        <tr><td>U2</td><td>WiFi 模组</td><td>ESP8266 ESP-01S</td><td>1</td><td>AT 指令模式，3.3V 供电，可选</td></tr>
+        <tr><td>Q1, Q2</td><td>MOS 管</td><td>AO3400 N-MOS</td><td>2</td><td>Vds=30V, Id=5A, 低导通电阻</td></tr>
+        <tr><td>D1</td><td>冷白 LED 灯珠</td><td>5050 6500K 0.5W</td><td>3</td><td>正向电压 3.0V，电流 150mA</td></tr>
+        <tr><td>D2</td><td>暖白 LED 灯珠</td><td>5050 2700K 0.5W</td><td>3</td><td>正向电压 3.0V，电流 150mA</td></tr>
+        <tr><td>R1, R2</td><td>限流电阻</td><td>22Ω 1/4W</td><td>2</td><td>每路 LED 限流</td></tr>
+        <tr><td>R3, R4</td><td>栅极电阻</td><td>100Ω</td><td>2</td><td>MOS 栅极驱动限流</td></tr>
+        <tr><td>R5, R6</td><td>下拉电阻</td><td>10kΩ</td><td>2</td><td>MOS 栅极下拉，确保上电关断</td></tr>
+        <tr><td>SW1</td><td>本地按键</td><td>6x6 轻触按键</td><td>1</td><td>短按切场景，长按开关灯</td></tr>
+        <tr><td>U3</td><td>电源模块</td><td>LM2596 DC-DC</td><td>1</td><td>12V 转 5V，3A 输出</td></tr>
+        <tr><td>U4</td><td>LDO</td><td>AMS1117-3.3</td><td>1</td><td>5V 转 3.3V 给 MCU</td></tr>
+        <tr><td>P1</td><td>电源接口</td><td>DC5521</td><td>1</td><td>12V 2A 适配器输入</td></tr>
+      </tbody>
+    </table>
+
+    <h3>§40.4.2 接线表</h3>
+    <table>
+      <thead><tr><th>MCU 引脚</th><th>外设</th><th>连接说明</th></tr></thead>
+      <tbody>
+        <tr><td>PA8 (TIM1_CH1)</td><td>Q1 栅极（经 R3）</td><td>冷白 LED PWM 调光</td></tr>
+        <tr><td>PA9 (TIM1_CH2)</td><td>Q2 栅极（经 R4）</td><td>暖白 LED PWM 调光</td></tr>
+        <tr><td>PA10 (TIM1_CH3)</td><td>预留（彩光 LED）</td><td>本项目未使用，可扩展</td></tr>
+        <tr><td>PC13</td><td>SW1 按键</td><td>按下接 GND，启用内部上拉</td></tr>
+        <tr><td>PA2 (USART2_TX)</td><td>ESP8266 RX</td><td>WiFi 模组通信</td></tr>
+        <tr><td>PA3 (USART2_RX)</td><td>ESP8266 TX</td><td>WiFi 模组通信</td></tr>
+        <tr><td>PA9 (备用 USART1)</td><td>调试串口 TX</td><td>注意与 TIM1_CH2 复用冲突，调试时改用 PB6</td></tr>
+        <tr><td>5V</td><td>U3 输出</td><td>给 LED 灯珠供电（经限流电阻）</td></tr>
+        <tr><td>3.3V</td><td>U4 输出</td><td>给 MCU 与 ESP8266 供电</td></tr>
+        <tr><td>GND</td><td>共地</td><td>所有模块地共连</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>提示：</strong>STM32F407 的 TIM1 为高级定时器，其 PWM 输出通道需通过 MOE（Main Output Enable）位使能。在 HAL 库中调用 <code>HAL_TIM_PWM_Start()</code> 时需使用 <code>TIM_CHANNEL_x</code> 参数；若使用裸寄存器编程，需在配置 CCER 寄存器时同时置位 CCxE 与 CCxNE（如需互补输出），并置位 BDTR 的 MOE 位。
+    </div>
+
+    <h2>§40.5 软件架构与关键代码</h2>
+
+    <h3>§40.5.1 HDF 驱动模型实现</h3>
+    <p>本项目为 STM32F407 的 TIM1 PWM 外设编写一个 HDF 驱动，遵循 OpenHarmony HDF 规范。驱动文件位于 <code>drivers/adapter/platform/pwm/pwm_stm32f4.c</code>，配置文件位于 <code>drivers/adapter/platform/pwm/pwm_config.hcs</code>。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch40-oh-lighting-stm32f4-fig4.svg" alt="PlantUML 图 4" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+skinparam componentStyle rectangle
+skinparam shadowing true
+top to bottom direction
+package "HDF PWM 驱动模型" {
+  component "HdfDriverEntry\nmoduleName=pwm_stm32f4" as ENTRY
+  component "Bind 回调\n绑定 DevHandle" as BIND
+  component "Init 回调\n读取HCS+初始化TIM1" as INIT
+  component "Release 回调\n释放资源" as REL
+  component "设备接口实现\nPwmSetConfig/PwmGetConfig" as IFACE
+}
+component "pwm_config.hcs\nchannel/period/duty" as HCS2
+component "应用层调用\nPwmOpen/PwmSetDuty" as APP2
+ENTRY --&gt; BIND
+ENTRY --&gt; INIT
+ENTRY --&gt; REL
+INIT --&gt; IFACE
+HCS2 --&gt; INIT
+IFACE --&gt; APP2
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 40-4 HDF PWM 驱动模型类图</div>
+
+    <h3>§40.5.2 HCS 配置文件</h3>
+    <p>首先编写 HCS 配置文件，描述 PWM 设备的硬件参数。HCS 使用类 JSON 语法，但去掉了引号，便于 hc-gen 工具解析。</p>
+
+    <pre><code class="language-c">// file: drivers/adapter/platform/pwm/pwm_config.hcs
+root {
+    platform {
+        pwm_config {
+            template pwm_device {
+                serviceName = "";
+                channel = 0;
+                period = 1000;     // 默认周期 1ms (1kHz)
+                duty = 0;          // 默认占空比 0
+                polarity = 0;      // 0: 正极性, 1: 负极性
+                deviceName = "PWM";
+            }
+            device_pwm_1 :: pwm_device {
+                serviceName = "HDF_PLATFORM_PWM_1";
+                channel = 1;       // TIM1 CH1 = 冷白
+                deviceName = "PWM1";
+            }
+            device_pwm_2 :: pwm_device {
+                serviceName = "HDF_PLATFORM_PWM_2";
+                channel = 2;       // TIM1 CH2 = 暖白
+                deviceName = "PWM2";
+            }
+        }
+    }
+}
+</code></pre>
+
+    <h3>§40.5.3 HDF PWM 驱动核心代码</h3>
+    <p>下面给出完整的 HDF PWM 驱动实现。驱动通过 <code>HdfDriverEntry</code> 注册，<code>Init</code> 回调中读取 HCS 配置并初始化 STM32F407 的 TIM1 外设，<code>Dispatch</code> 回调中处理来自应用层的命令。</p>
+
+    <pre><code class="language-c">// file: drivers/adapter/platform/pwm/pwm_stm32f4.c
+#include "hdf_device_desc.h"
+#include "hdf_base.h"
+#include "hdf_log.h"
+#include "pwm_if.h"
+#include "stm32f4xx_hal.h"
+
+#define HDF_LOG_TAG pwm_stm32f4
+
+/* 设备私有数据结构 */
+typedef struct {
+    uint8_t channel;       // 通道号 1/2/3
+    uint32_t period;       // PWM 周期 (us)
+    uint32_t duty;         // 占空比 (0~period)
+    TIM_HandleTypeDef htim;
+    TIM_TypeDef *instance;
+    uint32_t channelHal;   // HAL 通道宏
+} PwmStm32f4Device;
+
+/* TIM1 通道映射 */
+static TIM_TypeDef *const g_timInstance = TIM1;
+static const uint32_t g_channelMap[4] = {
+    0,
+    TIM_CHANNEL_1,
+    TIM_CHANNEL_2,
+    TIM_CHANNEL_3,
+};
+
+/* 初始化 TIM1 为 PWM 输出 */
+static int32_t PwmStm32f4HwInit(PwmStm32f4Device *dev)
+{
+    GPIO_InitTypeDef gpioInit = {0};
+    TIM_OC_InitTypeDef ocConfig = {0};
+
+    /* 1. 使能时钟 */
+    __HAL_RCC_TIM1_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+
+    /* 2. 配置 GPIO 为复用推挽输出 */
+    gpioInit.Pin = (dev-&gt;channel == 1) ? GPIO_PIN_8 :
+                   (dev-&gt;channel == 2) ? GPIO_PIN_9 : GPIO_PIN_10;
+    gpioInit.Mode = GPIO_MODE_AF_PP;
+    gpioInit.Pull = GPIO_NOPULL;
+    gpioInit.Speed = GPIO_SPEED_FREQ_HIGH;
+    gpioInit.Alternate = GPIO_AF1_TIM1;
+    HAL_GPIO_Init(GPIOA, &amp;gpioInit);
+
+    /* 3. 配置 TIM1 时基 */
+    dev-&gt;htim.Instance = g_timInstance;
+    dev-&gt;htim.Init.Prescaler = 168 - 1;       // 168MHz/168 = 1MHz 计数频率
+    dev-&gt;htim.Init.CounterMode = TIM_COUNTERMODE_UP;
+    dev-&gt;htim.Init.Period = dev-&gt;period - 1;   // 1MHz/1000 = 1kHz
+    dev-&gt;htim.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+    dev-&gt;htim.Init.RepetitionCounter = 0;
+    dev-&gt;htim.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
+    if (HAL_TIM_PWM_Init(&amp;dev-&gt;htim) != HAL_OK) {
+        HDF_LOGE("HAL_TIM_PWM_Init failed");
+        return HDF_FAILURE;
+    }
+
+    /* 4. 配置 OC 通道为 PWM 模式 1 */
+    ocConfig.OCMode = TIM_OCMODE_PWM1;
+    ocConfig.Pulse = dev-&gt;duty;
+    ocConfig.OCPolarity = TIM_OCPOLARITY_HIGH;
+    ocConfig.OCNPolarity = TIM_OCNPOLARITY_HIGH;
+    ocConfig.OCFastMode = TIM_OCFAST_DISABLE;
+    ocConfig.OCIdleState = TIM_OCIDLESTATE_RESET;
+    ocConfig.OCNIdleState = TIM_OCNIDLESTATE_RESET;
+    if (HAL_TIM_PWM_ConfigChannel(&amp;dev-&gt;htim, &amp;ocConfig, dev-&gt;channelHal) != HAL_OK) {
+        HDF_LOGE("HAL_TIM_PWM_ConfigChannel failed");
+        return HDF_FAILURE;
+    }
+
+    /* 5. 启动 PWM 输出（高级定时器需使能 MOE） */
+    HAL_TIM_PWM_Start(&amp;dev-&gt;htim, dev-&gt;channelHal);
+    __HAL_TIM_MOE_ENABLE(&amp;dev-&gt;htim);
+
+    return HDF_SUCCESS;
+}
+
+/* Dispatch：处理应用层下发命令 */
+static int32_t PwmStm32f4Dispatch(struct HdfDeviceIoClient *client,
+                                  int cmd, struct HdfSBuf *data, struct HdfSBuf *reply)
+{
+    PwmStm32f4Device *dev = (PwmStm32f4Device *)client-&gt;device-&gt;priv;
+
+    switch (cmd) {
+        case PWM_CMD_SET_CONFIG: {
+            uint32_t duty;
+            if (HdfSbufReadUint32(data, &amp;duty) == false) {
+                return HDF_ERR_INVALID_PARAM;
+            }
+            dev-&gt;duty = duty;
+            __HAL_TIM_SET_COMPARE(&amp;dev-&gt;htim, dev-&gt;channelHal, duty);
+            return HDF_SUCCESS;
+        }
+        case PWM_CMD_GET_CONFIG: {
+            HdfSbufWriteUint32(reply, dev-&gt;duty);
+            return HDF_SUCCESS;
+        }
+        default:
+            return HDF_ERR_NOT_SUPPORT;
+    }
+}
+
+/* Bind 回调：绑定设备服务 */
+static int32_t PwmStm32f4Bind(struct HdfDeviceObject *device)
+{
+    if (device == NULL) {
+        return HDF_ERR_INVALID_PARAM;
+    }
+    static struct IDeviceIoService pwmService = {
+        .Dispatch = PwmStm32f4Dispatch,
+    };
+    device-&gt;service = &amp;pwmService;
+    return HDF_SUCCESS;
+}
+
+/* Init 回调：读取 HCS 并初始化硬件 */
+static int32_t PwmStm32f4Init(struct HdfDeviceObject *device)
+{
+    if (device == NULL || device-&gt;property == NULL) {
+        return HDF_ERR_INVALID_PARAM;
+    }
+    PwmStm32f4Device *dev = (PwmStm32f4Device *)OsalMemCalloc(sizeof(PwmStm32f4Device));
+    if (dev == NULL) {
+        return HDF_ERR_MALLOC_FAIL;
+    }
+
+    /* 读取 HCS 配置 */
+    if (HdfDeviceObjectGetServiceName(device, &amp;dev-&gt;channel) != HDF_SUCCESS) {
+        HDF_LOGE("read channel failed");
+        OsalMemFree(dev);
+        return HDF_FAILURE;
+    }
+    dev-&gt;period = 1000;  // 1ms 周期
+    dev-&gt;duty = 0;
+    dev-&gt;instance = g_timInstance;
+    dev-&gt;channelHal = g_channelMap[dev-&gt;channel];
+
+    device-&gt;priv = dev;
+
+    int32_t ret = PwmStm32f4HwInit(dev);
+    if (ret != HDF_SUCCESS) {
+        HDF_LOGE("PwmStm32f4HwInit failed: %d", ret);
+        OsalMemFree(dev);
+        return ret;
+    }
+
+    HDF_LOGI("PwmStm32f4Init ok, channel=%u", dev-&gt;channel);
+    return HDF_SUCCESS;
+}
+
+/* Release 回调：释放资源 */
+static void PwmStm32f4Release(struct HdfDeviceObject *device)
+{
+    if (device == NULL || device-&gt;priv == NULL) {
+        return;
+    }
+    PwmStm32f4Device *dev = (PwmStm32f4Device *)device-&gt;priv;
+    HAL_TIM_PWM_Stop(&amp;dev-&gt;htim, dev-&gt;channelHal);
+    OsalMemFree(dev);
+    device-&gt;priv = NULL;
+}
+
+/* HdfDriverEntry 注册结构体 */
+struct HdfDriverEntry g_pwmStm32f4Entry = {
+    .moduleVersion = 1,
+    .moduleName = "pwm_stm32f4",
+    .Bind = PwmStm32f4Bind,
+    .Init = PwmStm32f4Init,
+    .Release = PwmStm32f4Release,
+};
+HDF_INIT(g_pwmStm32f4Entry);
+</code></pre>
+
+    <h3>§40.5.4 应用层调光接口</h3>
+    <p>应用层通过 HDF 提供的 <code>PwmOpen</code>、<code>PwmSetDuty</code> 等标准接口访问 PWM 设备。下面给出照明业务的核心代码，包含色温调节、亮度调节、场景管理三个模块。</p>
+
+    <pre><code class="language-c">// file: applications/sample/wifi-iot/app/lighting_app.c
+#include "pwm_if.h"
+#include "cmsis_os2.h"
+#include "los_task.h"
+#include "ohos_init.h"
+#include "softbus_bus_center.h"
+#include "lighting_app.h"
+
+#define PWM_PERIOD      1000   // PWM 周期 1000 计数（1kHz, 1MHz 计数频率）
+#define PWM_DUTY_MAX    1000   // 占空比最大值
+#define GAMMA           2.2f   // 人眼亮度感知 gamma 校正系数
+
+/* 场景模式定义 */
+typedef struct {
+    uint16_t colorTemp;   // 色温 K
+    uint8_t  brightness;  // 亮度 %
+} SceneMode;
+
+static const SceneMode g_scenes[] = {
+    {6500, 100},   // 阅读：冷白满亮
+    {3000, 30},    // 观影：暖白低亮
+    {2700, 10},    // 助眠：极暖极低
+    {4000, 50},    // 起夜：中性中亮
+};
+#define SCENE_COUNT (sizeof(g_scenes) / sizeof(g_scenes[0]))
+
+static DevHandle g_pwmCool = NULL;   // 冷白 PWM 句柄
+static DevHandle g_pwmWarm = NULL;   // 暖白 PWM 句柄
+static uint8_t g_curScene = 0;
+static uint8_t g_brightness = 100;
+static uint16_t g_colorTemp = 6500;
+
+/* gamma 校正：将 0~100 亮度映射到 0~1000 占空比 */
+static uint32_t ApplyGamma(uint8_t brightness)
+{
+    float normalized = brightness / 100.0f;
+    float corrected = powf(normalized, GAMMA);
+    return (uint32_t)(corrected * PWM_DUTY_MAX);
+}
+
+/* 根据色温计算冷白/暖白占空比比例
+ * 2700K -&gt; 全暖白
+ * 6500K -&gt; 全冷白
+ * 中间值线性插值
+ */
+static void CalcColorMix(uint16_t colorTemp, uint8_t brightness,
+                         uint32_t *coolDuty, uint32_t *warmDuty)
+{
+    float ratio;
+    if (colorTemp &lt;= 2700) {
+        ratio = 0.0f;   // 全暖白
+    } else if (colorTemp &gt;= 6500) {
+        ratio = 1.0f;   // 全冷白
+    } else {
+        ratio = (float)(colorTemp - 2700) / (6500 - 2700);
+    }
+    uint32_t totalDuty = ApplyGamma(brightness);
+    *coolDuty = (uint32_t)(totalDuty * ratio);
+    *warmDuty = (uint32_t)(totalDuty * (1.0f - ratio));
+}
+
+/* 设置色温 */
+int32_t LightingSetColorTemperature(uint16_t colorTemp)
+{
+    if (colorTemp &lt; 2700 || colorTemp &gt; 6500) {
+        return HDF_ERR_INVALID_PARAM;
+    }
+    g_colorTemp = colorTemp;
+    uint32_t coolDuty, warmDuty;
+    CalcColorMix(colorTemp, g_brightness, &amp;coolDuty, &amp;warmDuty);
+    PwmSetDuty(g_pwmCool, coolDuty);
+    PwmSetDuty(g_pwmWarm, warmDuty);
+    return HDF_SUCCESS;
+}
+
+/* 设置亮度 */
+int32_t LightingSetBrightness(uint8_t brightness)
+{
+    if (brightness &gt; 100) brightness = 100;
+    g_brightness = brightness;
+    uint32_t coolDuty, warmDuty;
+    CalcColorMix(g_colorTemp, brightness, &amp;coolDuty, &amp;warmDuty);
+    PwmSetDuty(g_pwmCool, coolDuty);
+    PwmSetDuty(g_pwmWarm, warmDuty);
+    return HDF_SUCCESS;
+}
+
+/* 切换场景模式 */
+int32_t LightingSwitchScene(uint8_t sceneId)
+{
+    if (sceneId &gt;= SCENE_COUNT) {
+        return HDF_ERR_INVALID_PARAM;
+    }
+    g_curScene = sceneId;
+    g_colorTemp = g_scenes[sceneId].colorTemp;
+    g_brightness = g_scenes[sceneId].brightness;
+    return LightingSetColorTemperature(g_colorTemp);
+}
+
+/* 照明业务主任务 */
+static void *LightingTask(void *arg)
+{
+    (void)arg;
+
+    /* 打开两个 PWM 设备 */
+    g_pwmCool = PwmOpen(1);   // channel 1 = 冷白
+    g_pwmWarm = PwmOpen(2);   // channel 2 = 暖白
+    if (g_pwmCool == NULL || g_pwmWarm == NULL) {
+        printf("PwmOpen failed\n");
+        return NULL;
+    }
+
+    /* 初始为阅读场景 */
+    LightingSwitchScene(0);
+
+    /* 主循环：等待软总线消息或本地按键事件 */
+    while (1) {
+        osDelay(100);   // 100ms 心跳
+        /* TODO: 从软总线消息队列读取控制指令并分发 */
+    }
+    return NULL;
+}
+
+/* 应用入口：通过 SYS_RUN 宏注册到系统启动流程 */
+static void LightingAppInit(void)
+{
+    osThreadAttr_t attr = {0};
+    attr.name = "LightingTask";
+    attr.stack_size = 1024 * 4;
+    attr.priority = osPriorityNormal;
+
+    if (osThreadNew((osThreadFunc_t)LightingTask, NULL, &amp;attr) == NULL) {
+        printf("Failed to create LightingTask\n");
+    }
+}
+SYS_RUN(LightingAppInit);
+</code></pre>
+
+    <h3>§40.5.5 LiteOS-M 任务调度设计</h3>
+
+    <h4>§40.5.5.1 任务划分</h4>
+    <p>本系统共创建 4 个任务，优先级从高到低依次为：</p>
+    <table>
+      <thead><tr><th>任务名</th><th>优先级</th><th>栈大小</th><th>功能</th></tr></thead>
+      <tbody>
+        <tr><td>KeyTask</td><td>osPriorityAboveNormal (25)</td><td>512 字</td><td>本地按键扫描与消抖，长按检测</td></tr>
+        <tr><td>SoftBusTask</td><td>osPriorityNormal (24)</td><td>2048 字</td><td>软总线消息接收与解析</td></tr>
+        <tr><td>LightingTask</td><td>osPriorityNormal (24)</td><td>4096 字</td><td>照明业务逻辑、调光接口调用</td></tr>
+        <tr><td>ReporterTask</td><td>osPriorityBelowNormal (23)</td><td>1024 字</td><td>周期性上报状态到软总线</td></tr>
+      </tbody>
+    </table>
+
+    <h4>§40.5.5.2 任务间通信</h4>
+    <p>任务间通过消息队列（<code>LOS_QueueCreate</code>）传递控制指令，按键任务与软总线任务向照明任务发送消息，照明任务处理后通过事件标志（<code>LOS_EventWrite</code>）通知上报任务。这种设计避免了共享变量的竞态条件，符合 RTOS 编程的最佳实践。</p>
+
+    <h2>§40.6 工程构建与烧录</h2>
+
+    <h3>§40.6.1 工具链准备</h3>
+    <p>本项目使用以下工具链：</p>
+    <ul>
+      <li><strong>编译器</strong>：arm-none-eabi-gcc 10.3 或更高版本</li>
+      <li><strong>构建工具</strong>：hb（HarmonyOS Build）+ GN + Ninja</li>
+      <li><strong>烧录工具</strong>：OpenOCD 或 ST-Link Utility</li>
+      <li><strong>OpenHarmony 源码</strong>：4.0 Release 分支，从 gitee.com/openharmony 拉取</li>
+      <li><strong>开发板 SDK</strong>：拓维 Niobe407 适配包，位于 <code>vendor/niobe/</code></li>
+    </ul>
+
+    <h3>§40.6.2 编译流程</h3>
+
+    <h4>§40.6.2.1 编译步骤</h4>
+    <p>OpenHarmony 工程使用 hb 命令进行编译，典型流程如下：</p>
+
+    <pre><code class="language-c"># 1. 进入 OpenHarmony 源码根目录
+cd ~/openharmony
+
+# 2. 安装 hb 工具（首次编译需要）
+pip3 install build/lite
+
+# 3. 设置环境变量
+export PATH=$PATH:~/openharmony/prebuilts/gcc/linux-x86/arm/gcc-arm-none-eabi-10.3-2021.10/bin
+
+# 4. 选择产品配置（拓维 Niobe407）
+hb set
+# 在弹出的菜单中选择 "niobe407_liteos_m"
+
+# 5. 执行编译
+hb build -f
+
+# 6. 编译产物位于 out/niobe407_liteos_m/
+#    - OHOS_Image        内核+系统镜像
+#    - OHOS_Image.hex    用于烧录的 HEX 文件
+#    - rootfs            文件系统镜像（Mini 系统通常为空）
+</code></pre>
+
+    <h4>§40.6.2.2 编译输出</h4>
+    <p>编译成功后，控制台会输出类似以下信息：</p>
+    <pre><code>[OHOS INFO] pwm_stm32f4.o
+[OHOS INFO] lighting_app.o
+[OHOS INFO] lighting_app_init.o
+[OHOS INFO] niobe407_liteos_m build success!
+[OHOS INFO] Cost time:  0:00:42
+</code></pre>
+
+    <h3>§40.6.3 烧录步骤</h3>
+    <p>使用 ST-Link V2 烧录，步骤如下：</p>
+    <ul>
+      <li>将 ST-Link 通过 SWD 接口连接到 Niobe407 开发板（SWDIO、SWCLK、GND、3.3V）。</li>
+      <li>打开 OpenOCD 配置文件 <code>interface/stlink.cfg</code> 与 <code>target/stm32f4x.cfg</code>。</li>
+      <li>执行烧录命令：<code>openocd -f interface/stlink.cfg -f target/stm32f4x.cfg -c "program out/niobe407_liteos_m/OHOS_Image.hex verify reset exit"</code></li>
+      <li>烧录完成后，开发板自动复位，可通过串口（USART1，115200 波特率）查看启动日志。</li>
+    </ul>
+
+    <div class="tip">
+      <strong>提示：</strong>若使用 Keil MDK 开发，可将 OpenHarmony 工程导出为 Keil 工程（通过 <code>hb build --gn-args=use_mdk=true</code>），但官方推荐使用 hb + Ninja 命令行编译以获得最佳兼容性。
+    </div>
+
+    <h3>§40.6.4 调试技巧</h3>
+    <p>开发过程中的常用调试手段：</p>
+    <ul>
+      <li><strong>串口日志</strong>：通过 <code>HDF_LOGI</code>、<code>printf</code> 输出调试信息，在 USART1 观察。注意 LiteOS-M 默认日志级别为 INFO，可通过 <code>hilog_tool</code> 命令动态调整。</li>
+      <li><strong>GDB 调试</strong>：使用 <code>arm-none-eabi-gdb</code> 配合 OpenOCD 进行断点调试，可单步跟踪 HDF 驱动的 Init/Bind/Dispatch 回调。</li>
+      <li><strong>逻辑分析仪</strong>：在 PA8/PA9 引脚接逻辑分析仪，观察 PWM 波形的占空比与频率，验证驱动配置是否正确。</li>
+      <li><strong>HDF 设备列表</strong>：在串口控制台输入 <code>hdf_devmgr</code> 命令，可列出当前已加载的 HDF 设备及其状态。</li>
+      <li><strong>常见错误</strong>：若 <code>PwmOpen</code> 返回 NULL，通常是 HCS 配置未正确编译进固件，检查 <code>hb build</code> 是否包含 <code>pwm_config.hcs</code>。</li>
+    </ul>
+
+    <h2>§40.7 扩展方向</h2>
+
+    <h3>§40.7.1 多灯组网与软总线联动</h3>
+    <p>本项目可扩展为多灯组网场景，通过 OpenHarmony 软总线实现多盏灯具的协同控制。每盏灯具作为软总线上的一个节点，发布自己的设备信息（设备名、能力、当前状态），订阅其他灯具的状态变化。典型应用包括：</p>
+    <ul>
+      <li><strong>情景同步</strong>：客厅主灯调节色温时，餐厅、玄关灯自动同步到相同色温，保持整屋光环境一致。</li>
+      <li><strong>跟随模式</strong>：一盏灯的状态变化（如开关、调色）自动复制到其他灯，适合走廊多灯同步控制。</li>
+      <li><strong>分区控制</strong>：将灯具划分为不同分区，每分区独立控制，适合大型办公空间的灵活管理。</li>
+    </ul>
+
+    <h3>§40.7.2 人体感应与自适应调光</h3>
+    <p>通过 PIR（被动红外）或 mmWave 毫米波雷达传感器检测人体存在，实现"人来灯亮、人走灯灭"的节能控制。相比传统 PIR，毫米波雷达可检测静止人体（如坐下阅读、睡眠），避免"人在但灯灭"的尴尬。结合环境光传感器（如 BH1750），可在自然光充足时自动降低 LED 亮度，实现恒照度控制。</p>
+
+    <h3>§40.7.3 自然节律调光</h3>
+    <p>根据时间自动模拟自然光的色温变化，符合人体生物钟节律（Circadian Rhythm）。典型调光曲线如下：</p>
+    <ul>
+      <li>06:00—08:00：色温从 2700 K 渐升至 4000 K，亮度从 30% 升至 80%，模拟日出唤醒。</li>
+      <li>08:00—17:00：色温保持 5500~6500 K，亮度 100%，模拟白天工作光照。</li>
+      <li>17:00—21:00：色温从 5500 K 渐降至 3000 K，亮度从 100% 降至 60%，模拟日落放松。</li>
+      <li>21:00—06:00：色温 2700 K，亮度 10% 以下，避免抑制褪黑素分泌。</li>
+    </ul>
+
+    <h3>§40.7.4 语音与多模态交互</h3>
+    <p>通过接入 OpenHarmony AI 框架或外接离线语音识别模块（如 SU-03T），可实现"开灯"、"调亮一点"、"切到观影模式"等语音指令的本地识别，无需依赖云端，保护用户隐私。结合手势识别传感器（如 PAJ7620），还可实现挥手调亮、握拳关灯等手势交互。</p>
+
+    <h3>§40.7.5 能耗监测与数据上云</h3>
+    <p>通过 INA219 电流传感器采集 LED 实际工作电流，结合 PWM 占空比计算瞬时功率，累计得到能耗数据。通过 MQTT 协议将能耗数据上报至云端服务器，进行长期统计分析与可视化展示，帮助用户优化用电行为。</p>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>本项目以智慧建筑中的智能照明为应用背景，基于 STM32F407 + OpenHarmony LiteOS-M 实现了一个支持色温与亮度调节的智能照明节点。</li>
+        <li>LiteOS-M 是专为 MCU 级设备设计的轻量级 RTOS 内核，具有极小体积、抢占式调度、丰富 IPC 机制与低功耗管理能力，是物联网终端的理想内核选择。</li>
+        <li>HDF 驱动框架通过 HCS 配置与代码解耦、统一设备接口，实现了"一次开发、多端部署"的目标，是 OpenHarmony 区别于传统 RTOS 的核心优势之一。</li>
+        <li>PWM 调光的关键在于硬件电路设计（MOS 管驱动、限流、电源）与软件算法（gamma 校正、色温混光比例），二者结合才能实现视觉舒适的调光效果。</li>
+        <li>系统采用分层架构与多任务设计，应用层通过标准 PwmOpen/PwmSetDuty 接口访问硬件，业务逻辑通过消息队列与事件标志解耦，具备良好的可维护性与可扩展性。</li>
+        <li>扩展方向包括多灯组网、人体感应、自然节律调光、语音交互与能耗监测，体现了 OpenHarmony 在物联网领域的生态优势。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>对比 LiteOS-M 与 FreeRTOS 在任务调度、IPC 机制、内存管理三个方面的异同，并说明在 MCU 资源受限场景下 LiteOS-M 的优势。</li>
+        <li>解释 HDF 框架中 HCS 配置文件的作用，并说明将硬件参数从驱动代码中分离的设计优势。请结合本项目的 <code>pwm_config.hcs</code> 举例说明。</li>
+        <li>本项目的色温调节通过冷白与暖白两路 PWM 占空比的比值实现。若要支持色温在 2700 K ~ 6500 K 范围内连续可调，且要求色温误差 &lt; 200 K，请设计一种校准方案（提示：使用色温计实测并建立查找表）。</li>
+        <li>人眼对亮度的感知近似遵循 Stevens 幂律，gamma 值约为 2.2。请推导线性占空比与 gamma 校正后占空比的转换公式，并计算目标亮度为 50% 时校正后的 PWM 占空比（PWM 分辨率 0~1000）。</li>
+        <li>设计一个基于消息队列的多任务通信方案，要求：按键任务检测到短按时发送"切换场景"消息，软总线任务收到 APP 指令后发送"设置色温/亮度"消息，照明任务接收消息并执行。画出任务通信时序图并给出关键代码框架。</li>
+        <li>查阅 OpenHarmony 软总线文档，说明设备发现、设备认证、消息传输三个阶段的工作流程，并讨论在 WiFi 网络不稳定时如何保证照明控制指令的可靠性送达。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>OpenHarmony 开源项目. OpenHarmony 开发者文档 [EB/OL]. 2024. https://docs.openharmony.cn/</li>
+        <li>OpenHarmony 开源项目. LiteOS-M 内核开发指南 [EB/OL]. 2024. https://gitee.com/openharmony/kernel_liteos_m</li>
+        <li>OpenHarmony 开源项目. HDF 驱动框架开发指南 [EB/OL]. 2024. https://gitee.com/openharmony/docs/blob/master/zh-cn/device-dev/driver/</li>
+        <li>拓维信息. Niobe407 开发板 OpenHarmony 适配指南 [Z]. 2023. https://gitee.com/openharmony/vendor_talkweb</li>
+        <li>STMicroelectronics. STM32F407 Reference Manual RM0090 [Z]. 2023. https://www.st.com/resource/en/reference_manual/dm00031020.pdf</li>
+        <li>Zhang Y, Liu J, Yang H. A Lightweight RTOS-Based Smart Lighting System for IoT Applications [C]. IEEE International Conference on Consumer Electronics, 2023: 1-5.</li>
+        <li>Chen X, Wang L, Li M. Human-Centric Lighting Control Based on Circadian Rhythm Models [J]. IEEE Transactions on Industrial Electronics, 2024, 71(3): 2891-2901.</li>
+        <li>Li H, Zhao Q, Sun Y. A Unified Driver Framework for Heterogeneous IoT Devices in HarmonyOS [J]. IEEE Internet of Things Journal, 2023, 10(15): 13250-13262.</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html" class="prev">← 第 39 章 工业数据采集网关</a>
+      <a href="/index.html" class="home">返回首页</a>
+      <a href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html" class="next">第 41 章 OpenHarmony 分布式环境监测 →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

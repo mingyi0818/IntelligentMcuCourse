@@ -1,0 +1,791 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第25章 Altium Designer PCB 设计 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link active" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 4 篇 单片机开发附加内容 &gt; <span>第 25 章 Altium Designer PCB 设计</span>
+    </div>
+
+    <h1>第 25 章 Altium Designer PCB 设计</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>理解 Altium Designer 在 EDA 行业中的定位、发展历程与主要功能模块</li>
+        <li>掌握 Altium Designer 的安装、授权与首次运行环境配置流程</li>
+        <li>掌握原理图设计（元件放置、连线、网络标号、电源端口）与 PCB 设计（布局、布线、铺铜）的完整流程</li>
+        <li>理解 DRC 设计规则检查原理与 Gerber 制造文件输出的规范，能够将设计交付 PCB 工厂打样</li>
+        <li>完成实战项目——STC89C52RC 最小系统板的原理图与 PCB 设计并输出可制造文件</li>
+      </ul>
+    </div>
+
+    <p>Altium Designer（简称 AD）是澳大利亚 Altium 公司（前身 Protel International）推出的板级电子设计自动化（EDA）软件，是全球电子工程行业最主流的原理图与 PCB 设计工具之一。从 1985 年的 Protel for DOS 到今天的 Altium Designer 24，该软件经历了近 40 年的发展，凭借完整的"原理图—PCB—制造—仿真"一体化流程与友好的 Windows 原生界面，成为大量硬件工程师的首选工具。本章将系统介绍 Altium Designer 的安装配置、原理图设计、PCB 布局布线、DRC 检查、Gerber 输出，并通过 STC89C52RC 最小系统板实战项目串起完整工作流。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch25-altium-designer-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+
+rectangle "Altium Designer\n设计流程" as A
+rectangle "§25.2 安装配置" as B
+rectangle "§25.3 原理图设计" as C
+rectangle "§25.4 元件库管理" as D
+rectangle "§25.5 PCB 设计" as E
+rectangle "§25.6 DRC 检查" as F
+rectangle "§25.7 Gerber 输出" as G
+rectangle "§25.8 实战项目\nSTC89C52RC 最小系统板" as H
+rectangle "§25.9 常见问题与技巧" as I
+A --&gt; B
+B --&gt; C
+C --&gt; D
+D --&gt; E
+E --&gt; F
+F --&gt; G
+G --&gt; H
+H --&gt; I
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 25-1 Altium Designer PCB 设计完整工作流程</div>
+
+    <h2>25.1 Altium Designer 简介与发展</h2>
+
+    <h3>25.1.1 软件定位与核心功能</h3>
+    <p>Altium Designer 是一款<strong>板级电子设计一体化软件</strong>，将原理图捕获、PCB 布局布线、FPGA 设计、SPICE 仿真、信号完整性分析、库管理与制造文件输出集成于同一环境。其核心功能模块包括：</p>
+    <ul>
+      <li><strong>Schematic Editor（原理图编辑器）</strong>：用于绘制电路原理图，支持多页面、层次化设计、总线与网络标号。</li>
+      <li><strong>PCB Editor（PCB 编辑器）</strong>：用于 PCB 布局、布线、铺铜、3D 视图，支持多层板设计（最多 32 层信号层）。</li>
+      <li><strong>Library Editor（库编辑器）</strong>：包括原理图符号库（<code>.SchLib</code>）、PCB 封装库（<code>.PcbLib</code>）与集成库（<code>.IntLib</code>）。</li>
+      <li><strong>SPICE Simulator（仿真器）</strong>：基于 XSPICE 引擎的混合信号电路仿真。</li>
+      <li><strong>CAM Editor（CAM 编辑器）</strong>：用于 Gerber 文件检查、拼板与制造数据准备。</li>
+    </ul>
+
+    <h3>25.1.2 发展历程与版本演进</h3>
+    <p>Altium Designer 的历史可追溯到 1985 年发布的 Protel for DOS。下表列出了其主要版本演进：</p>
+
+    <table>
+      <thead><tr><th>年份</th><th>版本</th><th>关键特性</th></tr></thead>
+      <tbody>
+        <tr><td>1985</td><td>Protel PCB 1.0 (DOS)</td><td>首个 DOS 版本，奠定基础</td></tr>
+        <tr><td>1991</td><td>Protel for Windows</td><td>首个 Windows 版本</td></tr>
+        <tr><td>1999</td><td>Protel 99 SE</td><td>经典版本，国内大量教学使用</td></tr>
+        <tr><td>2006</td><td>Altium Designer 6</td><td>更名 Altium Designer，统一平台</td></tr>
+        <tr><td>2018</td><td>Altium Designer 18</td><td>全新 GUI，64 位重构</td></tr>
+        <tr><td>2020</td><td>Altium Designer 20</td><td>引入 Sharp 网格布线引擎</td></tr>
+        <tr><td>2023</td><td>Altium Designer 23</td><td>增强协作、SolidWorks 互联</td></tr>
+        <tr><td>2024</td><td>Altium Designer 24</td><td>云协同与 AI 辅助布线</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>版本选择建议</strong>：教学场景推荐使用 <strong>AD19/AD20/AD21/AD22</strong>，这些版本在 Windows 11 上运行稳定，且硬件资源占用适中。AD23/AD24 引入了云协同功能，对单机学习场景帮助不大，但对企业团队协作价值较高。本课程截图与操作说明基于 <strong>Altium Designer 22</strong>，但所有命令在 AD19-AD24 之间通用。
+    </div>
+
+    <h3>25.1.3 行业地位与同类工具对比</h3>
+    <p>Altium Designer 在中端 EDA 市场占据主导地位，全球有超过 10 万家企业用户。其优势在于<strong>完整的设计链路、活跃的元件库生态（Altium Vault / Octopart）与对 Windows 平台的原生优化</strong>。下表给出与同类 EDA 工具的简要对比：</p>
+
+    <table>
+      <thead><tr><th>工具</th><th>厂商</th><th>定位</th><th>授权方式</th><th>典型用户</th></tr></thead>
+      <tbody>
+        <tr><td>Altium Designer</td><td>Altium（澳）</td><td>中高端板级设计</td><td>商业/教育订阅</td><td>消费电子、工控</td></tr>
+        <tr><td>Cadence Allegro</td><td>Cadence（美）</td><td>高端高速 PCB</td><td>商业（昂贵）</td><td>服务器、芯片组</td></tr>
+        <tr><td>Mentor PADS / Xpedition</td><td>Siemens EDA（德）</td><td>中高端板级</td><td>商业</td><td>汽车、通信</td></tr>
+        <tr><td>KiCad</td><td>KiCad 团队（GPL）</td><td>开源 PCB 设计</td><td>免费</td><td>开源硬件、爱好者</td></tr>
+        <tr><td>嘉立创 EDA</td><td>嘉立创（中）</td><td>入门在线 EDA</td><td>免费</td><td>学生、小型项目</td></tr>
+      </tbody>
+    </table>
+
+    <p>在国内高校教学中，Altium Designer 几乎是 PCB 设计课程的<strong>事实标准</strong>。掌握 AD 之后转向其他 EDA 工具（如 Cadence、PADS）只需适应操作习惯差异，核心设计流程是相通的。</p>
+
+    <h2>25.2 软件安装与环境配置</h2>
+
+    <h3>25.2.1 系统要求</h3>
+    <p>Altium Designer 对硬件有一定要求，尤其是 PCB 布线与大尺寸铺铜时对 CPU 与显卡的压力较大。下表给出官方推荐配置与最低配置：</p>
+
+    <table>
+      <thead><tr><th>项目</th><th>最低配置</th><th>推荐配置</th></tr></thead>
+      <tbody>
+        <tr><td>操作系统</td><td>Windows 10/11 64 位</td><td>Windows 11 64 位</td></tr>
+        <tr><td>CPU</td><td>Intel i3 / Ryzen 3</td><td>Intel i7/i9 / Ryzen 7/9</td></tr>
+        <tr><td>内存</td><td>8 GB</td><td>16-32 GB</td></tr>
+        <tr><td>硬盘</td><td>10 GB 可用空间</td><td>SSD 50 GB 可用</td></tr>
+        <tr><td>显卡</td><td>DirectX 11 兼容</td><td>独立显卡 4 GB 显存</td></tr>
+        <tr><td>显示</td><td>1920×1080</td><td>2560×1440 双显</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>本课程电脑配置参考</strong>：本课程实验环境为 Windows 11 专业版、CPU 至强 W7-2595X 24 核、内存 DDR5 48 GB、显卡 RTX pro 2000 16 GB 显存。该配置运行 Altium Designer 24 流畅无压力。学生个人电脑达到最低配置即可完成本章实验，复杂多层板设计建议升至 16 GB 内存。
+    </div>
+
+    <h3>25.2.2 下载与安装步骤</h3>
+    <p>Altium Designer 提供 15 天免费试用，可在 Altium 官方网站（<a href="https://www.altium.com/">https://www.altium.com/</a>）下载。完整安装步骤如下：</p>
+    <ol>
+      <li><strong>注册 Altium 账号</strong>：访问 Altium 官网，使用邮箱注册账号（用于试用授权与后续订阅）。</li>
+      <li><strong>下载安装器</strong>：登录后进入 Downloads 页面，下载 <code>AltiumDesignerSetup_xx_x_x.exe</code>（约 2-3 GB）。</li>
+      <li><strong>运行安装程序</strong>：双击安装器，选择安装目录（默认 <code>C:\Program Files\Altium\AD22</code>），勾选所需组件（核心 + Importers/Exporters + Examples）。</li>
+      <li><strong>等待安装完成</strong>：安装过程约 15-30 分钟，取决于硬盘速度。</li>
+      <li><strong>首次启动</strong>：运行 Altium Designer，在登录窗口输入 Altium 账号激活试用，或选择"Use trial version"。</li>
+    </ol>
+
+    <h3>25.2.3 授权方式说明</h3>
+    <p>Altium Designer 的合法授权方式主要包括以下三类，本课程仅做客观陈述：</p>
+    <ul>
+      <li><strong>商业订阅</strong>：按用户年度订阅，约 3000-10000 美元/年/用户，含官方技术支持与云端元件库访问。</li>
+      <li><strong>教育授权</strong>：高校可通过 Altium 大学计划申请免费或折扣教育授权，仅限教学与科研用途，不可商用。</li>
+      <li><strong>学生授权</strong>：在校大学生可申请免费 1 年学生版授权（功能完整，不可商用），到期可续。</li>
+    </ul>
+
+    <div class="tip">
+      <strong>学术诚信提示</strong>：本课程强烈建议通过<strong>教育授权或学生授权</strong>合法使用 Altium Designer。网络上流传的"破解版"不仅侵犯版权，还可能捆绑恶意软件导致电脑被控，且违反学术诚信原则，<strong>切勿使用</strong>。学校实验室通常已部署教育版，学生可直接使用。
+    </div>
+
+    <h3>25.2.4 首次运行与界面概览</h3>
+    <p>首次启动 Altium Designer 后，主界面包括以下关键部分：</p>
+    <ul>
+      <li><strong>顶部菜单栏</strong>：File / View / Project / Design / Tools / Reports / Window / Help。</li>
+      <li><strong>主工具栏</strong>：新建、打开、保存、打印、撤销/重做、缩放等快捷按钮。</li>
+      <li><strong>左侧面板区</strong>：Projects（工程树）、Navigator（导航）、Libraries（库）、Messages（消息）。</li>
+      <li><strong>中间工作区</strong>：原理图、PCB、库文件的编辑画布。</li>
+      <li><strong>右侧面板区</strong>：Properties（属性）、SCH Library、PCB Library。</li>
+      <li><strong>底部状态栏</strong>：当前坐标、栅格、单位、命令提示。</li>
+    </ul>
+
+    <p>建议通过 <code>View → Panels</code> 菜单打开 <strong>Projects、Libraries、Properties、Messages</strong> 四个核心面板，并拖动到合适位置固定。完成首次配置后，建议执行 <code>File → Save As Template</code> 保存工作区布局，便于后续项目复用。</p>
+
+    <h2>25.3 原理图设计基础</h2>
+
+    <h3>25.3.1 新建工程与原理图</h3>
+    <p>Altium Designer 以<strong>工程（Project）</strong>为管理单元，一个工程包含原理图、PCB、库等关联文件。新建工程步骤：</p>
+    <ol>
+      <li>执行 <code>File → New → Project</code>，弹出 New Project 对话框。</li>
+      <li>选择 <strong>PCB Project</strong>，命名（如 <code>STC89_MinSys</code>），选择保存路径。</li>
+      <li>工程文件扩展名为 <code>.PrjPcb</code>，出现在左侧 Projects 面板。</li>
+      <li>右键工程 → <code>Add New to Project → Schematic</code>，添加一张原理图。</li>
+      <li>原理图文件扩展名为 <code>.SchDoc</code>，自动打开为当前编辑画布。</li>
+    </ol>
+
+    <h3>25.3.2 文档选项设置</h3>
+    <p>双击原理图空白处（或执行 <code>Tools → Schematic Preferences</code>）打开文档选项，常用配置：</p>
+    <ul>
+      <li><strong>Sheet Size</strong>：A4（默认）或 A3，复杂电路选 A3。</li>
+      <li><strong>Orientation</strong>：Landscape（横向）。</li>
+      <li><strong>Grids</strong>：Visible Grid = 10mil，Snap Grid = 10mil，确保元件对齐。</li>
+      <li><strong>Standard Style</strong>：勾选 Show Border、Show Title Block。</li>
+    </ul>
+
+    <h3>25.3.3 放置元件与连线</h3>
+    <p>原理图核心操作是放置元件（Place Part）与连线（Place Wire）。常用命令：</p>
+
+    <table>
+      <thead><tr><th>操作</th><th>菜单命令</th><th>快捷键</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>放置元件</td><td>Place → Part</td><td>P + P</td><td>从库中选择并放置</td></tr>
+        <tr><td>放置导线</td><td>Place → Wire</td><td>P + W</td><td>连接元件引脚</td></tr>
+        <tr><td>放置网络标号</td><td>Place → Net Label</td><td>P + N</td><td>命名网络，同名即相连</td></tr>
+        <tr><td>放置电源端口</td><td>Place → Power Port</td><td>P + O</td><td>VCC / GND 等电源符号</td></tr>
+        <tr><td>放置节点</td><td>Place → Manual Junction</td><td>P + J</td><td>交叉导线连接点</td></tr>
+        <tr><td>放置总线</td><td>Place → Bus</td><td>P + B</td><td>多条并行信号聚合</td></tr>
+        <tr><td>放置总线入口</td><td>Place → Bus Entry</td><td>P + E</td><td>导线接入总线的斜线</td></tr>
+      </tbody>
+    </table>
+
+    <p>放置元件时按 <code>Tab</code> 键可在放置前修改元件属性；放置过程中按 <code>Space</code> 旋转 90°、按 <code>X</code> 水平翻转、按 <code>Y</code> 垂直翻转。</p>
+
+    <h3>25.3.4 电源端口与网络标号</h3>
+    <p>电源端口（Power Port）是原理图中表示电源与地的特殊符号，常用类型包括 VCC、GND、+3.3V、+5V。放置电源端口后，所有同名电源端口自动连接，无需导线。建议为不同电压使用不同样式：VCC 用上箭头、GND 用三角地、+3.3V 用波形符号，提高可读性。</p>
+
+    <p>网络标号（Net Label）用于命名导线网络，相同名字的标号即视为电气连接。例如在单片机 P0 口的 8 条引脚分别添加 <code>P00</code>、<code>P01</code>...<code>P07</code> 标号，在排针处添加同样标号，即可建立电气连接，无需长导线穿越。</p>
+
+    <h3>25.3.5 层次化原理图设计</h3>
+    <p>对于复杂电路，AD 支持<strong>层次化设计</strong>：将系统拆分为多个子模块，每个子模块对应一张子原理图，通过 Sheet Symbol（图纸符号）与 Sheet Entry（图纸入口）连接。层次化设计有两种方向：</p>
+    <ul>
+      <li><strong>自顶向下</strong>：先画顶层方块图，再为每个方块生成子图。</li>
+      <li><strong>自底向上</strong>：先画各子模块原理图，再生成顶层方块图。</li>
+    </ul>
+
+    <p>对 STC89 最小系统板这种简单电路，单页原理图足够；对包含电源、主控、通信、显示多模块的项目，建议采用层次化设计以提高可维护性。</p>
+
+    <h2>25.4 元件库管理</h2>
+
+    <h3>25.4.1 库文件类型</h3>
+    <p>Altium Designer 的元件库分为三类：</p>
+    <ul>
+      <li><strong>原理图符号库（<code>.SchLib</code>）</strong>：定义元件在原理图中的图形符号与引脚。</li>
+      <li><strong>PCB 封装库（<code>.PcbLib</code>）</strong>：定义元件在 PCB 中的焊盘图形与外形。</li>
+      <li><strong>集成库（<code>.IntLib</code>）</strong>：将符号库、封装库、3D 模型、仿真模型打包成一个文件，是 AD 推荐的库形式。</li>
+    </ul>
+
+    <p>AD 自带丰富的集成库，位于安装目录 <code>\Library</code> 下，常用的有：</p>
+    <ul>
+      <li><strong>Miscellaneous Devices.IntLib</strong>：电阻、电容、二极管、三极管、晶振等通用元件。</li>
+      <li><strong>Miscellaneous Connectors.IntLib</strong>：排针、排母、DB9、USB 等连接器。</li>
+      <li><strong>FPGA Generic.IntLib</strong>：FPGA 通用元件。</li>
+      <li><strong>ST Microelectronics</strong>：意法半导体芯片（含 STM32 系列）。</li>
+    </ul>
+
+    <h3>25.4.2 安装与查找元件</h3>
+    <p>安装库步骤：<code>File → Open</code> 选择 <code>.IntLib</code> 文件，弹出"是否编译为源码"对话框选 No，库即加入可用库列表。也可通过右侧 Libraries 面板的 <code>File-based Libraries Preferences</code> 按钮批量管理已安装库。</p>
+
+    <p>查找元件：<code>Components</code> 面板顶部搜索框输入元件名（如 <code>STC89C52RC</code>、<code>0.1uF</code>），如已安装库中无对应元件，可点击 <code>Search</code> 按钮启用全网搜索（含 Altium Vault 与 Octopart），在线下载集成库。</p>
+
+    <h3>25.4.3 自定义元件创建</h3>
+    <p>对于库中找不到的元件（如国产 STC89C52RC、CH340 等芯片），需自行创建。完整流程包括<strong>符号绘制 → 引脚定义 → 封装绘制 → 关联</strong>四步。以 STC89C52RC（PDIP-40 封装）为例：</p>
+
+    <h4>1. 新建符号库</h4>
+    <ol>
+      <li><code>File → New → Library → Schematic Library</code>，生成 <code>SchLib1.SchLib</code>。</li>
+      <li>在 SCH Library 面板中重命名元件为 <code>STC89C52RC</code>。</li>
+      <li>使用 Place → Rectangle 绘制矩形框（约 800×1000 mil）。</li>
+      <li>使用 Place → Pin 放置 40 个引脚，按 STC89C52RC 引脚图设置 Designator（1-40）与 Display Name（P1.0~P1.7、P2.0~P2.7、P3.0~P3.7、P0.0~P0.7、VCC、GND、XTAL1、XTAL2、RST、EA、PSEN、ALE）。</li>
+      <li>注意引脚电气类型：电源为 Power、I/O 为 Passive/IO、复位为 Input。</li>
+    </ol>
+
+    <h4>2. 新建封装库</h4>
+    <ol>
+      <li><code>File → New → Library → PCB Library</code>，生成 <code>PcbLib1.PcbLib</code>。</li>
+      <li>在 PCB Library 面板中右键 → New Blank Component，命名为 <code>DIP-40</code>。</li>
+      <li>切换到 Top Overlay 层，绘制 40 脚 DIP 外框（约 1900×600 mil）。</li>
+      <li>切换到 Top Layer，放置 40 个焊盘（Pad），间距 100mil（同侧）、行距 600mil，焊盘外径 60mil、孔径 35mil。</li>
+      <li>1 号脚用方形焊盘标识，其余为圆形。</li>
+    </ol>
+
+    <h4>3. 关联符号与封装</h4>
+    <p>在符号库中，打开 STC89C52RC 的属性 → Footprints → Add → Browse 选择 <code>DIP-40</code>，保存库文件。至此自定义元件完成，可在原理图中调用。</p>
+
+    <h3>25.4.4 3D 模型与 STEP 文件</h3>
+    <p>Altium Designer 支持为封装添加 3D 实体模型，使 PCB 可在 3D 视图中观察真实外观与机械干涉。添加 3D 模型步骤：</p>
+    <ol>
+      <li>从芯片厂商官网下载 STEP（<code>.step</code> 或 <code>.stp</code>）3D 模型文件。</li>
+      <li>在 PCB Library 中切换到 Mechanical 1 层，执行 <code>Place → 3D Body</code>。</li>
+      <li>在弹出的对话框选择 STEP 文件导入，调整位置使其与焊盘对齐。</li>
+      <li>切换到 3D 视图（快捷键 <code>3</code>）验证外观。</li>
+    </ol>
+
+    <div class="tip">
+      <strong>3D 模型的作用</strong>：3D 模型不仅美观，更是<strong>机械干涉检查</strong>的关键。复杂 PCB 中接插件、电解电容、屏蔽罩等高度方向可能冲突，3D 视图可直观发现这些问题，避免打样后才发现装配失败。
+    </div>
+
+    <h2>25.5 PCB 设计基础</h2>
+
+    <h3>25.5.1 从原理图导入 PCB</h3>
+    <p>原理图设计完成后，需将元件与网络信息同步到 PCB。步骤如下：</p>
+    <ol>
+      <li>在工程中右键 → <code>Add New to Project → PCB</code>，生成 <code>.PcbDoc</code> 文件并保存。</li>
+      <li>打开原理图，执行 <code>Design → Update PCB Document xxx.PcbDoc</code>。</li>
+      <li>弹出 Engineering Change Order（ECO）对话框，列出所有要执行的变更（添加元件、网络、Room）。</li>
+      <li>点击 <code>Validate Changes</code> 验证，全部绿勾表示无错误；红叉需返回原理图检查。</li>
+      <li>点击 <code>Execute Changes</code> 执行，元件以 Room 形式出现在 PCB 画布右侧。</li>
+    </ol>
+
+    <h3>25.5.2 板框与叠层</h3>
+    <p>导入元件后第一步是定义板框（Board Shape）：</p>
+    <ol>
+      <li>切换到 Keep-Out Layer 或 Mechanical 1 层。</li>
+      <li>用 Place → Line 绘制闭合矩形（如 50mm×40mm）。</li>
+      <li>选中矩形，执行 <code>Design → Board Shape → Define Board Shape from Selected Objects</code>。</li>
+      <li>板框变为深色，完成定义。</li>
+    </ol>
+
+    <p>叠层（Layer Stackup）通过 <code>Design → Layer Stack Manager</code> 配置。双层板默认有 Top Layer 与 Bottom Layer 两层信号层，中间为 FR-4 介质。可添加 Power Plane 与 GND Plane 形成四层板（适用于复杂高速电路）。本章实战项目使用双层板即可。</p>
+
+    <h3>25.5.3 设计规则设置</h3>
+    <p>PCB 布线前必须配置设计规则（Design Rules），通过 <code>Design → Rules</code> 打开规则管理器。常用规则：</p>
+
+    <table>
+      <thead><tr><th>规则类别</th><th>规则名</th><th>推荐值</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>Electrical</td><td>Clearance</td><td>10 mil</td><td>导线与焊盘最小间距</td></tr>
+        <tr><td>Routing</td><td>Width (Min/Preferred/Max)</td><td>8/12/30 mil</td><td>导线宽度范围</td></tr>
+        <tr><td>Routing</td><td>Routing Layers</td><td>Top + Bottom</td><td>允许布线层</td></tr>
+        <tr><td>Routing</td><td>Routing Via Style</td><td>外径 24mil / 孔径 12mil</td><td>过孔尺寸</td></tr>
+        <tr><td>Plane</td><td>Polygon Connect Style</td><td>Direct / Relief</td><td>铺铜与焊盘连接方式</td></tr>
+        <tr><td>Manufacturing</td><td>Hole Size</td><td>Min 10mil</td><td>最小孔径</td></tr>
+        <tr><td>Mask</td><td>Solder Mask Expansion</td><td>4 mil</td><td>阻焊层扩大</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>电源线宽度建议</strong>：电源线（VCC/GND）建议加宽到 20-30mil 以上以承载电流，普通信号线 8-12mil 即可。可在 Width 规则中针对电源网络单独设置（按 Net 或 Net Class 分类）。
+    </div>
+
+    <h3>25.5.4 元件布局原则</h3>
+    <p>布局是 PCB 设计的<strong>关键步骤</strong>，布局好坏直接影响布线质量与电路性能。基本布局原则：</p>
+    <ul>
+      <li><strong>先核心后外围</strong>：先放置主控芯片（如 STC89C52RC），再围绕其放置周边元件。</li>
+      <li><strong>去耦电容贴近 IC</strong>：每个 IC 的 VCC 与 GND 引脚附近放置 0.1µF 去耦电容，距离越近越好（< 5mm）。</li>
+      <li><strong>晶振紧邻 MCU</strong>：晶振与匹配电容紧靠 MCU 的 XTAL 引脚，走线尽量短而直，避免干扰。</li>
+      <li><strong>接插件靠边</strong>：电源接口、USB、排针等接插件放在板边缘，便于插拔与装配。</li>
+      <li><strong>信号流向清晰</strong>：按"输入→处理→输出"流向布局，避免信号交叉。</li>
+      <li><strong>方向一致</strong>：相同元件（如电阻、电容）尽量同方向排列，便于贴片加工。</li>
+      <li><strong>预留调试空间</strong>：关键测试点预留焊盘或测试环。</li>
+    </ul>
+
+    <h3>25.5.5 交互式布线</h3>
+    <p>Altium Designer 提供强大的交互式布线引擎（Interactive Routing），支持推挤、绕障、自动避让。常用操作：</p>
+    <ol>
+      <li>执行 <code>Place → Interactive Routing</code>（快捷键 <code>P + T</code> 或 <code>Ctrl + W</code>）。</li>
+      <li>从起始焊盘点击开始，移动光标拉出导线，按 <code>Space</code> 切换走线方向（水平/45°）。</li>
+      <li>遇到障碍时引擎自动绕开；按 <code>Shift + R</code> 切换避让模式（Ignore / Push / Stop）。</li>
+      <li>按 <code>Shift + Space</code> 切换转角风格（45° / 90° / 任意角度 / 圆弧）。</li>
+      <li>按 <code>Tab</code> 修改线宽与过孔尺寸。</li>
+      <li>到达终点焊盘点击完成，自动保持网络电气连接。</li>
+    </ol>
+
+    <h3>25.5.6 自动布线</h3>
+    <p>对于复杂板卡，可使用 Situs 自动布线器辅助。执行 <code>Auto Routing → All</code>，弹出策略对话框选择 Default 2 Layer Board。但<strong>不建议完全依赖自动布线</strong>，实际项目中自动布线结果往往不满足电源/高速要求，应作为辅助手段，关键信号由人工布线。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch25-altium-designer-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+
+rectangle "导入网络表" as A
+rectangle "定义板框" as B
+rectangle "设置叠层" as C
+rectangle "配置设计规则" as D
+rectangle "元件布局" as E
+rectangle "关键信号手工布线" as F
+rectangle "辅助自动布线" as G
+rectangle "铺铜与地平面" as H
+rectangle "调优与检查" as I
+A --&gt; B
+B --&gt; C
+C --&gt; D
+D --&gt; E
+E --&gt; F
+F --&gt; G
+G --&gt; H
+H --&gt; I
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 25-2 PCB 设计典型流程</div>
+
+    <h2>25.6 DRC 设计规则检查</h2>
+
+    <h3>25.6.1 DRC 规则配置</h3>
+    <p>DRC（Design Rule Check）是 PCB 投产前的<strong>最后一道质量关卡</strong>，确保设计满足工艺能力与电气规则。除 §25.5.3 提到的常规规则外，还需检查：</p>
+    <ul>
+      <li><strong>Un-Routed Net</strong>：未布线网络，必须为 0。</li>
+      <li><strong>Short-Circuit Constraint</strong>：不同网络短路，必须为 0。</li>
+      <li><strong>Un-Connected Pin</strong>：未连接引脚，需逐一核对。</li>
+      <li><strong>Silk to Solder Mask Shrinkage</strong>：丝印盖住焊盘。</li>
+      <li><strong>Minimum Annular Ring</strong>：焊盘环形铜≥4mil。</li>
+      <li><strong>Acute Angle</strong>：锐角走线，避免酸液陷阱。</li>
+    </ul>
+
+    <h3>25.6.2 运行 DRC</h3>
+    <p>执行 <code>Tools → Design Rule Check</code>，在弹出的对话框中勾选要检查的规则类别，点击 <code>Run Design Rule Check</code>。AD 生成 <code>.html</code> 报告并自动打开，同时 Messages 面板列出所有违规项，每条违规在 PCB 中以红色高亮显示。</p>
+
+    <h3>25.6.3 常见 DRC 错误与修复</h3>
+
+    <table>
+      <thead><tr><th>错误类型</th><th>表现</th><th>原因</th><th>修复方法</th></tr></thead>
+      <tbody>
+        <tr><td>Un-Routed Net</td><td>红色细线连接未布通的焊盘</td><td>线宽过大无法通过、布局阻挡</td><td>调整布局或减小线宽后手工补线</td></tr>
+        <tr><td>Clearance Constraint</td><td>绿色高亮两元素</td><td>导线/焊盘间距 &lt; 10mil</td><td>移动元素或修改规则值</td></tr>
+        <tr><td>Short-Circuit</td><td>红色高亮重叠区域</td><td>不同网络导线交叉</td><td>删除错误导线重新布线</td></tr>
+        <tr><td>Silk Over Pad</td><td>丝印覆盖焊盘</td><td>丝印未避开焊盘</td><td>双击丝印调整位置</td></tr>
+        <tr><td>Hole Size Constraint</td><td>过小孔径告警</td><td>过孔孔径 &lt; 10mil</td><td>修改过孔尺寸</td></tr>
+        <tr><td>Unconnected Pins</td><td>未连接引脚警告</td><td>NC 引脚未标注</td><td>原理图中标注为 No ERC</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>DRC 一定要清零</strong>：投产前 <strong>DRC 必须 0 错误</strong>，警告（Warning）可酌情保留但需逐一确认原因。任何 DRC 错误都可能导致制板后短路、断路或装配失败，造成金钱与时间损失。
+    </div>
+
+    <h2>25.7 Gerber 文件输出与制造</h2>
+
+    <h3>25.7.1 Gerber 文件规范</h3>
+    <p>Gerber 是 PCB 行业的<strong>事实标准制造格式</strong>（RS-274X），由 Ucamco 公司维护。每个 Gerber 文件描述一个图层的光绘数据，包含线条、焊盘、文字等图形元素。一个双层板需要输出的 Gerber 文件包括：</p>
+
+    <table>
+      <thead><tr><th>扩展名</th><th>图层</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>.GTL</td><td>Top Layer</td><td>顶层信号铜</td></tr>
+        <tr><td>.GBL</td><td>Bottom Layer</td><td>底层信号铜</td></tr>
+        <tr><td>.GTS</td><td>Top Solder Mask</td><td>顶层阻焊（绿色）</td></tr>
+        <tr><td>.GBS</td><td>Bottom Solder Mask</td><td>底层阻焊</td></tr>
+        <tr><td>.GTO</td><td>Top Silkscreen</td><td>顶层丝印（白色）</td></tr>
+        <tr><td>.GBO</td><td>Bottom Silkscreen</td><td>底层丝印</td></tr>
+        <tr><td>.GKO</td><td>Keep-Out Layer</td><td>板框</td></tr>
+        <tr><td>.GM1</td><td>Mechanical 1</td><td>机械层（板框替代）</td></tr>
+      </tbody>
+    </table>
+
+    <h3>25.7.2 钻孔与坐标文件</h3>
+    <p>除 Gerber 外还需输出：</p>
+    <ul>
+      <li><strong>钻孔文件（<code>.TXT</code> 或 <code>.DRR</code>）</strong>：描述所有过孔与通孔焊盘的位置、孔径。格式为 Excellon。</li>
+      <li><strong>贴片坐标文件（Pick &amp; Place）</strong>：贴片机坐标，用于 SMT 加工。执行 <code>File → Fabrication Outputs → Generates Pick and Place Files</code>。</li>
+      <li><strong>BOM 物料清单（<code>.xls</code> 或 <code>.csv</code>）</strong>：列出所有元件型号与数量，执行 <code>Reports → Bill of Materials</code>。</li>
+    </ul>
+
+    <h3>25.7.3 输出 Gerber 的步骤</h3>
+    <ol>
+      <li>打开 PCB 文件，执行 <code>File → Fabrication Outputs → Gerber Files</code>。</li>
+      <li>在 General 选项卡选择单位 Inches、精度 2:5（保留 5 位小数）。</li>
+      <li>Layers 选项卡勾选所有需要的图层（按上表）。</li>
+      <li>Drill Drawing 选项卡勾选生成钻孔图。</li>
+      <li>Apertures 与 Advanced 选项卡保持默认。</li>
+      <li>点击 OK，生成 <code>Project Outputs</code> 文件夹，包含所有 <code>.g*</code> 文件。</li>
+      <li>执行 <code>File → Fabrication Outputs → NC Drill Files</code> 输出钻孔文件。</li>
+      <li>将所有文件打包为 ZIP，准备上传 PCB 工厂。</li>
+    </ol>
+
+    <h3>25.7.4 PCB 工厂下单参数</h3>
+    <p>国内主流 PCB 打样工厂包括嘉立创（<a href="https://www.jlcpcb.com/">jlcpcb.com</a>）、捷配（<a href="https://www.jiepei.com/">jiepei.com</a>）、华强 PCB 等，5 张打样价格通常 5-50 元包邮。下单时需选择的关键参数：</p>
+
+    <table>
+      <thead><tr><th>参数</th><th>含义</th><th>推荐值（教学打样）</th></tr></thead>
+      <tbody>
+        <tr><td>板厚</td><td>FR-4 基板厚度</td><td>1.6 mm（标准）</td></tr>
+        <tr><td>层数</td><td>信号层数</td><td>2 层</td></tr>
+        <tr><td>阻焊颜色</td><td>阻焊油墨颜色</td><td>绿色（最快最便宜）</td></tr>
+        <tr><td>丝印颜色</td><td>丝印油墨颜色</td><td>白色</td></tr>
+        <tr><td>表面工艺</td><td>焊盘表面处理</td><td>HASL（喷锡）/ ENIG（沉金，更贵）</td></tr>
+        <tr><td>铜厚</td><td>铜箔厚度</td><td>1 oz（35 µm）</td></tr>
+        <tr><td>最小线宽</td><td>最细允许导线</td><td>6 mil（默认）</td></tr>
+        <tr><td>最小孔径</td><td>最小过孔孔径</td><td>0.3 mm</td></tr>
+        <tr><td>数量</td><td>打样数量</td><td>5 张（最低起订）</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>表面工艺选择</strong>：HASL（热风整平喷锡）价格便宜（5 张约 5 元），但焊盘平整度差，不适合 BGA 等细间距元件。ENIG（化学沉金）平整度高、可焊性好，但价格贵 2-3 倍。教学打样建议选 HASL 即可。
+    </div>
+
+    <h2>25.8 实战项目：STC89C52RC 最小系统板</h2>
+
+    <p>本节通过一个完整项目串起前述所有知识点。我们将设计一款 STC89C52RC 最小系统板，板尺寸 50mm × 40mm，包含主控、晶振、复位、电源指示、ISP 接口与 GPIO 排针，可作为 STC89 学习与实验的基础平台。</p>
+
+    <h3>25.8.1 设计目标与电路规划</h3>
+    <p>STC89C52RC 最小系统板需要包含以下模块：</p>
+    <ul>
+      <li><strong>主控芯片</strong>：STC89C52RC，PDIP-40 封装。</li>
+      <li><strong>晶振电路</strong>：12MHz 晶振 + 2 个 30pF 负载电容。</li>
+      <li><strong>复位电路</strong>：10µF 电解电容 + 10K 电阻，上电复位。</li>
+      <li><strong>电源指示</strong>：LED + 1K 限流电阻。</li>
+      <li><strong>ISP 接口</strong>：4 脚排针（VCC / GND / TXD / RXD），连接 USB-TTL 模块下载程序。</li>
+      <li><strong>GPIO 引出</strong>：P0、P1、P2、P3 各 8 脚通过排针引出。</li>
+    </ul>
+
+    <h3>25.8.2 原理图设计</h3>
+    <p>新建工程 <code>STC89_MinSys.PrjPcb</code> 与原理图 <code>STC89_MinSys.SchDoc</code>。按以下顺序放置元件并连线：</p>
+    <ol>
+      <li>放置 STC89C52RC（自定义符号库，见 §25.4.3）于画布中央。</li>
+      <li>晶振 Y1（12MHz）+ 30pF 电容 C1、C2，连接到 MCU 的 XTAL1（引脚 19）与 XTAL2（引脚 18）。</li>
+      <li>复位电路：10µF 电容 C3 + 10K 电阻 R1，连接到 MCU 的 RST 引脚（引脚 9）。</li>
+      <li>电源指示 LED（D1）+ 1K 限流电阻 R2，连接到 VCC 与 GND。</li>
+      <li>放置 4 脚排针 P3，引脚定义 VCC / GND / TXD / RXD，连接 MCU 的 P3.0（RXD，引脚 10）与 P3.1（TXD，引脚 11）。</li>
+      <li>放置 2 个 8 脚排针 P1、P2，分别引出 P0（引脚 39-32）与 P1（引脚 1-8），P2、P3 类似（可用 4 个排针或 2 个 16 脚排针）。</li>
+      <li>添加 VCC 与 GND 电源端口，连接所有电源引脚。</li>
+    </ol>
+
+    <p>原理图完成后，使用 <code>Tools → Annotate Schematics Quietly</code> 自动编号元件，便于 BOM 输出。导出的 BOM 简表如下：</p>
+
+    <table>
+      <thead><tr><th>位号</th><th>型号</th><th>封装</th><th>数量</th></tr></thead>
+      <tbody>
+        <tr><td>U1</td><td>STC89C52RC</td><td>DIP-40</td><td>1</td></tr>
+        <tr><td>Y1</td><td>12MHz 晶振</td><td>HC-49S</td><td>1</td></tr>
+        <tr><td>C1, C2</td><td>30pF 瓷片电容</td><td>0805</td><td>2</td></tr>
+        <tr><td>C3</td><td>10µF 电解电容</td><td>RB.1/.2</td><td>1</td></tr>
+        <tr><td>R1</td><td>10K 电阻</td><td>0805</td><td>1</td></tr>
+        <tr><td>R2</td><td>1K 电阻</td><td>0805</td><td>1</td></tr>
+        <tr><td>D1</td><td>LED 红色</td><td>0805</td><td>1</td></tr>
+        <tr><td>P3</td><td>排针 4 脚</td><td>HDR1X4</td><td>1</td></tr>
+        <tr><td>P1, P2</td><td>排针 16 脚</td><td>HDR1X16</td><td>2</td></tr>
+      </tbody>
+    </table>
+
+    <h3>25.8.3 PCB 布局</h3>
+    <p>执行 <code>Design → Update PCB Document</code> 将原理图同步到 PCB。在 50×40mm 板框内按以下原则布局：</p>
+    <ul>
+      <li>STC89C52RC（U1）居中偏左，1 号脚朝左上，便于其余元件围绕排布。</li>
+      <li>晶振 Y1 与 C1、C2 紧靠 U1 上方，连接 XTAL1/XTAL2。</li>
+      <li>复位电路 C3、R1 位于 U1 右上方，靠近 RST 引脚。</li>
+      <li>电源指示 LED 与 R2 放在板右上角，方便观察。</li>
+      <li>排针 P1、P2 沿上下板边排列；ISP 接口 P3 放在左侧板边。</li>
+      <li>电源去耦电容（每个 VCC 引脚 0.1µF，未列入主 BOM）紧贴 U1 第 40 脚与第 20 脚。</li>
+    </ul>
+
+    <h3>25.8.4 PCB 布线</h3>
+    <p>设置设计规则：Clearance = 10mil、Width Signal = 10mil、Width Power = 20mil、Via 24/12mil。布线顺序：</p>
+    <ol>
+      <li><strong>电源线优先</strong>：VCC 与 GND 用 20mil 宽线，从 P3 电源引脚出发，连接 U1 的 40 脚（VCC）与 20 脚（GND），再分支到其他元件。</li>
+      <li><strong>晶振电路</strong>：XTAL1/XTAL2 走线短直，不绕过其他信号。</li>
+      <li><strong>复位电路</strong>：RST 引脚到 C3/R1 节点走线尽量短。</li>
+      <li><strong>GPIO 引出</strong>：P0/P1/P2/P3 引脚到排针走线尽量不交叉，必要时使用过孔换层。</li>
+      <li><strong>顶层铺铜</strong>：顶层 GND 铺铜，底层 GND 铺铜，形成完整地平面。</li>
+    </ol>
+
+    <p>布线完成后执行 <code>Tools → Teardrops</code> 添加泪滴焊盘，提升焊接可靠性。最终 PCB 顶层效果：主控居中，晶振、复位、LED 分布四周，铺铜覆盖空白区域。</p>
+
+    <h3>25.8.5 DRC 检查与修复</h3>
+    <p>执行 <code>Tools → Design Rule Check</code>，常见需修复项：</p>
+    <ul>
+      <li>排针焊盘与铺铜间距不足 → 调整 Polygon Connect Style 或铺铜间距。</li>
+      <li>晶振走线未连通 → 检查原理图 XTAL 网络是否正确。</li>
+      <li>丝印重叠焊盘 → 移动丝印位置。</li>
+    </ul>
+    <p>清零 DRC 错误后，PCB 设计完成。</p>
+
+    <h3>25.8.6 Gerber 输出与打样</h3>
+    <p>按 §25.7.3 步骤输出 Gerber 与钻孔文件，打包为 <code>STC89_MinSys_Gerber.zip</code>。访问嘉立创下单页（<a href="https://www.jlcpcb.com/">jlcpcb.com</a>），上传 ZIP，参数选择：</p>
+    <pre><code class="language-xml">板厚: 1.6mm
+层数: 2
+阻焊颜色: 绿色
+丝印颜色: 白色
+表面工艺: HASL（喷锡）
+铜厚: 1 oz
+数量: 5
+预计费用: 5-15 元（含运费）</code></pre>
+    <p>下单后通常 24-48 小时内发货，3-5 天到货。收到 PCB 后焊接元件，连接 USB-TTL 模块，使用 STC-ISP 烧录第 5 章的 LED 闪烁程序，验证最小系统板工作正常。</p>
+
+    <h2>25.9 常见问题与技巧</h2>
+
+    <h3>25.9.1 常见报错与解决</h3>
+
+    <table>
+      <thead><tr><th>报错信息</th><th>出现位置</th><th>原因</th><th>解决方法</th></tr></thead>
+      <tbody>
+        <tr><td>Component not found in library</td><td>原理图编译</td><td>引用了未安装库的元件</td><td>安装对应库或重新指定库路径</td></tr>
+        <tr><td>Footprint not assigned</td><td>ECO 同步</td><td>符号未关联封装</td><td>符号属性中添加 Footprint</td></tr>
+        <tr><td>Un-Routed Net</td><td>DRC</td><td>布线未完成</td><td>手工补线或调整布局</td></tr>
+        <tr><td>Polygon Pour not connected to GND</td><td>DRC</td><td>铺铜未指定网络</td><td>双击铺铜，Net 选 GND</td></tr>
+        <tr><td>Net has no driving source</td><td>原理图编译</td><td>网络无输出引脚</td><td>检查电源/输入连接</td></tr>
+        <tr><td>Silk to Pad Clearance</td><td>DRC</td><td>丝印盖焊盘</td><td>移动或缩小丝印</td></tr>
+      </tbody>
+    </table>
+
+    <h3>25.9.2 常用快捷键大全</h3>
+    <p>Altium Designer 的快捷键是提升效率的关键，下表列出最常用快捷键：</p>
+
+    <table>
+      <thead><tr><th>快捷键</th><th>功能</th><th>使用场景</th></tr></thead>
+      <tbody>
+        <tr><td>Space</td><td>旋转 90°</td><td>放置元件/移动时</td></tr>
+        <tr><td>Tab</td><td>编辑属性</td><td>放置前修改参数</td></tr>
+        <tr><td>X / Y</td><td>水平/垂直翻转</td><td>放置元件时</td></tr>
+        <tr><td>P + W</td><td>放置导线（SCH）</td><td>原理图连线</td></tr>
+        <tr><td>P + T</td><td>交互式布线（PCB）</td><td>PCB 布线</td></tr>
+        <tr><td>P + P</td><td>放置元件</td><td>原理图/PCB 通用</td></tr>
+        <tr><td>Ctrl + W</td><td>快速布线</td><td>PCB 中从焊盘起线</td></tr>
+        <tr><td>Ctrl + M</td><td>测量距离</td><td>查间距</td></tr>
+        <tr><td>Ctrl + 鼠标滚轮</td><td>缩放</td><td>所有视图</td></tr>
+        <tr><td>Shift + 鼠标滚轮</td><td>左右滚动</td><td>大画布浏览</td></tr>
+        <tr><td>V + F</td><td>视图适应</td><td>显示全部内容</td></tr>
+        <tr><td>V + D</td><td>视图适应文档</td><td>整页查看</td></tr>
+        <tr><td>G</td><td>切换栅格</td><td>调整吸附精度</td></tr>
+        <tr><td>L</td><td>打开层管理</td><td>PCB 中切换层</td></tr>
+        <tr><td>Q</td><td>切换单位</td><td>mil / mm 切换</td></tr>
+        <tr><td>* (数字小键盘)</td><td>切换布线层</td><td>自动添加过孔</td></tr>
+        <tr><td>2 / 3</td><td>2D / 3D 视图</td><td>PCB 视图切换</td></tr>
+      </tbody>
+    </table>
+
+    <h3>25.9.3 高级技巧</h3>
+    <ul>
+      <li><strong>铺铜（Polygon Pour）</strong>：在大面积空白区域铺铜并连接到 GND，可降低地阻抗、提高 EMI 性能。执行 <code>Place → Polygon Pour</code>，选择 GND 网络，勾选 Pour Over All Same Net Objects。</li>
+      <li><strong>泪滴焊盘（Teardrops）</strong>：在焊盘与导线连接处添加泪滴形过渡，减少焊接应力。执行 <code>Tools → Teardrops → Add</code>。</li>
+      <li><strong>设计复用</strong>：将常用电路（如 USB-TTL、电源模块）保存为 Device Sheet 或Snippet，下次项目直接调用。</li>
+      <li><strong>3D 干涉检查</strong>：在 3D 视图下与机械结构 STEP 文件对比，提前发现装配冲突。</li>
+      <li><strong>批量修改属性</strong>：使用 <code>SCHLIB List</code> 或 <code>PCB List</code> 面板，类似 Excel 批量编辑元件属性。</li>
+      <li><strong>差分对走线</strong>：USB、CAN、RS-485 等差分信号使用 <code>Design → Differential Pairs Routing</code> 自动等长等距走线。</li>
+    </ul>
+
+    <h2>25.10 与其他 EDA 工具对比</h2>
+
+    <h3>25.10.1 主流 EDA 工具横向对比</h3>
+    <p>下表对主流 EDA 工具进行多维度对比，帮助读者根据需求选择：</p>
+
+    <table>
+      <thead><tr><th>维度</th><th>Altium Designer</th><th>嘉立创 EDA</th><th>KiCad</th><th>Cadence Allegro</th><th>Mentor PADS</th></tr></thead>
+      <tbody>
+        <tr><td>授权方式</td><td>商业订阅</td><td>免费</td><td>开源 GPL</td><td>商业（昂贵）</td><td>商业</td></tr>
+        <tr><td>价格（年）</td><td>3-10 万元</td><td>0 元</td><td>0 元</td><td>10-50 万元</td><td>5-15 万元</td></tr>
+        <tr><td>学习曲线</td><td>中</td><td>低</td><td>中</td><td>陡</td><td>中</td></tr>
+        <tr><td>原理图设计</td><td>★★★★★</td><td>★★★★</td><td>★★★★</td><td>★★★</td><td>★★★★</td></tr>
+        <tr><td>PCB 布线</td><td>★★★★★</td><td>★★★</td><td>★★★★</td><td>★★★★★</td><td>★★★★</td></tr>
+        <tr><td>高速设计</td><td>★★★★</td><td>★★</td><td>★★★</td><td>★★★★★</td><td>★★★★</td></tr>
+        <tr><td>3D 视图</td><td>★★★★★</td><td>★★★★</td><td>★★★★</td><td>★★★</td><td>★★★</td></tr>
+        <tr><td>元件库生态</td><td>★★★★★</td><td>★★★★（嘉立创）</td><td>★★★</td><td>★★★★</td><td>★★★★</td></tr>
+        <tr><td>云端协作</td><td>★★★★（AD365）</td><td>★★★★★</td><td>★</td><td>★★★</td><td>★★</td></tr>
+        <tr><td>国内教学使用</td><td>广泛</td><td>增长快</td><td>少量</td><td>研究生阶段</td><td>少量</td></tr>
+        <tr><td>典型用户</td><td>消费电子</td><td>学生创客</td><td>开源硬件</td><td>服务器/通信</td><td>汽车/工控</td></tr>
+      </tbody>
+    </table>
+
+    <h3>25.10.2 学习建议</h3>
+    <ol>
+      <li><strong>以 Altium Designer 为主</strong>：AD 在国内就业市场认可度最高，本科阶段掌握 AD 即可满足绝大多数岗位需求。</li>
+      <li><strong>嘉立创 EDA 为辅</strong>：免费、在线、与嘉立创工厂无缝对接，适合快速打样与个人项目。本课程第 26 章将专题介绍。</li>
+      <li><strong>KiCad 适合开源</strong>：完全开源免费，开源硬件项目（如 Arduino、Adafruit）使用较多。可作课外兴趣了解。</li>
+      <li><strong>Cadence/PADS 进阶</strong>：研究生或工作后从事高速 PCB、芯片组设计时再学习，本科阶段不必强求。</li>
+      <li><strong>核心原理相通</strong>：所有 EDA 工具的设计流程都是"原理图 → 网络表 → PCB → DRC → Gerber"，掌握 AD 后转其他工具只需适应界面差异。</li>
+    </ol>
+
+    <div class="tip">
+      <strong>工具不是目的</strong>：EDA 工具只是手段，<strong>理解 PCB 设计原理</strong>（电气规则、信号完整性、EMI、工艺能力）才是核心竞争力。本课程建议以 Altium Designer 为学习对象，掌握核心概念与流程，未来工作中遇到其他工具也能快速上手。
+    </div>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>Altium Designer 是行业主流的板级 EDA 软件，覆盖原理图、PCB、库管理、仿真、制造一体化流程，国内就业市场认可度高。</li>
+        <li>软件安装需通过 Altium 官网下载，授权推荐使用<strong>教育授权或学生授权</strong>合法获取，切勿使用破解版。</li>
+        <li>原理图设计核心是<strong>放置元件、连线、网络标号、电源端口</strong>；PCB 设计核心是<strong>导入网络表、布局、布线、铺铜</strong>，去耦电容贴近 IC、晶振紧邻 MCU、接插件靠边是布局三大原则。</li>
+        <li>DRC 是投产前最后质量关卡，<strong>必须 0 错误</strong>；Gerber 文件是 PCB 行业事实标准制造格式，需配合钻孔文件、BOM 一并交付工厂。</li>
+        <li>实战项目 STC89C52RC 最小系统板完整串起原理图设计、PCB 布局布线、DRC、Gerber 输出全流程，可作为后续实验与毕业设计的硬件平台。</li>
+        <li>Altium Designer 与嘉立创 EDA、KiCad、Cadence、PADS 各有定位，建议以 AD 为主、嘉立创 EDA 为辅，理解原理比工具本身更重要。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>简述 Altium Designer 的发展历程，说明从 Protel 到 AD22 主要发生了哪些架构变化。</li>
+        <li>新建一个 PCB 工程时，原理图与 PCB 文件之间通过什么机制保持同步？说明 ECO 对话框的作用。</li>
+        <li>设计规则中的 Clearance 与 Width 各有什么含义？为什么电源线宽度要大于信号线？</li>
+        <li>PCB 布局时应遵循哪些原则？以 STC89C52RC 最小系统板为例，说明晶振、复位电路、去耦电容的布局位置。</li>
+        <li>DRC 检查出现 Un-Routed Net 错误时应如何排查？请列出至少 3 种可能原因与对应解决方法。</li>
+        <li>Gerber 文件包含哪些图层？为什么除 Gerber 外还需输出钻孔文件？下单 PCB 时表面工艺 HASL 与 ENIG 各有什么优缺点？</li>
+        <li>尝试使用 Altium Designer 完成本章 STC89C52RC 最小系统板的完整设计，并上传 Gerber 文件到嘉立创打样。记录设计过程中遇到的问题与解决方法。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>Altium LLC. Altium Designer Documentation [EB/OL]. https://www.altium.com/documentation/</li>
+        <li>Altium LLC. Altium Designer User Guide [Z]. 2024. https://www.altium.com/documentation/altium-designer/user-manual</li>
+        <li>谢龙汉, 鲁力, 彭学方. Altium Designer 原理图与 PCB 设计 [M]. 北京: 电子工业出版社, 2021.</li>
+        <li>黄智伟. 印制电路板（PCB）设计技术与实践 [M]. 北京: 电子工业出版社, 2020.</li>
+        <li>嘉立创科技. PCB 打样下单参数说明 [EB/OL]. https://www.jlcpcb.com/</li>
+        <li>Ucamco. The Gerber File Format Specification (Revision 2023.06) [Z]. 2023. https://www.ucamco.com/</li>
+        <li>STC 宏晶科技. STC89C52RC 数据手册 [Z]. 2023. https://www.stcmcudata.com/</li>
+        <li>电子发烧友论坛. Altium Designer 板块 [EB/OL]. https://bbs.elecfans.com/</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/chapters/part4-additional/ch24-overview.html" class="prev">← 第 24 章 概述与学习方法</a>
+      <a href="/index.html" class="home">返回首页</a>
+      <a href="/chapters/part4-additional/ch26-jlceda.html" class="next">第 26 章 嘉立创 EDA PCB 设计 →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

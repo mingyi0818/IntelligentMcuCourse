@@ -1,0 +1,488 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第12章 STC89C52RC 综合实验 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link active" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 2 篇 STC &gt; <span>第 12 章 STC89C52RC 综合实验</span>
+    </div>
+
+    <h1>第 12 章 STC89C52RC 综合实验</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>掌握 STC89C52RC 综合应用系统的硬件设计与软件架构方法</li>
+        <li>能够将定时器中断、数码管动态显示、温度采集、按键扫描等模块协同工作</li>
+        <li>理解"主循环 + 定时器中断"前后台架构在裸机系统中的组织方式</li>
+        <li>掌握借助 AI 工具（如 TRAE）辅助代码编写与 Bug 排查的工作流程</li>
+        <li>培养独立完成中小型单片机项目的工程实践能力</li>
+      </ul>
+    </div>
+
+    <h2>12.1 实验目标：多功能数字钟</h2>
+    <p>本章综合运用前 8 章所学知识，设计并实现一个<strong>多功能数字钟</strong>。系统基于 STC89C52RC，融合定时器中断、数码管动态显示、独立按键、蜂鸣器、DS18B20 单总线温度传感器等模块，最终功能包括：</p>
+    <ul>
+      <li><strong>时间显示</strong>：时:分:秒 8 位数码管显示，秒点每秒闪烁</li>
+      <li><strong>按键校时</strong>：3 个按键分别调整时、分、秒（按住加 1，长按连续加）</li>
+      <li><strong>闹钟功能</strong>：到达设定时间蜂鸣器鸣响 30 秒，按键可提前关闭</li>
+      <li><strong>温度显示</strong>：长按温度键切换到温度显示界面，实时显示环境温度（℃）</li>
+    </ul>
+
+    <p>本实验旨在让学生把零散的外设知识串接成一个完整系统，体会<strong>"分模块开发 + 主程序集成 + 系统联调"</strong>的工程方法。</p>
+
+    <h2>12.2 硬件设计</h2>
+
+    <h3>12.2.1 元件清单</h3>
+    <table>
+      <thead><tr><th>元件</th><th>型号/规格</th><th>数量</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td>单片机</td><td>STC89C52RC</td><td>1</td><td>主控</td></tr>
+        <tr><td>晶振</td><td>11.0592 MHz + 30pF 电容</td><td>1</td><td>时钟源（兼顾波特率）</td></tr>
+        <tr><td>数码管</td><td>共阴 4 位 0.36 寸</td><td>2</td><td>显示时分秒/温度</td></tr>
+        <tr><td>温度传感器</td><td>DS18B20</td><td>1</td><td>数字温度采集</td></tr>
+        <tr><td>按键</td><td>6×6 轻触按键</td><td>4</td><td>时/分/秒校时 + 模式切换</td></tr>
+        <tr><td>蜂鸣器</td><td>有源 5V</td><td>1</td><td>闹钟提示</td></tr>
+        <tr><td>三极管</td><td>S8550 PNP</td><td>1</td><td>蜂鸣器驱动</td></tr>
+        <tr><td>电阻</td><td>4.7kΩ 上拉</td><td>1</td><td>DS18B20 数据上拉</td></tr>
+        <tr><td>电源</td><td>USB 5V</td><td>1</td><td>系统供电</td></tr>
+      </tbody>
+    </table>
+
+    <h3>12.2.2 电路连接框图</h3>
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch12-stc-comprehensive-lab-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+left to right direction
+component "STC89C52RC" as MCU
+component "4 位数码管 段码" as SEG
+component "数码管位选" as DIG
+component "DS18B20\n单总线" as DS
+component "4 按键" as KEY
+component "蜂鸣器 经 S8550" as BUZ
+component "11.0592MHz 晶振" as XTAL
+component "USB 5V" as USB
+MCU --&gt; SEG : P0
+MCU --&gt; DIG : P2.0~P2.3
+MCU --&gt; DS : P3.7
+MCU --&gt; KEY : P1.0~P1.3
+MCU --&gt; BUZ : P1.7
+XTAL --&gt; MCU : XTAL1/2
+USB --&gt; MCU : VCC/GND
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 12-1 多功能数字钟硬件框图</div>
+
+    <h3>12.2.3 关键接线表</h3>
+    <table>
+      <thead><tr><th>单片机引脚</th><th>外设</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>P0.0~P0.7</td><td>数码管 a~dp</td><td>8 位段码输出，需 220Ω 限流</td></tr>
+        <tr><td>P2.0~P2.3</td><td>4 位数码管公共端</td><td>位选，低电平有效（经三极管驱动）</td></tr>
+        <tr><td>P3.7</td><td>DS18B20 DQ</td><td>单总线数据，4.7kΩ 上拉到 VCC</td></tr>
+        <tr><td>P1.0</td><td>KEY1</td><td>小时 +</td></tr>
+        <tr><td>P1.1</td><td>KEY2</td><td>分钟 +</td></tr>
+        <tr><td>P1.2</td><td>KEY3</td><td>秒清零</td></tr>
+        <tr><td>P1.3</td><td>KEY4</td><td>模式：时钟/温度切换</td></tr>
+        <tr><td>P1.7</td><td>S8550 基极</td><td>蜂鸣器控制，1=响</td></tr>
+      </tbody>
+    </table>
+
+    <h2>12.3 软件架构与任务分解</h2>
+    <p>采用<strong>"前后台架构"</strong>：定时器 T0 中断作为后台（每 2 ms 触发一次），负责数码管动态扫描、按键消抖计数、秒计数；主循环作为前台，负责温度采集、闹钟判断、显示缓冲更新等较慢任务。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch12-stc-comprehensive-lab-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+top to bottom direction
+package "后台 T0 中断 每 2ms" as 后台 {
+    component "数码管扫描 1 位" as A1
+    component "按键扫描 + 消抖计数" as A2
+    component "50ms 计数 → 秒计数" as A3
+    component "秒点闪烁标志" as A4
+}
+package "前台 主循环" as 前台 {
+    component "读按键状态 → 校时/切换" as B1
+    component "DS18B20 温度采集 每 1s" as B2
+    component "闹钟时间判断" as B3
+    component "更新显示缓冲" as B4
+}
+A2 --&gt; B1 : key_flag
+A3 --&gt; B3 : sec_pulse
+B4 --&gt; A1 : disp_buf
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 12-2 主循环 + 定时器中断前后台架构</div>
+
+    <h3>12.3.1 任务分解</h3>
+    <table>
+      <thead><tr><th>任务</th><th>执行位置</th><th>周期</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>数码管扫描</td><td>T0 中断</td><td>2 ms</td><td>4 位轮询，每位显示 2 ms，刷新率 125 Hz</td></tr>
+        <tr><td>按键消抖</td><td>T0 中断</td><td>10 ms</td><td>每 5 次中断（10 ms）采样一次按键</td></tr>
+        <tr><td>秒计数</td><td>T0 中断</td><td>1 s</td><td>500 次中断累加为 1 秒</td></tr>
+        <tr><td>校时处理</td><td>主循环</td><td>事件触发</td><td>按键按下后调整时/分/秒</td></tr>
+        <tr><td>温度采集</td><td>主循环</td><td>1 s</td><td>DS18B20 复位 → 命令 → 读 2 字节</td></tr>
+        <tr><td>闹钟判断</td><td>主循环</td><td>1 s</td><td>当前时间与闹钟时间比较</td></tr>
+        <tr><td>显示更新</td><td>主循环</td><td>事件触发</td><td>根据模式更新 disp_buf[]</td></tr>
+      </tbody>
+    </table>
+
+    <h2>12.4 关键代码与 AI 辅助调试示例</h2>
+
+    <h3>12.4.1 显示模块</h3>
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+
+const unsigned char code SEG[] = {
+    0x3F, 0x06, 0x5B, 0x4F, 0x66,
+    0x6D, 0x7D, 0x07, 0x7F, 0x6F
+};
+const unsigned char code SEG_DOT = 0x80;     // 小数点
+
+unsigned char disp_buf[8] = {1,2,3,4,5,6,7,8};
+unsigned char code DIG_SEL[8] = {0xFE,0xFD,0xFB,0xF7,0xEF,0xDF,0xBF,0x7F};
+unsigned char dig_idx = 0;
+
+// 在 T0 中断中调用
+void Display_Scan(void)
+{
+    P0 = 0x00;                              // 消影
+    P2 = DIG_SEL[dig_idx];                  // 位选
+    P0 = SEG[disp_buf[dig_idx]];            // 段码
+    if (++dig_idx &gt;= 8) dig_idx = 0;
+}
+
+void Display_ShowTime(unsigned char h, unsigned char m, unsigned char s)
+{
+    disp_buf[0] = h / 10;
+    disp_buf[1] = h % 10;
+    disp_buf[2] = m / 10;
+    disp_buf[3] = m % 10;
+    disp_buf[4] = s / 10;
+    disp_buf[5] = s % 10;
+    disp_buf[6] = 16;                       // 空
+    disp_buf[7] = 16;                       // 空
+}
+</code></pre>
+
+    <h3>12.4.2 DS18B20 温度采集</h3>
+    <pre><code class="language-c">#include &lt;intrins.h&gt;
+sbit DQ = P3^7;
+
+void DS_Delay(unsigned int us)
+{
+    while (us--) { _nop_(); _nop_(); _nop_(); _nop_(); }
+}
+
+bit DS_Reset(void)
+{
+    bit ack;
+    DQ = 0; DS_Delay(480);                  // 拉低 480us
+    DQ = 1; DS_Delay(60);                   // 释放等 60us
+    ack = DQ;                               // 0=存在
+    DS_Delay(420);                          // 等待结束
+    return ack;
+}
+
+void DS_WriteByte(unsigned char dat)
+{
+    unsigned char i;
+    for (i = 0; i &lt; 8; i++) {
+        DQ = 0; _nop_(); _nop_();
+        DQ = dat &amp; 0x01; DS_Delay(60);      // 写 1 位
+        DQ = 1; dat &gt;&gt;= 1;
+    }
+}
+
+unsigned char DS_ReadByte(void)
+{
+    unsigned char i, dat = 0;
+    for (i = 0; i &lt; 8; i++) {
+        DQ = 0; _nop_(); _nop_();
+        DQ = 1; _nop_(); _nop_();
+        dat &gt;&gt;= 1;
+        if (DQ) dat |= 0x80;
+        DS_Delay(60);
+    }
+    return dat;
+}
+
+int DS_ReadTemp(void)                       // 返回 10 倍温度
+{
+    unsigned char l, h;
+    int t;
+    DS_Reset();
+    DS_WriteByte(0xCC);                     // 跳过 ROM
+    DS_WriteByte(0x44);                     // 启动转换
+    DS_Delay(75000);                        // 等待 750ms
+    DS_Reset();
+    DS_WriteByte(0xCC);
+    DS_WriteByte(0xBE);                     // 读暂存器
+    l = DS_ReadByte();
+    h = DS_ReadByte();
+    t = (h &lt;&lt; 8) | l;                        // 16 位补码
+    if (t &lt; 0) t = ~t + 1;                   // 取绝对值
+    return t * 10 / 16;                     // 0.0625°C/LSB → 10倍℃
+}
+</code></pre>
+
+    <h3>12.4.3 闹钟逻辑</h3>
+    <pre><code class="language-c">unsigned char alarm_h = 7, alarm_m = 30;   // 闹钟 07:30
+unsigned char alarm_on = 1;                 // 闹钟启用
+unsigned char alarm_ring = 0;               // 当前是否鸣响
+unsigned char ring_cnt = 0;                 // 鸣响秒数计数
+sbit BUZZER = P1^7;
+
+void Alarm_Check(unsigned char h, unsigned char m, unsigned char s)
+{
+    if (alarm_on &amp;&amp; !alarm_ring &amp;&amp;
+        h == alarm_h &amp;&amp; m == alarm_m &amp;&amp; s == 0) {
+        alarm_ring = 1;
+        ring_cnt = 0;
+    }
+    if (alarm_ring) {
+        BUZZER = (ring_cnt &amp; 1);            // 1Hz 间歇鸣响
+        if (++ring_cnt &gt;= 30) {             // 30 秒后自动停
+            alarm_ring = 0;
+            BUZZER = 0;
+        }
+    }
+}
+</code></pre>
+
+    <h3>12.4.4 主程序与定时器中断</h3>
+    <pre><code class="language-c">unsigned char hour = 12, min = 0, sec = 0;
+unsigned char cnt_2ms = 0, sec_pulse = 0;
+unsigned char mode = 0;                     // 0=时钟 1=温度
+int temperature = 250;                      // 默认 25.0℃
+
+void Timer0_Init(void)
+{
+    TMOD &amp;= 0xF0;
+    TMOD |= 0x01;                           // T0 模式 1
+    TH0 = 0xF8; TL0 =0xCD;                  // 2ms @11.0592MHz
+    ET0 = 1; EA = 1; TR0 = 1;
+}
+
+void main(void)
+{
+    Timer0_Init();
+    while (1) {
+        if (sec_pulse) {                    // 每秒任务
+            sec_pulse = 0;
+            if (++sec &gt;= 60) {
+                sec = 0;
+                if (++min &gt;= 60) {
+                    min = 0;
+                    if (++hour &gt;= 24) hour = 0;
+                }
+            }
+            Alarm_Check(hour, min, sec);
+            temperature = DS_ReadTemp();    // 每秒采温
+        }
+        Key_Process();                      // 按键处理
+        if (mode == 0)
+            Display_ShowTime(hour, min, sec);
+        else
+            Display_ShowTemp(temperature);
+    }
+}
+
+void Timer0_ISR(void) interrupt 1
+{
+    TH0 = 0xF8; TL0 = 0xCD;                 // 重装 2ms
+    Display_Scan();                         // 数码管扫描
+    if (++cnt_2ms &gt;= 500) {                 // 500*2ms=1s
+        cnt_2ms = 0;
+        sec_pulse = 1;
+    }
+}
+</code></pre>
+
+    <h3>12.4.5 AI 辅助调试示例</h3>
+    <p>在开发过程中，学生可借助 <strong>TRAE、GitHub Copilot</strong> 等 AI 工具加速问题定位。例如：当数码管显示乱码时，向 AI 描述现象：</p>
+    <blockquote>
+      "STC89C52RC + 共阴 4 位数码管动态扫描，第 3 位始终不亮其他位正常，代码使用 P2 = DIG_SEL[dig_idx] 选位，DIG_SEL = {0xFE,0xFD,0xFB,0xF7}。帮我排查可能原因。"
+    </blockquote>
+    <p>AI 可能给出排查清单：① P2.2 引脚接触不良或焊点虚焊；② 数码管第 3 位公共端接线断开；③ DIG_SEL 数组索引越界；④ P2 口其他位被其他模块复用导致冲突。学生据此逐步排查硬件，最终定位为 P2.2 焊点虚焊。</p>
+
+    <div class="tip">
+      <strong>AI 辅助开发原则</strong>：① 描述现象要精确（芯片型号、引脚、代码、现象）；② AI 给出的方案要逐条验证，不能盲信；③ 复杂 Bug 仍需借助逻辑分析仪、示波器等硬件手段；④ 把 AI 输出当作"加速器"而非"替代品"，培养独立判断能力。
+    </div>
+
+    <h2>12.5 调试问题排查与扩展方向</h2>
+
+    <h3>12.5.1 常见 Bug 与解决</h3>
+    <table>
+      <thead><tr><th>现象</th><th>可能原因</th><th>解决方法</th></tr></thead>
+      <tbody>
+        <tr><td>数码管亮度不均/重影</td><td>消影未做或刷新率低</td><td>切换位选前 P0=0x00；保证每位 ≥1 ms</td></tr>
+        <tr><td>时间走时偏快/偏慢</td><td>T0 重装值计算错误</td><td>11.0592 MHz 2 ms 重装 0xF8CD；用秒表校准</td></tr>
+        <tr><td>DS18B20 读温度 85℃</td><td>未启动转换或读取过早</td><td>先 0x44 启动转换，等待 750 ms 再读</td></tr>
+        <tr><td>DS18B20 读温度 -1 或 0</td><td>1-Wire 时序不对或上拉缺失</td><td>检查 4.7kΩ 上拉；时序用逻辑分析仪核对</td></tr>
+        <tr><td>按键连按/不响应</td><td>消抖计数过短或过长</td><td>10 ms 采样周期，连续 2~3 次相同状态确认</td></tr>
+        <tr><td>蜂鸣器声音小</td><td>驱动电流不足</td><td>S8550 基极加 1kΩ 限流，集电极直接驱动蜂鸣器</td></tr>
+      </tbody>
+    </table>
+
+    <h3>12.5.2 扩展方向</h3>
+    <ul>
+      <li><strong>日历扩展</strong>：增加 DS1302 实时时钟芯片，实现年月日星期显示，掉电不失时间。</li>
+      <li><strong>多组闹钟</strong>：使用 AT24C02 EEPROM 存储多组闹钟时间，支持工作日/周末模式。</li>
+      <li><strong>远程校时</strong>：增加 ESP8266 Wi-Fi 模块，通过 NTP 协议网络校时，或通过 MQTT 远程下发闹钟时间。</li>
+      <li><strong>温控输出</strong>：温度超阈值时通过继电器控制风扇/加湿器，演化为简易恒温系统。</li>
+      <li><strong>语音播报</strong>：增加 SYN6288 等语音合成模块，整点报时或按键操作语音反馈。</li>
+      <li><strong>OLED 显示</strong>：替换数码管为 0.96" OLED（SSD1306，I2C 接口），支持中文与图标显示。</li>
+    </ul>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>本章以多功能数字钟为综合项目，串联定时器中断、数码管、按键、DS18B20、蜂鸣器等模块，体现 STC89C52RC 典型应用系统设计。</li>
+        <li>硬件设计先列元件清单再画框图与接线表，确保接线清晰可追溯。</li>
+        <li>软件采用"前后台架构"：T0 中断做高频任务（扫描、消抖、计时），主循环做低频任务（采温、闹钟、显示更新）。</li>
+        <li>关键模块包括显示扫描、DS18B20 单总线时序、闹钟判断逻辑，代码遵循模块化、可读性优先原则。</li>
+        <li>AI 辅助工具（TRAE、Copilot）可加速代码编写与 Bug 排查，但需结合硬件仪器独立验证。</li>
+        <li>扩展方向涵盖日历、EEPROM 存储、Wi-Fi 联网、温控输出、语音播报等，可作为课程设计或毕业设计选题。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>简述"前后台架构"的分工原则，哪些任务适合放在中断？哪些适合放在主循环？</li>
+        <li>数码管动态扫描的刷新率如何计算？刷新率过低或过高各有什么现象？</li>
+        <li>DS18B20 读温度出现 85℃，请分析可能原因并给出排查步骤。</li>
+        <li>在本章综合实验基础上，若要增加年月日显示，硬件和软件应做哪些改动？</li>
+        <li>讨论：在 STC89C52RC 裸机开发中，如何合理使用 AI 辅助工具提升开发效率而不丧失独立工程能力？</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>张毅刚. 单片机原理及应用——C51 编程 + Proteus 仿真（第 4 版）[M]. 北京：高等教育出版社, 2021.</li>
+        <li>STC 官方. STC89C52RC 数据手册 [Z]. 2024. https://www.stcmcudata.com/</li>
+        <li>Maxim Integrated. DS18B20 Programmable Resolution 1-Wire Digital Thermometer Datasheet [Z]. 2019.</li>
+        <li>郭天祥. 新概念 51 单片机 C 语言教程 [M]. 北京：电子工业出版社, 2018.</li>
+        <li>何立民. 单片机高级教程——应用与设计（第 3 版）[M]. 北京：北京航空航天大学出版社, 2018.</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/chapters/part2-stc89c52rc/ch11-display-interface.html" class="prev">← 第 11 章 显示与接口</a>
+      <a href="/index.html" class="home">返回首页</a>
+      <a href="/chapters/part3-stm32f407/ch13-stm32-overview.html" class="next">第 13 章 STM32 概述 →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

@@ -1,0 +1,810 @@
+/* ==========================================================================
+   《单片机原理及应用》智慧课程在线教程 - 全局样式
+   深绿技术风  主色 #2d6a4f
+   ========================================================================== */
+
+:root {
+  --color-primary: #2d6a4f;
+  --color-primary-dark: #1b4332;
+  --color-primary-light: #52b788;
+  --color-accent: #95d5b2;
+  --color-bg: #f8f9fa;
+  --color-surface: #ffffff;
+  --color-text: #212529;
+  --color-text-light: #6c757d;
+  --color-code-bg: #1e1e1e;
+  --color-code-text: #d4d4d4;
+  --color-border: #dee2e6;
+  --color-warning: #d97706;
+  --color-tip: #0ea5e9;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --radius: 8px;
+  --navbar-h: 56px;
+  --sidebar-w: 350px;
+}
+
+/* ---------- Reset & Base ---------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+               "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.2;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+a:hover { color: var(--color-primary-dark); text-decoration: underline; }
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  line-height: 1.4;
+  margin-top: 1.8em;
+  margin-bottom: 0.8em;
+}
+h1 { font-size: 1.9em; border-bottom: 3px solid var(--color-primary); padding-bottom: 0.3em; margin-top: 0; }
+h2 { font-size: 1.45em; border-bottom: 1px solid var(--color-border); padding-bottom: 0.2em; }
+h3 { font-size: 1.2em; }
+h4 { font-size: 1.05em; color: var(--color-text); }
+
+p { margin: 0.8em 0; }
+
+ul, ol { padding-left: 1.6em; }
+li { margin: 0.3em 0; }
+
+img { max-width: 100%; height: auto; }
+
+blockquote {
+  margin: 1.2em 0;
+  padding: 0.6em 1.2em;
+  border-left: 4px solid var(--color-primary-light);
+  background: var(--color-bg);
+  color: var(--color-text-light);
+  border-radius: 0 4px 4px 0;
+}
+
+hr { border: none; border-top: 1px solid var(--color-border); margin: 2em 0; }
+
+/* ---------- 顶部导航栏 ---------- */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--navbar-h);
+  background: var(--color-primary-dark);
+  color: #fff;
+  z-index: 100;
+  box-shadow: var(--shadow-md);
+}
+.nav-container {
+  max-width: 1600px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 1.2em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  color: #fff;
+  font-size: 1.1em;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.nav-logo:hover { color: var(--color-accent); text-decoration: none; }
+.nav-menu { display: flex; gap: 0.4em; }
+.nav-menu a {
+  color: #d1fae5;
+  padding: 0.4em 0.9em;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
+.nav-menu a:hover,
+.nav-menu a.active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  text-decoration: none;
+}
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.4em;
+  cursor: pointer;
+  padding: 0.2em 0.5em;
+}
+
+/* ---------- 布局 ---------- */
+.layout {
+  display: flex;
+  max-width: 1600px;
+  margin: var(--navbar-h) auto 0;
+  min-height: calc(100vh - var(--navbar-h));
+}
+
+/* ---------- 左侧目录 ---------- */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  position: sticky;
+  top: var(--navbar-h);
+  height: calc(100vh - var(--navbar-h));
+  overflow-y: auto;
+  padding: 1.2em 0.6em;
+}
+.sidebar-title {
+  font-size: 0.85em;
+  color: var(--color-text-light);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0 0.6em 0.4em;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 0.4em;
+}
+.sidebar-nav { font-size: 0.92em; }
+.sidebar-part {
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  padding: 0.6em 0.6em 0.2em;
+  margin-top: 0.4em;
+  font-size: 0.95em;
+}
+.sidebar-part:first-child { margin-top: 0; }
+.sidebar-link {
+  display: block;
+  padding: 0.35em 0.8em 0.35em 1.4em;
+  color: var(--color-text);
+  border-radius: 4px;
+  border-left: 3px solid transparent;
+  line-height: 1.5;
+}
+.sidebar-link:hover {
+  background: var(--color-bg);
+  text-decoration: none;
+  color: var(--color-primary-dark);
+}
+.sidebar-link.active {
+  background: rgba(82, 183, 136, 0.15);
+  border-left-color: var(--color-primary);
+  color: var(--color-primary-dark);
+  font-weight: 500;
+}
+.sidebar-close {
+  display: none;
+  position: absolute;
+  top: 0.5em;
+  right: 0.8em;
+  font-size: 1.4em;
+  color: var(--color-text-light);
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+/* ---------- 侧边栏四级折叠（篇 → 章 → 节 → 小节） ---------- */
+/* 由 main.js 中 initSidebarNav() 在已有扁平结构上重建生成 */
+.nav-part {
+  margin-top: 0.3em;
+}
+.nav-part:first-child { margin-top: 0; }
+
+.part-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  width: 100%;
+  padding: 0.55em 0.6em 0.25em;
+  background: none;
+  border: none;
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  font-size: 0.95em;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 4px;
+  font-family: inherit;
+}
+.part-toggle:hover {
+  background: var(--color-bg);
+}
+.part-toggle .caret {
+  display: inline-block;
+  width: 0.9em;
+  font-size: 0.85em;
+  color: var(--color-text-light);
+  text-align: center;
+  transition: transform 0.15s ease;
+}
+.part-toggle .part-title {
+  flex: 1;
+}
+
+.part-children {
+  /* 容器：篇下的章列表，缩进以体现层级关系 */
+  padding-left: 0.8em;
+  border-left: 1px solid var(--color-border-light, #e0e0e0);
+  margin-left: 0.4em;
+}
+.part-children[hidden] { display: none; }
+
+/* 当前章节容器：含可折叠的节/小节子树 */
+.nav-chapter.current {
+  margin: 0.15em 0;
+}
+.chapter-row {
+  display: flex;
+  align-items: stretch;
+}
+.chapter-row .sidebar-link {
+  flex: 1;
+  /* 覆盖默认 padding，留出右侧 caret 空间 */
+  padding-right: 0.5em;
+}
+.chapter-toggle {
+  background: none;
+  border: none;
+  border-left: 1px solid var(--color-border);
+  padding: 0 0.55em;
+  cursor: pointer;
+  color: var(--color-text-light);
+  font-size: 0.85em;
+  font-family: inherit;
+  border-radius: 0 4px 4px 0;
+  transition: background 0.15s, color 0.15s;
+}
+.chapter-toggle:hover {
+  color: var(--color-primary);
+  background: var(--color-bg);
+}
+.chapter-toggle .caret {
+  display: inline-block;
+  width: 0.9em;
+  text-align: center;
+  transition: transform 0.15s ease;
+}
+.chapter-sections {
+  margin-left: 1.4em;
+  padding: 0.15em 0 0.3em 0.4em;
+  border-left: 2px solid var(--color-border);
+}
+.chapter-sections[hidden] { display: none; }
+
+/* 第 3 级：节 (§x.x) */
+.sidebar-section {
+  display: block;
+  padding: 0.22em 0.5em 0.22em 0.7em;
+  color: var(--color-text);
+  font-size: 0.9em;
+  line-height: 1.45;
+  border-radius: 4px;
+  border-left: 2px solid transparent;
+}
+.sidebar-section:hover {
+  background: var(--color-bg);
+  color: var(--color-primary-dark);
+  text-decoration: none;
+  border-left-color: var(--color-primary-light);
+}
+.sidebar-section.active {
+  background: rgba(82, 183, 136, 0.15);
+  border-left-color: var(--color-primary);
+  color: var(--color-primary-dark);
+  font-weight: 500;
+}
+
+/* 第 4 级：小节 (§x.x.x) */
+.sidebar-subsection {
+  display: block;
+  padding: 0.18em 0.5em 0.18em 1.5em;
+  color: var(--color-text-light);
+  font-size: 0.86em;
+  line-height: 1.4;
+  border-radius: 4px;
+}
+.sidebar-subsection:hover {
+  color: var(--color-primary-dark);
+  text-decoration: none;
+  background: var(--color-bg);
+}
+.sidebar-subsection.active {
+  background: rgba(82, 183, 136, 0.12);
+  color: var(--color-primary-dark);
+  font-weight: 500;
+}
+
+/* ---------- 主内容区 ---------- */
+.content {
+  flex: 1;
+  min-width: 0;
+  padding: 2em 2.4em 4em;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 面包屑 */
+.breadcrumb {
+  font-size: 0.88em;
+  color: var(--color-text-light);
+  padding: 0 0 1em;
+  margin-bottom: 1em;
+}
+.breadcrumb a { color: var(--color-text-light); }
+.breadcrumb a:hover { color: var(--color-primary); }
+.breadcrumb span { color: var(--color-text); }
+
+/* 学习目标 / 小结 / 习题 / 参考文献盒子 */
+.objectives,
+.summary,
+.exercises,
+.references {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-primary);
+  border-radius: var(--radius);
+  padding: 1em 1.4em;
+  margin: 1.6em 0;
+  box-shadow: var(--shadow-sm);
+}
+.objectives h2,
+.summary h2,
+.exercises h2,
+.references h2 {
+  border: none;
+  margin-top: 0;
+  color: var(--color-primary-dark);
+  font-size: 1.15em;
+}
+.objectives { border-left-color: var(--color-tip); }
+.exercises  { border-left-color: var(--color-warning); }
+.references { border-left-color: var(--color-text-light); }
+.references ol { font-size: 0.92em; color: var(--color-text-light); }
+
+/* 提示框 */
+.tip, .note, .warning {
+  margin: 1.2em 0;
+  padding: 0.8em 1.2em;
+  border-radius: var(--radius);
+  font-size: 0.95em;
+}
+.tip     { background: #ecfdf5; border-left: 4px solid var(--color-primary-light); }
+.note    { background: #f0f9ff; border-left: 4px solid var(--color-tip); }
+.warning { background: #fffbeb; border-left: 4px solid var(--color-warning); }
+.tip strong, .note strong, .warning strong { color: var(--color-primary-dark); }
+
+/* ---------- 代码块 ---------- */
+pre[class*="language-"],
+pre code {
+  background: var(--color-code-bg) !important;
+  color: var(--color-code-text);
+  font-family: "JetBrains Mono", "Fira Code", Consolas, "Courier New", monospace;
+  font-size: 0.88em;
+  border-radius: var(--radius);
+}
+pre[class*="language-"] {
+  margin: 1.2em 0;
+  padding: 1em 1.2em;
+  overflow-x: auto;
+  position: relative;
+  border: 1px solid #333;
+}
+pre[class*="language-"] code { padding: 0; background: transparent !important; }
+
+.code-block-wrapper {
+  position: relative;
+  margin: 1.2em 0;
+}
+.code-block-wrapper pre { margin: 0; }
+.copy-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #d1d5db;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 0.78em;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s, background 0.2s;
+}
+.code-block-wrapper:hover .copy-btn { opacity: 1; }
+.copy-btn:hover { background: rgba(255, 255, 255, 0.2); color: #fff; }
+.copy-btn.copied { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+
+/* 行内代码 */
+:not(pre) > code {
+  background: rgba(45, 106, 79, 0.08);
+  color: var(--color-primary-dark);
+  padding: 0.1em 0.4em;
+  border-radius: 3px;
+  font-size: 0.9em;
+  font-family: "JetBrains Mono", Consolas, monospace;
+}
+
+/* ---------- 表格（三线表） ---------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.4em 0;
+  font-size: 0.94em;
+  background: var(--color-surface);
+}
+table thead { border-top: 2px solid var(--color-text); border-bottom: 1px solid var(--color-text); }
+table th {
+  text-align: left;
+  padding: 0.7em 1em;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+}
+table td { padding: 0.6em 1em; border-bottom: 1px solid var(--color-border); }
+table tbody tr:last-child td { border-bottom: 2px solid var(--color-text); }
+table tbody tr:hover { background: var(--color-bg); }
+
+/* ---------- SFR 二维映射表专用样式 ---------- */
+/* 用于表 4-1、表 4-2 等 17 列地址映射表：
+   - table-layout: fixed 固定列宽，避免单字符列被挤压
+   - 缩小 padding 和字号以容纳 16 个数据列
+   - 第一列（行表头）加宽并高亮，左上角用双行文字明确指示方向 */
+table.sfr-map {
+  table-layout: fixed;
+  font-size: 0.82em;
+  margin: 1.4em 0;
+}
+table.sfr-map th,
+table.sfr-map td {
+  padding: 0.4em 0.25em;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* 第一列：行表头（高 4 位 8~F），加宽并高亮 */
+table.sfr-map th:first-child,
+table.sfr-map td:first-child {
+  width: 4em;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  background: rgba(45, 106, 79, 0.06);
+  text-align: center;
+}
+/* 左上角标识单元格：分两行显示，上方"低 4 位 →"指向横向表头，
+   下方"↓ 高 4 位"指向纵向表头，中间用细分隔线 */
+table.sfr-map thead th.corner {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-text);
+  font-weight: 400;
+  font-size: 0.92em;
+  line-height: 1.25;
+  padding: 0.25em 0.2em;
+  vertical-align: middle;
+}
+table.sfr-map thead th.corner .axis-low {
+  display: block;
+  font-size: 0.92em;
+  font-weight: 500;
+  color: var(--color-primary);
+  padding-bottom: 0.2em;
+  border-bottom: 1px dashed var(--color-border);
+  margin-bottom: 0.2em;
+  text-align: right;
+}
+table.sfr-map thead th.corner .axis-high {
+  display: block;
+  font-size: 0.92em;
+  font-weight: 500;
+  color: var(--color-primary);
+  text-align: left;
+}
+/* 列表头（0~F）样式 */
+table.sfr-map thead th:not(.corner) {
+  background: rgba(45, 106, 79, 0.04);
+  color: var(--color-primary-dark);
+}
+/* 数据单元格中的 ▲ 标记上色 */
+table.sfr-map td strong { color: var(--color-primary); }
+table.sfr-map td .ext-mark { color: var(--color-warning); font-size: 0.85em; }
+/* "—"占位符淡化 */
+table.sfr-map td.empty { color: var(--color-text-light); opacity: 0.4; }
+
+/* ---------- Mermaid ---------- */
+.mermaid {
+  text-align: center;
+  margin: 1.6em 0;
+  background: var(--color-surface);
+  padding: 1.2em;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+}
+.figure-caption {
+  text-align: center;
+  color: var(--color-text-light);
+  font-size: 0.9em;
+  margin-top: -0.6em;
+  margin-bottom: 1.4em;
+}
+
+/* ---------- PlantUML 图与图名/表名居中 ---------- */
+.plantuml-figure {
+  text-align: center;
+  margin: 1.6em 0;
+}
+.plantuml-figure .plantuml-img {
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+}
+.plantuml-figure .figure-caption {
+  margin-top: 0.6em;
+}
+/* 表名/图名标题段落居中 */
+.table-caption,
+.figure-title {
+  text-align: center;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  margin: 1.6em 0 0.6em;
+}
+/* 表格本身居中（非 100% 宽度的表格）*/
+table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---------- 章节上下导航 ---------- */
+.chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3em;
+  padding-top: 1.4em;
+  border-top: 1px solid var(--color-border);
+  gap: 1em;
+}
+.chapter-nav a {
+  padding: 0.5em 1em;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  font-size: 0.92em;
+}
+.chapter-nav a:hover { border-color: var(--color-primary); background: var(--color-bg); text-decoration: none; }
+.chapter-nav .home { color: var(--color-primary); }
+
+/* ---------- 返回顶部 ---------- */
+.back-to-top {
+  position: fixed;
+  bottom: 2em;
+  right: 2em;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  font-size: 1.3em;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s;
+  z-index: 90;
+}
+.back-to-top.show { opacity: 1; visibility: visible; }
+.back-to-top:hover { background: var(--color-primary-dark); transform: translateY(-2px); }
+
+/* ---------- 遮罩（移动端侧边栏打开时） ---------- */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 95;
+}
+.overlay.show { display: block; }
+
+/* ==========================================================================
+   主页（index.html）专用样式
+   ========================================================================== */
+.hero {
+  background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+  color: #fff;
+  padding: 4em 2em;
+  text-align: center;
+  margin-bottom: 2em;
+}
+.hero h1 {
+  color: #fff;
+  border: none;
+  font-size: 2.6em;
+  margin-bottom: 0.3em;
+}
+.hero .subtitle { font-size: 1.2em; color: var(--color-accent); margin-bottom: 0.6em; }
+.hero .meta { font-size: 0.95em; color: #d1fae5; }
+.hero .badges { margin-top: 1.4em; display: flex; gap: 0.6em; justify-content: center; flex-wrap: wrap; }
+.hero .badge {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 0.3em 0.9em;
+  border-radius: 20px;
+  font-size: 0.85em;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.6em 3em;
+}
+
+.section-title {
+  font-size: 1.6em;
+  color: var(--color-primary-dark);
+  margin: 2em 0 1em;
+  padding-bottom: 0.3em;
+  border-bottom: 2px solid var(--color-primary-light);
+}
+
+.intro-text { font-size: 1.02em; line-height: 1.9; }
+
+/* 目录列表样式（无卡片框） */
+.toc { list-style: none; padding: 0; margin: 0; }
+.toc-part {
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  font-size: 1.1em;
+  margin: 1.4em 0 0.4em;
+  padding-left: 0.2em;
+  border-left: 4px solid var(--color-primary);
+  padding-left: 0.6em;
+}
+.toc-chapter {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.toc-chapter li { margin: 0; }
+.toc-chapter a {
+  display: block;
+  padding: 0.5em 0.8em 0.5em 1.4em;
+  color: var(--color-text);
+  border-radius: 4px;
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+}
+.toc-chapter a:hover {
+  background: var(--color-bg);
+  border-left-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  text-decoration: none;
+}
+.toc-chapter a .ch-num {
+  display: inline-block;
+  min-width: 7em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  color: var(--color-text-light);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.9em;
+}
+
+/* 快速入口 */
+.quick-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1em;
+  margin: 1.4em 0;
+}
+.quick-link {
+  display: block;
+  padding: 1.2em 1.4em;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-primary);
+  border-radius: var(--radius);
+  color: var(--color-text);
+  transition: all 0.15s;
+}
+.quick-link:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  text-decoration: none;
+  color: var(--color-primary-dark);
+}
+.quick-link .ql-title {
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  font-size: 1.05em;
+}
+.quick-link .ql-desc { color: var(--color-text-light); font-size: 0.9em; margin-top: 0.2em; }
+
+/* 课程信息表格 */
+.info-table { max-width: 700px; }
+
+/* 页脚 */
+.footer {
+  background: var(--color-primary-dark);
+  color: #d1fae5;
+  padding: 2em 1.6em;
+  text-align: center;
+  font-size: 0.9em;
+  margin-top: 2em;
+}
+.footer a { color: var(--color-accent); }
+.footer a:hover { color: #fff; }
+
+/* ==========================================================================
+   响应式
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .content { padding: 1.6em 1.4em 3em; }
+}
+
+@media (max-width: 900px) {
+  :root { --sidebar-w: 260px; }
+  .nav-menu { display: none; }
+  .nav-menu.show {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: var(--navbar-h);
+    left: 0; right: 0;
+    background: var(--color-primary-dark);
+    padding: 0.6em;
+    gap: 0.2em;
+  }
+  .nav-toggle { display: block; }
+
+  .sidebar {
+    position: fixed;
+    top: var(--navbar-h);
+    left: 0;
+    bottom: 0;
+    z-index: 96;
+    transform: translateX(-100%);
+    transition: transform 0.25s;
+    width: var(--sidebar-w);
+    box-shadow: var(--shadow-md);
+  }
+  .sidebar.show { transform: translateX(0); }
+  .sidebar-close { display: block; }
+  .content { padding: 1.2em 1em 3em; }
+  .hero { padding: 2.5em 1.2em; }
+  .hero h1 { font-size: 1.9em; }
+}
+
+@media (max-width: 600px) {
+  body { font-size: 15px; }
+  .quick-links { grid-template-columns: 1fr; }
+  .chapter-nav { flex-wrap: wrap; }
+  .chapter-nav .home { order: -1; }
+}
+
+/* ==========================================================================
+   打印样式
+   ========================================================================== */
+@media print {
+  .navbar, .sidebar, .back-to-top, .overlay, .chapter-nav,
+  .copy-btn, .nav-toggle, .sidebar-close { display: none !important; }
+  .layout { display: block; }
+  .content { max-width: 100%; padding: 0; }
+  body { background: #fff; color: #000; font-size: 12pt; }
+  h1 { page-break-after: avoid; }
+  pre, table, .mermaid { page-break-inside: avoid; }
+  a { color: #000; text-decoration: underline; }
+}

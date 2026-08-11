@@ -1,0 +1,551 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第4章 MCS-51 单片机体系结构 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link active" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 2 篇 STC &gt; <span>第 4 章 MCS-51 单片机体系结构</span>
+    </div>
+
+    <h1>第 4 章 MCS-51 单片机体系结构</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>掌握 MCS-51 单片机的内部结构组成与各功能模块的作用</li>
+        <li>熟悉 CPU 内核寄存器组（A、B、PSW、PC、DPTR、SP）的功能与使用</li>
+        <li>理解哈佛存储器结构，掌握程序存储器、数据存储器与特殊功能寄存器（SFR）的地址映射</li>
+        <li>掌握四个并行 I/O 端口（P0/P1/P2/P3）的结构特点与准双向口工作原理</li>
+        <li>理解时钟周期、机器周期、指令周期的关系，掌握复位电路与低功耗模式的配置</li>
+      </ul>
+    </div>
+
+    <h2>4.1 MCS-51 内部结构框图</h2>
+    <p>MCS-51 系列单片机（Microcontroller System-51）是 Intel 公司于 1980 年推出的 8 位单片机体系结构，其内核（8051 Core）至今仍是工业控制与教学领域的基础平台。STC 8位单片机是宏晶科技（STC）在标准 8051 内核基础上推出的增强型产品，完全兼容 MCS-51 指令集，并在片内资源、看门狗、EEPROM 等方面做了扩展。</p>
+
+    <p>MCS-51 的内部结构按功能可分为以下模块：8 位 CPU 内核、程序存储器（ROM/Flash）、数据存储器（RAM）、特殊功能寄存器组（SFR）、4 个 8 位并行 I/O 端口（P0/P1/P2/P3）、2 个 16 位定时器/计数器（T0/T1）、5 源 2 级中断系统、1 个全双工串行口（UART）、时钟与复位电路。各模块通过内部 8 位数据总线和 16 位地址总线互联，构成完整的单片微型计算机系统。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch04-mcs51-architecture-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+left to right direction
+component "MCS-51 内部结构" as A
+component "8 位 CPU 内核\nALU + 寄存器组" as B
+component "程序存储器 ROM\n64KB 最大寻址" as C
+component "数据存储器 RAM\n低 128B + 高 128B/SFR" as D
+component "4 个并行 I/O 端口\nP0/P1/P2/P3" as E
+component "2 个定时器/计数器\nT0/T1 16 位" as F
+component "中断系统\n5 源 2 级优先级" as G
+component "全双工串行口\nUART" as H
+component "时钟与复位电路\n振荡器 + 复位逻辑" as I
+component "内部总线\n8 位数据 + 16 位地址" as J
+A --&gt; B
+A --&gt; C
+A --&gt; D
+A --&gt; E
+A --&gt; F
+A --&gt; G
+A --&gt; H
+A --&gt; I
+B --&gt; J
+C --&gt; J
+D --&gt; J
+E --&gt; J
+F --&gt; J
+G --&gt; J
+H --&gt; J
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 4-1 MCS-51 单片机内部结构框图</div>
+
+    <p>从图中可以看出，CPU 内核是整个芯片的核心，它通过内部总线访问所有外设和存储器。这种"总线+模块"的架构是理解单片机工作的关键：所有对外设的操作本质上都是对特定地址的读写。后续章节中，对定时器、串口、中断的编程，都是通过读写对应的 SFR 寄存器实现的。</p>
+
+    <h3>4.1.1 特殊功能寄存器（SFR）二维映射表</h3>
+    <p>特殊功能寄存器（Special Function Register，SFR）位于内部 RAM 的 80H~FFH 共 128 字节地址区间，是控制片内外设、反映外设状态的"控制面板"。MCS-51（8052）定义了 26 个 SFR，STC89C52RC 在此基础上扩展了 10 个增强型 SFR（辅助寄存器、看门狗、ISP/IAP、P4 端口等），共 36 个。下面以经典教材常用的二维表形式给出两者对比：纵向为地址高 4 位（8~F），横向为地址低 4 位（0~F），单元格中填入该地址对应的寄存器名。</p>
+
+    <p class="table-caption"><strong>表 4-1 MCS-51（8052）标准 SFR 二维映射表（共 26 个）</strong></p>
+    <table class="sfr-map">
+      <thead>
+        <tr>
+          <th class="corner"><span class="axis-low">低 4 位 →</span><span class="axis-high">↓ 高 4 位</span></th>
+          <th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>8</td><td><strong>P0</strong></td><td>SP</td><td>DPL</td><td>DPH</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td>PCON</td><td><strong>TCON</strong></td><td>TMOD</td><td>TL0</td><td>TL1</td><td>TH0</td><td>TH1</td><td class="empty">—</td><td class="empty">—</td></tr>
+        <tr><td>9</td><td><strong>P1</strong></td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td><strong>SCON</strong></td><td>SBUF</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+        <tr><td>A</td><td><strong>P2</strong></td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td><strong>IE</strong></td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+        <tr><td>B</td><td><strong>P3</strong></td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td><strong>IP</strong></td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+        <tr><td>C</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td><strong>T2CON</strong></td><td class="empty">—</td><td>RCAP2L</td><td>RCAP2H</td><td>TL2</td><td>TH2</td><td class="empty">—</td><td class="empty">—</td></tr>
+        <tr><td>D</td><td><strong>PSW</strong></td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+        <tr><td>E</td><td><strong>ACC</strong></td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+        <tr><td>F</td><td><strong>B</strong></td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+      </tbody>
+    </table>
+    <p class="note"><strong>读表说明</strong>：① 表中"<strong>粗体</strong>"表示该 SFR 字节地址能被 8 整除（末位为 0 或 8），支持位寻址，共 12 个；② "—"表示该地址无 SFR，访问无效；③ 8051（8031/8051 子集）仅有 21 个 SFR，不含 T2CON、RCAP2L/H、TL2、TH2 共 5 个（即 C8~CD 单元均为"—"）。</p>
+
+    <p class="table-caption"><strong>表 4-2 STC89C52RC 完整 SFR 二维映射表（共 36 个，▲ 为 STC 扩展）</strong></p>
+    <table class="sfr-map">
+      <thead>
+        <tr>
+          <th class="corner"><span class="axis-low">低 4 位 →</span><span class="axis-high">↓ 高 4 位</span></th>
+          <th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>8</td><td><strong>P0</strong></td><td>SP</td><td>DPL</td><td>DPH</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td>PCON</td><td><strong>TCON</strong></td><td>TMOD</td><td>TL0</td><td>TL1</td><td>TH0</td><td>TH1</td><td>AUXR<span class="ext-mark">▲</span></td><td class="empty">—</td></tr>
+        <tr><td>9</td><td><strong>P1</strong></td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td><strong>SCON</strong></td><td>SBUF</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+        <tr><td>A</td><td><strong>P2</strong></td><td class="empty">—</td><td>AUXR1<span class="ext-mark">▲</span></td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td><strong>IE</strong></td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+        <tr><td>B</td><td><strong>P3</strong></td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td><strong>IP</strong></td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+        <tr><td>C</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td><strong>T2CON</strong></td><td class="empty">—</td><td>RCAP2L</td><td>RCAP2H</td><td>TL2</td><td>TH2</td><td class="empty">—</td><td class="empty">—</td></tr>
+        <tr><td>D</td><td><strong>PSW</strong></td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+        <tr><td>E</td><td><strong>ACC</strong></td><td>WDT_CONTR<span class="ext-mark">▲</span></td><td>ISP_DATA<span class="ext-mark">▲</span></td><td>ISP_ADDRH<span class="ext-mark">▲</span></td><td>ISP_ADDRL<span class="ext-mark">▲</span></td><td>ISP_CMD<span class="ext-mark">▲</span></td><td>ISP_TRIG<span class="ext-mark">▲</span></td><td>ISP_CONTR<span class="ext-mark">▲</span></td><td><strong>P4</strong><span class="ext-mark">▲</span></td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+        <tr><td>F</td><td><strong>B</strong></td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td><td class="empty">—</td></tr>
+      </tbody>
+    </table>
+    <p class="note"><strong>读表说明</strong>：① <strong>粗体</strong>表示支持位寻址（STC89C52RC 共 13 个，比 8052 多 1 个 P4）；② "▲"表示 STC 在 8052 基础上扩展的 10 个 SFR；③ STC89C52RC 的 SFR 与高 128 字节 RAM（80H~FFH）地址重叠，但 SFR 用直接寻址访问，高 128B RAM 用间接寻址访问（如 <code>@R0</code>），硬件会自动区分。</p>
+
+    <p class="table-caption"><strong>表 4-3 MCS-51 与 STC89C52RC SFR 差异对比</strong></p>
+    <table>
+      <thead>
+        <tr><th>对比维度</th><th>MCS-51（8052）</th><th>STC89C52RC</th><th>差异说明</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>SFR 总数</td><td>26 个</td><td>36 个</td><td>STC 扩展 10 个</td></tr>
+        <tr><td>位寻址 SFR 数</td><td>12 个</td><td>13 个</td><td>STC 新增 P4（E8H）可位寻址</td></tr>
+        <tr><td>I/O 端口</td><td>P0/P1/P2/P3 共 4 组</td><td>P0/P1/P2/P3/P4 共 5 组</td><td>STC 新增 P4（E8H），仅 LQFP-44/PLCC-44 封装有引脚</td></tr>
+        <tr><td>定时器</td><td>T0、T1、T2 共 3 个</td><td>相同（T0、T1、T2）</td><td>无差异，但 AUXR 可选择 12T/6T 模式影响定时器时钟</td></tr>
+        <tr><td>看门狗</td><td>无（需外接 MAX813 等）</td><td>内置 WDT_CONTR（E1H）</td><td>STC 内置硬件看门狗，溢出时间 4 档可选</td></tr>
+        <tr><td>Flash 在线编程</td><td>无</td><td>内置 ISP/IAP（E2H~E7H 共 6 个 SFR）</td><td>STC 支持串口 ISP 下载与运行时 IAP 自编程</td></tr>
+        <tr><td>双数据指针</td><td>仅 1 个 DPTR（DPL/DPH）</td><td>2 个 DPTR（DPS 切换，由 AUXR1.0 控制）</td><td>STC 双 DPTR 加速外部 RAM 数据块搬运</td></tr>
+        <tr><td>时钟模式</td><td>固定 12T（每机器周期 12 个时钟）</td><td>AUXR 可选 12T 或 6T</td><td>STC 6T 模式下相同晶振下速度倍增</td></tr>
+        <tr><td>复位电路</td><td>需外部 MAX810 等复位芯片</td><td>内置 MAX810 复位电路</td><td>HD/90C 版本外部 20MHz 以下可省外部复位</td></tr>
+        <tr><td>内部 RAM</td><td>8051: 128B；8052: 256B</td><td>512B（256B 标准 + 256B 扩展）</td><td>STC 通过 AUXR.EXTRAM 选择是否使用扩展 256B</td></tr>
+      </tbody>
+    </table>
+
+    <h3>4.1.2 SFR 功能详解</h3>
+    <p>下面对 STC89C52RC 的 36 个 SFR 逐个进行功能介绍，按地址从低到高分组说明。每个 SFR 给出名称、地址、是否位寻址、复位值及核心功能。</p>
+
+    <h4>4.1.2.1 I/O 端口锁存器（P0/P1/P2/P3/P4）</h4>
+    <table>
+      <thead><tr><th>符号</th><th>地址</th><th>位寻址</th><th>复位值</th><th>功能说明</th></tr></thead>
+      <tbody>
+        <tr><td>P0</td><td>80H</td><td>是</td><td>FFH</td><td>P0 端口锁存器。P0 口为开漏输出，作为通用 I/O 需外接上拉电阻；作为外部总线时输出低 8 位地址/数据线（AD0~AD7），无需上拉</td></tr>
+        <tr><td>P1</td><td>90H</td><td>是</td><td>FFH</td><td>P1 端口锁存器。准双向口，复位后为弱上拉输入。P1.0/T2、P1.1/T2EX 可作定时器 2 外部输入，STC 还可作 P4 引脚复用</td></tr>
+        <tr><td>P2</td><td>A0H</td><td>是</td><td>FFH</td><td>P2 端口锁存器。准双向口，访问外部存储器时输出高 8 位地址线（A8~A15）</td></tr>
+        <tr><td>P3</td><td>B0H</td><td>是</td><td>FFH</td><td>P3 端口锁存器。准双向口，每根引脚都有第二功能：P3.0/RXD、P3.1/TXD、P3.2/INT0、P3.3/INT1、P3.4/T0、P3.5/T1、P3.6/WR、P3.7/RD</td></tr>
+        <tr><td>P4<span class="ext-mark">▲</span></td><td>E8H</td><td>是</td><td>FFH</td><td>STC 扩展 P4 端口锁存器。仅 LQFP-44/PLCC-44 封装提供，PDIP-40 封装无 P4 引脚。常用于扩展更多 I/O 或驱动额外外设</td></tr>
+      </tbody>
+    </table>
+
+    <h4>4.1.2.2 CPU 内核寄存器（SP/DPL/DPH/PSW/ACC/B/AUXR1）</h4>
+    <table>
+      <thead><tr><th>符号</th><th>地址</th><th>位寻址</th><th>复位值</th><th>功能说明</th></tr></thead>
+      <tbody>
+        <tr><td>SP</td><td>81H</td><td>否</td><td>07H</td><td>堆栈指针。复位后指向工作寄存器区第 1 组（08H），调用子程序或响应中断时自动入栈 PC 值。建议初始化时改写到 30H 以上以避免占用工作寄存器区</td></tr>
+        <tr><td>DPL</td><td>82H</td><td>否</td><td>00H</td><td>数据指针低字节。与 DPH 组成 16 位 DPTR，用于访问外部 RAM 或 ROM（MOVC/MOVX 指令）</td></tr>
+        <tr><td>DPH</td><td>83H</td><td>否</td><td>00H</td><td>数据指针高字节。STC 提供第 2 个 DPTR（DPTR1），通过 AUXR1.DPS 切换</td></tr>
+        <tr><td>PSW</td><td>D0H</td><td>是</td><td>00H</td><td>程序状态字。8 位含义：<code>CY/AC/F0/RS1/RS0/OV/-/P</code>。CY 进位、AC 半进位、F0 用户位、RS1/RS0 工作寄存器组选择（0~3）、OV 溢出、P 奇偶校验（硬件自动维护）</td></tr>
+        <tr><td>ACC</td><td>E0H</td><td>是</td><td>00H</td><td>累加器 A。绝大多数算术逻辑运算的目的操作数，是 8051 中使用频率最高的寄存器</td></tr>
+        <tr><td>B</td><td>F0H</td><td>是</td><td>00H</td><td>B 寄存器。乘法 MUL AB 时存高 8 位结果，除法 DIV AB 时存余数；其他时候可作通用寄存器</td></tr>
+        <tr><td>AUXR1<span class="ext-mark">▲</span></td><td>A2H</td><td>否</td><td>xxxx xxx0B</td><td>STC 辅助寄存器 1。位 0 为 DPS：DPS=0 选择 DPTR0（DPL/DPH），DPS=1 选择 DPTR1。位 2 为 GF2 通用标志位</td></tr>
+      </tbody>
+    </table>
+
+    <h4>4.1.2.3 定时器/计数器寄存器（TCON/TMOD/TL0/TL1/TH0/TH1/T2CON/RCAP2L/RCAP2H/TL2/TH2）</h4>
+    <table>
+      <thead><tr><th>符号</th><th>地址</th><th>位寻址</th><th>复位值</th><th>功能说明</th></tr></thead>
+      <tbody>
+        <tr><td>TCON</td><td>88H</td><td>是</td><td>00H</td><td>定时器控制寄存器。8 位：<code>TF1/TR1/TF0/TR0/IE1/IT1/IE0/IT0</code>。TFx 溢出标志、TRx 启停控制、IEx 外部中断标志、ITx 触发方式（0 电平/1 下降沿）</td></tr>
+        <tr><td>TMOD</td><td>89H</td><td>否</td><td>00H</td><td>定时器方式寄存器。高 4 位控制 T1，低 4 位控制 T0：<code>GATE/C/T/M1/M0</code>。M1M0=00 方式 0（13 位），01 方式 1（16 位），10 方式 2（8 位自动重装），11 方式 3（仅 T0 拆分双 8 位）</td></tr>
+        <tr><td>TL0</td><td>8AH</td><td>否</td><td>00H</td><td>T0 计数值低字节。方式 1 时与 TH0 组成 16 位计数器</td></tr>
+        <tr><td>TL1</td><td>8BH</td><td>否</td><td>00H</td><td>T1 计数值低字节</td></tr>
+        <tr><td>TH0</td><td>8CH</td><td>否</td><td>00H</td><td>T0 计数值高字节</td></tr>
+        <tr><td>TH1</td><td>8DH</td><td>否</td><td>00H</td><td>T1 计数值高字节</td></tr>
+        <tr><td>T2CON</td><td>C8H</td><td>是</td><td>00H</td><td>T2 控制寄存器。8 位：<code>TF2/EXF2/RCLK/TCLK/EXEN2/TR2/C/T2/CP/RL2</code>。RCLK/TCLK=1 时 T2 作串口波特率发生器；CP/RL2=0 为自动重装模式，CP/RL2=1 为捕获模式</td></tr>
+        <tr><td>RCAP2L</td><td>CAH</td><td>否</td><td>00H</td><td>T2 捕获/重装值低字节。T2EX 引脚下降沿触发捕获，或溢出时自动重装到此值</td></tr>
+        <tr><td>RCAP2H</td><td>CBH</td><td>否</td><td>00H</td><td>T2 捕获/重装值高字节</td></tr>
+        <tr><td>TL2</td><td>CCH</td><td>否</td><td>00H</td><td>T2 计数值低字节</td></tr>
+        <tr><td>TH2</td><td>CDH</td><td>否</td><td>00H</td><td>T2 计数值高字节</td></tr>
+      </tbody>
+    </table>
+
+    <h4>4.1.2.4 串行口寄存器（SCON/SBUF）</h4>
+    <table>
+      <thead><tr><th>符号</th><th>地址</th><th>位寻址</th><th>复位值</th><th>功能说明</th></tr></thead>
+      <tbody>
+        <tr><td>SCON</td><td>98H</td><td>是</td><td>00H</td><td>串口控制寄存器。8 位：<code>SM0/SM1/SM2/REN/TB8/RB8/TI/RI</code>。SM0SM1 选择 4 种工作方式；SM2 多机通信使能；REN 接收使能；TB8/RB8 第 9 位数据；TI/RI 收发中断标志（需软件清零）</td></tr>
+        <tr><td>SBUF</td><td>99H</td><td>否</td><td>不定</td><td>串口数据缓冲器。物理上是两个独立寄存器：写入触发发送寄存器，读取返回接收寄存器，共用同一地址 99H</td></tr>
+      </tbody>
+    </table>
+
+    <h4>4.1.2.5 中断系统寄存器（IE/IP）</h4>
+    <table>
+      <thead><tr><th>符号</th><th>地址</th><th>位寻址</th><th>复位值</th><th>功能说明</th></tr></thead>
+      <tbody>
+        <tr><td>IE</td><td>A8H</td><td>是</td><td>0xx0 0000B</td><td>中断允许寄存器。8 位：<code>EA/-/ET2/ES/ET1/EX1/ET0/EX0</code>。EA 总中断使能（0 全关）；其余分别使能 T2/串口/T1/INT1/T0/INT0</td></tr>
+        <tr><td>IP</td><td>B8H</td><td>是</td><td>xx00 0000B</td><td>中断优先级寄存器。8 位：<code>-/-/PT2/PS/PT1/PX1/PT0/PX0</code>。1 表示高优先级，0 表示低优先级。同级中断按硬件查询顺序响应：INT0→T0→INT1→T1→串口→T2</td></tr>
+      </tbody>
+    </table>
+
+    <h4>4.1.2.6 电源控制寄存器（PCON）</h4>
+    <table>
+      <thead><tr><th>符号</th><th>地址</th><th>位寻址</th><th>复位值</th><th>功能说明</th></tr></thead>
+      <tbody>
+        <tr><td>PCON</td><td>87H</td><td>否</td><td>0xxx xxxxB</td><td>电源控制寄存器。8 位：<code>SMOD/-/-/-/GF1/GF0/PD/IDL</code>。SMOD=1 串口方式 1/3 波特率加倍；PD=1 进入掉电模式（振荡器停振，&lt;0.1μA）；IDL=1 进入空闲模式（CPU 停，外设继续，约 2mA）。GF1/GF0 通用标志位</td></tr>
+      </tbody>
+    </table>
+
+    <h4>4.1.2.7 STC 扩展辅助寄存器（AUXR）</h4>
+    <table>
+      <thead><tr><th>符号</th><th>地址</th><th>位寻址</th><th>复位值</th><th>功能说明</th></tr></thead>
+      <tbody>
+        <tr><td>AUXR<span class="ext-mark">▲</span></td><td>8EH</td><td>否</td><td>00H</td><td>STC 辅助寄存器。关键位：<code>T0x12/T1x12/UART_M0x6/EXTRAM/S1ST2</code>。T0x12/T1x12=0 时定时器 12T 模式，=1 时 1T 模式（速度提升 12 倍）；UART_M0x6=1 时串口方式 0 波特率为 SysClk/6；EXTRAM=1 启用扩展 256B RAM；S1ST2=1 选择 T2 作串口波特率发生器</td></tr>
+      </tbody>
+    </table>
+
+    <h4>4.1.2.8 STC 看门狗寄存器（WDT_CONTR）</h4>
+    <table>
+      <thead><tr><th>符号</th><th>地址</th><th>位寻址</th><th>复位值</th><th>功能说明</th></tr></thead>
+      <tbody>
+        <tr><td>WDT_CONTR<span class="ext-mark">▲</span></td><td>E1H</td><td>否</td><td>0000 0000B</td><td>看门狗控制寄存器。8 位：<code>EN_WDT/CLEAR_WDT/IDLE_WDT/PS2/PS1/PS0</code>。EN_WDT 使能看门狗（一旦使能无法关闭）；CLEAR_WDT 写 1 喂狗；IDLE_WDT=1 时空闲模式也计数；PS2~PS0 选择预分频（000=2 分频 39.3ms，111=256 分频 5027ms @12MHz）</td></tr>
+      </tbody>
+    </table>
+
+    <h4>4.1.2.9 STC ISP/IAP 寄存器（ISP_DATA/ISP_ADDRH/ISP_ADDRL/ISP_CMD/ISP_TRIG/ISP_CONTR）</h4>
+    <table>
+      <thead><tr><th>符号</th><th>地址</th><th>位寻址</th><th>复位值</th><th>功能说明</th></tr></thead>
+      <tbody>
+        <tr><td>ISP_DATA<span class="ext-mark">▲</span></td><td>E2H</td><td>否</td><td>FFH</td><td>ISP/IAP 数据寄存器。读 Flash 时存放读出的字节，写 Flash 时存放待写入的字节</td></tr>
+        <tr><td>ISP_ADDRH<span class="ext-mark">▲</span></td><td>E3H</td><td>否</td><td>00H</td><td>ISP/IAP 地址高字节。与 ISP_ADDRL 组成 16 位 Flash 地址，寻址范围 0000H~FFFFH</td></tr>
+        <tr><td>ISP_ADDRL<span class="ext-mark">▲</span></td><td>E4H</td><td>否</td><td>00H</td><td>ISP/IAP 地址低字节</td></tr>
+        <tr><td>ISP_CMD<span class="ext-mark">▲</span></td><td>E5H</td><td>否</td><td>00H</td><td>ISP/IAP 命令寄存器。低 3 位选择操作：<code>000</code> 待机（无操作）、<code>001</code> 读字节、<code>010</code> 编程（写字节）、<code>011</code> 擦除扇区（512B/扇区）</td></tr>
+        <tr><td>ISP_TRIG<span class="ext-mark">▲</span></td><td>E6H</td><td>否</td><td>xxH</td><td>ISP/IAP 命令触发寄存器。向其写入序列 <code>0x46</code> 再写 <code>0xB9</code> 触发 ISP_CMD 中设定的操作，序列错误则中止</td></tr>
+        <tr><td>ISP_CONTR<span class="ext-mark">▲</span></td><td>E7H</td><td>否</td><td>000x xxxxB</td><td>ISP/IAP 控制寄存器。关键位：<code>ISPEN/SWBS/SWRST/CMD_FAIL</code>。ISPEN=1 使能 ISP/IAP；SWBS=1 软件复位后从 ISP 监控区启动；SWRST=1 触发软件复位；CMD_FAIL=1 表示命令触发序列错误</td></tr>
+      </tbody>
+    </table>
+
+    <p class="tip"><strong>编程要点</strong>：① C51 中通过 <code>sfr</code> 关键字声明 SFR（如 <code>sfr P1 = 0x90;</code>），位寻址 SFR 的某位通过 <code>sbit</code> 声明（如 <code>sbit LED = P1^0;</code> 或 <code>sbit LED = 0x90;</code>）；② Keil C51 自带的 <code>reg52.h</code> 已包含 8052 的 26 个标准 SFR，但 STC 扩展的 10 个 SFR 需用户手动声明或包含 STC 提供的 <code>STC89.h</code> 头文件；③ 凡是涉及 Flash 在线擦写（IAP）的代码，必须保证 ISP_EN=1 且触发序列正确，否则命令失败；④ 看门狗使能后无法关闭，程序必须在溢出前喂狗（写 CLEAR_WDT=1），否则将触发芯片复位。</p>
+
+    <h2>4.2 CPU 与寄存器组</h2>
+    <p>MCS-51 的 CPU 内核由算术逻辑单元（ALU，Arithmetic Logic Unit）和一组工作寄存器组成。ALU 负责执行算术运算（加、减、乘、除）和逻辑运算（与、或、非、异或、移位），而寄存器组则用于暂存操作数、运算结果和 CPU 状态。掌握这些寄存器的功能是编写汇编或 C51 程序的基础。</p>
+
+    <p>MCS-51 的 CPU 内核包含以下关键寄存器：</p>
+    <table>
+      <thead><tr><th>寄存器</th><th>名称</th><th>位数</th><th>功能说明</th></tr></thead>
+      <tbody>
+        <tr><td>A（ACC）</td><td>累加器（Accumulator）</td><td>8 位</td><td>使用频率最高的寄存器，绝大多数算术与逻辑运算的操作数和结果都存放在 A 中</td></tr>
+        <tr><td>B</td><td>B 寄存器</td><td>8 位</td><td>主要用于乘法（MUL AB）和除法（DIV AB）指令，也可作为通用寄存器</td></tr>
+        <tr><td>PSW</td><td>程序状态字（Program Status Word）</td><td>8 位</td><td>存放 ALU 运算结果的状态标志位，如进位 CY、辅助进位 AC、溢出 OV、奇偶 P 等</td></tr>
+        <tr><td>PC</td><td>程序计数器（Program Counter）</td><td>16 位</td><td>存放下一条要执行指令的地址，复位后为 0000H，每取一字节自动加 1</td></tr>
+        <tr><td>DPTR</td><td>数据指针（Data Pointer）</td><td>16 位</td><td>由 DPH（高 8 位）和 DPL（低 8 位）组成，用于访问外部存储器或查表</td></tr>
+        <tr><td>SP</td><td>堆栈指针（Stack Pointer）</td><td>8 位</td><td>指向栈顶地址，复位后为 07H，执行 PUSH/CALL 时自动递增</td></tr>
+        <tr><td>R0~R7</td><td>通用工作寄存器</td><td>8 位 ×8</td><td>分 4 组（由 PSW 中 RS1、RS0 选择），每组 8 个，用于暂存中间变量</td></tr>
+      </tbody>
+    </table>
+
+    <p>其中 PSW（程序状态字）的位定义需要特别记忆，因为它直接影响条件跳转指令的执行。PSW 各位含义如下：CY（bit 7，进位标志）、AC（bit 6，辅助进位）、F0（bit 5，用户标志）、RS1/RS0（bit 4/3，工作寄存器组选择）、OV（bit 2，溢出标志）、F1（bit 1，保留/用户标志）、P（bit 0，奇偶校验位，硬件自动置位）。</p>
+
+    <h2>4.3 存储器结构</h2>
+    <p>MCS-51 采用<strong>哈佛结构（Harvard Architecture）</strong>，即程序存储器和数据存储器独立编址、独立访问，这与 PC 上 x86 处理器采用的冯·诺依曼结构（Von Neumann Architecture）不同。哈佛结构的优势在于取指令和读写数据可以并行进行，提高执行效率；同时程序存储器通常采用只读类型（ROM/Flash），保证代码不易被破坏。</p>
+
+    <h3>4.3.1 程序存储器</h3>
+    <p>MCS-51 的程序存储器（Program Memory）最大可寻址 <strong>64KB</strong>（地址范围 0000H~FFFFH）。对于 STC，片内集成 8KB Flash（地址 0000H~1FFFH），超出部分需外扩。程序存储器中固定保留了两个特殊入口地址：</p>
+    <ul>
+      <li><strong>0000H</strong>：复位向量，CPU 复位后从该地址开始执行第一条指令。</li>
+      <li><strong>0003H</strong>：外部中断 0（INT0）入口，发生 INT0 中断时跳转到此地址。</li>
+      <li><strong>000BHH</strong>：定时器 0 中断入口。</li>
+      <li><strong>0013H</strong>：外部中断 1（INT1）入口。</li>
+      <li><strong>001BH</strong>：定时器 1 中断入口。</li>
+      <li><strong>0023H</strong>：串行口中断入口。</li>
+    </ul>
+    <p>实际编程时，通常在 0000H 处放一条 LJMP 跳转指令，跳到主程序；在各中断入口处也放 LJMP 跳到对应的中断服务函数，避免占用相邻中断入口的空间。</p>
+
+    <h3>4.3.2 数据存储器</h3>
+    <p>数据存储器（Data Memory）分为片内 RAM 和片外 RAM 两部分。标准 8051 片内 RAM 为 128B（00H~7FH），8052/STC 扩展到 256B（00H~FFH）。片内 RAM 按用途分为三个区域：</p>
+    <table>
+      <thead><tr><th>地址范围</th><th>区域</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td>00H~1FH</td><td>工作寄存器区</td><td>4 组 ×8 个 R0~R7 寄存器，由 PSW 中 RS1/RS0 选择</td></tr>
+        <tr><td>20H~2FH</td><td>位寻址区</td><td>16 字节共 128 位，可按位（bit）访问，位地址 00H~7FH</td></tr>
+        <tr><td>30H~7FH</td><td>通用 RAM 区</td><td>80 字节，作为堆栈和普通变量存储</td></tr>
+        <tr><td>80H~FFH</td><td>特殊功能寄存器区（SFR）</td><td>仅 8052/STC 有，与 SFR 地址重叠，需用间接寻址访问</td></tr>
+      </tbody>
+    </table>
+
+    <h3>4.3.3 特殊功能寄存器 SFR</h3>
+    <p>特殊功能寄存器（Special Function Register，SFR）位于内部 RAM 的 80H~FFH 地址区间，用于控制片内各外设的工作方式、反映外设状态。MCS-51 共定义了 21 个 SFR（8052 为 26 个），STC 在此基础上扩展了看门狗、EEPROM 控制等寄存器。常用 SFR 如下表：</p>
+    <table>
+      <thead><tr><th>符号</th><th>地址</th><th>名称</th><th>功能</th></tr></thead>
+      <tbody>
+        <tr><td>P0</td><td>80H</td><td>P0 端口锁存器</td><td>P0 口数据寄存器，可位寻址</td></tr>
+        <tr><td>SP</td><td>81H</td><td>堆栈指针</td><td>指向栈顶单元</td></tr>
+        <tr><td>DPL/DPH</td><td>82H/83H</td><td>数据指针低/高字节</td><td>组成 16 位 DPTR</td></tr>
+        <tr><td>PCON</td><td>87H</td><td>电源控制寄存器</td><td>SMOD（波特率倍增）、IDL/PD（低功耗模式）</td></tr>
+        <tr><td>TCON</td><td>88H</td><td>定时器控制寄存器</td><td>TR0/TR1 启停定时器，IE0/IE1/TF0/TF1 中断标志</td></tr>
+        <tr><td>TMOD</td><td>89H</td><td>定时器方式寄存器</td><td>GATE/C/T/M1/M0 设定 T0/T1 工作方式</td></tr>
+        <tr><td>TL0/TH0</td><td>8AH/8CH</td><td>T0 低/高字节</td><td>定时器 0 计数值</td></tr>
+        <tr><td>TL1/TH1</td><td>8BH/8DH</td><td>T1 低/高字节</td><td>定时器 1 计数值</td></tr>
+        <tr><td>P1</td><td>90H</td><td>P1 端口锁存器</td><td>P1 口数据寄存器</td></tr>
+        <tr><td>SCON</td><td>98H</td><td>串行口控制寄存器</td><td>SM0/SM1/SM2/REN/TB8/RB8/TI/RI</td></tr>
+        <tr><td>SBUF</td><td>99H</td><td>串行数据缓冲器</td><td>发送/接收共用，写入触发发送</td></tr>
+        <tr><td>P2</td><td>A0H</td><td>P2 端口锁存器</td><td>P2 口数据寄存器</td></tr>
+        <tr><td>IE</td><td>A8H</td><td>中断允许寄存器</td><td>EA/ES/ET1/EX1/ET0/EX0 各中断源使能</td></tr>
+        <tr><td>P3</td><td>B0H</td><td>P3 端口锁存器</td><td>P3 口数据寄存器，复用第二功能</td></tr>
+        <tr><td>IP</td><td>B8H</td><td>中断优先级寄存器</td><td>PS/PT1/PX1/PT0/PX0 设定各中断优先级</td></tr>
+        <tr><td>PSW</td><td>D0H</td><td>程序状态字</td><td>CY/AC/F0/RS1/RS0/OV/F1/P</td></tr>
+        <tr><td>ACC</td><td>E0H</td><td>累加器</td><td>即寄存器 A</td></tr>
+        <tr><td>B</td><td>F0H</td><td>B 寄存器</td><td>乘除法辅助寄存器</td></tr>
+      </tbody>
+    </table>
+
+    <p>凡是字节地址能被 8 整除（即地址末位为 0 或 8）的 SFR 支持位寻址，如 P0（80H）、TCON（88H）、P1（90H）、SCON（98H）、P2（A0H）、IE（A8H）、P3（B0H）、IP（B8H）、PSW（D0H）、ACC（E0H）、B（F0H）等，这一点在 C51 中通过 sbit 关键字操作时尤为重要。</p>
+
+    <h2>4.4 并行 I/O 端口结构</h2>
+    <p>MCS-51 共有 4 个 8 位并行 I/O 端口，共 32 根 I/O 引脚，分别记为 P0、P1、P2、P3。每个端口都由一个锁存器（即对应的 SFR）、一个输出驱动器和一个输入缓冲器组成。对端口写数据时，数据被锁存到 SFR 并通过引脚输出；读端口时，读取的是引脚当前的电平（读引脚）或锁存器的值（读锁存器）。</p>
+
+    <table>
+      <thead><tr><th>端口</th><th>结构特点</th><th>驱动能力</th><th>第二功能</th></tr></thead>
+      <tbody>
+        <tr><td>P0</td><td>漏极开路（OD）输出，无内部上拉</td><td>每根 8 个 TTL 负载，可驱动外部总线</td><td>访问外部存储器时作为低 8 位地址/数据复用总线 A/D0~A/D7</td></tr>
+        <tr><td>P1</td><td>准双向口，内部有上拉</td><td>每根 4 个 TTL 负载</td><td>STC 中无第二功能（标准 8051 也无）</td></tr>
+        <tr><td>P2</td><td>准双向口，内部有上拉</td><td>每根 4 个 TTL 负载</td><td>访问外部存储器时作为高 8 位地址总线 A8~A15</td></tr>
+        <tr><td>P3</td><td>准双向口，内部有上拉</td><td>每根 4 个 TTL 负载</td><td>复用为 RXD/TXD/INT0/INT1/T0/T1/WR/RD 等重要功能</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>准双向口（Quasi-Bidirectional Port）</strong>是 P1/P2/P3 的核心特性：作为输出时，向锁存器写 1 则引脚被内部上拉为高电平，写 0 则引脚被拉低；作为输入前，必须先向锁存器写 1，使输出驱动器截止，这样引脚电平才由外部信号决定。这是新手最容易忽略的一点——若不先写 1，引脚会被强行拉低，读到的永远是 0。</p>
+
+    <p>P0 口比较特殊，它没有内部上拉电阻，作为通用 I/O 时需外接上拉电阻（通常 10kΩ）；作为外部总线时则是强推挽输出，能直接驱动外部存储器。在 STC 的最小系统中，若 P0 外接 LED 或按键，务必加外部上拉。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch04-mcs51-architecture-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+left to right direction
+component "准双向口结构" as A
+component "锁存器 D 触发器" as B
+component "上拉场效应管\n弱上拉" as C
+component "下拉场效应管\n强下拉" as D
+component "读引脚缓冲器" as E
+component "读锁存器缓冲器" as F
+A --&gt; B
+A --&gt; C
+A --&gt; D
+A --&gt; E
+A --&gt; F
+B --&gt; D
+B --&gt; C
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 4-2 准双向口内部结构示意</div>
+
+    <h2>4.5 时钟与时序周期</h2>
+    <p>MCS-51 的工作时序以外部振荡器（或内部振荡电路接晶振）产生的时钟信号为基准。理解时序周期的概念对计算延时、配置波特率至关重要。MCS-51 定义了三种基本周期：</p>
+    <ul>
+      <li><strong>振荡周期（Oscillator Period）</strong>：晶振的一个完整周期，是最小的时序单位。若晶振频率为 $f_{osc}$，则振荡周期 $T_{osc} = \frac{1}{f_{osc}}$。</li>
+      <li><strong>机器周期（Machine Cycle）</strong>：MCS-51 规定 12 个振荡周期为 1 个机器周期，即 $T_{machine} = 12 \times T_{osc} = \frac{12}{f_{osc}}$。这是 CPU 完成一次基本操作的时间。</li>
+      <li><strong>指令周期（Instruction Cycle）</strong>：执行一条指令所需的时间，以机器周期为单位。MCS-51 指令周期为 1~4 个机器周期，单周期指令（如 MOV A,Rn）占 1 个机器周期，乘除法指令 MUL/DIV 占 4 个机器周期。</li>
+    </ul>
+
+    <p>以 STC 常用的 11.0592MHz 晶振为例，计算各周期时长：</p>
+    <p>$$T_{osc} = \frac{1}{11.0592 \times 10^6} \approx 90.42 \text{ ns}$$</p>
+    <p>$$T_{machine} = \frac{12}{11.0592 \times 10^6} \approx 1.085 \text{ μs}$$</p>
+    <p>也就是说，在 11.0592MHz 晶振下，1 个机器周期约为 1.085 微秒。这正是软件延时函数的计算依据——若要延时 1ms，约需执行 $\frac{1 \times 10^{-3}}{1.085 \times 10^{-6}} \approx 921$ 个空操作。11.0592MHz 这个频率看似奇怪，其实是为了让串口波特率分频后得到整数值（9600、4800、115200 等），这是嵌入式工程中的经典技巧。</p>
+
+    <div class="tip">
+      <strong>提示</strong>：STC 支持 6T 模式（6 时钟/机器周期），可在 ISP 软件中配置。6T 模式下同样晶振速度提升一倍，但需注意外设时序和功耗变化。教学场景默认使用 12T 模式。
+    </div>
+
+    <h2>4.6 复位与低功耗模式</h2>
+
+    <h3>4.6.1 复位电路</h3>
+    <p>复位（Reset）是单片机上电或运行异常时恢复初始状态的机制。MCS-51 的 RST 引脚（即 P3.4 对应 STC 的 RST 复位脚，第 9 引脚）保持高电平持续 2 个机器周期以上即可触发复位。复位后所有 SFR 恢复为默认值（如 PC=0000H、SP=07H、P0~P3=FFH），但内部 RAM 内容不确定。</p>
+
+    <p>常用的复位电路有两种：上电复位电路（RC 复位）和按键复位电路。上电复位利用电容充电特性，上电瞬间电容两端电压不能突变，RST 为高电平，随电容充电 RST 逐渐下降到低电平，完成复位。按键复位则在 RC 基础上并联一个按键，按下时电容放电，RST 被拉高实现手动复位。</p>
+
+    <h3>4.6.2 低功耗模式</h3>
+    <p>MCS-51 提供两种低功耗模式，由 PCON（电源控制寄存器，地址 87H）的相关位控制：</p>
+    <table>
+      <thead><tr><th>模式</th><th>控制位</th><th>功耗</th><th>唤醒方式</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>待机模式（Idle）</td><td>PCON.0 (IDL)</td><td>约为正常工作时的 1/3</td><td>任一中断或复位</td><td>CPU 时钟停止，但定时器、串口、中断系统继续工作，RAM 和 SFR 内容保持</td></tr>
+        <tr><td>掉电模式（Power Down）</td><td>PCON.1 (PD)</td><td>电流仅数十 μA</td><td>外部中断或复位</td><td>振荡器停止，全部功能停止，仅 RAM 内容保持</td></tr>
+      </tbody>
+    </table>
+
+    <p>进入待机模式可通过指令 <code>PCON |= 0x01;</code> 实现；进入掉电模式通过 <code>PCON |= 0x02;</code> 实现。在电池供电的物联网终端中，合理使用掉电模式能将待机寿命延长数倍。</p>
+
+    <h2>4.7 STC 与标准 8051 的差异</h2>
+    <p>STC 虽然兼容 8051 指令集，但在片内资源、工作电压、ISP 在线编程等方面做了大量增强。下表对比两者的主要差异：</p>
+    <table>
+      <thead><tr><th>对比项</th><th>标准 8051（Intel）</th><th>STC89C52RC</th></tr></thead>
+      <tbody>
+        <tr><td>片内程序存储器</td><td>4KB ROM（8051）/8KB EPROM（8751）</td><td>8KB Flash，支持 ISP/IAP 在线擦写</td></tr>
+        <tr><td>片内 RAM</td><td>128B（8051）/256B（8052）</td><td>512B（低 128B + 高 128B + 256B 扩展 RAM）</td></tr>
+        <tr><td>工作电压</td><td>5V 单电源</td><td>5V（STC89C52RC）/3.3V（STC89LE52RC）</td></tr>
+        <tr><td>最高时钟</td><td>12MHz</td><td>35MHz，支持 12T/6T 模式</td></tr>
+        <tr><td>看门狗</td><td>无</td><td>内置看门狗定时器（WDT），由 WDT_CONTR 寄存器控制</td></tr>
+        <tr><td>EEPROM</td><td>无</td><td>内置 EEPROM（与 Flash 复用），支持 IAP 读写</td></tr>
+        <tr><td>定时器</td><td>T0、T1（8052 含 T2）</td><td>T0、T1、T2（兼容 8052）</td></tr>
+        <tr><td>中断源</td><td>5 个</td><td>8 个（增加 T2、外部中断 2 等）</td></tr>
+        <tr><td>ISP 下载</td><td>需专用编程器</td><td>支持串口 ISP 下载，无需编程器</td></tr>
+        <tr><td>价格</td><td>已停产</td><td>约 2~3 元/片，性价比极高</td></tr>
+      </tbody>
+    </table>
+
+    <p>正是这些增强让 STC 成为国内 51 单片机教学与低端控制的主流芯片：无需专用编程器、内置 EEPROM 可保存关键参数、512B RAM 足够运行中小型程序。后续章节将以 STC 为平台，展开外设编程与综合实验。</p>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>MCS-51 内部由 CPU、程序存储器、数据存储器、4 个并行 I/O 端口、2 个定时器、5 源 2 级中断系统、全双工串口及时钟复位电路组成，通过内部总线互联。</li>
+        <li>CPU 内核的关键寄存器包括累加器 A、B 寄存器、程序状态字 PSW、程序计数器 PC、数据指针 DPTR、堆栈指针 SP 和 4 组工作寄存器 R0~R7。</li>
+        <li>MCS-51 采用哈佛结构：程序存储器最大 64KB；数据存储器片内 128B/256B（STC 为 512B），分为工作寄存器区、位寻址区、通用 RAM 区和 SFR 区。</li>
+        <li>SFR 位于 80H~FFH，控制所有片内外设；地址能被 8 整除的 SFR 支持位寻址，是 C51 中 sbit 操作的基础。</li>
+        <li>4 个 I/O 端口中 P1/P2/P3 为准双向口（输入前须先写 1），P0 为漏极开路需外接上拉；P3 复用为重要的第二功能引脚。</li>
+        <li>时序周期关系：1 机器周期 = 12 振荡周期；11.0592MHz 晶振下 1 机器周期约 1.085μs，是延时与波特率计算的基础。</li>
+        <li>复位需 RST 高电平保持 2 个机器周期以上；待机模式（PCON.0）和掉电模式（PCON.1）可用于降低功耗。</li>
+        <li>STC 兼容 8051 指令集，但 RAM 扩展到 512B、内置看门狗与 EEPROM、支持 ISP 串口下载，性价比远高于已停产的标准 8051。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>画出 MCS-51 的内部结构框图，说明 CPU 通过什么方式访问各外设模块。</li>
+        <li>PSW 寄存器中 RS1、RS0 的作用是什么？若 PSW=08H，当前使用的工作寄存器组是第几组？地址范围是多少？</li>
+        <li>MCS-51 的程序存储器和数据存储器为何要独立编址？这种结构有什么优缺点？</li>
+        <li>什么是准双向口？为什么在将 P1 口某位作为输入前必须先向该位写 1？</li>
+        <li>已知 STC 晶振频率为 11.0592MHz，计算 1 个机器周期的时间，并估算执行 1000 条单周期指令需要多长时间。</li>
+        <li>对比 STC 与标准 8051，列出至少 4 项 STC 的增强功能，并说明这些增强在实际开发中的意义。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>张毅刚. 单片机原理及应用——C51 编程 + Proteus 仿真（第 4 版）[M]. 北京：高等教育出版社, 2021.</li>
+        <li>STC 官方. STC89C52RC 数据手册 [Z]. 2024. https://www.stcmcudata.com/</li>
+        <li>郭天祥. 新概念 51 单片机 C 语言教程 [M]. 北京：电子工业出版社, 2018.</li>
+        <li>何立民. 单片机高级教程——应用与设计（第 3 版）[M]. 北京：北京航空航天大学出版社, 2018.</li>
+        <li>Intel Corporation. MCS-51 Microcontroller Family User's Manual [Z]. 1994.</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/chapters/part1-basics/ch03-hardware-fundamentals.html" class="prev">← 第 3 章 单片机硬件基础</a>
+      <a href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html" class="next">第 5 章 STC 开发环境 →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

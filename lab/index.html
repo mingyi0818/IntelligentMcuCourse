@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实验指导书 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=6">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html" class="active">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+  <main class="content" style="max-width: 1000px;">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; <span>实验指导书</span>
+    </div>
+
+    <h1>实验指导书</h1>
+
+    <p>本实验指导书共 10 个基础实验，覆盖 STC89C52RC 与 STM32F407VET6 双平台，由浅入深，每个实验包含<strong>实验目的、知识点、硬件清单、电路连接、代码框架、调试要点、思考题</strong>七个部分。建议按顺序完成，每个实验对应 1-2 次课时间。</p>
+
+    <div class="tip">
+      <strong>实验平台</strong>：本课程实验同时支持 STC89C52RC 最小系统板（8 位）与 STM32F407VET6 最小系统板（32 位）。前 7 个实验以 STC 为主、STM32 对照；实验 8-10 涉及 ADC/DAC/PWM/I2C 等 STM32 优势外设，以 STM32 为主。
+    </div>
+
+    <h2>实验列表</h2>
+    <table>
+      <thead>
+        <tr><th>编号</th><th>实验名称</th><th>主要平台</th><th>核心知识点</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>实验 1</td><td><a href="/lab/lab01-led-blink.html">LED 闪烁与流水灯</a></td><td>STC + STM32</td><td>GPIO 输出、延时函数</td></tr>
+        <tr><td>实验 2</td><td><a href="/lab/lab02-button-control.html">按键控制与外部中断</a></td><td>STC + STM32</td><td>GPIO 输入、消抖、EXTI</td></tr>
+        <tr><td>实验 3</td><td><a href="/lab/lab03-matrix-keypad.html">矩阵键盘扫描</a></td><td>STC</td><td>行列扫描、线反转</td></tr>
+        <tr><td>实验 4</td><td><a href="/lab/lab04-7seg-display.html">数码管动态显示</a></td><td>STC</td><td>动态扫描、段码/位码</td></tr>
+        <tr><td>实验 5</td><td><a href="/lab/lab05-timer-interrupt.html">定时器中断（秒表）</a></td><td>STC + STM32</td><td>定时器初值、中断服务</td></tr>
+        <tr><td>实验 6</td><td><a href="/lab/lab06-uart-communication.html">串口通信（与 PC 收发）</a></td><td>STC + STM32</td><td>USART 配置、波特率</td></tr>
+        <tr><td>实验 7</td><td><a href="/lab/lab07-lcd1602.html">LCD1602 显示</a></td><td>STC</td><td>LCD 指令、时序、字符显示</td></tr>
+        <tr><td>实验 8</td><td><a href="/lab/lab08-adc-dac.html">ADC 采集与 DAC 输出</a></td><td>STM32</td><td>ADC 配置、DMA、DAC 波形</td></tr>
+        <tr><td>实验 9</td><td><a href="/lab/lab09-pwm-breathing-led.html">PWM 呼吸灯</a></td><td>STM32</td><td>通用定时器、PWM 模式</td></tr>
+        <tr><td>实验 10</td><td><a href="/lab/lab10-i2c-eeprom.html">I2C 读写 EEPROM</a></td><td>STC + STM32</td><td>I2C 协议、AT24C02 读写</td></tr>
+      </tbody>
+    </table>
+
+    <h2>实验报告要求</h2>
+    <ul>
+      <li>每个实验提交一份实验报告，包含：实验目的、硬件连接图（手绘或软件绘制）、关键代码与注释、运行结果照片/截图、问题与解决方法、思考题解答。</li>
+      <li>实验报告模板见 <a href="/resources.html">资源下载</a> 页面。</li>
+      <li>报告提交时间：实验完成后一周内。</li>
+    </ul>
+
+    <h2>实验守则</h2>
+    <ol>
+      <li>实验前预习实验指导书，提前在仿真器或纸面上构思代码。</li>
+      <li>连接电路前先断电，确认电源极性与电压等级后再上电。</li>
+      <li>使用万用表检查关键节点电压，避免短路。</li>
+      <li>烧录程序时先确认芯片型号与串口号正确。</li>
+      <li>实验结束后整理器材，关闭电源。</li>
+    </ol>
+
+    <h2>实验器材清单</h2>
+    <table>
+      <thead>
+        <tr><th>器材</th><th>规格</th><th>数量</th><th>备注</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>STC89C52RC 最小系统板</td><td>USB 转串口、晶振 11.0592 MHz</td><td>1</td><td>含 USB 线</td></tr>
+        <tr><td>STM32F407VET6 最小系统板</td><td>板载 ST-Link 或外接</td><td>1</td><td>含 USB 线</td></tr>
+        <tr><td>ST-Link V2 调试器</td><td>SWD 接口</td><td>1</td><td>STM32 烧录调试</td></tr>
+        <tr><td>面包板与杜邦线</td><td>—</td><td>若干</td><td>搭建外围电路</td></tr>
+        <tr><td>LED 与电阻</td><td>红色/绿色 LED, 220Ω/1kΩ</td><td>若干</td><td>—</td></tr>
+        <tr><td>按键</td><td>4 脚轻触按键</td><td>4-16</td><td>—</td></tr>
+        <tr><td>数码管</td><td>共阴 4 位动态数码管</td><td>1</td><td>—</td></tr>
+        <tr><td>LCD1602</td><td>字符液晶 + PCF8574 I2C 转接板</td><td>1</td><td>—</td></tr>
+        <tr><td>电位器</td><td>10kΩ</td><td>1</td><td>ADC 实验</td></tr>
+        <tr><td>AT24C02</td><td>I2C EEPROM</td><td>1</td><td>—</td></tr>
+        <tr><td>蜂鸣器</td><td>有源/无源</td><td>1</td><td>—</td></tr>
+        <tr><td>万用表</td><td>—</td><td>1</td><td>共用</td></tr>
+      </tbody>
+    </table>
+
+    <nav class="chapter-nav">
+      <a href="/index.html" class="home">← 返回首页</a>
+    </nav>
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实验9 PWM呼吸灯 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=6">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html" class="active">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+  <main class="content" style="max-width: 1000px;">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt;
+      <a href="/lab/index.html">实验指导</a> &gt;
+      <span>实验9 PWM呼吸灯</span>
+    </div>
+
+    <h1>实验9 PWM呼吸灯</h1>
+
+    <p>PWM (Pulse Width Modulation，脉冲宽度调制) 是通过改变脉冲占空比 (Duty Cycle) 来控制平均输出功率的技术。本实验使用 STM32F407 的通用定时器 TIM3 通道 1 (PA6) 输出 PWM，占空比 0-100% 渐变实现 LED 呼吸效果。完整工程源码见 <code>/code/stm32f407/09-pwm-breathing/</code>。</p>
+
+    <h2>一、实验目的</h2>
+    <ul>
+      <li>理解 PWM 原理与占空比、频率、分辨率的关系。</li>
+      <li>掌握 STM32F407 通用定时器的 PWM 输出模式配置。</li>
+      <li>实现呼吸灯效果，理解亮度与占空比的非线性关系。</li>
+      <li>了解 PWM 在电机调速、LED 调光、D/A 输出中的应用。</li>
+    </ul>
+
+    <h2>二、知识点</h2>
+    <ul>
+      <li><strong>PWM 原理</strong>：高电平时间占周期的比例即占空比 $D = t_{high} / T$。平均电压 $V_{avg} = D \times V_{cc}$。占空比 0-100% 对应平均电压 0-Vcc。</li>
+      <li><strong>频率选择</strong>：LED 调光 PWM 频率应高于 100 Hz (避免可见闪烁)，常用 1-10 kHz；电机调速需考虑电机电感，频率 10-20 kHz。</li>
+      <li><strong>分辨率</strong>：占空比调节步数 = ARR + 1。ARR=99 时分辨率 1% (100 级)，ARR=999 时分辨率 0.1% (1000 级)。</li>
+      <li><strong>STM32 PWM 模式</strong>：向上计数模式下，CNT &lt; CCR 时输出有效电平，CNT ≥ CCR 时输出无效电平 (PWM 模式 1)。CCR (Capture/Compare Register) 决定占空比。</li>
+      <li><strong>占空比计算</strong>：$D = CCR / (ARR + 1)$。频率 $f = f_{TIM} / ((PSC+1)(ARR+1))$。</li>
+      <li><strong>呼吸灯非线性</strong>：人眼对亮度感知近似对数，线性增加占空比时中段变化快、两端变化慢。应使用 gamma 校正 (查表) 使亮度变化均匀。</li>
+      <li><strong>视觉暂留与 PWM</strong>：高频 PWM 时人眼只感受平均亮度，无法分辨脉冲，故可平滑调光。</li>
+    </ul>
+
+    <h2>三、硬件清单</h2>
+    <table>
+      <thead>
+        <tr><th>序号</th><th>器材</th><th>规格</th><th>数量</th><th>备注</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>STM32F407VET6 板</td><td>—</td><td>1</td><td>—</td></tr>
+        <tr><td>2</td><td>LED</td><td>3 mm 红</td><td>1</td><td>—</td></tr>
+        <tr><td>3</td><td>限流电阻</td><td>220 Ω</td><td>1</td><td>—</td></tr>
+        <tr><td>4</td><td>示波器</td><td>—</td><td>1</td><td>观察波形 (可选)</td></tr>
+      </tbody>
+    </table>
+
+    <h2>四、电路连接</h2>
+    <p>PA6 (TIM3_CH1) 经 220 Ω 限流电阻接 LED 阳极，LED 阴极接 GND (共阴，高电平点亮)。示波器探头接 PA6 观察 PWM 波形。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/lab09-pwm-breathing-led-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+component "TIM3 CH1" as TIM3
+component "PA6" as PA6
+component "220Ω" as R
+component "LED" as LED
+component "GND" as GND
+component "示波器" as SCOPE
+TIM3 --&gt; PA6 : PWM 输出
+PA6 --&gt; R
+R --&gt; LED
+LED --&gt; GND
+SCOPE .. PA6 : 观察
+@enduml</code></pre>
+  </details>
+</div>
+
+    <p>PWM 波形与占空比示意：</p>
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/lab09-pwm-breathing-led-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+package "占空比 25%" {
+  component "高25%" as A1
+  component "低75%" as A2
+  A1 --&gt; A2
+}
+package "占空比 50%" {
+  component "高50%" as B1
+  component "低50%" as B2
+  B1 --&gt; B2
+}
+package "占空比 75%" {
+  component "高75%" as C1
+  component "低25%" as C2
+  C1 --&gt; C2
+}
+@enduml</code></pre>
+  </details>
+</div>
+
+    <h2>五、代码框架</h2>
+    <p>工程 <code>/code/stm32f407/09-pwm-breathing/main.c</code>。TIM3 时钟 84 MHz，PSC=83 (1 MHz)，ARR=999 (1 kHz，分辨率 0.1%)。</p>
+    <pre><code class="language-c">#include "stm32f4xx_hal.h"
+
+TIM_HandleTypeDef htim3;
+
+void PWM_Init(void) {
+    __HAL_RCC_TIM3_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+
+    /* PA6 复用为 TIM3_CH1 */
+    GPIO_InitTypeDef gpio = {0};
+    gpio.Pin = GPIO_PIN_6;
+    gpio.Mode = GPIO_MODE_AF_PP;
+    gpio.Pull = GPIO_NOPULL;
+    gpio.Speed = GPIO_SPEED_FREQ_LOW;
+    gpio.Alternate = GPIO_AF2_TIM3;     /* PA6 复用 TIM3 */
+    HAL_GPIO_Init(GPIOA, &amp;gpio);
+
+    htim3.Instance = TIM3;
+    htim3.Init.Prescaler = 83;          /* 84MHz/84 = 1MHz */
+    htim3.Init.Period = 999;            /* 1MHz/1000 = 1kHz */
+    htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+    htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+    HAL_TIM_PWM_Init(&amp;htim3);
+
+    /* CH1 PWM 模式 1 */
+    TIM_OC_InitTypeDef oc = {0};
+    oc.OCMode = TIM_OCMODE_PWM1;        /* CNT&lt;CCR 输出高 */
+    oc.Pulse = 0;                       /* 初始占空比 0 */
+    oc.OCPolarity = TIM_OCPOLARITY_HIGH;
+    oc.OCFastMode = TIM_OCFAST_DISABLE;
+    HAL_TIM_PWM_ConfigChannel(&amp;htim3, &amp;oc, TIM_CHANNEL_1);
+    HAL_TIM_PWM_Start(&amp;htim3, TIM_CHANNEL_1);
+}
+
+/* 设置占空比 0-1000 (0.1% 精度) */
+void PWM_SetDuty(uint16_t duty) {
+    if (duty &gt; 1000) duty = 1000;
+    __HAL_TIM_SET_COMPARE(&amp;htim3, TIM_CHANNEL_1, duty);
+}
+
+/* gamma 校正表: 使亮度变化均匀 (人眼对数响应)
+   val 0-255 -> 占空比 0-1000 */
+uint16_t gamma_table[256];
+void Gamma_Table_Init(void) {
+    uint16_t i;
+    for (i = 0; i &lt; 256; i++) {
+        float f = (float)i / 255.0f;
+        /* gamma=2.2 校正 */
+        float g = powf(f, 2.2f);
+        gamma_table[i] = (uint16_t)(g * 1000.0f);
+    }
+}
+
+int main(void) {
+    int16_t brightness = 0;
+    int8_t step = 1;
+
+    HAL_Init();
+    PWM_Init();
+    Gamma_Table_Init();
+
+    while (1) {
+        brightness += step;
+        if (brightness &gt;= 255) { brightness = 255; step = -1; }
+        if (brightness &lt;= 0)   { brightness = 0;   step = 1;  }
+        PWM_SetDuty(gamma_table[brightness]);
+        HAL_Delay(10);   /* 10ms 步进, 全程约 5 s */
+    }
+}</code></pre>
+
+    <h2>六、调试要点</h2>
+    <ul>
+      <li><strong>引脚复用</strong>：PA6 必须配置为复用推挽 (GPIO_MODE_AF_PP) 并指定 Alternate=GPIO_AF2_TIM3，否则无波形。</li>
+      <li><strong>占空比范围</strong>：CCR 取值 0 到 ARR，超过 ARR 持续高电平 (常亮)，等于 0 持续低。</li>
+      <li><strong>频率与分辨率权衡</strong>：频率高则分辨率低 (ARR 小)，需根据应用取舍。1 kHz + 1000 级适合调光。</li>
+      <li><strong>呼吸速度</strong>：步进延时决定呼吸周期。10 ms × 255 步 × 2 (亮暗) ≈ 5 s 一周期。</li>
+      <li><strong>gamma 校正</strong>：未校正时呼吸中段过快、两端停顿；校正后整体均匀。</li>
+      <li><strong>示波器验证</strong>：观察 PA6 波形，确认频率 1 kHz，占空比随 CCR 改变。</li>
+    </ul>
+
+    <h2>七、思考题</h2>
+    <ol>
+      <li>PWM 的占空比与频率分别影响什么？为什么 LED 调光频率一般取 1 kHz 以上？</li>
+      <li>PWM 分辨率 (ARR) 与频率有什么关系？若要同时提高频率与分辨率，应如何调整 PSC？</li>
+      <li>为什么人眼对亮度的感知是非线性的？gamma 校正的作用是什么？</li>
+      <li>PWM 模式 1 与模式 2 有何区别？极性位 (OCPolarity) 翻转后占空比逻辑如何变化？</li>
+      <li>PWM 除了调光还能用于哪些场景？简述 PWM 实现 D/A 输出 (类 DAC) 的原理与所需滤波电路。</li>
+    </ol>
+
+    <nav class="chapter-nav">
+      <a href="/lab/lab08-adc-dac.html" class="prev">← 实验8 ADC采集与DAC输出</a>
+      <a href="/lab/index.html" class="home">返回实验列表</a>
+      <a href="/lab/lab10-i2c-eeprom.html" class="next">实验10 I2C读写EEPROM →</a>
+    </nav>
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+</body>
+</html>

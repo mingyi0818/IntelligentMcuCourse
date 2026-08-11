@@ -1,0 +1,950 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第41章 OpenHarmony 分布式环境监测（STM32F407 多节点） - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link active" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 5 篇 综合项目 &gt; <span>第 41 章 OpenHarmony 分布式环境监测</span>
+    </div>
+
+    <h1>第 41 章 OpenHarmony 分布式环境监测（STM32F407 多节点）</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>理解 OpenHarmony LiteOS-M 在 STM32F407 上的移植与任务调度机制</li>
+        <li>掌握 OpenHarmony 软总线（softbus）的节点发现、服务发布与消息传输流程</li>
+        <li>学会基于 publishService/LookupService API 构建多节点自组网系统</li>
+        <li>掌握 DHT11、光敏电阻、OLED 与 STM32F407 的硬件接线与驱动编写</li>
+        <li>能独立完成多节点分布式环境监测系统的硬件设计、软件开发与联调</li>
+        <li>理解分布式系统中的故障检测、节点动态加入/退出与边缘计算扩展思路</li>
+      </ul>
+    </div>
+
+    <h2>§41.1 项目需求分析</h2>
+    <p>随着智慧城市与物联网技术的发展，环境监测从单点采集逐步走向多节点协同的分布式架构。传统单节点监测系统存在覆盖范围有限、单点故障、数据孤岛等问题。本项目基于 OpenHarmony LiteOS-M 与 STM32F407（拓维 Niobe407 开发板）构建一个多节点分布式环境监测系统，节点之间通过 OpenHarmony 软总线自动发现并组成网络，实现温湿度、光照数据的分布式采集与汇聚上报。</p>
+
+    <h3>§41.1.1 功能需求</h3>
+    <ul>
+      <li><strong>多节点采集</strong>：至少 3 个监测节点，每节点配备 DHT11 温湿度传感器、光敏电阻（如 GL5528）、0.96″ OLED 显示屏。</li>
+      <li><strong>自动发现组网</strong>：节点上电后通过 OpenHarmony 软总线自动发现同网段的其他节点，无需人工配置 IP。</li>
+      <li><strong>数据广播</strong>：每个节点周期性（默认 5 s）将本地采集的温湿度、光照数据通过软总线广播给其他节点。</li>
+      <li><strong>主节点汇聚</strong>：选举一个主节点（Master）汇总所有子节点数据，并通过 ESP8266/W5500 上传至云平台（如华为云 IoT）。</li>
+      <li><strong>本地显示</strong>：每个节点的 OLED 显示本地传感器数据以及网络中其他节点的最新数据摘要。</li>
+      <li><strong>故障检测</strong>：主节点周期性心跳检测，若某子节点超过 30 s 未上报数据则标记为离线，OLED 显示告警。</li>
+      <li><strong>节点动态加入/退出</strong>：新节点上电后自动加入网络；节点掉电或断网后，主节点在心跳超时后更新节点列表。</li>
+    </ul>
+
+    <h3>§41.1.2 分布式系统指标</h3>
+    <table>
+      <thead><tr><th>指标</th><th>要求</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>节点数量</td><td>≥3 个</td><td>可扩展至 10 个，受软总线会话上限约束</td></tr>
+        <tr><td>发现时延</td><td>&lt; 5 s</td><td>新节点上电到被主节点发现的平均时间</td></tr>
+        <tr><td>消息传输时延</td><td>&lt; 200 ms</td><td>同一子网内节点间端到端时延</td></tr>
+        <tr><td>数据上报周期</td><td>5 s</td><td>可配置，最小 1 s</td></tr>
+        <tr><td>心跳超时</td><td>30 s</td><td>连续 6 个周期未收到数据则判离线</td></tr>
+        <tr><td>系统可用性</td><td>99%</td><td>单节点故障不影响整体系统运行</td></tr>
+        <tr><td>主节点切换</td><td>&lt; 10 s</td><td>主节点故障后，子节点重新选举新主节点</td></tr>
+      </tbody>
+    </table>
+
+    <h3>§41.1.3 应用场景</h3>
+    <ul>
+      <li><strong>智慧农业温室</strong>：在多座温室部署节点，统一汇聚到主节点上传云平台，实现温湿度联动控制。</li>
+      <li><strong>机房环境监控</strong>：在机房不同机柜部署节点，监测局部热点与湿度异常。</li>
+      <li><strong>智能楼宇</strong>：在楼层部署节点，监测会议室、办公区光照与温湿度，联动空调与照明。</li>
+      <li><strong>工业厂区</strong>：在车间多点部署节点，监测生产环境是否符合工艺要求。</li>
+    </ul>
+
+    <h2>§41.2 OpenHarmony 软总线原理</h2>
+    <p>OpenHarmony 软总线（softbus）是 OpenHarmony 分布式能力的核心组件，屏蔽了底层网络的异构性（WiFi、以太网、BLE 等），为上层提供统一的设备发现、服务发布与消息传输接口。LiteOS-M 内核下，软总线通过 UDP 广播实现节点发现，TCP 短连接实现消息传输。</p>
+
+    <h3>§41.2.1 软总线架构</h3>
+
+    <h4>§41.2.1.1 分层架构</h4>
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch41-oh-distributed-env-stm32f4-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+skinparam componentStyle rectangle
+skinparam shadowing true
+top to bottom direction
+package "应用层" {
+  component "节点应用\n环境监测业务" as APP1
+}
+package "软总线层" {
+  component "发现模块\nPublishService/LookupService" as DISC
+  component "传输模块\nOpenSession/SendBytes" as TRAN
+  component "认证模块\n设备绑定/可信组网" as AUTH
+  component "会话管理\nSessionServer/Listener" as SESS
+}
+package "网络层" {
+  component "UDP 广播/组播\n节点发现" as UDP
+  component "TCP 长连接\n消息传输" as TCP
+  component "BLE 旁路\n辅助发现" as BLE
+}
+APP1 --&gt; DISC
+APP1 --&gt; TRAN
+DISC --&gt; UDP
+DISC --&gt; BLE
+TRAN --&gt; TCP
+AUTH --&gt; DISC
+SESS --&gt; TRAN
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 41-1 OpenHarmony 软总线分层架构</div>
+
+    <h4>§41.2.1.2 核心模块</h4>
+    <p>软总线核心包含三个模块：</p>
+    <ul>
+      <li><strong>发现模块（Discovery）</strong>：提供 <code>PublishService</code> 发布本地服务、<code>LookupService</code> 发现远端服务的能力，基于 UDP 广播/组播在局域网内同步设备信息。</li>
+      <li><strong>传输模块（Transmission）</strong>：基于 TCP 长连接提供 <code>OpenSession</code>、<code>SendBytes</code>、<code>SendMessage</code> 等接口，支持可靠传输与流式传输。</li>
+      <li><strong>认证模块（Authentication）</strong>：负责设备绑定与可信组网，LiteOS-M 简化版可使用 PIN 码或预置共享密钥。</li>
+    </ul>
+
+    <h3>§41.2.2 节点发现机制</h3>
+
+    <h4>§41.2.2.1 发布订阅模型</h4>
+    <p>节点发现采用"发布—订阅"模型：服务端调用 <code>PublishService</code> 发布一个具备特定 <code>packageName</code> 与 <code>capacity</code> 的服务，客户端调用 <code>LookupService</code> 订阅同 packageName 的服务，发现成功后通过回调返回对端设备 ID 与 IP。流程如下：</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch41-oh-distributed-env-stm32f4-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+participant "节点A（发布方）" as A
+participant "节点B（发现方）" as B
+participant "局域网（UDP）" as N
+A -&gt; N : PublishService(packageName, capacity)
+N --&gt; B : 广播 SERVICE_ONLINE 报文
+B -&gt; B : LookupService 回调 OnDeviceFound
+B -&gt; A : TCP 连接请求（端口由报文携带）
+A --&gt; B : TCP 连接建立
+B -&gt; A : OpenSession + SendBytes 业务数据
+A --&gt; B : SendBytes 回复
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 41-2 节点发现与通信流程</div>
+
+    <h4>§41.2.2.2 发现报文格式</h4>
+    <p>发现报文（简化版）携带字段包括：设备 ID（deviceId）、设备名称（deviceName）、服务包名（packageName）、能力位（capacity）、TCP 监听端口（port）、协议版本（protoVersion）。报文采用 protobuf 或紧凑 TLV 编码，单个报文不超过 512 字节，适配 UDP MTU。</p>
+
+    <h3>§41.2.3 消息传输流程</h3>
+    <p>节点发现成功后，业务数据通过 Session 通道传输。典型流程：</p>
+    <ol>
+      <li>调用 <code>OpenSession</code> 在本地与对端 deviceId 之间建立会话，返回 sessionId。</li>
+      <li>注册 <code>ISessionListener</code> 回调，监听 <code>OnSessionOpened</code>、<code>OnSessionClosed</code>、<code>OnMessageReceived</code>、<code>OnBytesReceived</code> 事件。</li>
+      <li>会话建立后，调用 <code>SendBytes</code> 或 <code>SendMessage</code> 发送序列化后的业务数据。</li>
+      <li>对端通过 <code>OnBytesReceived</code> 回调接收数据，反序列化后供业务处理。</li>
+      <li>会话结束调用 <code>CloseSession</code> 释放资源。</li>
+    </ol>
+
+    <div class="tip">
+      <strong>提示：</strong>LiteOS-M 下的软总线基于 <code>discovery_service</code> 与 <code>trans_service</code> 两个静态库编译，需要在 <code>BUILD.gn</code> 中显式声明依赖。STM32F407 资源有限，建议关闭 BLE 发现旁路，仅保留 WiFi/以太网路径，可节省约 30 KB RAM。
+    </div>
+
+    <h2>§41.3 系统架构设计</h2>
+    <p>系统采用"主从 + 自组网"架构：所有节点地位对等，通过软总线互相发现；运行时通过节点 ID 最小值算法选举一个主节点（Master），负责汇聚数据并上云；其余节点为子节点（Slave），负责本地采集与数据广播。主节点故障后，剩余子节点重新选举，保证系统持续运行。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch41-oh-distributed-env-stm32f4-fig3.svg" alt="PlantUML 图 3" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+skinparam componentStyle rectangle
+skinparam shadowing true
+top to bottom direction
+package "云端" {
+  component "华为云 IoT 平台\nMQTT 接入" as CLOUD
+}
+package "主节点 STM32F407 #1" {
+  component "STM32F407\nLiteOS-M" as M_MCU
+  component "DHT11" as M_DHT
+  component "光敏 GL5528" as M_LDR
+  component "OLED 显示" as M_OLED
+  component "ESP8266/W5500\n上云通道" as M_WIFI
+  M_MCU --&gt; M_DHT
+  M_MCU --&gt; M_LDR
+  M_MCU --&gt; M_OLED
+  M_MCU --&gt; M_WIFI
+}
+package "子节点 STM32F407 #2" {
+  component "STM32F407\nLiteOS-M" as S1_MCU
+  component "DHT11" as S1_DHT
+  component "光敏" as S1_LDR
+  component "OLED" as S1_OLED
+  S1_MCU --&gt; S1_DHT
+  S1_MCU --&gt; S1_LDR
+  S1_MCU --&gt; S1_OLED
+}
+package "子节点 STM32F407 #3" {
+  component "STM32F407\nLiteOS-M" as S2_MCU
+  component "DHT11" as S2_DHT
+  component "光敏" as S2_LDR
+  component "OLED" as S2_OLED
+  S2_MCU --&gt; S2_DHT
+  S2_MCU --&gt; S2_LDR
+  S2_MCU --&gt; S2_OLED
+}
+M_MCU &lt;--&gt; S1_MCU : 软总线 softbus\nUDP 发现 + TCP 传输
+M_MCU &lt;--&gt; S2_MCU : 软总线 softbus
+S1_MCU &lt;..&gt; S2_MCU : 软总线
+M_WIFI --&gt; CLOUD : MQTT/HTTP
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 41-3 多节点分布式环境监测系统架构</div>
+
+    <p>系统软件层次自下而上分为：硬件驱动层（HAL）、内核层（LiteOS-M）、软总线层（softbus）、业务层（环境监测任务）。各层之间通过明确的接口解耦，便于移植与扩展。</p>
+
+    <h2>§41.4 硬件设计</h2>
+    <p>每个节点的硬件配置完全一致，便于角色切换（主/子节点）。主节点额外具备上云通道（ESP8266 或 W5500）。</p>
+
+    <h3>§41.4.1 BOM 清单</h3>
+    <table>
+      <thead><tr><th>序号</th><th>元件</th><th>型号</th><th>数量</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>主控板</td><td>拓维 Niobe407（STM32F407VGT6）</td><td>3</td><td>运行 LiteOS-M 与软总线</td></tr>
+        <tr><td>2</td><td>温湿度传感器</td><td>DHT11</td><td>3</td><td>采集温度与湿度</td></tr>
+        <tr><td>3</td><td>光敏电阻</td><td>GL5528</td><td>3</td><td>采集环境光照强度</td></tr>
+        <tr><td>4</td><td>分压电阻</td><td>10 kΩ 1%</td><td>3</td><td>与光敏电阻组成分压网络</td></tr>
+        <tr><td>5</td><td>OLED 显示屏</td><td>0.96″ SSD1306 I2C</td><td>3</td><td>显示本节点与远端节点数据</td></tr>
+        <tr><td>6</td><td>WiFi 模块</td><td>ESP8266-01S</td><td>1</td><td>主节点上云通道（备选 W5500）</td></tr>
+        <tr><td>7</td><td>以太网模块</td><td>W5500 SPI</td><td>1</td><td>主节点上云通道（备选 ESP8266）</td></tr>
+        <tr><td>8</td><td>状态 LED</td><td>红/绿/蓝三色</td><td>3 套</td><td>指示节点状态（采集/组网/告警）</td></tr>
+        <tr><td>9</td><td>调试串口</td><td>USB-TTL CH340</td><td>1</td><td>日志输出与抓包调试</td></tr>
+        <tr><td>10</td><td>电源</td><td>5V 2A 电源适配器</td><td>3</td><td>节点供电</td></tr>
+      </tbody>
+    </table>
+
+    <h3>§41.4.2 接线表</h3>
+    <p>STM32F407 各引脚分配如下表（以 Niobe407 为例，引脚名称采用 STM32F4 数据手册标注）：</p>
+    <table>
+      <thead><tr><th>模块</th><th>模块引脚</th><th>STM32F407 引脚</th><th>外设/总线</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>DHT11</td><td>DATA</td><td>PG9</td><td>GPIO 输出/输入</td><td>单总线协议，需 4.7 kΩ 上拉</td></tr>
+        <tr><td>GL5528</td><td>分压输出</td><td>PA0</td><td>ADC1_IN0</td><td>10 kΩ 接 GND，光敏接 3.3V</td></tr>
+        <tr><td>OLED SSD1306</td><td>SCL / SDA</td><td>PB8 / PB9</td><td>I2C1</td><td>地址 0x3C，4.7 kΩ 上拉</td></tr>
+        <tr><td>ESP8266</td><td>TX/RX/EN</td><td>PA9/PA10/PA12</td><td>USART1 + GPIO</td><td>主节点上云，AT 指令模式</td></tr>
+        <tr><td>W5500（备选）</td><td>SCK/MISO/MOSI/CS</td><td>PA5/PA6/PA7/PA4</td><td>SPI1</td><td>硬件 TCP/IP 协议栈</td></tr>
+        <tr><td>状态 LED 红/绿/蓝</td><td>+</td><td>PE13/PE14/PE15</td><td>GPIO 推挽输出</td><td>低电平点亮，1 kΩ 限流</td></tr>
+        <tr><td>调试串口</td><td>TX/RX</td><td>PC10/PC11</td><td>UART4</td><td>115200 bps，8N1</td></tr>
+        <tr><td>晶振</td><td>HSE</td><td>OSC_IN/OSC_OUT</td><td>—</td><td>8 MHz + 2×22pF，PLL 倍频 168 MHz</td></tr>
+      </tbody>
+    </table>
+
+    <div class="figure-caption">图 41-4 节点硬件接线示意图（三个节点接线一致，主节点额外接入 ESP8266 或 W5500）</div>
+
+    <h2>§41.5 软件架构与关键代码</h2>
+    <p>软件采用分层设计：底层 HAL 驱动负责传感器与外设读写；中间层 LiteOS-M 提供任务调度与软总线支撑；上层业务任务负责采集、组网、显示与上云。整个系统由 6 个核心任务组成，由 LiteOS-M 调度器并发执行。</p>
+
+    <h3>§41.5.1 任务划分</h3>
+    <table>
+      <thead><tr><th>任务名</th><th>优先级</th><th>栈大小</th><th>职责</th></tr></thead>
+      <tbody>
+        <tr><td>SensorTask</td><td>5</td><td>1024 B</td><td>周期采集 DHT11 与光敏数据，写入本地数据缓冲区</td></tr>
+        <tr><td>SoftbusTask</td><td>4</td><td>2048 B</td><td>调用 PublishService 发布服务，处理发现回调</td></tr>
+        <tr><td>SessionTask</td><td>4</td><td>2048 B</td><td>管理会话，周期性 SendBytes 广播本地数据</td></tr>
+        <tr><td>DisplayTask</td><td>3</td><td>1024 B</td><td>OLED 刷新本地与远端节点数据</td></tr>
+        <tr><td>CloudTask</td><td>3</td><td>2048 B</td><td>仅主节点运行，MQTT 上报到云平台</td></tr>
+        <tr><td>HeartbeatTask</td><td>6</td><td>512 B</td><td>主节点心跳检测，超时标记节点离线</td></tr>
+      </tbody>
+    </table>
+
+    <h3>§41.5.2 软总线通信时序</h3>
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch41-oh-distributed-env-stm32f4-fig4.svg" alt="PlantUML 图 4" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+participant "子节点1" as S1
+participant "子节点2" as S2
+participant "主节点" as M
+participant "云平台" as C
+S1 -&gt; S1 : 上电初始化 + PublishService
+S2 -&gt; S2 : 上电初始化 + PublishService
+M -&gt; M : 上电初始化 + PublishService + LookupService
+M -&gt; S1 : 发现回调 OnDeviceFound
+M -&gt; S2 : 发现回调 OnDeviceFound
+M -&gt; S1 : OpenSession(sessionId=1)
+M -&gt; S2 : OpenSession(sessionId=2)
+loop 每 5s
+  S1 -&gt; M : SendBytes(温湿度/光照 JSON)
+  S2 -&gt; M : SendBytes(温湿度/光照 JSON)
+  M -&gt; S1 : SendBytes(汇聚数据摘要)
+  M -&gt; S2 : SendBytes(汇聚数据摘要)
+end
+M -&gt; C : MQTT 发布主题 /env/data
+M -&gt; M : 心跳检测，超时标记离线
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 41-5 软总线通信时序图</div>
+
+    <h3>§41.5.3 节点初始化与服务发布</h3>
+    <p>节点上电后首先完成硬件初始化、LiteOS-M 内核启动、网络接口（WiFi 或以太网）配置，然后调用软总线 API 发布本地服务并启动发现流程。完整代码位于 <code>/code/stm32f407/oh-distributed-env/softbus_node.c</code>。</p>
+
+    <pre><code class="language-c">/* softbus_node.c - OpenHarmony 软总线节点核心实现 */
+#include "softbus_bus_manager.h"
+#include "softbus_discovery_interface.h"
+#include "softbus_transmission_interface.h"
+#include "cmsis_os.h"
+#include &lt;string.h&gt;
+#include &lt;stdio.h&gt;
+
+#define PKG_NAME        "env.monitor.svc"
+#define SESSION_NAME    "session.env.data"
+#define NODE_CAPACITY   0x01   /* 环境监测能力位 */
+#define NODE_MAX        10
+#define DATA_PERIOD_MS  5000
+#define HEARTBEAT_TIMEOUT_MS 30000
+
+/* 节点信息表 */
+typedef struct {
+    char     deviceId[65];
+    char     deviceName[32];
+    uint32_t lastSeen;       /* 上次收到数据的系统 tick */
+    int      temp_x10;       /* 远端温度 x10 */
+    int      humid_x10;
+    int      light;          /* 光照 ADC 原始值 */
+    bool     online;
+} NodeInfo;
+
+static NodeInfo g_nodes[NODE_MAX];
+static int      g_nodeCount = 0;
+static char     g_localDeviceId[65] = "STM32F407-NODE-0001";
+static bool     g_isMaster = false;
+static int      g_masterScore = 0;   /* 选举得分：deviceId 字典序最小者当选 */
+
+/* 本地传感器数据 */
+typedef struct {
+    int temp_x10;
+    int humid_x10;
+    int light;
+} SensorData;
+static SensorData g_localData = {0};
+
+/* ============ 1. 发现回调 ============ */
+static void OnDeviceFound(const DeviceInfo *device)
+{
+    int i;
+    for (i = 0; i &lt; g_nodeCount; i++) {
+        if (strcmp(g_nodes[i].deviceId, device-&gt;devId) == 0) {
+            g_nodes[i].lastSeen = osKernelSysTick();
+            g_nodes[i].online   = true;
+            return;
+        }
+    }
+    if (g_nodeCount &gt;= NODE_MAX) return;
+    strncpy(g_nodes[g_nodeCount].deviceId,   device-&gt;devId,   sizeof(g_nodes[0].deviceId)-1);
+    strncpy(g_nodes[g_nodeCount].deviceName, device-&gt;devName, sizeof(g_nodes[0].deviceName)-1);
+    g_nodes[g_nodeCount].lastSeen = osKernelSysTick();
+    g_nodes[g_nodeCount].online   = true;
+    g_nodeCount++;
+    printf("[SOFTBUS] New device: %s (%s)\r\n", device-&gt;devId, device-&gt;devName);
+}
+
+static void OnDiscoverResult(int32_t resultCode)
+{
+    printf("[SOFTBUS] LookupService result: %d\r\n", resultCode);
+}
+
+static void OnPublishResult(int32_t resultCode)
+{
+    printf("[SOFTBUS] PublishService result: %d\r\n", resultCode);
+}
+
+/* 发现回调结构体 */
+static IPublishCallback g_publishCb = {
+    .onPublishResult = OnPublishResult
+};
+static IServerListener g_lookupCb = {
+    .OnDeviceFound    = OnDeviceFound,
+    .OnDiscoverResult = OnDiscoverResult
+};
+
+/* ============ 2. 会话回调 ============ */
+static void OnSessionOpened(int sessionId, int result)
+{
+    printf("[SOFTBUS] Session opened: id=%d result=%d\r\n", sessionId, result);
+}
+static void OnSessionClosed(int sessionId)
+{
+    printf("[SOFTBUS] Session closed: id=%d\r\n", sessionId);
+}
+static void OnBytesReceived(int sessionId, const void *data, unsigned int dataLen)
+{
+    const char *json = (const char *)data;
+    char devId[65] = {0};
+    int t, h, l;
+    /* 简化协议：{"dev":"STM32F407-NODE-0002","t":256,"h":580,"l":1234} */
+    if (sscanf(json, "{\"dev\":\"%64[^\"]\",\"t\":%d,\"h\":%d,\"l\":%d}",
+               devId, &amp;t, &amp;h, &amp;l) == 4) {
+        for (int i = 0; i &lt; g_nodeCount; i++) {
+            if (strcmp(g_nodes[i].deviceId, devId) == 0) {
+                g_nodes[i].temp_x10   = t;
+                g_nodes[i].humid_x10  = h;
+                g_nodes[i].light      = l;
+                g_nodes[i].lastSeen   = osKernelSysTick();
+                g_nodes[i].online     = true;
+                break;
+            }
+        }
+    }
+}
+
+static ISessionListener g_sessionCb = {
+    .OnSessionOpened   = OnSessionOpened,
+    .OnSessionClosed   = OnSessionClosed,
+    .OnBytesReceived   = OnBytesReceived
+};
+
+/* ============ 3. 节点初始化 ============ */
+int SoftbusNode_Init(void)
+{
+    /* 3.1 设置本地设备信息 */
+    SetLocalDeviceInfo(g_localDeviceId, "Niobe407-EnvNode", NODE_CAPACITY);
+
+    /* 3.2 注册会话服务端 */
+    if (CreateSessionServer(SESSION_NAME, &amp;g_sessionCb) != 0) {
+        printf("[SOFTBUS] CreateSessionServer failed\r\n");
+        return -1;
+    }
+
+    /* 3.3 发布本地服务，等待其他节点发现 */
+    PublishInfo pub = {
+        .publishId   = 1,
+        .mode        = DISCOVER_MODE_ACTIVE,
+        .medium      = COAP,
+        .freq        = MID,
+        .capability  = PKG_NAME,
+        .capabilityData = "",
+        .dataLength  = 0
+    };
+    if (PublishService(&amp;pub, &amp;g_publishCb) != 0) {
+        printf("[SOFTBUS] PublishService failed\r\n");
+        return -1;
+    }
+
+    /* 3.4 启动远端服务发现 */
+    SubscribeInfo sub = {
+        .subscribeId = 1,
+        .mode        = DISCOVER_MODE_ACTIVE,
+        .medium      = COAP,
+        .freq        = MID,
+        .capability  = PKG_NAME,
+        .capabilityData = "",
+        .dataLength  = 0
+    };
+    if (LookupService(&amp;sub, &amp;g_lookupCb) != 0) {
+        printf("[SOFTBUS] LookupService failed\r\n");
+        return -1;
+    }
+
+    printf("[SOFTBUS] Node init OK, deviceId=%s\r\n", g_localDeviceId);
+    return 0;
+}
+
+/* ============ 4. 数据广播任务 ============ */
+void SoftbusTask(void const *arg)
+{
+    char buf[128];
+    (void)arg;
+    osDelay(2000);   /* 等待软总线初始化完成 */
+    for (;;) {
+        int n = snprintf(buf, sizeof(buf),
+            "{\"dev\":\"%s\",\"t\":%d,\"h\":%d,\"l\":%d}",
+            g_localDeviceId, g_localData.temp_x10,
+            g_localData.humid_x10, g_localData.light);
+        /* 向所有已知会话广播 */
+        for (int sid = 1; sid &lt;= g_nodeCount; sid++) {
+            SendBytes(sid, buf, n);
+        }
+        osDelay(DATA_PERIOD_MS);
+    }
+}
+
+/* ============ 5. 主节点选举（基于 deviceId 字典序最小）============ */
+void MasterElection(void)
+{
+    g_masterScore = strcmp(g_localDeviceId, "STM32F407-NODE-0001") &lt;= 0 ? 0 : 1;
+    for (int i = 0; i &lt; g_nodeCount; i++) {
+        if (strcmp(g_nodes[i].deviceId, g_localDeviceId) &lt; 0) {
+            g_masterScore = 1;   /* 存在 deviceId 更小的节点 */
+            break;
+        }
+    }
+    g_isMaster = (g_masterScore == 0);
+    printf("[ELECT] isMaster=%d\r\n", g_isMaster);
+}
+
+/* ============ 6. 心跳检测任务（仅主节点）============ */
+void HeartbeatTask(void const *arg)
+{
+    (void)arg;
+    for (;;) {
+        uint32_t now = osKernelSysTick();
+        for (int i = 0; i &lt; g_nodeCount; i++) {
+            if (g_nodes[i].online &amp;&amp;
+                (now - g_nodes[i].lastSeen) &gt; HEARTBEAT_TIMEOUT_MS) {
+                g_nodes[i].online = false;
+                printf("[HEART] Node %s offline\r\n", g_nodes[i].deviceId);
+            }
+        }
+        osDelay(5000);
+    }
+}
+</code></pre>
+
+    <h3>§41.5.4 传感器数据序列化与采集</h3>
+
+    <h4>§41.5.4.1 数据序列化与采集任务</h4>
+    <p>传感器数据采用紧凑 JSON 文本格式序列化，便于人类可读与跨平台解析。每帧消息包含设备 ID、温度（×10 整数，避免浮点）、湿度（×10）、光照 ADC 原始值四个字段，整体不超过 80 字节，适合软总线单包传输。</p>
+
+    <pre><code class="language-c">/* sensor_task.c - 传感器采集与本地数据更新 */
+#include "cmsis_os.h"
+#include "dht11.h"
+#include "adc.h"
+#include "softbus_node.h"
+#include &lt;stdio.h&gt;
+
+extern SensorData g_localData;
+
+void SensorTask(void const *arg)
+{
+    (void)arg;
+    DHT11_Init();
+    ADC_Init();
+    osDelay(1000);   /* DHT11 上电稳定 1s */
+    for (;;) {
+        int temp = 0, humid = 0;
+        if (DHT11_Read(&amp;temp, &amp;humid) == 0) {
+            g_localData.temp_x10  = temp;     /* DHT11 库返回 x10 */
+            g_localData.humid_x10 = humid;
+        } else {
+            printf("[SENS] DHT11 read fail\r\n");
+        }
+        g_localData.light = ADC_Read(ADC1, ADC_CHANNEL_0);
+        printf("[SENS] T=%d.%d H=%d.%d L=%d\r\n",
+               temp/10, temp%10, humid/10, humid%10, g_localData.light);
+        osDelay(2000);
+    }
+}
+</code></pre>
+
+    <h4>§41.5.4.2 DHT11 单总线驱动</h4>
+    <p>DHT11 单总线驱动采用 GPIO 模拟时序，关键点在于微秒级时序控制。STM32F407 主频 168 MHz 下，使用 DWT（Data Watchpoint and Trace）周期计数器实现精确延时。</p>
+
+    <pre><code class="language-c">/* dht11.c - DHT11 驱动（基于 STM32 HAL + DWT 微秒延时）*/
+#include "dht11.h"
+#include "stm32f4xx_hal.h"
+
+#define DHT11_PIN       GPIO_PIN_9
+#define DHT11_PORT      GPIOG
+#define DHT11_DLY_US(us)  DWT_Delay_us(us)
+
+static void DWT_Delay_us(uint32_t us)
+{
+    uint32_t start = *DWT_CYCCNT;
+    uint32_t ticks = us * (SystemCoreClock / 1000000);
+    while ((*DWT_CYCCNT - start) &lt; ticks);
+}
+
+void DHT11_Init(void)
+{
+    /* 使能 DWT 周期计数器 */
+    CoreDebug-&gt;DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+    DWT-&gt;CYCCNT = 0;
+    DWT-&gt;CTRL |= DWT_CTRL_CYCCNTENA_Msk;
+}
+
+static void DHT11_SetOutput(void)
+{
+    GPIO_InitTypeDef g = {0};
+    g.Pin   = DHT11_PIN;
+    g.Mode  = GPIO_MODE_OUTPUT_PP;
+    g.Speed = GPIO_SPEED_FREQ_HIGH;
+    HAL_GPIO_Init(DHT11_PORT, &amp;g);
+}
+
+static void DHT11_SetInput(void)
+{
+    GPIO_InitTypeDef g = {0};
+    g.Pin  = DHT11_PIN;
+    g.Mode = GPIO_MODE_INPUT;
+    g.Pull = GPIO_PULLUP;
+    HAL_GPIO_Init(DHT11_PORT, &amp;g);
+}
+
+int DHT11_Read(int *temp_x10, int *humid_x10)
+{
+    uint8_t buf[5] = {0};
+    uint8_t i, j;
+    DHT11_SetOutput();
+    HAL_GPIO_WritePin(DHT11_PORT, DHT11_PIN, GPIO_PIN_RESET);
+    DHT11_DLY_US(20000);   /* 主机拉低 ≥18ms */
+    HAL_GPIO_WritePin(DHT11_PORT, DHT11_PIN, GPIO_PIN_SET);
+    DHT11_DLY_US(30);
+    DHT11_SetInput();
+    /* 等待 DHT11 响应：80us 低 + 80us 高 */
+    while (HAL_GPIO_ReadPin(DHT11_PORT, DHT11_PIN) == GPIO_PIN_SET);
+    while (HAL_GPIO_ReadPin(DHT11_PORT, DHT11_PIN) == GPIO_PIN_RESET);
+    while (HAL_GPIO_ReadPin(DHT11_PORT, DHT11_PIN) == GPIO_PIN_SET);
+    /* 读取 40 bit 数据 */
+    for (i = 0; i &lt; 5; i++) {
+        for (j = 0; j &lt; 8; j++) {
+            while (HAL_GPIO_ReadPin(DHT11_PORT, DHT11_PIN) == GPIO_PIN_RESET);
+            DHT11_DLY_US(40);
+            buf[i] &lt;&lt;= 1;
+            if (HAL_GPIO_ReadPin(DHT11_PORT, DHT11_PIN) == GPIO_PIN_SET) {
+                buf[i] |= 1;
+                while (HAL_GPIO_ReadPin(DHT11_PORT, DHT11_PIN) == GPIO_PIN_SET);
+            }
+        }
+    }
+    /* 校验和 */
+    if (((buf[0]+buf[1]+buf[2]+buf[3]) &amp; 0xFF) != buf[4]) return -1;
+    *humid_x10 = buf[0] * 10 + buf[1];   /* DHT11 整数部分，小数位通常为 0 */
+    *temp_x10  = buf[2] * 10 + buf[3];
+    return 0;
+}
+</code></pre>
+
+    <h3>§41.5.5 OLED 显示任务</h3>
+    <p>OLED 采用 SSD1306 驱动芯片，通过 I2C1 总线与 STM32F407 通信。显示任务每秒刷新一次，分三行显示：本地传感器数据、网络中节点列表摘要、主节点标识与时间戳。</p>
+
+    <pre><code class="language-c">/* display_task.c - OLED 显示 */
+#include "cmsis_os.h"
+#include "ssd1306.h"
+#include "softbus_node.h"
+#include &lt;stdio.h&gt;
+
+extern NodeInfo g_nodes[];
+extern int      g_nodeCount;
+extern bool     g_isMaster;
+extern char     g_localDeviceId[];
+extern SensorData g_localData;
+
+void DisplayTask(void const *arg)
+{
+    (void)arg;
+    SSD1306_Init();
+    SSD1306_Clear();
+    for (;;) {
+        char line[22];
+        SSD1306_Clear();
+        /* 第 1 行：本地数据 */
+        snprintf(line, sizeof(line), "L:%s T:%d.%dC",
+                 g_localDeviceId+12, g_localData.temp_x10/10, g_localData.temp_x10%10);
+        SSD1306_DrawString(0, 0, line, 1);
+        /* 第 2 行：湿度与光照 */
+        snprintf(line, sizeof(line), "H:%d.%d%% L:%d",
+                 g_localData.humid_x10/10, g_localData.humid_x10%10, g_localData.light);
+        SSD1306_DrawString(0, 12, line, 1);
+        /* 第 3 行：远端节点摘要 */
+        snprintf(line, sizeof(line), "Peers:%d %s",
+                 g_nodeCount, g_isMaster ? "[M]" : "[S]");
+        SSD1306_DrawString(0, 24, line, 1);
+        /* 第 4~7 行：每个节点一行 */
+        for (int i = 0; i &lt; g_nodeCount &amp;&amp; i &lt; 4; i++) {
+            snprintf(line, sizeof(line), "%s T:%d.%d %s",
+                     g_nodes[i].deviceName+12,
+                     g_nodes[i].temp_x10/10, g_nodes[i].temp_x10%10,
+                     g_nodes[i].online ? "ON" : "OFF");
+            SSD1306_DrawString(0, 36 + i*8, line, 1);
+        }
+        SSD1306_UpdateScreen();
+        osDelay(1000);
+    }
+}
+</code></pre>
+
+    <h3>§41.5.6 LiteOS-M 任务调度入口</h3>
+    <p>主程序在 <code>main()</code> 中完成 HAL 初始化、系统时钟配置，然后调用 <code>osKernelInitialize()</code> 创建任务并启动调度器。LiteOS-M 的 CMSIS-RTOS 适配层让代码可移植到 FreeRTOS 等其他 RTOS。</p>
+
+    <pre><code class="language-c">/* main.c - LiteOS-M 任务调度入口 */
+#include "stm32f4xx_hal.h"
+#include "cmsis_os.h"
+#include "softbus_node.h"
+
+extern void SensorTask(void const *arg);
+extern void SoftbusTask(void const *arg);
+extern void DisplayTask(void const *arg);
+extern void HeartbeatTask(void const *arg);
+
+int main(void)
+{
+    HAL_Init();
+    SystemClock_Config();
+    MX_GPIO_Init();
+    MX_USART_Init();
+
+    osKernelInitialize();
+    /* 任务创建：栈大小以字节为单位（CMSIS-RTOS v1），优先级数字越大越高 */
+    osThreadDef(Sensor,    SensorTask,    osPriorityAboveNormal, 0, 1024);
+    osThreadDef(Softbus,   SoftbusTask,   osPriorityNormal,      0, 2048);
+    osThreadDef(Display,   DisplayTask,   osPriorityBelowNormal, 0, 1024);
+    osThreadDef(Heartbeat, HeartbeatTask, osPriorityHigh,        0, 512);
+
+    SoftbusNode_Init();   /* 软总线初始化（在任务启动前完成）*/
+    MasterElection();     /* 主节点选举 */
+
+    osThreadCreate(osThread(Sensor),    NULL);
+    osThreadCreate(osThread(Softbus),   NULL);
+    osThreadCreate(osThread(Display),   NULL);
+    if (g_isMaster) {
+        osThreadCreate(osThread(Heartbeat), NULL);
+    }
+
+    osKernelStart();   /* 启动调度器，永不返回 */
+    while (1);
+}
+</code></pre>
+
+    <div class="tip">
+      <strong>提示：</strong>STM32F407 总 RAM 为 192 KB（128 KB 主 SRAM + 64 KB CCM）。LiteOS-M 内核占用约 8 KB，软总线占用约 30 KB，应用任务栈合计约 7 KB，剩余约 140 KB 可用于业务缓冲。CCM 区域不可被 DMA 访问，因此 ESP8266/W5500 的 DMA 缓冲必须放在主 SRAM 中。
+    </div>
+
+    <h2>§41.6 工程构建与调试</h2>
+
+    <h3>§41.6.1 工程结构</h3>
+    <pre><code>oh-distributed-env/
+├── application/
+│   └── env_monitor/
+│       ├── main.c                 # 任务调度入口
+│       ├── softbus_node.c         # 软总线节点实现
+│       ├── sensor_task.c          # 传感器采集任务
+│       ├── display_task.c         # OLED 显示任务
+│       ├── cloud_task.c           # 云端上报任务（仅主节点）
+│       └── BUILD.gn               # 编译脚本
+├── driver/
+│   ├── dht11.c / dht11.h          # DHT11 驱动
+│   ├── ssd1306.c / ssd1306.h      # OLED 驱动
+│   └── adc.c                      # 光敏 ADC 读取
+├── third_party/
+│   └── softbus/                   # OpenHarmony 软总线库
+├── vendor/
+│   └── niobe407/                  # 拓维 Niobe407 板级配置
+├── hb/                            # HarmonyOS Build 命令行工具
+└── README.md                      # 复现指南
+</code></pre>
+
+    <h3>§41.6.2 多节点编译</h3>
+    <p>OpenHarmony LiteOS-M 工程使用 <code>hb</code>（HarmonyOS Build）命令行工具构建。每个节点通过不同的 <code>vendor/niobe407/config.json</code> 中的 <code>device_id</code> 字段区分身份。编译流程：</p>
+    <pre><code># 1. 设置编译环境
+cd oh-distributed-env
+hb set
+# 选择 niobe407 产品
+
+# 2. 修改 device_id（三台节点分别改为 NODE-0001/0002/0003）
+# 编辑 vendor/niobe407/config.json 中 "device_id" 字段
+
+# 3. 编译
+hb build -f
+# 输出：out/niobe407/Hi3861_demo.bin（实际为 STM32F407 固件）
+
+# 4. 烧录（使用 ST-Link + OpenOCD）
+openocd -f interface/stlink.cfg -f target/stm32f4x.cfg \
+        -c "program out/niobe407/Hi3861_demo.bin verify reset exit 0x08000000"
+</code></pre>
+
+    <h3>§41.6.3 软总线抓包</h3>
+    <p>调试软总线问题时，可通过以下方式定位：</p>
+    <ul>
+      <li><strong>UART 日志</strong>：节点调试串口输出 <code>[SOFTBUS]</code> 前缀日志，关注 <code>OnDeviceFound</code>、<code>OnSessionOpened</code>、<code>OnBytesReceived</code> 回调是否触发。</li>
+      <li><strong>Wireshark 抓包</strong>：将节点接入交换机镜像口，过滤 UDP 端口 5683（CoAP）观察发现报文，过滤 TCP 端口 6000+ 观察会话数据。</li>
+      <li><strong>ping 检查</strong>：若节点间无法互相发现，先用 <code>ping</code> 确认 IP 层连通，再检查防火墙是否拦截 UDP 5683 端口。</li>
+      <li><strong>设备 ID 冲突</strong>：若两台节点使用相同 <code>deviceId</code>，软总线会认为同一设备而拒绝建连。务必保证 <code>device_id</code> 全网唯一。</li>
+    </ul>
+
+    <div class="figure-caption">图 41-6 Wireshark 抓包软总线发现报文（UDP 5683，CoAP Option 含 deviceId 与 capacity）</div>
+
+    <h3>§41.6.4 常见问题排查</h3>
+    <table>
+      <thead><tr><th>现象</th><th>可能原因</th><th>解决方案</th></tr></thead>
+      <tbody>
+        <tr><td>节点上电后互相发现不到</td><td>不同子网或防火墙拦截 UDP 5683</td><td>检查节点 IP 是否同网段；关闭防火墙或开放端口</td></tr>
+        <tr><td>会话建立后立即断开</td><td>认证未通过或 device_id 冲突</td><td>检查 device_id 唯一性；关闭 PIN 认证或预置共享密钥</td></tr>
+        <tr><td>SendBytes 返回错误码 12</td><td>会话未开启或对端已离线</td><td>先调用 OpenSession 等待 OnSessionOpened 回调</td></tr>
+        <tr><td>DHT11 读数全 0 或全 255</td><td>上拉电阻缺失或时序错误</td><td>确认 DATA 引脚有 4.7 kΩ 上拉；用逻辑分析仪检查时序</td></tr>
+        <tr><td>OLED 花屏</td><td>I2C 地址错误或刷屏过快</td><td>SSD1306 地址常为 0x3C 或 0x3D；刷屏间隔 ≥1 s</td></tr>
+        <tr><td>主节点上云失败</td><td>ESP8266 未联网或 MQTT 鉴权失败</td><td>先 AT 指令测试 WiFi 联网；核对 MQTT clientId/username/password</td></tr>
+      </tbody>
+    </table>
+
+    <h2>§41.7 扩展方向</h2>
+
+    <h3>§41.7.1 节点动态加入与退出</h3>
+    <p>当前实现支持节点掉电后由主节点心跳超时检测并标记离线，但若网络短暂抖动导致会话中断，可增加"会话重连机制"：在 <code>OnSessionClosed</code> 回调中启动重连定时器，指数退避重试（初始 1 s，最大 30 s），重试成功后恢复数据传输。</p>
+
+    <h3>§41.7.2 Mesh 网络拓扑</h3>
+    <p>软总线默认采用星型拓扑（主节点中心化），在大规模部署时主节点会成为瓶颈。可引入 Mesh 拓扑：节点之间两两建立会话，采用洪泛或路由表方式转发消息。OpenHarmony 3.1+ 提供 <code>TransProxyChannel</code> 代理通道支持多跳转发，但 LiteOS-M 适配仍在社区推进中。</p>
+
+    <h3>§41.7.3 低功耗休眠</h3>
+    <p>对于电池供电的远端节点，可在采集间隔期进入 STOP 模式，由 RTC 唤醒。STM32F407 STOP 模式功耗约 0.5 mA，唤醒后恢复运行约 10 μs。需注意 WiFi/以太网模块需独立控制电源或进入 sleep 模式，否则整体功耗难以降低。</p>
+
+    <h3>§41.7.4 边缘 AI 推理</h3>
+    <p>在主节点部署轻量级异常检测模型，对汇聚的多节点数据流做实时异常检测（如温度突升、光照异常）。STM32F407 算力有限（无 NPU），可使用 CMSIS-NN 部署量化后的 TinyML 模型（&lt;100 KB），推理时延 &lt;100 ms。检测到异常后通过 MQTT 上报告警事件。</p>
+
+    <h3>§41.7.5 时间同步</h3>
+    <p>分布式系统需统一时间基准以便数据对齐。可在主节点通过 NTP 同步云端时间，再通过软总线广播时间戳给子节点；或采用 PTP（IEEE 1588）协议实现微秒级同步，但 STM32F407 需硬件支持 IEEE 1588，本型号不支持，建议软件 NTP 方案。</p>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>分布式环境监测系统采用"主从 + 自组网"架构，节点地位对等、主节点动态选举，保证单点故障下系统持续运行。</li>
+        <li>OpenHarmony 软总线屏蔽底层网络异构性，通过 PublishService/LookupService 实现节点发现，OpenSession/SendBytes 实现可靠消息传输，是构建分布式 IoT 应用的关键中间件。</li>
+        <li>STM32F407 + LiteOS-M 提供足够的算力与内存运行软总线与多任务并发，6 个核心任务（采集/软总线/会话/显示/上云/心跳）协同完成端到端业务。</li>
+        <li>硬件设计强调节点一致性（DHT11 + 光敏 + OLED + WiFi），便于角色切换；主节点额外具备上云通道。</li>
+        <li>调试软总线问题需结合 UART 日志与 Wireshark 抓包，重点关注 UDP 5683 端口的发现报文与 TCP 会话数据。</li>
+        <li>扩展方向涵盖动态重连、Mesh 拓扑、低功耗休眠、边缘 AI 与时间同步，可按场景需求逐步演进。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>简述 OpenHarmony 软总线的三层架构（发现/传输/认证）职责，并说明为什么节点发现使用 UDP 广播而消息传输使用 TCP 长连接。</li>
+        <li>本项目中主节点选举采用"deviceId 字典序最小者当选"算法，分析该算法在节点动态加入/退出时的边界情况，并给出一种改进的选举算法（如 Bully 算法）的思路。</li>
+        <li>修改 <code>SoftbusTask</code>，将数据广播周期从 5 s 改为 1 s，并测量节点 CPU 占用率与网络流量的变化。思考在保持实时性与降低功耗之间如何权衡。</li>
+        <li>设计一个基于 <code>OnSessionClosed</code> 回调的指数退避重连机制，初始重试间隔 1 s，最大 30 s，写出伪代码并分析重连风暴（thundering herd）问题如何避免。</li>
+        <li>本项目的消息格式为紧凑 JSON，若改用 protobuf 编码可节省多少字节？请用 <code>protoc</code> 工具生成 C 代码并对比两种方案的 RAM 占用与解码时延。</li>
+        <li>在主节点部署一个简单的温度异常检测算法（如滑动窗口均值 ±3σ），当某节点温度偏离阈值时通过 MQTT 发布告警。给出算法伪代码与云端订阅主题设计。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>OpenHarmony 社区. 分布式软总线指南 [EB/OL]. 2024. https://gitee.com/openharmony/docs/blob/master/zh-cn/application-dev/communication/dsoftbus-guide.md</li>
+        <li>OpenHarmony 社区. LiteOS-M 内核移植指南 [EB/OL]. 2024. https://gitee.com/openharmony/kernel_liteos_m</li>
+        <li>拓维信息. Niobe407 开发板 OpenHarmony 移植文档 [Z]. 2023. https://gitee.com/openharmony/vendor_talkweb</li>
+        <li>STMicroelectronics. STM32F407 Reference Manual RM0090 [Z]. 2024. https://www.st.com/resource/en/reference_manual/dm00031020.pdf</li>
+        <li>Lamport L. Time, Clocks, and the Ordering of Events in a Distributed System [J]. Communications of the ACM, 1978, 21(7): 558-565.</li>
+        <li>Garcia-Molina H. Elections in a Distributed Computing System [J]. IEEE Transactions on Computers, 1982, C-31(1): 48-59.</li>
+        <li>Zhang Y, et al. Edge Intelligence for IoT: A Survey on Distributed Lightweight Deep Learning [J]. IEEE Internet of Things Journal, 2022, 9(11): 8421-8438.</li>
+        <li>华为云. IoT 设备接入 MQTT 协议参考 [EB/OL]. 2024. https://support.huaweicloud.com/devg-iothub/iot_01_0100.html</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html" class="prev">← 第 40 章 OpenHarmony 智能照明</a>
+      <a href="/index.html" class="home">返回首页</a>
+      <a href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html" class="next">第 42 章 OpenHarmony 智慧农业大棚 →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

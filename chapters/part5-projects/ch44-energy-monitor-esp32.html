@@ -1,0 +1,903 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第44章 智能电能监测（ESP32+PZEM-004T+OTA+Web 仪表盘） - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link active" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 5 篇 综合项目 &gt; <span>第 44 章 智能电能监测</span>
+    </div>
+
+    <h1>第 44 章 智能电能监测（ESP32+PZEM-004T+OTA+Web 仪表盘）</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>理解智慧能源场景下交流电能监测的工程需求与关键指标</li>
+        <li>掌握 PZEM-004T v3.0 模块的 Modbus-RTU 通信协议与电能测量原理</li>
+        <li>学会使用 ESP32 UART2 与 PZEM-004T 通信并解析电压/电流/功率/电能/频率/功率因数</li>
+        <li>掌握基于 ESP32 Arduino Update 库的 OTA 在线升级实现方法</li>
+        <li>能基于 WebServer + Chart.js + SPIFFS 构建实时 Web 仪表盘并存储历史数据</li>
+        <li>理解强电作业的安全规范与互感器隔离原理</li>
+      </ul>
+    </div>
+
+    <div class="tip">
+      <strong>⚠ 强电安全提示（务必遵守）：</strong>本项目涉及 220V 交流市电，<strong>任何接线、改装、互感器安装操作必须在断电情况下进行</strong>，严禁带电作业。PZEM-004T 的电压输入端（L/N）与市电直连，调试时建议使用隔离变压器或漏电保护断路器；电流互感器 CT 安装时先短接二次侧再穿过火线，避免开路高压。学生必须在指导教师监督下完成强电部分接线，实验全程保持干燥环境，禁止单独操作。
+    </div>
+
+    <h2>§44.1 项目需求分析</h2>
+    <p>本项目面向<strong>智慧能源</strong>行业，设计一款基于 ESP32 与 PZEM-004T v3.0 交流电能测量模块的智能电能监测终端，通过 Wi-Fi 实现 Web 仪表盘访问、OTA 远程升级、历史数据存储与统计分析，可作为家庭能耗监测、小型配电柜监测、教学实验装置的原型。</p>
+
+    <h3>§44.1.1 功能需求</h3>
+    <ul>
+      <li><strong>电能参数采集</strong>：实时测量交流电压、电流、有功功率、电能累计、频率、功率因数共 6 项参数，采样周期 ≤ 1s。</li>
+      <li><strong>本地显示</strong>：通过 ESP32 内置 Web 服务器提供 HTML 仪表盘，浏览器访问即可查看实时数据与历史曲线。</li>
+      <li><strong>历史数据存储</strong>：基于 SPIFFS 或 LittleFS 将每分钟一条采样记录写入 Flash，至少可保存 7 天数据。</li>
+      <li><strong>OTA 远程升级</strong>：支持通过浏览器上传 <code>.bin</code> 固件完成在线升级，无需 USB 连接。</li>
+      <li><strong>过载报警</strong>：当电流或功率超过设定阈值（默认 16A / 3500W）时，Web 仪表盘红色高亮，并通过 MQTT/邮件（可选）通知用户。</li>
+      <li><strong>电费估算</strong>：根据用户输入的电价（默认 0.6 元/kWh）实时估算电费累计。</li>
+      <li><strong>时间同步</strong>：通过 NTP 自动同步 UTC+8 时间，历史数据带时间戳。</li>
+    </ul>
+
+    <h3>§44.1.2 智慧能源指标</h3>
+    <p>参考国家电网智能用电采集系统与 IEEE 1459 电能计量标准，本项目应满足以下指标：</p>
+    <table>
+      <thead><tr><th>指标项</th><th>设计目标</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>电压测量范围</td><td>80–260 V AC</td><td>覆盖单相 110V/220V 电网</td></tr>
+        <tr><td>电流测量范围</td><td>0–100 A AC</td><td>外接 100A/50mA 互感器</td></tr>
+        <tr><td>功率测量范围</td><td>0–22 kW</td><td>满足一般家庭总负荷</td></tr>
+        <tr><td>电能累计</td><td>0–9999.99 kWh</td><td>精度 1.0 级</td></tr>
+        <tr><td>频率测量</td><td>45–65 Hz</td><td>分辨率 0.1Hz</td></tr>
+        <tr><td>功率因数</td><td>0–1.0</td><td>分辨率 0.01</td></tr>
+        <tr><td>数据刷新周期</td><td>≤ 1 s</td><td>Web 仪表盘 AJAX 拉取</td></tr>
+        <tr><td>历史数据保留</td><td>≥ 7 天</td><td>SPIFFS 文件存储</td></tr>
+        <tr><td>OTA 升级时间</td><td>&lt; 60 s</td><td>1.3MB 固件</td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption">图 44-1 智能电能监测终端关键性能指标</div>
+
+    <h3>§44.1.3 应用场景</h3>
+    <ul>
+      <li><strong>家庭能耗监测</strong>：安装在配电箱总开关处，实时统计家庭总用电量、识别大功率电器启动事件。</li>
+      <li><strong>教学实验装置</strong>：作为电工电子课程负载监测模块，可视化展示功率因数补偿、谐波影响等概念。</li>
+      <li><strong>小型商铺电费核算</strong>：分时段记录能耗数据，辅助商铺进行峰谷电价优化决策。</li>
+      <li><strong>分布式光伏监测</strong>：监测逆变器输出功率与发电量，评估光伏系统效率。</li>
+      <li><strong>智慧校园</strong>：教室、实验室分路监测，支撑校园能源管理系统（EMS）。</li>
+    </ul>
+
+    <h2>§44.2 系统架构设计</h2>
+    <p>系统采用<strong>"感知—通信—存储—展示—升级"</strong>五层架构，ESP32 作为核心控制器，统一调度各模块。感知层由 PZEM-004T 通过 Modbus-RTU 提供原始电能数据；通信层由 ESP32 Wi-Fi 承担，向上提供 HTTP 服务、向下提供串口通信；存储层使用 SPIFFS 文件系统持久化历史数据；展示层由内置 WebServer 提供 HTML+Chart.js 仪表盘；升级层基于 Arduino Update 库支持 OTA。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch44-energy-monitor-esp32-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+skinparam componentStyle rectangle
+skinparam shadowing true
+top to bottom direction
+component "220V AC 市电" as AC
+component "PZEM-004T v3.0\n电压/电流/功率/电能/PF/频率" as PZEM
+component "ESP32 DevKit\nUART2 GPIO16/17" as ESP32
+component "路由器/AP" as AP
+component "浏览器\nPC/手机" as CLIENT
+component "WebServer :80\n仪表盘" as WEB
+component "OTA 升级" as OTA
+component "Chart.js 实时曲线" as CHART
+component "SPIFFS/LittleFS\nhistory.csv 历史数据" as FS
+component "NTP Server\ntime.windows.com" as NTP
+component "过载报警\n阈值检测" as ALERT
+AC --&gt; PZEM
+PZEM --&gt; ESP32 : Modbus-RTU 9600 8N1
+ESP32 --&gt; AP : Wi-Fi STA
+AP --&gt; CLIENT
+CLIENT --&gt; WEB : HTTP GET /
+CLIENT --&gt; OTA : HTTP POST /update
+WEB --&gt; CHART
+ESP32 --&gt; FS
+ESP32 --&gt; NTP : NTP
+ESP32 --&gt; ALERT
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 44-2 智能电能监测系统总体架构图</div>
+
+    <p>架构设计要点：</p>
+    <ul>
+      <li><strong>分层解耦</strong>：感知、通信、存储、展示、升级各层独立，便于单独替换（例如将 SPIFFS 替换为 SD 卡，或将 WebServer 替换为 MQTT Broker）。</li>
+      <li><strong>双串口设计</strong>：UART0（GPIO1/3）保留给 USB 调试日志，UART2（GPIO16/17）专用于 PZEM-004T 通信，避免冲突。</li>
+      <li><strong>异步任务调度</strong>：采样任务每秒执行，存储任务每分钟执行，OTA 在浏览器上传时触发，互不阻塞。</li>
+      <li><strong>安全隔离</strong>：PZEM-004T 内置光耦与互感器实现强弱电隔离，ESP32 侧全部为低压 TTL 电平。</li>
+    </ul>
+
+    <h2>§44.3 硬件设计</h2>
+    <h3>§44.3.1 BOM 物料清单</h3>
+    <table>
+      <thead><tr><th>序号</th><th>元件名称</th><th>规格</th><th>数量</th><th>用途</th><th>参考单价/元</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>ESP32 DevKit V1</td><td>ESP-WROOM-32，38 引脚，4MB Flash</td><td>1</td><td>主控 MCU + Wi-Fi</td><td>25</td></tr>
+        <tr><td>2</td><td>PZEM-004T v3.0 模块</td><td>AC 80-260V，0-100A，Modbus-RTU</td><td>1</td><td>电能测量</td><td>35</td></tr>
+        <tr><td>3</td><td>电流互感器 CT</td><td>100A/50mA 外接式</td><td>1</td><td>交流电流采样</td><td>15</td></tr>
+        <tr><td>4</td><td>DC-DC 降压模块</td><td>MP1584 或 LM2596，5V 输出</td><td>1</td><td>为 ESP32 供电</td><td>5</td></tr>
+        <tr><td>5</td><td>AC 220V 电源线</td><td>带插头 1.5m² 铜芯</td><td>1</td><td>市电输入</td><td>8</td></tr>
+        <tr><td>6</td><td>接线端子</td><td>2.54mm 螺纹端子，2 位</td><td>4</td><td>市电连接</td><td>2</td></tr>
+        <tr><td>7</td><td>面包板/洞洞板</td><td>7×9cm</td><td>1</td><td>元件承载</td><td>5</td></tr>
+        <tr><td>8</td><td>杜邦线</td><td>母对母 20cm</td><td>10</td><td>低压信号连接</td><td>2</td></tr>
+        <tr><td>9</td><td>漏电保护插头</td><td>30mA 漏电动作</td><td>1</td><td>安全保护</td><td>20</td></tr>
+        <tr><td>10</td><td>外壳</td><td>阻燃 ABS 100×68×50mm</td><td>1</td><td>封装</td><td>10</td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption">图 44-3 智能电能监测终端 BOM 物料清单</div>
+
+    <h3>§44.3.2 接线表</h3>
+    <table>
+      <thead><tr><th>PZEM-004T 端</th><th>ESP32 端</th><th>功能</th><th>备注</th></tr></thead>
+      <tbody>
+        <tr><td>VCC (5V)</td><td>VIN / 5V</td><td>模块供电</td><td>共地</td></tr>
+        <tr><td>GND</td><td>GND</td><td>共地</td><td>—</td></tr>
+        <tr><td>TX</td><td>GPIO16 (RX2)</td><td>PZEM 发送 → ESP32 接收</td><td>交叉连接</td></tr>
+        <tr><td>RX</td><td>GPIO17 (TX2)</td><td>ESP32 发送 → PZEM 接收</td><td>交叉连接</td></tr>
+        <tr><td>L (火线)</td><td>市电 L</td><td>电压采样</td><td>强电</td></tr>
+        <tr><td>N (零线)</td><td>市电 N</td><td>电压采样</td><td>强电</td></tr>
+        <tr><td>CT+ / CT-</td><td>互感器二次侧</td><td>电流采样</td><td>方向不可错</td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption">图 44-4 ESP32 与 PZEM-004T v3.0 接线表</div>
+
+    <h3>§44.3.3 供电设计</h3>
+    <p>整体供电由 220V 市电经 AC-DC 隔离电源模块（5V/2A）输出，同时为 PZEM-004T 与 ESP32 供电。ESP32 工作电流峰值约 240mA（Wi-Fi 发射时），PZEM-004T 工作电流 &lt; 30mA，5V/2A 电源余量充足。需要注意：PZEM-004T v3.0 的 GND 与市电 N 不共地（内置隔离），ESP32 侧 GND 全部为低压侧 GND，避免短路。</p>
+
+    <h2>§44.4 PZEM-004T 通信协议与电能测量原理</h2>
+    <h3>§44.4.1 Modbus-RTU 帧格式</h3>
+    <h4>§44.4.1.1 协议概述与请求帧</h4>
+    <p>PZEM-004T v3.0 使用 Modbus-RTU 协议通过 TTL 串口通信，参数为 9600bps、8 数据位、无校验、1 停止位（8N1），默认从机地址 0x01。所有寄存器均为 16 位，部分参数（电压、电流、功率、电能）占用 2 个寄存器。Modbus-RTU 帧结构如下表：</p>
+
+    <table>
+      <thead><tr><th>字段</th><th>长度</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>从机地址</td><td>1 字节</td><td>默认 0x01，可修改 0x01–0xF7</td></tr>
+        <tr><td>功能码</td><td>1 字节</td><td>0x03 读保持寄存器 / 0x06 写单个寄存器 / 0x10 写多个寄存器</td></tr>
+        <tr><td>起始地址</td><td>2 字节</td><td>大端序</td></tr>
+        <tr><td>寄存器数量</td><td>2 字节</td><td>读取长度</td></tr>
+        <tr><td>CRC16</td><td>2 字节</td><td>低字节在前（小端序）</td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption">图 44-5 Modbus-RTU 请求帧格式</div>
+
+    <h4>§44.4.1.2 响应帧格式</h4>
+    <p>响应帧格式：</p>
+    <table>
+      <thead><tr><th>字段</th><th>长度</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>从机地址</td><td>1 字节</td><td>同请求</td></tr>
+        <tr><td>功能码</td><td>1 字节</td><td>0x03</td></tr>
+        <tr><td>字节计数</td><td>1 字节</td><td>= 寄存器数量 × 2</td></tr>
+        <tr><td>数据</td><td>N 字节</td><td>大端序</td></tr>
+        <tr><td>CRC16</td><td>2 字节</td><td>低字节在前</td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption">图 44-6 Modbus-RTU 响应帧格式</div>
+
+    <h4>§44.4.1.3 寄存器映射</h4>
+    <p>PZEM-004T v3.0 寄存器映射表（关键寄存器）：</p>
+    <table>
+      <thead><tr><th>地址</th><th>参数</th><th>单位</th><th>数据类型</th><th>分辨率</th></tr></thead>
+      <tbody>
+        <tr><td>0x0000</td><td>电压</td><td>V</td><td>uint16</td><td>0.1V</td></tr>
+        <tr><td>0x0001–0x0002</td><td>电流</td><td>A</td><td>uint32</td><td>0.001A</td></tr>
+        <tr><td>0x0003–0x0004</td><td>功率</td><td>W</td><td>uint32</td><td>0.1W</td></tr>
+        <tr><td>0x0005–0x0006</td><td>电能</td><td>kWh</td><td>uint32</td><td>0.001kWh</td></tr>
+        <tr><td>0x0007</td><td>频率</td><td>Hz</td><td>uint16</td><td>0.1Hz</td></tr>
+        <tr><td>0x0008</td><td>功率因数</td><td>—</td><td>uint16</td><td>0.01</td></tr>
+        <tr><td>0x0009</td><td>报警状态</td><td>—</td><td>uint16</td><td>0xFFFF=报警</td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption">图 44-7 PZEM-004T v3.0 寄存器映射表</div>
+
+    <h3>§44.4.2 电压电流互感原理</h3>
+    <h4>§44.4.2.1 互感器原理</h4>
+    <p>PZEM-004T 内部采用两种互感方式实现强弱电隔离：</p>
+    <ul>
+      <li><strong>电压互感</strong>：通过高阻值电阻分压网络将 220V 交流电压衰减至毫伏级，经运算放大器输入 ADC 采样。电压采样精度 0.5%。</li>
+      <li><strong>电流互感器（CT）</strong>：外接 100A/50mA 比例互感器，火线穿过 CT 中心孔，根据电磁感应原理在二次侧产生比例电流，经采样电阻转换为电压信号。变比 = 100A / 0.05A = 2000:1。</li>
+    </ul>
+    <h4>§44.4.2.2 RMS 计算与功率因数</h4>
+    <p>电压、电流同步采样后，通过 RMS（均方根）计算获得有效值：$V_{rms} = \sqrt{\frac{1}{N}\sum_{i=1}^{N}v_i^2}$，同理 $I_{rms}$。有功功率 $P = \frac{1}{N}\sum_{i=1}^{N}v_i \cdot i_i$，功率因数 $PF = P / (V_{rms} \cdot I_{rms})$。电能通过对有功功率时间积分获得：$W = \int_0^T P\, dt$，单位 kWh。</p>
+
+    <h3>§44.4.3 电能累加算法</h3>
+    <p>PZEM-004T 内部维护电能累计寄存器（0x0005–0x0006），每次采样后自动累加：$\Delta W = P \cdot \Delta t / 3600$（kWh）。当寄存器溢出（达到 9999.99kWh）后会自动归零，需要在软件层实现"溢出回绕检测"：当本次读数小于上次读数时，认为发生了一次溢出，应将累计电费加上"满量程 − 上次读数 + 本次读数"的差值。</p>
+
+    <h3>§44.4.4 校准方法</h3>
+    <p>PZEM-004T v3.0 出厂已校准，但若发现读数偏差较大可手动校准：</p>
+    <ol>
+      <li>准备标准源：调压器输出 220V、负载 1kW 标准电阻。</li>
+      <li>读取当前电压/电流/功率，计算偏差百分比。</li>
+      <li>通过功能码 0x10 写入校准寄存器（地址 0x0002 起，参考厂家手册）。</li>
+      <li>重复步骤 2-3 直至偏差 &lt; 1%。</li>
+    </ol>
+    <p>校准操作需谨慎，错误的校准数据会导致测量失效，建议先记录原始校准值。</p>
+
+    <h2>§44.5 软件架构与关键代码</h2>
+    <h3>§44.5.1 任务流程图</h3>
+    <p>软件采用"主循环 + 定时回调"模式，避免阻塞式延时。任务调度通过 <code>millis()</code> 时间片轮询实现：</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch44-energy-monitor-esp32-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+skinparam componentStyle rectangle
+skinparam shadowing true
+top to bottom direction
+usecase "setup" as START
+component "初始化串口 115200 调试" as INIT1
+component "初始化 UART2 9600 与 PZEM" as INIT2
+component "连接 Wi-Fi" as INIT3
+component "NTP 时间同步" as INIT4
+component "挂载 SPIFFS" as INIT5
+component "配置 WebServer 路由" as INIT6
+component "启动 OTA 与 mDNS" as INIT7
+usecase "loop 主循环" as LOOP
+card "每 1s?" as T1
+component "readPZEM 读取电能" as READ
+component "过载检测" as CHECK
+card "每 60s?" as T2
+component "saveHistory 写 SPIFFS" as SAVE
+component "WebServer.handleClient" as WEB
+START --&gt; INIT1
+INIT1 --&gt; INIT2
+INIT2 --&gt; INIT3
+INIT3 --&gt; INIT4
+INIT4 --&gt; INIT5
+INIT5 --&gt; INIT6
+INIT6 --&gt; INIT7
+INIT7 --&gt; LOOP
+LOOP --&gt; T1
+T1 --&gt; READ : 是
+READ --&gt; CHECK
+CHECK --&gt; T2
+T2 --&gt; SAVE : 是
+SAVE --&gt; LOOP
+T1 --&gt; LOOP : 否
+LOOP --&gt; WEB
+WEB --&gt; LOOP
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 44-8 主程序任务流程图</div>
+
+    <h3>§44.5.2 完整 Arduino 代码</h3>
+    <h4>§44.5.2.1 代码框架说明</h4>
+    <p>以下为完整可运行的 Arduino 工程，基于 ESP32 Arduino Core 2.0.x，依赖库：<code>ESPmDNS</code>、<code>WebServer</code>、<code>Update</code>、<code>FS</code>、<code>SPIFFS</code>、<code>WiFi</code>。完整工程位于 <code>/code/esp32/energy-monitor/</code>。</p>
+
+    <pre><code class="language-cpp">#include &lt;Arduino.h&gt;
+#include &lt;WiFi.h&gt;
+#include &lt;WebServer.h&gt;
+#include &lt;ESPmDNS.h&gt;
+#include &lt;Update.h&gt;
+#include &lt;FS.h&gt;
+#include &lt;SPIFFS.h&gt;
+#include &lt;time.h&gt;
+
+/* ============ 用户配置 ============ */
+const char* WIFI_SSID     = "Your-SSID";
+const char* WIFI_PASSWORD = "Your-Password";
+const char* HOST_NAME     = "esp32-energy";
+const float PRICE_PER_KWH = 0.6f;        // 电价（元/kWh）
+const float CURRENT_ALARM = 16.0f;       // 电流报警阈值（A）
+const float POWER_ALARM   = 3500.0f;     // 功率报警阈值（W）
+
+/* ============ PZEM-004T Modbus ============ */
+#define PZEM_ADDR       0x01
+#define PZEM_BAUD       9600
+#define PZEM_READ_REG   0x04      // 输入寄存器读
+#define PZEM_VOLT       0x0000
+#define PZEM_COUNT      10        // 读取 10 个寄存器
+HardwareSerial PZEMSerial(2);     // UART2: GPIO16=RX, GPIO17=TX
+
+/* ============ 全局对象 ============ */
+WebServer server(80);
+
+/* ============ 电能数据结构 ============ */
+struct EnergyData {
+  float voltage;       // V
+  float current;       // A
+  float power;         // W
+  float energy;        // kWh
+  float frequency;     // Hz
+  float pf;            // 0-1
+  float cost;          // 元（累计）
+  bool  alarm;         // 报警标志
+  char  timestamp[25]; // "YYYY-MM-DD HH:MM:SS"
+};
+EnergyData g_data;
+float g_lastEnergy = 0.0f;
+float g_totalCost  = 0.0f;
+
+/* ============ 时间片变量 ============ */
+unsigned long lastSample = 0;
+unsigned long lastSave   = 0;
+const unsigned long SAMPLE_INTERVAL = 1000;   // 1s
+const unsigned long SAVE_INTERVAL   = 60000; // 60s
+
+/* ============ CRC16 (Modbus) ============ */
+uint16_t modbusCRC(const uint8_t* buf, uint8_t len) {
+  uint16_t crc = 0xFFFF;
+  for (uint8_t i = 0; i &lt; len; i++) {
+    crc ^= (uint16_t)buf[i];
+    for (uint8_t b = 0; b &lt; 8; b++) {
+      if (crc &amp; 0x0001) crc = (crc &gt;&gt; 1) ^ 0xA001;
+      else             crc &gt;&gt;= 1;
+    }
+  }
+  return crc;
+}
+
+/* ============ 读取 PZEM-004T ============ */
+bool readPZEM() {
+  uint8_t req[8] = { PZEM_ADDR, 0x04, 0x00, 0x00, 0x00, PZEM_COUNT, 0x00, 0x00 };
+  uint16_t crc = modbusCRC(req, 6);
+  req[6] = crc &amp; 0xFF;
+  req[7] = (crc &gt;&gt; 8) &amp; 0xFF;
+
+  while (PZEMSerial.available()) PZEMSerial.read(); // 清空接收缓冲
+  PZEMSerial.write(req, 8);
+  PZEMSerial.flush();
+
+  // 等待响应：1+1+1+20+2 = 25 字节
+  uint32_t t0 = millis();
+  uint8_t  resp[25];
+  uint8_t  idx = 0;
+  while (millis() - t0 &lt; 200 &amp;&amp; idx &lt; 25) {
+    if (PZEMSerial.available()) resp[idx++] = PZEMSerial.read();
+  }
+  if (idx &lt; 25) return false;
+
+  // CRC 校验
+  uint16_t rxCrc = (resp[24] &lt;&lt; 8) | resp[23];
+  if (modbusCRC(resp, 23) != rxCrc) return false;
+
+  // 解析
+  g_data.voltage   = ((resp[3] &lt;&lt; 8) | resp[4]) * 0.1f;
+  uint32_t curRaw  = ((uint32_t)resp[5] &lt;&lt; 24) | ((uint32_t)resp[6] &lt;&lt; 16)
+                   | ((uint32_t)resp[7] &lt;&lt; 8)  | resp[8];
+  g_data.current   = curRaw * 0.001f;
+  uint32_t pwrRaw  = ((uint32_t)resp[9]  &lt;&lt; 24) | ((uint32_t)resp[10] &lt;&lt; 16)
+                   | ((uint32_t)resp[11] &lt;&lt; 8)  | resp[12];
+  g_data.power     = pwrRaw * 0.1f;
+  uint32_t eneRaw  = ((uint32_t)resp[13] &lt;&lt; 24) | ((uint32_t)resp[14] &lt;&lt; 16)
+                   | ((uint32_t)resp[15] &lt;&lt; 8)  | resp[16];
+  g_data.energy    = eneRaw * 0.001f;
+  g_data.frequency = ((resp[17] &lt;&lt; 8) | resp[18]) * 0.1f;
+  g_data.pf        = ((resp[19] &lt;&lt; 8) | resp[20]) * 0.01f;
+
+  // 电能溢出回绕处理
+  if (g_data.energy &lt; g_lastEnergy) {
+    g_totalCost += (9999.99f - g_lastEnergy + g_data.energy) * PRICE_PER_KWH;
+  } else {
+    g_totalCost += (g_data.energy - g_lastEnergy) * PRICE_PER_KWH;
+  }
+  g_lastEnergy = g_data.energy;
+  g_data.cost  = g_totalCost;
+
+  // 报警判定
+  g_data.alarm = (g_data.current &gt; CURRENT_ALARM || g_data.power &gt; POWER_ALARM);
+
+  // 时间戳
+  struct tm timeinfo;
+  if (getLocalTime(&amp;timeinfo)) {
+    strftime(g_data.timestamp, sizeof(g_data.timestamp),
+             "%Y-%m-%d %H:%M:%S", &amp;timeinfo);
+  }
+  return true;
+}
+
+/* ============ SPIFFS 历史存储 ============ */
+void saveHistory() {
+  if (!SPIFFS.mounted()) SPIFFS.begin(true);
+  File f = SPIFFS.open("/history.csv", FILE_APPEND);
+  if (!f) { Serial.println("[FS] open history.csv failed"); return; }
+  f.printf("%s,%.1f,%.3f,%.1f,%.3f,%.1f,%.2f,%.2f\n",
+           g_data.timestamp, g_data.voltage, g_data.current,
+           g_data.power, g_data.energy, g_data.frequency,
+           g_data.pf, g_data.cost);
+  f.close();
+  Serial.printf("[FS] saved: %s\n", g_data.timestamp);
+}
+
+String loadHistory(int maxLines) {
+  if (!SPIFFS.begin(true)) return "";
+  File f = SPIFFS.open("/history.csv", FILE_READ);
+  if (!f) return "";
+  // 读取尾部 maxLines 行
+  std::vector&lt;String&gt; lines;
+  while (f.available()) {
+    String line = f.readStringUntil('\n');
+    line.trim();
+    if (line.length() &gt; 0) {
+      lines.push_back(line);
+      if ((int)lines.size() &gt; maxLines) lines.erase(lines.begin());
+    }
+  }
+  f.close();
+  String out;
+  for (auto&amp; l : lines) { out += l + "\n"; }
+  return out;
+}
+
+/* ============ HTML 仪表盘 ============ */
+const char INDEX_HTML[] PROGMEM = R"HTML(
+<!DOCTYPE html&gt;
+<html&gt;
+<head&gt;
+  <meta charset="UTF-8"&gt;
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  <title&gt;ESP32 智能电能监测仪表盘</title&gt;
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"&gt;</script&gt;
+  <style&gt;
+    body { font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px;
+           background: #f4f6f9; }
+    .card { background: #fff; padding: 16px; border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,.1); margin-bottom: 16px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+            gap: 12px; }
+    .metric { text-align: center; }
+    .metric .val { font-size: 28px; font-weight: 600; color: #2c3e50; }
+    .metric .lbl { font-size: 13px; color: #7f8c8d; margin-top: 4px; }
+    .alarm { background: #ffebee; border-left: 4px solid #f44336; }
+    h1 { color: #2c3e50; font-size: 22px; }
+    canvas { max-height: 260px; }
+    .ts { text-align:right; color:#95a5a6; font-size:12px; }
+  </style&gt;
+</head&gt;
+<body&gt;
+  <div class="card"&gt;
+    <h1&gt;⚡ ESP32 智能电能监测</h1&gt;
+    <div class="ts"&gt;最后更新：<span id="ts"&gt;--</span&gt;</div&gt;
+  </div&gt;
+  <div class="card" id="metricsCard"&gt;
+    <div class="grid"&gt;
+      <div class="metric"&gt;<div class="val" id="v"&gt;--</div&gt;<div class="lbl"&gt;电压 (V)</div&gt;</div&gt;
+      <div class="metric"&gt;<div class="val" id="i"&gt;--</div&gt;<div class="lbl"&gt;电流 (A)</div&gt;</div&gt;
+      <div class="metric"&gt;<div class="val" id="p"&gt;--</div&gt;<div class="lbl"&gt;功率 (W)</div&gt;</div&gt;
+      <div class="metric"&gt;<div class="val" id="e"&gt;--</div&gt;<div class="lbl"&gt;电能 (kWh)</div&gt;</div&gt;
+      <div class="metric"&gt;<div class="val" id="f"&gt;--</div&gt;<div class="lbl"&gt;频率 (Hz)</div&gt;</div&gt;
+      <div class="metric"&gt;<div class="val" id="pf"&gt;--</div&gt;<div class="lbl"&gt;功率因数</div&gt;</div&gt;
+      <div class="metric"&gt;<div class="val" id="c"&gt;--</div&gt;<div class="lbl"&gt;电费 (元)</div&gt;</div&gt;
+    </div&gt;
+  </div&gt;
+  <div class="card"&gt;
+    <canvas id="powerChart"&gt;</canvas&gt;
+  </div&gt;
+  <div class="card"&gt;
+    <h3&gt;OTA 升级</h3&gt;
+    <form method="POST" action="/update" enctype="multipart/form-data"&gt;
+      <input type="file" name="update"&gt;
+      <input type="submit" value="上传固件"&gt;
+    </form&gt;
+  </div&gt;
+  <script&gt;
+    const chart = new Chart(document.getElementById('powerChart'), {
+      type: 'line',
+      data: { labels: [], datasets: [
+        { label:'功率(W)', data:[], borderColor:'#3498db', fill:false, tension:0.3 },
+        { label:'电压(V)', data:[], borderColor:'#e67e22', fill:false, yAxisID:'y1', tension:0.3 }
+      ]},
+      options: { animation:false, scales: {
+        y:  { position:'left',  title:{display:true, text:'功率 W'}},
+        y1: { position:'right', title:{display:true, text:'电压 V'}, grid:{drawOnChartArea:false}}
+      }}
+    });
+    async function refresh() {
+      const r = await fetch('/api/data');
+      const d = await r.json();
+      document.getElementById('v').textContent  = d.voltage;
+      document.getElementById('i').textContent  = d.current;
+      document.getElementById('p').textContent  = d.power;
+      document.getElementById('e').textContent  = d.energy;
+      document.getElementById('f').textContent  = d.frequency;
+      document.getElementById('pf').textContent = d.pf;
+      document.getElementById('c').textContent  = d.cost;
+      document.getElementById('ts').textContent = d.timestamp;
+      const card = document.getElementById('metricsCard');
+      card.className = 'card' + (d.alarm ? ' alarm' : '');
+      chart.data.labels.push(d.timestamp.substr(11,8));
+      chart.data.datasets[0].data.push(parseFloat(d.power));
+      chart.data.datasets[1].data.push(parseFloat(d.voltage));
+      if (chart.data.labels.length &gt; 30) {
+        chart.data.labels.shift();
+        chart.data.datasets.forEach(ds =&gt; ds.data.shift());
+      }
+      chart.update();
+    }
+    refresh();
+    setInterval(refresh, 1000);
+  </script&gt;
+</body&gt;
+</html&gt;
+)HTML";
+
+/* ============ WebServer 路由 ============ */
+void handleRoot() {
+  server.sendHeader("Cache-Control", "no-cache");
+  server.send_P(200, "text/html", INDEX_HTML);
+}
+
+void handleApi() {
+  String json = "{";
+  json += "\"voltage\":"    + String(g_data.voltage, 1)    + ",";
+  json += "\"current\":"    + String(g_data.current, 3)    + ",";
+  json += "\"power\":"      + String(g_data.power, 1)      + ",";
+  json += "\"energy\":"     + String(g_data.energy, 3)     + ",";
+  json += "\"frequency\":"  + String(g_data.frequency, 1)  + ",";
+  json += "\"pf\":"         + String(g_data.pf, 2)         + ",";
+  json += "\"cost\":"       + String(g_data.cost, 2)       + ",";
+  json += "\"alarm\":"      + String(g_data.alarm ? "true" : "false") + ",";
+  json += "\"timestamp\":\"" + String(g_data.timestamp) + "\"";
+  json += "}";
+  server.sendHeader("Access-Control-Allow-Origin", "*");
+  server.send(200, "application/json", json);
+}
+
+void handleHistory() {
+  String csv = loadHistory(180);  // 最近 180 条
+  server.sendHeader("Content-Disposition", "attachment; filename=history.csv");
+  server.send(200, "text/csv", csv);
+}
+
+void handleOta() {
+  server.sendHeader("Connection", "close");
+  server.send(200, "text/plain", (Update.hasError()) ? "FAIL" : "OK");
+  ESP.restart();
+}
+
+/* ============ setup ============ */
+void setup() {
+  Serial.begin(115200);
+  delay(200);
+  Serial.println("\n[BOOT] ESP32 Energy Monitor");
+
+  // PZEM 串口
+  PZEMSerial.begin(PZEM_BAUD, SERIAL_8N1, 16, 17);
+
+  // Wi-Fi
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  Serial.print("[WiFi] connecting");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500); Serial.print(".");
+  }
+  Serial.printf("\n[WiFi] IP: %s\n", WiFi.localIP().toString().c_str());
+
+  // mDNS: 访问 http://esp32-energy.local
+  if (MDNS.begin(HOST_NAME)) {
+    MDNS.addService("http", "tcp", 80);
+    Serial.println("[mDNS] http://" + String(HOST_NAME) + ".local");
+  }
+
+  // NTP
+  configTzTime("CST-8", "ntp.aliyun.com", "time.windows.com");
+
+  // SPIFFS
+  if (!SPIFFS.begin(true)) {
+    Serial.println("[FS] SPIFFS mount failed");
+  } else {
+    Serial.printf("[FS] total: %u KB, used: %u KB\n",
+                  SPIFFS.totalBytes() / 1024, SPIFFS.usedBytes() / 1024);
+    // 写 CSV 表头
+    if (!SPIFFS.exists("/history.csv")) {
+      File f = SPIFFS.open("/history.csv", FILE_WRITE);
+      f.println("time,V,A,W,kWh,Hz,PF,cost");
+      f.close();
+    }
+  }
+
+  // WebServer 路由
+  server.on("/",       HTTP_GET,  handleRoot);
+  server.on("/api/data", HTTP_GET, handleApi);
+  server.on("/history.csv", HTTP_GET, handleHistory);
+  server.on("/update", HTTP_POST, []() {
+    server.sendHeader("Connection", "close");
+    server.send(200, "text/plain", (Update.hasError()) ? "FAIL" : "OK");
+    ESP.restart();
+  }, []() {
+    HTTPUpload&amp; upload = server.upload();
+    if (upload.status == UPLOAD_FILE_START) {
+      Serial.printf("[OTA] update: %s, size: %u\n",
+                    upload.filename.c_str(), Update.size());
+      if (!Update.begin(UPDATE_SIZE_UNKNOWN)) Update.printError(Serial);
+    } else if (upload.status == UPLOAD_FILE_WRITE) {
+      if (Update.write(upload.buf, upload.currentSize) != upload.currentSize)
+        Update.printError(Serial);
+    } else if (upload.status == UPLOAD_FILE_END) {
+      if (Update.end(true)) {
+        Serial.printf("[OTA] success: %u bytes\n", upload.totalSize);
+      } else {
+        Update.printError(Serial);
+      }
+    }
+  });
+  server.onNotFound([]() {
+    server.send(404, "text/plain", "404 Not Found");
+  });
+  server.begin();
+  Serial.println("[HTTP] server started on :80");
+}
+
+/* ============ loop ============ */
+void loop() {
+  server.handleClient();
+
+  unsigned long now = millis();
+  if (now - lastSample &gt;= SAMPLE_INTERVAL) {
+    lastSample = now;
+    if (readPZEM()) {
+      Serial.printf("[PZEM] V=%.1f A=%.3f P=%.1f W E=%.3f kWh f=%.1f Hz PF=%.2f%s\n",
+                    g_data.voltage, g_data.current, g_data.power,
+                    g_data.energy, g_data.frequency, g_data.pf,
+                    g_data.alarm ? "  ALARM" : "");
+    } else {
+      Serial.println("[PZEM] read failed");
+    }
+  }
+
+  if (now - lastSave &gt;= SAVE_INTERVAL) {
+    lastSave = now;
+    saveHistory();
+  }
+}
+</code></pre>
+
+    <h4>§44.5.2.2 关键设计要点</h4>
+    <p>本代码的关键设计点：</p>
+    <ul>
+      <li><strong>双串口隔离</strong>：UART0（GPIO1/3）保留给 USB 调试，UART2（GPIO16/17）专用于 PZEM-004T，避免日志输出干扰 Modbus 通信。</li>
+      <li><strong>Modbus-RTU 自实现</strong>：使用 <code>HardwareSerial</code> + 手写 CRC16 + 帧组装，无需第三方库即可工作，便于教学讲解协议细节。</li>
+      <li><strong>电能溢出回绕</strong>：当本次读数小于上次时，按 9999.99 满量程回绕累计电费，避免长期运行累计错误。</li>
+      <li><strong>OTA 上传分块写入</strong>：使用 <code>UPLOAD_FILE_START/WRITE/END</code> 三态回调，逐块写入 Flash，避免大固件 OOM。</li>
+      <li><strong>Chart.js 实时图表</strong>：前端通过 <code>fetch('/api/data')</code> 每秒拉取 JSON，滑动窗口保留最近 30 个点。</li>
+      <li><strong>mDNS 服务发现</strong>：注册 <code>esp32-energy.local</code>，局域网用户无需记忆 IP 地址。</li>
+    </ul>
+
+    <h3>§44.5.3 Web 仪表盘路由说明</h3>
+    <table>
+      <thead><tr><th>路径</th><th>方法</th><th>功能</th><th>返回类型</th></tr></thead>
+      <tbody>
+        <tr><td>/</td><td>GET</td><td>返回 HTML 仪表盘首页</td><td>text/html</td></tr>
+        <tr><td>/api/data</td><td>GET</td><td>返回当前实时电能数据 JSON</td><td>application/json</td></tr>
+        <tr><td>/history.csv</td><td>GET</td><td>下载历史数据 CSV 文件</td><td>text/csv</td></tr>
+        <tr><td>/update</td><td>POST</td><td>上传 .bin 固件触发 OTA 升级</td><td>text/plain</td></tr>
+        <tr><td>/ota</td><td>POST</td><td>OTA 完成后返回结果并重启</td><td>text/plain</td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption">图 44-9 WebServer 路由表</div>
+
+    <h2>§44.6 完整工程结构与调试</h2>
+    <h3>§44.6.1 工程目录结构</h3>
+    <h4>§44.6.1.1 目录结构</h4>
+    <pre><code>energy-monitor/
+├── energy-monitor.ino       # 主程序（含 setup/loop/readPZEM/handleRoot/handleApi/handleOta/saveHistory/loadHistory）
+├── README.md                # 编译烧录说明
+├── partitions.csv           # 分区表：OTA 分区 + SPIFFS 1MB
+└── data/                    # SPIFFS 上传目录（可选）
+    └── (空)
+</code></pre>
+    <h4>§44.6.1.2 分区表配置</h4>
+    <p>分区表 <code>partitions.csv</code> 需要为 SPIFFS 预留至少 1MB 空间，参考配置：</p>
+    <pre><code># Name,   Type, SubType, Offset,  Size, Flags
+nvs,      data, nvs,     0x9000,   0x5000,
+otadata,  data, ota,     0xe000,   0x2000,
+app0,     app,  ota_0,   0x10000,  0x140000,
+app1,     app,  ota_1,   0x150000, 0x140000,
+spiffs,   data, spiffs,  0x290000, 0x170000,
+</code></pre>
+
+    <h3>§44.6.2 OTA 调试步骤</h3>
+    <ol>
+      <li>首次通过 USB 烧录初始固件（含 OTA 功能）。</li>
+      <li>浏览器访问 <code>http://esp32-energy.local</code> 或 ESP32 IP 地址。</li>
+      <li>在 Arduino IDE 中"项目 → 导出已编译的二进制"，得到 <code>.bin</code> 文件。</li>
+      <li>Web 仪表盘底部 OTA 区域选择 <code>.bin</code> 文件并点击"上传固件"。</li>
+      <li>等待串口打印 <code>[OTA] success</code>，ESP32 自动重启，新固件生效。</li>
+      <li>若 OTA 失败，可查看浏览器响应（FAIL）或串口错误码（如 0xERROR_...）。</li>
+    </ol>
+
+    <h3>§44.6.3 Web 仪表盘截图说明</h3>
+    <p>仪表盘首页包含 3 个核心区域：</p>
+    <ul>
+      <li><strong>顶部信息栏</strong>：显示项目标题与最后更新时间戳。</li>
+      <li><strong>指标卡片</strong>：7 个数字卡片显示电压/电流/功率/电能/频率/PF/电费，过载时整张卡片背景变红。</li>
+      <li><strong>实时曲线</strong>：双 Y 轴折线图，左轴为功率（W），右轴为电压（V），最近 30 秒数据。</li>
+      <li><strong>OTA 上传区</strong>：文件选择 + 上传按钮，提交后固件写入 Flash。</li>
+    </ul>
+
+    <h3>§44.6.4 常见故障与排查</h3>
+    <table>
+      <thead><tr><th>故障现象</th><th>可能原因</th><th>排查方法</th></tr></thead>
+      <tbody>
+        <tr><td>PZEM 读数全为 0</td><td>UART2 接线 TX/RX 反接</td><td>交换 GPIO16/17 接线，确认 5V 供电</td></tr>
+        <tr><td>PZEM 偶尔读数失败</td><td>CRC 校验错或响应超时</td><td>延长等待时间到 300ms，缩短 Modbus 线长度</td></tr>
+        <tr><td>电压正常但电流为 0</td><td>CT 互感器未穿过火线</td><td>确认 CT 只穿过 L（火线），方向箭头指向负载</td></tr>
+        <tr><td>电能累计不增加</td><td>PZEM 寄存器溢出回绕未处理</td><td>检查 readPZEM 中的溢出回绕逻辑</td></tr>
+        <tr><td>Wi-Fi 连接失败</td><td>SSID/密码错误或信号弱</td><td>串口查看 WiFi.status()，靠近路由器</td></tr>
+        <tr><td>Web 仪表盘打不开</td><td>端口被防火墙拦截</td><td>关闭防火墙测试，确认监听 80 端口</td></tr>
+        <tr><td>OTA 上传失败</td><td>分区表无 OTA 分区</td><td>使用 partitions.csv 双 OTA 分区配置</td></tr>
+        <tr><td>SPIFFS 写入失败</td><td>分区未格式化</td><td>SPIFFS.begin(true) 触发格式化</td></tr>
+        <tr><td>历史数据丢失</td><td>OTA 升级覆盖 SPIFFS 分区</td><td>确认 spiffs 分区与 app 分区不重叠</td></tr>
+        <tr><td>NTP 时间不同步</td><td>NTP 服务器被墙</td><td>更换为 ntp.aliyun.com</td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption">图 44-10 智能电能监测终端常见故障排查表</div>
+
+    <h2>§44.7 扩展方向</h2>
+    <h3>§44.7.1 多路监测</h3>
+    <p>通过为每路 PZEM-004T 设置不同 Modbus 从机地址（0x01–0xF7），可在一根 RS-485 总线上挂载多台 PZEM-004T（需通过 MAX485 转 RS-485），实现多路监测。ESP32 轮询各从机地址即可获取每一路的电能数据。本设计可扩展至 16 路（推荐轮询周期 ≥ 2s）。</p>
+
+    <h3>§44.7.2 Modbus TCP 上传</h3>
+    <p>利用 ESP32 Wi-Fi 优势，将采集到的 Modbus-RTU 数据封装为 Modbus TCP 上传至 SCADA 系统或工业网关。可使用开源 <code>esp-modbus</code> 组件实现 Modbus TCP Slave，对接上位机软件（如 Modbus Poll、组态王、KingView）。</p>
+
+    <h3>§44.7.3 电费峰谷计算</h3>
+    <p>接入峰谷电价策略（如：峰段 8:00–22:00 @ 0.6 元/kWh，谷段 22:00–8:00 @ 0.3 元/kWh），按时间分段累计电费，提供月度账单预测。可结合 NTP 时间与 SPIFFS 历史数据自动计算。</p>
+
+    <h3>§44.7.4 负载识别（NILM）</h3>
+    <p>非侵入式负荷监测（Non-Intrusive Load Monitoring, NILM）通过分析总电流的暂态波形特征识别启动的电器种类。可在 ESP32 上采集高频功率数据（100ms 间隔），提取功率阶跃特征，使用决策树或轻量级神经网络推断电器类型（如空调、热水器、电饭煲）。</p>
+
+    <h3>§44.7.5 AI 异常检测</h3>
+    <p>基于历史数据训练功率基线模型，当实时功率偏离基线超过 3σ 时触发异常告警。可使用 TensorFlow Lite for Microcontrollers 在 ESP32 上部署轻量级 LSTM 模型，实现端侧异常检测，无需上传原始数据到云端，保护用户隐私。</p>
+
+    <h3>§44.7.6 集成 MQTT 上云</h3>
+    <p>引入 <code>PubSubClient</code> 库将数据发布到 EMQX/ Mosquitto MQTT Broker，订阅端可对接 Home Assistant、Grafana、Node-RED 等平台，构建完整的物联网能源管理系统。</p>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>智慧能源场景下，电能监测终端需覆盖电压/电流/功率/电能/频率/功率因数 6 项核心参数，并具备 Web 仪表盘、OTA 升级、历史存储能力。</li>
+        <li>PZEM-004T v3.0 通过 Modbus-RTU 协议（9600 8N1）输出电能数据，寄存器映射清晰，配合 ESP32 UART2 即可实现稳定通信。</li>
+        <li>系统架构采用"感知—通信—存储—展示—升级"五层分层设计，各层独立可替换，便于工程演进。</li>
+        <li>OTA 基于 Arduino Update 库 + HTTP POST 实现浏览器上传固件，分块写入避免 OOM，是 ESP32 工程化部署的核心能力。</li>
+        <li>Web 仪表盘使用 ESP32 内置 WebServer + Chart.js，前端通过 fetch JSON 拉取实时数据，免装 APP 即可访问。</li>
+        <li>SPIFFS 文件系统持久化历史数据，CSV 格式便于后续分析，配合 NTP 时间戳实现可追溯的能耗档案。</li>
+        <li>强电作业必须遵守安全规范：断电操作、互感器隔离、漏电保护，任何带电操作都需在指导教师监督下完成。</li>
+        <li>扩展方向包括多路监测、Modbus TCP、峰谷电价、NILM 负载识别、AI 异常检测与 MQTT 上云，覆盖智慧能源主要技术栈。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>查阅 GB/T 17215.321-2008《静止式有功电能表》标准，说明 1.0 级精度要求下电压、电流、功率因数的允许误差范围，并分析 PZEM-004T 是否满足该等级。</li>
+        <li>Modbus-RTU 帧中的 CRC16 校验为何采用"低字节在前"的小端序？写出对请求帧 <code>01 04 00 00 00 0A</code> 计算 CRC16 的完整步骤与最终结果。</li>
+        <li>本项目使用 UART2 与 PZEM-004T 通信，若改为 SoftwareSerial（如 ESP8266 场景），可能遇到什么问题？给出软件串口的局限性分析。</li>
+        <li>电能累计寄存器溢出回绕（从 9999.99 归零）后，代码中 <code>g_totalCost += (9999.99f - g_lastEnergy + g_data.energy) * PRICE_PER_KWH</code> 的物理含义是什么？若用户每月用电 200 kWh，需要多久才会触发一次回绕？</li>
+        <li>设计一个多路监测方案：使用 1 片 ESP32 + 4 片 PZEM-004T 通过 RS-485 总线监测 4 路负荷，给出硬件拓扑图、Modbus 轮询策略与最短采样周期估算。</li>
+        <li>若要将本项目扩展为支持峰谷电价的电费核算系统，需要修改哪些函数？给出 <code>calcCost(float power, int hour)</code> 函数的实现思路与单元测试用例。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>Espressif Systems. ESP32 Wi-Fi &amp; Bluetooth MCU Datasheet (v3.9) [Z]. 2024. https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf</li>
+        <li>PZEM-004T v3.0 Communication Protocol Specification [Z]. Peacefair Technology, 2023. https://innovatorsguru.com/wp-content/uploads/2019/06/PZEM-004T-V3.0-instruction-Manual.pdf</li>
+        <li>Modbus Organization. Modbus Application Protocol Specification V1.1b3 [S]. 2012. https://modbus.org/specs.php</li>
+        <li>GB/T 17215.321-2008. 静止式有功电能表（0.2S 级、0.5S 级、1 级和 2 级）[S]. 北京：中国标准出版社, 2008.</li>
+        <li>IEEE Standard Definitions for the Measurement of Electric Power Quantities Under Sinusoidal, Nonsinusoidal, Balanced, or Unbalanced Conditions. IEEE Std 1459-2010 [S]. IEEE, 2010.</li>
+        <li>Hart G W. Nonintrusive appliance load monitoring[J]. Proceedings of the IEEE, 1992, 80(12): 1870-1891.</li>
+        <li>Kelly J, Knottenbelt W. NILM for the masses: A toolkit and dataset for appliance-level electricity disaggregation[C]. Proceedings of the 2nd ACM Workshop on Embedded Systems for Energy-Efficient Built Environments, 2015: 21-22.</li>
+        <li>陈伟根, 张晓燕. 智能电网用电信息采集系统技术与应用 [M]. 北京：中国电力出版社, 2020.</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/chapters/part5-projects/ch43-smart-locker-stm32.html" class="prev">← 第 43 章 智能快递柜</a>
+      <a href="/index.html" class="home">返回首页</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

@@ -1,0 +1,331 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第1章 单片机概述 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link active" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 1 篇 基础理论 &gt; <span>第 1 章 单片机概述</span>
+    </div>
+
+    <h1>第 1 章 单片机概述</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>理解单片机的定义、组成与特点</li>
+        <li>了解单片机的发展历程、现状与未来趋势</li>
+        <li>掌握单片机的主要应用领域</li>
+        <li>熟悉主流单片机系列（MCS-51、STC、STM32、MSP430、AVR、PIC、RISC-V）的定位与差异</li>
+        <li>明确本课程在应用型人才培养中的定位与学习方法</li>
+      </ul>
+    </div>
+
+    <h2>1.1 什么是单片机</h2>
+    <p>单片微型计算机（Single-Chip Microcomputer），简称<strong>单片机</strong>，是将中央处理器（CPU）、存储器（RAM/ROM）、输入/输出接口（I/O）、定时器/计数器、时钟电路、中断系统等计算机核心部件集成在一块半导体芯片上的微型计算机。国际上也常称为 <strong>MCU</strong>（Microcontroller Unit，微控制器），强调其面向控制应用的定位。</p>
+
+    <p>与通用计算机（如 PC）相比，单片机具有以下特点：</p>
+    <table>
+      <thead><tr><th>对比项</th><th>通用计算机</th><th>单片机</th></tr></thead>
+      <tbody>
+        <tr><td>形态</td><td>主板 + 外设，体积大</td><td>单芯片，体积小</td></tr>
+        <tr><td>功耗</td><td>数十至数百瓦</td><td>毫瓦至微瓦级</td></tr>
+        <tr><td>成本</td><td>数百元以上</td><td>几角至几十元</td></tr>
+        <tr><td>主频</td><td>数 GHz</td><td>数 MHz 至数百 MHz</td></tr>
+        <tr><td>用途</td><td>通用计算、数据处理</td><td>嵌入式控制、实时响应</td></tr>
+        <tr><td>操作系统</td><td>Windows/Linux 等通用 OS</td><td>裸机 / RTOS / 偶用 Linux</td></tr>
+      </tbody>
+    </table>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch01-mcu-overview-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+left to right direction
+component "单片机 MCU" as A
+component "CPU 内核" as B
+component "存储器\nRAM/ROM/Flash" as C
+component "I/O 端口" as D
+component "定时器/计数器" as E
+component "中断系统" as F
+component "通信接口\nUART/SPI/I2C/CAN/USB" as G
+component "ADC/DAC" as H
+component "时钟与复位" as I
+component "看门狗" as J
+A --&gt; B
+A --&gt; C
+A --&gt; D
+A --&gt; E
+A --&gt; F
+A --&gt; G
+A --&gt; H
+A --&gt; I
+A --&gt; J
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 1-1 单片机内部典型结构</div>
+
+    <p>单片机的核心价值在于"嵌入式控制"：它被"嵌入"到各种电子产品中，作为<strong>控制器</strong>负责采集传感器信号、运行控制算法、驱动执行机构、与人交互。从智能家电、工业自动化、汽车电子到物联网终端，单片机无处不在。</p>
+
+    <h2>1.2 单片机发展历程与趋势</h2>
+
+    <h3>1.2.1 发展历程</h3>
+    <p>单片机的发展大致可以分为以下几个阶段：</p>
+    <table>
+      <thead><tr><th>阶段</th><th>年代</th><th>代表产品</th><th>特征</th></tr></thead>
+      <tbody>
+        <tr><td>探索期</td><td>1971-1976</td><td>Intel 4004/4040</td><td>4 位，功能简单</td></tr>
+        <tr><td>低性能 8 位</td><td>1976-1980</td><td>Intel 8048</td><td>8 位，无串口</td></tr>
+        <tr><td>高性能 8 位</td><td>1980-1990s</td><td>Intel MCS-51(8051)、Motorola 68HC05</td><td>完善 I/O、串口、定时器</td></tr>
+        <tr><td>16 位</td><td>1990s</td><td>Intel MCS-96、TI MSP430、PIC24</td><td>更高性能，部分带 ADC</td></tr>
+        <tr><td>32 位</td><td>2000s 至今</td><td>ARM Cortex-M 系列、RISC-V</td><td>高性能、低功耗、丰富外设</td></tr>
+      </tbody>
+    </table>
+
+    <p>其中，Intel 在 1980 年推出的 <strong>MCS-51（8051）</strong>是单片机史上的里程碑，其体系结构简洁、指令丰富、易于学习，至今仍是教学与低端控制的主流平台。STC 公司在 8051 内核基础上推出的 STC89C52RC、STC8H、STC32G 等系列，凭借"完全兼容 8051 + 大幅增强外设 + 极低价格"的策略，在国内市场占据重要地位。</p>
+
+    <p>进入 21 世纪，ARM 公司推出的 <strong>Cortex-M</strong> 内核系列（M0/M0+/M3/M4/M7/M23/M33/M55）成为 32 位单片机的主流。意法半导体（ST）的 STM32 系列、恩智浦（NXP）的 LPC 系列、Atmel/Microchip 的 SAM 系列、国产 GD/兆易创新等都基于 Cortex-M 内核，形成了庞大的 32 位单片机生态。</p>
+
+    <h3>1.2.2 发展趋势</h3>
+    <ul>
+      <li><strong>高性能化</strong>：主频从数十 MHz 提升到 GHz 级（如 STM32H7 主频 480 MHz），引入 DSP、FPU、硬件加密、AI 加速等。</li>
+      <li><strong>低功耗化</strong>：工艺从 90nm 演进到 28nm 甚至更小，待机功耗低至 nA 级，适合电池供电与物联网场景。</li>
+      <li><strong>无线集成化</strong>：单片机内置 BLE、Wi-Fi、LoRa、Sub-1G RF 等无线模块（如 ESP32、STM32WB）。</li>
+      <li><strong>安全可信</strong>：内置硬件加密引擎、安全启动、TrustZone（如 Cortex-M33）、SE 单元。</li>
+      <li><strong>AI 端侧化</strong>：集成 NPU 或 AI 加速器，在端侧运行神经网络推理（如 STM32N6、K210）。</li>
+      <li><strong>开源化</strong>：RISC-V 开源指令集架构崛起，国产单片机纷纷基于 RISC-V 推出产品（如沁恒 CH32V、乐鑫 ESP32-C3）。</li>
+      <li><strong>工具链现代化</strong>：从单一 IDE 转向 VS Code + PlatformIO、CMake、CI/CD、AI 辅助开发等现代化工具链。</li>
+    </ul>
+
+    <h2>1.3 单片机应用领域</h2>
+    <p>单片机几乎无处不在，主要应用领域包括：</p>
+    <table>
+      <thead><tr><th>领域</th><th>典型应用</th><th>常用平台</th></tr></thead>
+      <tbody>
+        <tr><td>智能家电</td><td>电饭煲、洗衣机、空调、微波炉、扫地机器人</td><td>STC、STM32、AVR</td></tr>
+        <tr><td>工业控制</td><td>PLC、变频器、伺服驱动、仪表、工业机器人</td><td>STM32、TI C2000、瑞萨</td></tr>
+        <tr><td>汽车电子</td><td>发动机控制、ABS、车身控制、车载娱乐、ADAS</td><td>Infineon、NXP、瑞萨、STM32</td></tr>
+        <tr><td>消费电子</td><td>智能手表、无人机、电子玩具、蓝牙音箱</td><td>STM32、ESP32、Nordic</td></tr>
+        <tr><td>通信设备</td><td>路由器、调制解调器、物联网网关</td><td>ARM9、Cortex-A、MIPS</td></tr>
+        <tr><td>医疗仪器</td><td>血压计、血糖仪、心电监护、便携超声</td><td>STM32、MSP430、Cortex-A</td></tr>
+        <tr><td>物联网终端</td><td>智能家居、环境监测、智慧农业、资产追踪</td><td>ESP32、STM32WL、MSP430</td></tr>
+        <tr><td>教学实验</td><td>嵌入式课程、电子设计竞赛、毕业设计</td><td>STC、STM32、Arduino</td></tr>
+      </tbody>
+    </table>
+
+    <h2>1.4 主流单片机系列对比</h2>
+
+    <p>下表对比当前主流单片机系列的定位与特点，作为选型参考。</p>
+    <table>
+      <thead><tr><th>系列</th><th>厂商</th><th>内核</th><th>位宽</th><th>主频</th><th>定位</th></tr></thead>
+      <tbody>
+        <tr><td>MCS-51</td><td>Intel（已停产，授权生产）</td><td>8051</td><td>8 位</td><td>12-40 MHz</td><td>经典教学平台，控制类应用</td></tr>
+        <tr><td>STC89C52RC</td><td>STC（宏晶）</td><td>8051 兼容</td><td>8 位</td><td>11.0592-35 MHz</td><td>国内教学与低端控制主流</td></tr>
+        <tr><td>STC8H / STC32G</td><td>STC</td><td>8051 / RISC-V</td><td>8/32 位</td><td>40 MHz+</td><td>增强型 8051，国产新势力</td></tr>
+        <tr><td>AVR</td><td>Microchip（原 Atmel）</td><td>AVR</td><td>8/32 位</td><td>16-48 MHz</td><td>Arduino 平台基础</td></tr>
+        <tr><td>PIC</td><td>Microchip</td><td>PIC</td><td>8/16/32 位</td><td>数 MHz-200 MHz</td><td>工业控制、汽车电子</td></tr>
+        <tr><td>STM32F0/F1/F4/F7/H7</td><td>ST</td><td>Cortex-M0/M3/M4/M7</td><td>32 位</td><td>48-480 MHz</td><td>通用 32 位单片机主流</td></tr>
+        <tr><td>STM32L/G/WB/WL</td><td>ST</td><td>Cortex-M0+/M4/M33</td><td>32 位</td><td>32-160 MHz</td><td>低功耗、无线、物联网</td></tr>
+        <tr><td>MSP430</td><td>TI</td><td>16 位 RISC</td><td>16 位</td><td>1-25 MHz</td><td>超低功耗，电池供电</td></tr>
+        <tr><td>ESP32</td><td>乐鑫</td><td>Xtensa / RISC-V</td><td>32 位</td><td>160-240 MHz</td><td>Wi-Fi/BLE 物联网终端</td></tr>
+        <tr><td>GD32</td><td>兆易创新</td><td>Cortex-M3/M4/M23/M33</td><td>32 位</td><td>108-550 MHz</td><td>国产 STM32 替代</td></tr>
+        <tr><td>RISC-V（CH32V/K210 等）</td><td>沁恒、嘉楠等</td><td>RISC-V</td><td>32/64 位</td><td>数十 MHz-1 GHz</td><td>开源生态、AI 端侧</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>选型原则</strong>：先确定应用场景（性能需求、功耗预算、外设需求、成本预算），再选平台。教学场景常用 STC（入门 8 位）→ STM32（进阶 32 位）的递进路径；工业产品常用 STM32 + FreeRTOS；电池供电物联网常用 ESP32 或 STM32L。
+    </div>
+
+    <h2>1.5 应用型人才培养与课程定位</h2>
+
+    <p>本课程面向<strong>应用型本科</strong>人才培养定位，区别于研究型大学的"重理论"和高职院校的"重操作"，应用型人才培养的核心是<strong>"理论够用 + 实践为重 + 工程导向"</strong>，强调学生能够将所学知识转化为解决实际工程问题的能力。</p>
+
+    <p>本课程的定位如下：</p>
+    <ul>
+      <li><strong>知识定位</strong>：以 MCS-51 体系结构为理论基础，以 STC 为 8 位入门平台，以 STM32 为 32 位进阶平台，建立从底层寄存器到上层库函数的完整知识体系。</li>
+      <li><strong>能力定位</strong>：能够独立完成单片机应用系统的硬件连接、工程搭建、程序编写、烧录调试全流程；能够查阅数据手册、使用现代工具链、借助 AI 辅助工具提升开发效率。</li>
+      <li><strong>素质定位</strong>：建立工程系统思维，培养严谨的工程态度、动手实践能力、持续学习新技术的意识。</li>
+      <li><strong>就业定位</strong>：为嵌入式开发工程师、物联网应用工程师、电子产品研发工程师等岗位奠定基础。</li>
+    </ul>
+
+    <p>本课程采用<strong>"按平台分篇递进"</strong>的编排：第 1 篇建立基础理论；第 2 篇以 STC 掌握 8 位单片机开发全流程（这是理解单片机底层原理的最佳入口）；第 3 篇以 STM32 进入 32 位现代单片机开发；第 4 篇简介 MSP430 低功耗单片机拓宽视野；第 5 篇通过综合项目将所学知识融会贯通。</p>
+
+    <h2>1.6 学习方法与资源推荐</h2>
+
+    <h3>1.6.1 学习方法</h3>
+    <ol>
+      <li><strong>动手为主，理论为辅</strong>：单片机是实践性极强的课程，每学一个知识点都应在硬件上验证。不要只看不练。</li>
+      <li><strong>先会跑，再搞懂</strong>：先让示例代码跑起来看到效果，再回头理解每行代码的原理，建立正反馈。</li>
+      <li><strong>读数据手册</strong>：芯片数据手册（Datasheet）和参考手册（Reference Manual）是权威文档，遇到不确定的细节要查手册而非搜索博客。</li>
+      <li><strong>分模块学习</strong>：单片机外设是模块化的，GPIO、定时器、串口、ADC 各自独立，学一个用一个，不要贪多。</li>
+      <li><strong>善用工具与 AI</strong>：Keil/CubeMX/PlatformIO/逻辑分析仪是基本工具；TRAE/Copilot 等 AI 工具能加速代码编写和 Bug 排查，但要培养判断 AI 输出正确性的能力。</li>
+      <li><strong>记录与总结</strong>：写学习笔记、画原理框图、整理踩坑记录，形成自己的知识体系。</li>
+    </ol>
+
+    <h3>1.6.2 资源推荐</h3>
+    <table>
+      <thead><tr><th>类型</th><th>资源</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>数据手册</td><td>STC89C52RC 手册、STM32F407 RM0090</td><td>权威参考，必查</td></tr>
+        <tr><td>教材</td><td>张毅刚《单片机原理及应用》</td><td>国内经典教材</td></tr>
+        <tr><td>视频</td><td>正点原子、野火 STM32 教程（B 站）</td><td>系统性强，配套开发板</td></tr>
+        <tr><td>社区</td><td>ST 官方论坛、电子工程世界 EEWorld、21IC</td><td>问题交流</td></tr>
+        <tr><td>开源</td><td>GitHub、OSChina、Gitee</td><td>参考项目代码</td></tr>
+        <tr><td>AI 工具</td><td>TRAE、GitHub Copilot、ChatGPT</td><td>辅助编码、答疑</td></tr>
+        <tr><td>仿真</td><td>Proteus、Wokwi、Tinkercad</td><td>无硬件仿真调试</td></tr>
+        <tr><td>本课程</td><td>本在线教程 + 配套代码工程 + 实验指导书</td><td>课程主资源</td></tr>
+      </tbody>
+    </table>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>单片机（MCU）是集成 CPU、存储器、I/O、定时器、中断系统等于一体的微型计算机，面向嵌入式控制应用。</li>
+        <li>单片机发展从 4 位到 32 位，MCS-51 是经典教学平台，Cortex-M 系列（含 STM32）是当前 32 位主流，RISC-V 是未来趋势。</li>
+        <li>应用领域覆盖家电、工业、汽车、消费、医疗、物联网等几乎所有电子产品。</li>
+        <li>主流系列包括 MCS-51/STC、STM32、MSP430、AVR/PIC、ESP32、RISC-V 等，选型应基于应用场景。</li>
+        <li>本课程面向应用型人才培养，采用 STC（8 位入门）→ STM32（32 位进阶）→ MSP430（简介）→ 综合项目的递进编排。</li>
+        <li>学习方法强调动手实践、读手册、分模块学习、善用工具与 AI。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>简述单片机与通用计算机的主要区别。</li>
+        <li>单片机内部通常包含哪些主要部件？分别起什么作用？</li>
+        <li>查阅资料，列出单片机在你身边 5 种电子产品中的应用。</li>
+        <li>MCS-51 系列单片机是哪一年由哪家公司推出的？为什么至今仍在广泛使用？</li>
+        <li>对比 8 位单片机（如 STC）与 32 位单片机（如 STM32），各自适合什么场景？</li>
+        <li>RISC-V 与 ARM Cortex-M 相比有哪些优势？为什么说它是未来趋势？</li>
+        <li>应用型人才培养的"理论够用、实践为重"如何体现在本课程的学习中？</li>
+        <li>上网查阅一份 STM32F407 的数据手册，列出它的主要参数（主频、Flash、RAM、外设）。</li>
+        <li>讨论：你认为 AI 辅助开发工具（如 TRAE、Copilot）会取代嵌入式工程师吗？为什么？</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>张毅刚. 单片机原理及应用——C51 编程 + Proteus 仿真（第 4 版）[M]. 北京：高等教育出版社, 2021.</li>
+        <li>STC 官方. STC89C52RC 数据手册 [Z]. 2024. https://www.stcmcudata.com/</li>
+        <li>ST 官方. STM32F405/415/407/417 参考手册 RM0090 [Z]. 2024. https://www.st.com/</li>
+        <li>Joseph Yiu. The Definitive Guide to ARM Cortex-M3 and Cortex-M4 Processors (3rd Edition) [M]. Newnes, 2013.</li>
+        <li>何立民. 单片机高级教程——应用与设计（第 3 版）[M]. 北京：北京航空航天大学出版社, 2018.</li>
+        <li>郭天祥. 新概念 51 单片机 C 语言教程 [M]. 北京：电子工业出版社, 2018.</li>
+        <li>ARM 官方. Cortex-M4 Technical Reference Manual [Z]. 2024. https://developer.arm.com/</li>
+        <li>RISC-V International. RISC-V Instruction Set Manual [Z]. 2024. https://riscv.org/</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/index.html" class="home">← 返回首页</a>
+      <a href="/chapters/part1-basics/ch02-computer-fundamentals.html" class="next">第 2 章 计算机基础与数制 →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实验2 按键控制与外部中断 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=6">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html" class="active">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+  <main class="content" style="max-width: 1000px;">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt;
+      <a href="/lab/index.html">实验指导</a> &gt;
+      <span>实验2 按键控制与外部中断</span>
+    </div>
+
+    <h1>实验2 按键控制与外部中断</h1>
+
+    <p>本实验学习 GPIO 输入与外部中断 (External Interrupt, EXTI) 的使用，掌握机械按键的硬件消抖与软件消抖方法。通过按键控制 LED 状态切换，对比查询与中断两种按键处理方式的优劣。完整工程源码见 <code>/code/stc89c52rc/02-button-exti/</code> 与 <code>/code/stm32f407/02-hal-button-exti/</code>。</p>
+
+    <h2>一、实验目的</h2>
+    <ul>
+      <li>掌握 GPIO 输入模式配置与按键读取方法。</li>
+      <li>理解机械按键抖动 (Bounce) 现象，掌握软件消抖与硬件消抖 (RC 滤波)。</li>
+      <li>掌握 STC89C52RC 外部中断 INT0/INT1 的配置与中断服务函数编写。</li>
+      <li>掌握 STM32F407 EXTI 外部中断的配置方法。</li>
+      <li>对比查询方式与中断方式的响应速度与 CPU 占用差异。</li>
+    </ul>
+
+    <h2>二、知识点</h2>
+    <ul>
+      <li><strong>按键抖动</strong>：机械按键在按下与释放瞬间会产生 5-20 ms 的抖动 (Bounce)，导致电平在 0/1 之间快速跳变。必须消抖才能避免一次按下被识别为多次。</li>
+      <li><strong>软件消抖</strong>：检测到电平变化后延时 10-20 ms 再次读取，若仍为变化后状态则确认有效，否则视为抖动丢弃。</li>
+      <li><strong>硬件消抖</strong>：在按键两端并联 0.1 μF 电容，利用 RC 充放电吸收高频抖动；或使用 RC 滤波电路 ($\tau = RC$) 滤除抖动。</li>
+      <li><strong>STC 外部中断</strong>：INT0 引脚 P3.2，INT1 引脚 P3.3，由 TCON 寄存器的 IT0/IT1 选择下降沿 (IT0=1) 或低电平触发 (IT0=0)，IE 寄存器的 EX0/EX1 使能中断，EA 开总中断。</li>
+      <li><strong>STM32 EXTI</strong>：每个 GPIO 都可作为 EXTI 线，支持上升沿、下降沿、双沿触发，配置需经过 SYSCFG (系统配置控制器) 映射。</li>
+      <li><strong>中断优先级</strong>：STC89C52RC 固定优先级 INT0 > T0 > INT1 > T1 > 串口；STM32 使用 NVIC (Nested Vectored Interrupt Controller，嵌套向量中断控制器) 支持抢占优先级与子优先级。</li>
+    </ul>
+
+    <h2>三、硬件清单</h2>
+    <table>
+      <thead>
+        <tr><th>序号</th><th>器材</th><th>规格</th><th>数量</th><th>备注</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>STC89C52RC 最小系统板</td><td>11.0592 MHz</td><td>1</td><td>—</td></tr>
+        <tr><td>2</td><td>STM32F407VET6 最小系统板</td><td>ST-Link</td><td>1</td><td>—</td></tr>
+        <tr><td>3</td><td>轻触按键</td><td>4 脚</td><td>2</td><td>K1, K2</td></tr>
+        <tr><td>4</td><td>红色 LED</td><td>3 mm</td><td>2</td><td>—</td></tr>
+        <tr><td>5</td><td>限流电阻</td><td>220 Ω</td><td>2</td><td>—</td></tr>
+        <tr><td>6</td><td>上拉电阻</td><td>10 kΩ</td><td>2</td><td>STC 用 (已有内部上拉可省)</td></tr>
+        <tr><td>7</td><td>消抖电容</td><td>0.1 μF</td><td>2</td><td>硬件消抖可选</td></tr>
+      </tbody>
+    </table>
+
+    <h2>四、电路连接</h2>
+    <p>STC89C52RC 使用 P3.2 (INT0) 接 K1，P3.3 (INT1) 接 K2，按键另一端接地，依靠 P3 口内部上拉电阻 (约 30-50 kΩ)，按下时为低电平。LED1 接 P2.0，LED2 接 P2.1 (共阳低有效)。STM32F407 使用 PA0 接 K1 (下降沿触发)，PE0 接 LED1 (推挽高有效)。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/lab02-button-control-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+package "STC89C52RC" {
+  component "按键 K1" as K1
+  component "P3.2 INT0" as P32
+  component "按键 K2" as K2
+  component "P3.3 INT1" as P33
+  component "中断触发" as MCU1
+  component "P2.0" as P20
+  component "220Ω" as R1
+  component "LED1 红" as LED1
+  component "P2.1" as P21
+  component "220Ω" as R2
+  component "LED2 红" as LED2
+  K1 --&gt; P32 : 按下接地
+  K2 --&gt; P33 : 按下接地
+  P32 --&gt; MCU1
+  P33 --&gt; MCU1
+  P20 --&gt; R1
+  R1 --&gt; LED1
+  P21 --&gt; R2
+  R2 --&gt; LED2
+  MCU1 .. P20 : 控制
+  MCU1 .. P21 : 控制
+}
+@enduml</code></pre>
+  </details>
+</div>
+
+    <h2>五、代码框架</h2>
+
+    <h3>5.1 STC89C52RC 查询 + 软件消抖</h3>
+    <p>查询方式轮询 P3.2 电平，检测到按下后延时消抖再确认。工程 <code>/code/stc89c52rc/02-button-exti/poll.c</code>。</p>
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+
+sbit KEY1 = P3 ^ 2;   /* K1 接 INT0 */
+sbit LED1 = P2 ^ 0;   /* LED1 共阳, 0 点亮 */
+
+void delay_ms(unsigned int ms) {
+    unsigned int i, j;
+    for (i = 0; i &lt; ms; i++)
+        for (j = 0; j &lt; 114; j++) ;
+}
+
+/* 按键扫描: 返回 1 表示一次有效按下 */
+unsigned char Key_Scan(void) {
+    if (KEY1 == 0) {            /* 检测到低电平 */
+        delay_ms(15);           /* 软件消抖 15 ms */
+        if (KEY1 == 0) {        /* 再次确认仍为低 */
+            while (!KEY1) ;     /* 等待按键释放, 避免长按重复触发 */
+            return 1;           /* 返回有效按键 */
+        }
+    }
+    return 0;
+}
+
+void main(void) {
+    unsigned char led_state = 0;
+    while (1) {
+        if (Key_Scan()) {
+            led_state = !led_state;     /* 翻转 LED 状态 */
+            LED1 = led_state ? 0 : 1;   /* 共阳: 0 亮 1 灭 */
+        }
+    }
+}</code></pre>
+
+    <h3>5.2 STC89C52RC 外部中断 INT0 方式</h3>
+    <p>中断方式配置 INT0 下降沿触发，按键按下立即进入中断服务函数。工程 <code>/code/stc89c52rc/02-button-exti/int0.c</code>。</p>
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+
+sbit LED1 = P2 ^ 0;   /* LED1 */
+
+/* INT0 中断号 0, 中断服务函数 */
+void INT0_ISR(void) interrupt 0 {
+    unsigned int i;
+    for (i = 0; i &lt; 1500; i++) ;   /* 中断内简单消抖延时约 15 ms */
+    if (INT0 == 0) {                /* 再次确认仍为低电平 */
+        LED1 = !LED1;               /* 翻转 LED */
+        while (!INT0) ;             /* 等待释放 */
+    }
+}
+
+void main(void) {
+    IT0 = 1;    /* INT0 下降沿触发 (TCON.0) */
+    EX0 = 1;    /* 使能 INT0 中断 (IE.0) */
+    EA  = 1;    /* 开放总中断 (IE.7) */
+    LED1 = 1;   /* 初始熄灭 (共阳) */
+    while (1) {
+        /* 主循环空闲, CPU 可做其它工作 */
+        PCON |= 0x01;   /* 进入空闲模式降低功耗, 中断可唤醒 */
+    }
+}</code></pre>
+
+    <h3>5.3 STM32F407 HAL 外部中断 PA0</h3>
+    <p>使用 HAL 库配置 PA0 为 EXTI0 下降沿中断。工程 <code>/code/stm32f407/02-hal-button-exti/main.c</code>。</p>
+    <pre><code class="language-c">#include "stm32f4xx_hal.h"
+
+#define LED1_PIN  GPIO_PIN_0
+#define LED1_PORT GPIOE
+
+void EXTI0_IRQHandler(void) {
+    HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);   /* 进入 HAL 统一回调 */
+}
+
+/* HAL 库外部中断回调函数 */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+    if (GPIO_Pin == GPIO_PIN_0) {
+        HAL_Delay(15);   /* 软件消抖 (注意: 中断内不宜长延时, 实际用定时器更佳) */
+        if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0) == GPIO_PIN_RESET) {
+            HAL_GPIO_TogglePin(LED1_PORT, LED1_PIN);   /* 翻转 LED */
+        }
+    }
+}
+
+int main(void) {
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+    HAL_Init();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+    __HAL_RCC_GPIOE_CLK_ENABLE();
+
+    /* 配置 PA0 为外部中断输入, 下降沿, 上拉 */
+    GPIO_InitStruct.Pin  = GPIO_PIN_0;
+    GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    HAL_GPIO_Init(GPIOA, &amp;GPIO_InitStruct);
+
+    /* 配置 PE0 推挽输出驱动 LED */
+    GPIO_InitStruct.Pin   = LED1_PIN;
+    GPIO_InitStruct.Mode  = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull  = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    HAL_GPIO_Init(LED1_PORT, &amp;GPIO_InitStruct);
+
+    HAL_NVIC_SetPriority(EXTI0_IRQn, 2, 0);   /* 设置优先级 */
+    HAL_NVIC_EnableIRQ(EXTI0_IRQn);           /* 使能 NVIC */
+
+    while (1) { /* 主循环空闲 */ }
+}</code></pre>
+
+    <h2>六、调试要点</h2>
+    <ul>
+      <li><strong>抖动确认</strong>：用示波器观察按键两端波形可清晰看到按下瞬间的毛刺，验证消抖必要性。</li>
+      <li><strong>消抖延时取值</strong>：通常 10-20 ms，过短除不净抖动，过长响应迟钝。本实验取 15 ms。</li>
+      <li><strong>等待释放</strong>：查询方式必须等待按键释放再返回，否则长按会连续触发；中断方式同样需在中断内等待释放。</li>
+      <li><strong>中断标志清除</strong>：STM32 进入 HAL_GPIO_EXTI_IRQHandler 会自动清除 EXTI PR 标志；STC89C52RC 外部中断标志 IE0/IE1 硬件自动清除。</li>
+      <li><strong>低电平触发陷阱</strong>：STC INT0 设为低电平触发 (IT0=0) 时，按键长按会持续触发中断，故推荐下降沿触发。</li>
+      <li><strong>中断内延时</strong>：在中断服务函数内调用 HAL_Delay 存在风险 (依赖 SysTick 中断，若优先级不够会死锁)，工程上应改用定时器或在中断内只置标志位、主循环处理。</li>
+    </ul>
+
+    <h2>七、思考题</h2>
+    <ol>
+      <li>机械按键的抖动时间通常为多少？为什么必须消抖？硬件消抖与软件消抖各有什么优缺点？</li>
+      <li>STC89C52RC 的 INT0 与 INT1 分别对应哪个引脚？若希望用 P3.4 引脚作为外部中断输入，应如何实现？</li>
+      <li>中断方式相比查询方式有哪些优势？什么场景下查询方式更合适？</li>
+      <li>为什么在中断服务函数中不宜使用长延时？如何用 "中断置标志 + 主循环处理" 的方式改进 5.3 的代码？</li>
+      <li>STM32F407 的 EXTI 线 0-15 与 GPIO 的对应关系是什么？为什么 EXTI9_5 与 EXTI15_10 共用一条中断线？</li>
+    </ol>
+
+    <nav class="chapter-nav">
+      <a href="/lab/lab01-led-blink.html" class="prev">← 实验1 LED闪烁与流水灯</a>
+      <a href="/lab/index.html" class="home">返回实验列表</a>
+      <a href="/lab/lab03-matrix-keypad.html" class="next">实验3 矩阵键盘扫描 →</a>
+    </nav>
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+</body>
+</html>

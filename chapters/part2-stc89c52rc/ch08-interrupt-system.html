@@ -1,0 +1,426 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第8章 中断系统 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link active" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 2 篇 STC &gt; <span>第 8 章 中断系统</span>
+    </div>
+
+    <h1>第 8 章 中断系统</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>理解中断的基本概念、处理流程与中断源的分类</li>
+        <li>掌握 MCS-51 中断系统结构，熟悉 IE/IP/TCON 寄存器的位定义与配置方法</li>
+        <li>能够编写外部中断 INT0/INT1 的应用程序，实现按键触发等功能</li>
+        <li>理解 2 级中断优先级与嵌套规则，掌握中断现场保护的方法</li>
+        <li>能够分析中断响应时间，理解影响实时性的因素</li>
+      </ul>
+    </div>
+
+    <h2>8.1 中断概念与处理流程</h2>
+    <p><strong>中断（Interrupt）</strong>是 CPU 在执行程序过程中，遇到突发事件（如外部信号、定时器溢出、数据到达等）时，暂停当前程序、转去处理突发事件、处理完后再返回原程序继续执行的机制。中断是单片机实现实时响应的核心手段——没有中断，CPU 只能通过轮询（Polling）方式查询外设状态，效率低且无法及时响应。</p>
+
+    <p>中断处理涉及几个关键术语：<strong>中断源</strong>（产生中断请求的设备或事件）、<strong>中断请求</strong>（中断源发出的信号）、<strong>中断允许/屏蔽</strong>（CPU 是否响应该中断）、<strong>中断优先级</strong>（多个中断同时发生时的处理顺序）、<strong>中断服务程序</strong>（ISR，Interrupt Service Routine，处理中断的程序）、<strong>中断返回</strong>（IRET，从中断返回主程序）。</p>
+
+    <p>MCS-51 的中断处理流程如下：</p>
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch08-interrupt-system-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+top to bottom direction
+component "主程序执行中" as A
+usecase "中断请求?" as B
+usecase "CPU 允许中断?" as C
+usecase "当前优先级更高?" as D
+component "响应中断" as E
+component "硬件自动: PC 入栈\n关中断, 跳转到中断入口" as F
+component "执行中断服务程序 ISR" as G
+component "RETI: PC 出栈\n恢复中断允许, 返回主程序" as H
+A --&gt; B
+B --&gt; A : 否
+B --&gt; C : 是
+C --&gt; A : 否
+C --&gt; D : 是
+D --&gt; A : 否
+D --&gt; E : 是
+E --&gt; F
+F --&gt; G
+G --&gt; H
+H --&gt; A
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 8-1 MCS-51 中断响应与处理流程</div>
+
+    <p>响应中断时，硬件自动完成三件事：①将当前 PC（下一条指令地址）压入堆栈保存断点；②将 PC 装载为对应中断源的入口地址（如 INT0 为 0003H）；③不自动关闭总中断（与某些 CPU 不同，8051 的 RETI 才恢复）。执行到 RETI 指令时，硬件自动弹出断点地址到 PC，返回主程序。</p>
+
+    <h2>8.2 MCS-51 中断系统结构</h2>
+    <p>MCS-51 标准有 5 个中断源，STC 8位单片机扩展到 8 个（增加 T2 中断等）。5 个基本中断源对比如下：</p>
+    <table>
+      <thead><tr><th>中断源</th><th>名称</th><th>入口地址</th><th>请求标志</th><th>中断号</th><th>触发方式</th></tr></thead>
+      <tbody>
+        <tr><td>INT0</td><td>外部中断 0</td><td>0003H</td><td>IE0 (TCON.1)</td><td>0</td><td>低电平 / 下降沿（IT0 选择）</td></tr>
+        <tr><td>T0</td><td>定时器 0 溢出</td><td>000BH</td><td>TF0 (TCON.5)</td><td>1</td><td>计数器溢出自动置位</td></tr>
+        <tr><td>INT1</td><td>外部中断 1</td><td>0013H</td><td>IE1 (TCON.3)</td><td>2</td><td>低电平 / 下降沿（IT1 选择）</td></tr>
+        <tr><td>T1</td><td>定时器 1 溢出</td><td>001BH</td><td>TF1 (TCON.7)</td><td>3</td><td>计数器溢出自动置位</td></tr>
+        <tr><td>TI/RI</td><td>串行口中断</td><td>0023H</td><td>TI/RI (SCON)</td><td>4</td><td>发送/接收完成</td></tr>
+      </tbody>
+    </table>
+
+    <h3>8.2.1 IE 中断允许寄存器</h3>
+    <p>IE（Interrupt Enable，地址 A8H，可位寻址）控制各中断源的允许与否，位定义如下：</p>
+    <table>
+      <thead><tr><th>位</th><th>符号</th><th>功能</th></tr></thead>
+      <tbody>
+        <tr><td>IE.7</td><td>EA</td><td>总中断允许。EA=1 开总中断，EA=0 关所有中断</td></tr>
+        <tr><td>IE.6</td><td>—</td><td>保留</td></tr>
+        <tr><td>IE.5</td><td>ET2</td><td>定时器 2 中断允许（STC）</td></tr>
+        <tr><td>IE.4</td><td>ES</td><td>串行口中断允许</td></tr>
+        <tr><td>IE.3</td><td>ET1</td><td>定时器 1 中断允许</td></tr>
+        <tr><td>IE.2</td><td>EX1</td><td>外部中断 1 允许</td></tr>
+        <tr><td>IE.1</td><td>ET0</td><td>定时器 0 中断允许</td></tr>
+        <tr><td>IE.0</td><td>EX0</td><td>外部中断 0 允许</td></tr>
+      </tbody>
+    </table>
+    <p>必须同时置位 EA 和对应中断源的允许位，该中断才能被响应。例如允许外部中断 0：<code>EA = 1; EX0 = 1;</code>。</p>
+
+    <h3>8.2.2 IP 中断优先级寄存器</h3>
+    <p>IP（Interrupt Priority，地址 B8H，可位寻址）控制各中断源的优先级，位为 1 表示高优先级，为 0 表示低优先级：</p>
+    <table>
+      <thead><tr><th>位</th><th>符号</th><th>功能</th></tr></thead>
+      <tbody>
+        <tr><td>IP.7~6</td><td>—</td><td>保留</td></tr>
+        <tr><td>IP.5</td><td>PT2</td><td>定时器 2 优先级（STC）</td></tr>
+        <tr><td>IP.4</td><td>PS</td><td>串行口优先级</td></tr>
+        <tr><td>IP.3</td><td>PT1</td><td>定时器 1 优先级</td></tr>
+        <tr><td>IP.2</td><td>PX1</td><td>外部中断 1 优先级</td></tr>
+        <tr><td>IP.1</td><td>PT0</td><td>定时器 0 优先级</td></tr>
+        <tr><td>IP.0</td><td>PX0</td><td>外部中断 0 优先级</td></tr>
+      </tbody>
+    </table>
+
+    <h3>8.2.3 TCON 定时器控制寄存器</h3>
+    <p>TCON（地址 88H，可位寻址）既控制定时器启停，也包含外部中断的触发方式与标志位：</p>
+    <table>
+      <thead><tr><th>位</th><th>符号</th><th>功能</th></tr></thead>
+      <tbody>
+        <tr><td>TCON.7</td><td>TF1</td><td>T1 溢出标志，硬件置位，中断响应后硬件自动清零</td></tr>
+        <tr><td>TCON.6</td><td>TR1</td><td>T1 运行控制，TR1=1 启动 T1</td></tr>
+        <tr><td>TCON.5</td><td>TF0</td><td>T0 溢出标志</td></tr>
+        <tr><td>TCON.4</td><td>TR0</td><td>T0 运行控制</td></tr>
+        <tr><td>TCON.3</td><td>IE1</td><td>INT1 请求标志，下降沿触发时中断响应后自动清零</td></tr>
+        <tr><td>TCON.2</td><td>IT1</td><td>INT1 触发方式：0=低电平触发，1=下降沿触发</td></tr>
+        <tr><td>TCON.1</td><td>IE0</td><td>INT0 请求标志</td></tr>
+        <tr><td>TCON.0</td><td>IT0</td><td>INT0 触发方式：0=低电平触发，1=下降沿触发</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>触发方式选择</strong>：电平触发下，中断响应后若外部仍为低电平会再次触发，适合电平型信号；下降沿触发只在边沿时刻触发一次，适合按键等脉冲型信号。实际应用中外部中断多用下降沿触发。
+    </div>
+
+    <h2>8.3 外部中断 INT0/INT1 应用</h2>
+    <p>外部中断 INT0（P3.2）和 INT1（P3.3）是 MCS-51 与外部紧急事件交互的重要通道。典型应用包括按键紧急停止、旋转编码器计数、外部 ADC 转换完成信号等。本节通过"按键触发外部中断切换 LED"演示完整编程流程。</p>
+
+    <h3>8.3.1 编程步骤</h3>
+    <ol>
+      <li>配置触发方式：写 IT0/IT1 选择电平或下降沿触发。</li>
+      <li>开中断允许：置位 EX0/EX1 和 EA。</li>
+      <li>编写中断服务函数：用 C51 的 <code>interrupt</code> 关键字声明，中断号 0（INT0）或 2（INT1）。</li>
+      <li>主程序初始化后进入主循环，等待中断发生。</li>
+    </ol>
+
+    <h3>8.3.2 完整示例</h3>
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+
+sbit LED1 = P1^0;        // 主 LED，主程序中流水灯
+sbit LED2 = P1^4;        // 中断指示 LED
+sbit KEY_INT0 = P3^2;    // INT0 按键
+
+unsigned char flag_int = 0;   // 中断发生标志
+
+void delay_ms(unsigned int ms) {
+    unsigned int i, j;
+    for (i = 0; i &lt; ms; i++)
+        for (j = 0; j &lt; 110; j++);
+}
+
+// INT0 中断服务函数（中断号 0）
+void int0_isr(void) interrupt 0 {
+    LED2 = ~LED2;             // 翻转 LED2 指示中断发生
+    flag_int = 1;             // 置标志，通知主程序
+}
+
+void main(void) {
+    // 1. 配置 INT0 下降沿触发
+    IT0 = 1;                  // IT0=1 下降沿触发
+    // 2. 清除可能的中断标志
+    IE0 = 0;
+    // 3. 开中断
+    EX0 = 1;                  // 允许 INT0
+    EA  = 1;                  // 开总中断
+
+    LED1 = 0xFE;
+    while (1) {
+        // 主程序：流水灯
+        delay_ms(300);
+        LED1 = (LED1 &lt;&lt; 1) | 0x01;
+        if (LED1 == 0xFF) LED1 = 0xFE;
+
+        // 检查中断标志
+        if (flag_int) {
+            flag_int = 0;
+            // 可在此处理中断后续逻辑
+        }
+    }
+}
+</code></pre>
+
+    <p>上述程序运行时，主程序持续执行流水灯；当按下 INT0 按键时，CPU 立即暂停流水灯，跳转到 <code>int0_isr</code> 翻转 LED2 并置标志，然后返回主程序继续流水灯。这种"主循环+中断"的结构是嵌入式系统的典型架构。</p>
+
+    <h2>8.4 中断嵌套与优先级</h2>
+    <p>MCS-51 支持 <strong>2 级中断优先级</strong>：高优先级和低优先级。优先级规则如下：</p>
+    <ul>
+      <li>低优先级中断正在执行时，若发生高优先级中断，则<strong>中断嵌套</strong>——高优先级中断打断低优先级中断，先执行高优先级 ISR，返回后再继续低优先级 ISR。</li>
+      <li>高优先级中断正在执行时，任何中断都不能打断它（同级也不行）。</li>
+      <li>同级中断之间不能嵌套，需等当前 ISR 执行完才能响应。</li>
+      <li>同时发生多个同级中断时，按固定顺序查询：INT0 → T0 → INT1 → T1 → UART。</li>
+    </ul>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch08-interrupt-system-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+top to bottom direction
+component "主程序" as A
+component "INT0 ISR 执行中" as B
+component "INT1 ISR 执行中" as C
+A --&gt; B : 低优先级中断 INT0
+B --&gt; C : 高优先级中断 INT1 打断
+C --&gt; B : RETI 返回
+B --&gt; A : RETI 返回
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 8-2 中断嵌套示意（INT1 高优先级打断 INT0）</div>
+
+    <p>设置优先级的示例：将 INT1 设为高优先级，其余为低优先级：</p>
+    <pre><code class="language-c">void main(void) {
+    IT0 = 1;  IT1 = 1;       // 下降沿触发
+    PX1 = 1;                 // INT1 高优先级
+    PX0 = 0;                 // INT0 低优先级
+    EX0 = 1;  EX1 = 1;       // 允许中断
+    EA  = 1;
+    while (1);
+}
+</code></pre>
+
+    <h2>8.5 中断函数的现场保护</h2>
+    <p>中断发生时，CPU 暂停主程序转去执行 ISR。若 ISR 中修改了主程序正在使用的寄存器（如 A、PSW、R0~R7），返回主程序后这些寄存器的值已被破坏，会导致主程序出错。因此必须<strong>保护现场</strong>——在 ISR 开头保存这些寄存器，结尾恢复。</p>
+
+    <h3>8.5.1 硬件自动保护</h3>
+    <p>MCS-51 响应中断时硬件只自动保存 PC（断点地址），不保存 A、PSW 等寄存器。这与 ARM Cortex-M 自动保存 R0~R3、R12、LR、PC、xPSR 不同，8051 的现场保护需要软件完成。</p>
+
+    <h3>8.5.2 软件保护：using 关键字</h3>
+    <p>C51 编译器为中断函数提供两种现场保护方式：</p>
+    <ul>
+      <li><strong>不写 using</strong>：编译器自动在 ISR 开头 PUSH ACC/PSW/B/DPH/DPL/R0~R7 等用到的工作寄存器，结尾 POP 恢复。代码体积大，但通用性好。</li>
+      <li><strong>写 using n</strong>：ISR 使用第 n 组工作寄存器（R0~R7），避免与主程序争夺，编译器无需 PUSH/POP R0~R7，代码体积小、速度快。但 n 必须与主程序使用的组不同。</li>
+    </ul>
+    <pre><code class="language-c">// 方式一：不写 using，编译器自动保护（代码体积大）
+void timer0_isr(void) interrupt 1 {
+    TH0 = 0xFC;
+    TL0 = 0x18;
+    P1 = ~P1;
+}
+
+// 方式二：使用第 1 组寄存器（代码体积小）
+void timer0_isr(void) interrupt 1 using 1 {
+    TH0 = 0xFC;
+    TL0 = 0x18;
+    P1 = ~P1;
+}
+</code></pre>
+
+    <div class="tip">
+      <strong>建议</strong>：对实时性要求高、频繁触发的中断（如高频定时器中断）建议用 using；对偶尔触发的中断（如按键外部中断）可不写 using，让编译器自动保护。注意同一工程中不同中断的 using 组号不能冲突。
+    </div>
+
+    <h2>8.6 中断响应时间分析</h2>
+    <p>中断响应时间（Interrupt Latency）是从中断请求发出到 CPU 开始执行 ISR 第一条指令所经过的时间，是衡量实时性的关键指标。MCS-51 的中断响应时间分析如下：</p>
+
+    <p>MCS-51 在每个机器周期的 S5P2 采样中断请求，下一个机器周期开始响应。响应过程包括：①硬件查询中断（1 个机器周期）；②长调用 LCALL 到中断入口（2 个机器周期）；③若 ISR 开头有 LJMP 跳转到真正处理代码，再加 2 个机器周期。因此最短响应时间为 3 个机器周期。</p>
+
+    <p>但若中断请求发生时 CPU 正在执行多周期指令（如 MUL/DIV 占 4 周期），需等该指令执行完；若正在执行 RETI 或访问 IE/IP 的指令，需再执行完一条指令才能响应。因此最长响应时间为 8 个机器周期。响应时间范围：</p>
+    <p>$$T_{response} = (3 \sim 8) \times T_{machine} = (3 \sim 8) \times \frac{12}{f_{osc}}$$</p>
+
+    <p>以 11.0592MHz 晶振为例：</p>
+    <p>$$T_{response,min} = 3 \times \frac{12}{11.0592 \times 10^6} \approx 3.26 \, \mu s$$</p>
+    <p>$$T_{response,max} = 8 \times \frac{12}{11.0592 \times 10^6} \approx 8.68 \, \mu s$$</p>
+
+    <p>即 STC 在 11.0592MHz 下的中断响应时间约为 3.26~8.68 微秒。对于大多数控制应用，这个响应速度足够；但若需亚微秒级响应（如高速 PWM、精确脉冲测量），8051 较慢，应考虑 STM32 等高性能单片机。</p>
+
+    <table>
+      <thead><tr><th>晶振频率</th><th>机器周期</th><th>最短响应时间</th><th>最长响应时间</th></tr></thead>
+      <tbody>
+        <tr><td>11.0592 MHz</td><td>1.085 μs</td><td>3.26 μs</td><td>8.68 μs</td></tr>
+        <tr><td>12 MHz</td><td>1.000 μs</td><td>3.00 μs</td><td>8.00 μs</td></tr>
+        <tr><td>24 MHz</td><td>0.500 μs</td><td>1.50 μs</td><td>4.00 μs</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>优化建议</strong>：①提高晶振频率可线性缩短响应时间；②ISR 尽量短小，把耗时逻辑放主程序处理；③对时间敏感的操作用下降沿触发而非电平触发，避免电平持续导致重复响应；④使用 using 关键字减少现场保护开销。
+    </div>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>中断是 CPU 暂停当前程序、处理突发事件、再返回的机制，是实现实时响应的核心手段，优于轮询方式。</li>
+        <li>MCS-51 有 5 个基本中断源（INT0/T0/INT1/T1/UART），STC 扩展到 8 个；入口地址 0003H~0023H 固定分配。</li>
+        <li>IE 寄存器控制中断允许（EA 总开关 + 各源开关），IP 控制优先级（2 级），TCON 控制外部中断触发方式（IT0/IT1）与定时器标志。</li>
+        <li>外部中断 INT0/INT1 可选低电平或下降沿触发，按键等脉冲信号多用下降沿触发。</li>
+        <li>中断嵌套规则：高优先级可打断低优先级，同级不能嵌套；同时发生时按 INT0→T0→INT1→T1→UART 顺序查询。</li>
+        <li>8051 只自动保存 PC，其他寄存器需软件保护；C51 的 using 关键字可指定 ISR 使用独立工作寄存器组，减少 PUSH/POP 开销。</li>
+        <li>中断响应时间为 3~8 个机器周期，11.0592MHz 下约 3.26~8.68μs；提高晶振频率可线性缩短响应时间。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>简述中断与轮询的区别，说明中断方式为何能提高 CPU 利用率。</li>
+        <li>MCS-51 有几个基本中断源？各自的入口地址和中断号是什么？写出 IE 寄存器各位的含义。</li>
+        <li>编写程序，使用 INT0（P3.2）按键下降沿触发中断，每按下一次让 P1 口的 8 个 LED 状态翻转一次。说明为何选下降沿触发而非电平触发。</li>
+        <li>若同时允许 INT0 和 INT1 中断，要求 INT1 能打断 INT0，应如何配置 IP 寄存器？画出中断嵌套流程图。</li>
+        <li>对比 C51 中断函数"写 using"与"不写 using"的差异，说明各自适用场景。</li>
+        <li>已知 STC 晶振为 12MHz，计算中断响应时间的范围，并讨论如何缩短中断响应时间。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>张毅刚. 单片机原理及应用——C51 编程 + Proteus 仿真（第 4 版）[M]. 北京：高等教育出版社, 2021.</li>
+        <li>STC 官方. STC89C52RC 数据手册 [Z]. 2024. https://www.stcmcudata.com/</li>
+        <li>郭天祥. 新概念 51 单片机 C 语言教程 [M]. 北京：电子工业出版社, 2018.</li>
+        <li>何立民. 单片机高级教程——应用与设计（第 3 版）[M]. 北京：北京航空航天大学出版社, 2018.</li>
+        <li>Intel Corporation. MCS-51 Microcontroller Family User's Manual [Z]. 1994.</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html" class="prev">← 第 7 章 GPIO/LED/按键</a>
+      <a href="/chapters/part2-stc89c52rc/ch09-timer-counter.html" class="next">第 9 章 定时器/计数器 →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

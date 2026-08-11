@@ -1,0 +1,341 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第14章 STM32 开发环境搭建 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link active" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 3 篇 STM32 &gt; <span>第 14 章 STM32 开发环境搭建</span>
+    </div>
+
+    <h1>第 14 章 STM32 开发环境搭建</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>认识 STM32 最小系统板的硬件组成（晶振、复位、电源、下载接口）</li>
+        <li>掌握 STM32CubeMX 的安装与新建工程流程</li>
+        <li>掌握 STM32CubeIDE 工程的创建、编译、下载与调试方法</li>
+        <li>了解 Keil MDK-ARM 与 VS Code + PlatformIO 两种替代方案</li>
+        <li>能够借助 TRAE/Copilot 等 AI 工具辅助查询 HAL 函数与排查编译错误</li>
+        <li>完成 ST-Link 驱动安装并实现首个工程烧录</li>
+      </ul>
+    </div>
+
+    <h2>14.1 STM32F407VET6 最小系统板认识</h2>
+    <p>STM32F407VET6 最小系统板（也称核心板）是让芯片能正常工作的最少外设电路集合，本课程配套开发板（正点原子探索者 F407 / 野火挑战者 F407 / ST Nucleo-F4 等）的核心要素基本一致，主要包括：</p>
+    <ul>
+      <li><strong>主控芯片</strong>：STM32F407VET6，LQFP100 封装。</li>
+      <li><strong>电源</strong>：USB 5V 输入，经 AMS1117-3.3 稳压为 3.3V 给 VDD；VBAT 可接 3V 纽扣电池 CR1220 维持 RTC。</li>
+      <li><strong>主晶振 HSE（High-Speed External）</strong>：8 MHz，配合内部 PLL 倍频到 168 MHz 系统时钟。</li>
+      <li><strong>实时时钟晶振 LSE（Low-Speed External）</strong>：32.768 kHz，供 RTC 使用，掉电后由 VBAT 维持走时。</li>
+      <li><strong>复位电路</strong>：NRST 引脚接 RC 复位电路 + 按键复位 KEY_RST。</li>
+      <li><strong>启动配置</strong>：BOOT0/BOOT1 引脚，跳线或拨码开关选择启动模式。</li>
+      <li><strong>调试接口</strong>：SWD 接口（SWDIO/SWCLK/GND/3V3/RST）4-5 引脚排针，连接 ST-Link/J-Link。</li>
+      <li><strong>USB 转串口</strong>：CH340/CP2102 把 USB 转 USART1（PA9/PA10），方便串口调试与 ISP 下载。</li>
+      <li><strong>外设</strong>：板载 LED（PA6/PA7 等）、按键（PE4 等）、TF 卡座、USB Device 接口等。</li>
+    </ul>
+
+    <p>STM32 启动模式由 BOOT0/BOOT1 决定，三者组合如下：</p>
+    <table>
+      <thead><tr><th>BOOT1</th><th>BOOT0</th><th>启动区域</th><th>典型用途</th></tr></thead>
+      <tbody>
+        <tr><td>x</td><td>0</td><td>主 Flash（0x08000000）</td><td>正常运行（默认）</td></tr>
+        <tr><td>0</td><td>1</td><td>系统存储器（出厂 Bootloader）</td><td>串口/USB ISP 下载</td></tr>
+        <tr><td>1</td><td>1</td><td>内置 SRAM（0x20000000）</td><td>调试临时运行，断电丢失</td></tr>
+      </tbody>
+    </table>
+
+    <p>正常开发阶段 BOOT0 接 0（接地），每次复位从 Flash 运行用户程序；若要通过 USART1 烧录固件（无 ST-Link 时），将 BOOT0 接 1，复位后进入 ISP 模式，使用 STM32CubeProgrammer 下载。</p>
+
+    <h2>14.2 STM32CubeMX 安装与新建工程</h2>
+    <p>STM32CubeMX 是 ST 官方的图形化工程配置工具，是 HAL 库开发的"标配"。安装与新建工程流程如下：</p>
+    <ol>
+      <li><strong>安装前置环境</strong>：CubeMX 基于 Java，新版自带 JRE；建议安装 STM32CubeIDE（含 CubeMX 插件）一步到位。</li>
+      <li><strong>下载 CubeMX</strong>：访问 ST 官网搜索 STM32CubeMX，注册账号后下载最新版本（当前 v6.x）。</li>
+      <li><strong>安装</strong>：双击安装包按向导完成，安装路径不要含中文与空格。</li>
+      <li><strong>下载固件包</strong>：首次启动后，进入 Help → Manage embedded software packages，勾选 STM32F4 最新固件包下载。</li>
+      <li><strong>新建工程</strong>：File → New Project → 搜索 STM32F407VET6 → 选中 → 右上角 Start Project。</li>
+      <li><strong>配置外设</strong>：在 Pinout 视图中点击芯片引脚或左侧列表选择外设，例如 SYS → Debug → Serial Wire、RCC → HSE → Crystal/Ceramic Resonator、GPIO → 点击 PA6 设为 GPIO_Output 驱动 LED。</li>
+      <li><strong>配置时钟</strong>：Clock Configuration 标签下输入 HCLK=168，回车后 CubeMX 自动计算 PLL 参数。</li>
+      <li><strong>工程设置</strong>：Project Manager → Project 输入工程名、Toolchain/IDE 选择 STM32CubeIDE 或 MDK-ARM；Code Generator 勾选 "Generate peripheral initialization as a pair of .c/.h"。</li>
+      <li><strong>生成代码</strong>：点击 GENERATE CODE，CubeMX 生成完整工程，可选择直接打开 IDE。</li>
+    </ol>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch14-stm32-dev-environment-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+component "启动 CubeMX" as A
+component "选型 STM32F407VET6" as B
+component "Pinout 配置外设" as C
+component "Clock 配置时钟树" as D
+component "Project Manager 设置" as E
+component "GENERATE CODE" as F
+component "打开 CubeIDE/Keil" as G
+component "编写 USER CODE" as H
+component "编译下载调试" as I
+A --&gt; B
+B --&gt; C
+C --&gt; D
+D --&gt; E
+E --&gt; F
+F --&gt; G
+G --&gt; H
+H --&gt; I
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 14-1 CubeMX 新建工程流程</div>
+
+    <h2>14.3 STM32CubeIDE 工程创建与编译下载</h2>
+    <p>STM32CubeIDE 集成了编辑器、GCC ARM 工具链、GDB 调试器与 ST-Link 驱动，无需额外安装即可使用。从 CubeMX 生成工程后，主要操作如下：</p>
+    <ol>
+      <li><strong>打开工程</strong>：File → Open Projects from File System → 选择 CubeMX 生成的工程目录。</li>
+      <li><strong>工程结构</strong>：左侧 Project Explorer 中包含 Core/Src（用户源码）、Core/Inc（头文件）、Drivers/STM32F4xx_HAL_Driver（HAL 库）、.ioc（CubeMX 配置文件）。</li>
+      <li><strong>编辑代码</strong>：打开 Core/Src/main.c，在 <code>/* USER CODE BEGIN WHILE */</code> 与 <code>/* USER CODE BEGIN 3 */</code> 之间添加用户逻辑。</li>
+      <li><strong>编译</strong>：点击工具栏 Build（锤子图标）或按 Ctrl+B，编译输出在 Console 视图，固件 .elf 与 .bin 在 Debug/Release 目录。</li>
+      <li><strong>下载</strong>：连接 ST-Link，点击 Run → Debug（虫子图标）或绿色下载按钮，CubeIDE 自动编译、烧录并启动调试会话。</li>
+      <li><strong>调试</strong>：双击代码行号左侧设断点，F5/F6 单步，Expressions 视图监视变量，SFR 视图查看寄存器，Live Expressions 实时监控全局变量。</li>
+    </ol>
+
+    <p>一个最简的 LED 闪烁 main 循环示例：</p>
+    <pre><code class="language-c">/* USER CODE BEGIN WHILE */
+while (1)
+{
+    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);   /* 翻转 PA6 */
+    HAL_Delay(500);                          /* 延时 500 ms */
+    /* USER CODE END WHILE */
+    /* USER CODE BEGIN 3 */
+}
+/* USER CODE END 3 */
+</code></pre>
+
+    <h2>14.4 Keil MDK-ARM 工程导入与配置</h2>
+    <p>Keil MDK-ARM 是 ARM 工程师群体中使用率最高的商业 IDE，对 STM32 支持完善。CubeMX 生成的 MDK-ARM 工程可直接用 Keil 打开。关键步骤：</p>
+    <ol>
+      <li><strong>安装 Keil 5</strong>：从 keil.com 下载 MDK-ARM，安装 Pack Installer 中 STM32F4 Series Device Family Pack（DFP）。</li>
+      <li><strong>安装 ST-Link 驱动</strong>：从 ST 官网下载 STSW-LINK009 安装，Keil 才能识别 ST-Link。</li>
+      <li><strong>打开工程</strong>：双击 CubeMX 工程目录 MDK-ARM/*.uvprojx。</li>
+      <li><strong>配置 RTE</strong>：Manage Run-Time Environment 中可勾选 CMSIS、CMSIS-DSP、FreeRTOS 等组件。</li>
+      <li><strong>调试器配置</strong>：Options for Target → Debug → 右侧下拉选 ST-Link Debugger → Settings → Port 选 SW，最大频率 4 MHz。</li>
+      <li><strong>Flash 下载配置</strong>：Debug 旁 Utilities 选 ST-Link Debugger → Settings → 勾选 Reset and Run，下载后自动复位运行。</li>
+      <li><strong>编译下载</strong>：F7 编译，F8 下载，Ctrl+F5 进入调试。</li>
+    </ol>
+
+    <table>
+      <thead><tr><th>对比项</th><th>STM32CubeIDE</th><th>Keil MDK-ARM</th></tr></thead>
+      <tbody>
+        <tr><td>授权</td><td>免费</td><td>商业，代码限 32 KB（评估版）</td></tr>
+        <tr><td>工具链</td><td>GCC ARM</td><td>ARMCC/ARMClang</td></tr>
+        <tr><td>代码补全</td><td>一般</td><td>优秀</td></tr>
+        <tr><td>调试体验</td><td>良好</td><td>极佳</td></tr>
+        <tr><td>跨平台</td><td>Windows/Linux/Mac</td><td>仅 Windows</td></tr>
+      </tbody>
+    </table>
+
+    <h2>14.5 VS Code + PlatformIO 开发 STM32</h2>
+    <p>VS Code + PlatformIO 是新兴的开源嵌入式开发方案，优点是编辑器现代化、插件丰富、跨平台、社区支持好。配置步骤：</p>
+    <ol>
+      <li>安装 VS Code，扩展商店搜索 PlatformIO IDE 安装（首次会下载框架，耗时较久）。</li>
+      <li>PIO Home → New Project：Name 填 blink，Board 选 ST STM32F4 Discovery（或自定义 genericSTM32F407VET6），Framework 选 STM32Cube。</li>
+      <li>在 src/main.c 写入代码，platformio.ini 配置调试器与下载方式。</li>
+    </ol>
+
+    <p>platformio.ini 典型配置：</p>
+    <pre><code class="language-ini">[env:genericSTM32F407VET6]
+platform = ststm32
+board = genericSTM32F407VET6
+framework = stm32cube
+build_flags = -DHSE_VALUE=8000000 -DSYSCLK_FREQ=168000000
+upload_protocol = stlink
+debug_tool = stlink
+monitor_speed = 115200
+lib_deps =
+    ; 在此添加第三方库
+</code></pre>
+
+    <p>常用命令（VS Code 终端）：构建 <code>pio run</code>、上传 <code>pio run -t upload</code>、串口监视 <code>pio device monitor</code>、调试按 F5。</p>
+
+    <h2>14.6 VS Code 中 TRAE/Copilot AI 辅助开发</h2>
+    <p>STM32 HAL 库函数繁多，新手常陷入"找不到函数 / 参数含义不清 / 报错看不懂"的困境。在 VS Code 中集成 TRAE 或 GitHub Copilot 可显著缓解这些问题，典型用法如下：</p>
+    <ul>
+      <li><strong>HAL 函数查询</strong>：在编辑器中提问"如何用 HAL 库通过 USART1 以 DMA 方式发送一段数据"，AI 直接给出 <code>HAL_UART_Transmit_DMA(&amp;huart1, buf, len)</code> 并解释各参数。</li>
+      <li><strong>CubeMX 配置建议</strong>：描述需求"我想用 TIM3 CH1 输出 1 kHz、占空比 30% 的 PWM"，AI 给出 PSC/ARR 计算（168MHz/84MHz...）与 CubeMX 勾选步骤。</li>
+      <li><strong>错误分析</strong>：把编译错误 / 链接错误 / 运行 HardFault 粘贴给 AI，例如 <code>undefined reference to `HAL_GPIO_WritePin'</code> 多半是 stm32f4xx_hal_gpio.c 未加入编译，或 HAL_GPIO 模块宏未在 stm32f4xx_hal_conf.h 中使能。</li>
+      <li><strong>数据手册查询</strong>：让 AI 帮忙找引脚复用功能、寄存器地址、外设对应通道，配合 CubeMX 图形化核对。</li>
+      <li><strong>代码重构</strong>：把寄存器风格代码改写为 HAL 风格，反之亦可，加深两者对应关系。</li>
+    </ul>
+
+    <div class="tip">
+      <strong>AI 使用注意</strong>：AI 输出需与官方数据手册 RM0090、HAL 库 chm 帮助文档交叉核对；AI 可能给出已废弃函数（如 SPL 风格），需自行判断；复杂时序与硬件相关问题仍需结合示波器/逻辑分析仪验证。
+    </div>
+
+    <h2>14.7 ST-Link 驱动安装与烧录调试</h2>
+    <p>ST-Link 是 ST 官方调试器，STM32 开发必备。安装步骤：</p>
+    <ol>
+      <li>下载 STSW-LINK009（Windows）/STSW-LINK007（Mac）驱动，从 st.com 搜索 "ST-LINK USB driver"。</li>
+      <li>解压后右键 dpinst_amd64.exe 以管理员身份运行。</li>
+      <li>用 USB 线连接 ST-Link 与电脑，设备管理器中应出现 "Universal Serial Bus devices → STM32 STLink"。</li>
+      <li>用 4 根杜邦线连接 ST-Link 与目标板：SWDIO→SWDIO、SWCLK→SWCLK、3.3V→3V3、GND→GND。</li>
+      <li>在 CubeIDE/Keil/PlatformIO 中按上述章节配置调试器后即可下载。</li>
+    </ol>
+
+    <p>常见问题排查：</p>
+    <table>
+      <thead><tr><th>现象</th><th>可能原因</th><th>解决方法</th></tr></thead>
+      <tbody>
+        <tr><td>No ST-Link detected</td><td>驱动未装 / USB 线只供电不通信</td><td>重装驱动；换数据线</td></tr>
+        <tr><td>Cannot access target</td><td>SWDIO/SWCLK 接反或短路</td><td>检查接线；目标板未上电</td></tr>
+        <tr><td>Flash download failed</td><td>读保护 Level 1</td><td>用 CubeProgrammer 选项字节解除 RDP</td></tr>
+        <tr><td>程序不运行</td><td>BOOT0 = 1，进入 ISP</td><td>BOOT0 接地后复位</td></tr>
+      </tbody>
+    </table>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>STM32F407VET6 最小系统板由主控、电源、8 MHz/32.768 kHz 双晶振、复位、启动配置、SWD 调试接口、USB 转串口等组成；BOOT0/BOOT1 决定启动模式。</li>
+        <li>STM32CubeMX 是 HAL 开发的图形化配置工具，按 Pinout → Clock → Project Manager → Generate Code 流程生成工程。</li>
+        <li>STM32CubeIDE 集成 GCC 工具链与 GDB 调试，免费、跨平台，适合教学；Keil MDK-ARM 商业授权、调试体验更佳。</li>
+        <li>VS Code + PlatformIO 是新兴开源方案，platformio.ini 一行配置即可切换平台与调试器。</li>
+        <li>TRAE/Copilot 等 AI 工具能加速 HAL 函数查询、配置建议与错误分析，但需与官方文档交叉核对。</li>
+        <li>ST-Link 驱动安装后即可在三大 IDE 中下载与调试，注意 BOOT0 状态与 SWD 接线。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>STM32 最小系统板上为什么通常有两颗晶振？分别用于什么？</li>
+        <li>简述 BOOT0/BOOT1 三种组合对应的启动模式，并说明开发阶段应设置为什么状态。</li>
+        <li>用 CubeMX 配置一个工程：HSE 8 MHz、HCLK 168 MHz、PA6 输出、USART1 115200 8N1，写出关键步骤。</li>
+        <li>对比 STM32CubeIDE 与 Keil MDK-ARM，分别列出 3 条优缺点。</li>
+        <li>编写 platformio.ini，使用 genericSTM32F407VET6 板与 ST-Link 调试器，串口 115200。</li>
+        <li>ST-Link 烧录出现 "No ST-Link detected"，列出至少 3 种可能原因与排查方法。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>ST 官方. STM32CubeIDE 用户手册 UM2609 [Z]. 2024. https://www.st.com/</li>
+        <li>ST 官方. STM32CubeMX 用户手册 UM1718 [Z]. 2024. https://www.st.com/</li>
+        <li>ST 官方. STM32CubeProgrammer 用户手册 UM2237 [Z]. 2024. https://www.st.com/</li>
+        <li>PlatformIO 官方文档. ST STM32 Platform [Z]. 2024. https://docs.platformio.org/</li>
+        <li>正点原子. STM32F4 开发指南——库函数版本 [M]. 北京：北京航空航天大学出版社, 2020.</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/chapters/part3-stm32f407/ch13-stm32-overview.html" class="prev">← 第 13 章 STM32 与 Cortex-M4 概述</a>
+      <a href="/index.html" class="home">返回首页</a>
+      <a href="/chapters/part3-stm32f407/ch15-hal-library.html" class="next">第 15 章 HAL 库与工程 →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

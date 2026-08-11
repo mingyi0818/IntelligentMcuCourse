@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>资源下载 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=6">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html" class="active">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+  <main class="content" style="max-width: 1000px;">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; <span>资源下载</span>
+    </div>
+
+    <h1>资源下载</h1>
+
+    <p>本页面汇集课程所需的全部可下载资源，包括代码工程、课件、数据手册、工具链安装包等。所有资源均托管在 GitHub 仓库内，可点击直接下载或克隆整个仓库后离线使用。</p>
+
+    <h2>一、代码工程</h2>
+    <p>所有代码工程位于仓库 <code>/code</code> 目录，按平台与编号组织。每个工程包含 <code>main.c</code> 主程序、<code>platformio.ini</code>（PlatformIO 配置）和 <code>README.md</code>（接线与运行说明）。STC 工程可在 Keil C51 中新建工程后加入 <code>src/main.c</code>；STM32 工程可在 CubeMX 中按 README 描述重新生成各 IDE 工程。</p>
+
+    <h3>STC 工程</h3>
+    <table>
+      <thead><tr><th>编号</th><th>工程名</th><th>对应章节</th><th>路径</th></tr></thead>
+      <tbody>
+        <tr><td>01</td><td>LED 闪烁</td><td>第 5 章</td><td><a href="/code/stc89c52rc/01-led-blink/">/code/stc89c52rc/01-led-blink/</a></td></tr>
+        <tr><td>02</td><td>流水灯</td><td>第 7 章</td><td><a href="/code/stc89c52rc/02-flowing-led/">/code/stc89c52rc/02-flowing-led/</a></td></tr>
+        <tr><td>03</td><td>按键控制</td><td>第 7 章</td><td><a href="/code/stc89c52rc/03-button/">/code/stc89c52rc/03-button/</a></td></tr>
+        <tr><td>04</td><td>矩阵键盘</td><td>第 7 章</td><td><a href="/code/stc89c52rc/04-matrix-keypad/">/code/stc89c52rc/04-matrix-keypad/</a></td></tr>
+        <tr><td>05</td><td>数码管显示</td><td>第 11 章</td><td><a href="/code/stc89c52rc/05-7seg-display/">/code/stc89c52rc/05-7seg-display/</a></td></tr>
+        <tr><td>06</td><td>定时器中断</td><td>第 9 章</td><td><a href="/code/stc89c52rc/06-timer-interrupt/">/code/stc89c52rc/06-timer-interrupt/</a></td></tr>
+        <tr><td>07</td><td>串口通信</td><td>第 10 章</td><td><a href="/code/stc89c52rc/07-uart/">/code/stc89c52rc/07-uart/</a></td></tr>
+        <tr><td>08</td><td>LCD1602 显示</td><td>第 11 章</td><td><a href="/code/stc89c52rc/08-lcd1602/">/code/stc89c52rc/08-lcd1602/</a></td></tr>
+        <tr><td>09</td><td>I2C EEPROM</td><td>第 11 章</td><td><a href="/code/stc89c52rc/09-i2c-eeprom/">/code/stc89c52rc/09-i2c-eeprom/</a></td></tr>
+        <tr><td>10</td><td>智能交通灯</td><td>第 25 章</td><td><a href="/code/stc89c52rc/10-traffic-light/">/code/stc89c52rc/10-traffic-light/</a></td></tr>
+      </tbody>
+    </table>
+
+    <h3>STM32 工程</h3>
+    <table>
+      <thead><tr><th>编号</th><th>工程名</th><th>对应章节</th><th>路径</th></tr></thead>
+      <tbody>
+        <tr><td>01</td><td>HAL 库 LED 闪烁</td><td>第 15-16 章</td><td><a href="/code/stm32f407/01-hal-led-blink/">/code/stm32f407/01-hal-led-blink/</a></td></tr>
+        <tr><td>02</td><td>外部中断按键</td><td>第 16 章</td><td><a href="/code/stm32f407/02-exti-button/">/code/stm32f407/02-exti-button/</a></td></tr>
+        <tr><td>03</td><td>定时器 PWM</td><td>第 17 章</td><td><a href="/code/stm32f407/03-timer-pwm/">/code/stm32f407/03-timer-pwm/</a></td></tr>
+        <tr><td>04</td><td>USART printf</td><td>第 18 章</td><td><a href="/code/stm32f407/04-usart-printf/">/code/stm32f407/04-usart-printf/</a></td></tr>
+        <tr><td>05</td><td>ADC 电位器</td><td>第 19 章</td><td><a href="/code/stm32f407/05-adc-potentiometer/">/code/stm32f407/05-adc-potentiometer/</a></td></tr>
+        <tr><td>06</td><td>SPI Flash W25Q64</td><td>第 20 章</td><td><a href="/code/stm32f407/06-spi-flash/">/code/stm32f407/06-spi-flash/</a></td></tr>
+        <tr><td>07</td><td>I2C OLED</td><td>第 20 章</td><td><a href="/code/stm32f407/07-i2c-oled/">/code/stm32f407/07-i2c-oled/</a></td></tr>
+        <tr><td>08</td><td>RTC 实时钟</td><td>第 21 章</td><td><a href="/code/stm32f407/08-rtc-clock/">/code/stm32f407/08-rtc-clock/</a></td></tr>
+        <tr><td>09</td><td>FreeRTOS 多任务</td><td>第 22 章</td><td><a href="/code/stm32f407/09-freertos-multitask/">/code/stm32f407/09-freertos-multitask/</a></td></tr>
+        <tr><td>10</td><td>智能温控风扇</td><td>第 27 章</td><td><a href="/code/stm32f407/10-smart-fan/">/code/stm32f407/10-smart-fan/</a></td></tr>
+      </tbody>
+    </table>
+
+    <h2>二、课件 PPT</h2>
+    <div class="note">
+      <strong>说明</strong>：课件 PPT 文件由教师在教学过程中持续制作并提交，存放于仓库 <code>/slides</code> 目录。命名规范：<code>chXX-章节名.pptx</code>（例：<code>ch01-mcu-overview.pptx</code>）。下面列出当前可用课件，未列出的章节请等待教师上传或参考在线 HTML 教程。
+    </div>
+    <table>
+      <thead><tr><th>章节</th><th>课件文件</th><th>状态</th></tr></thead>
+      <tbody>
+        <tr><td>第 1 章 单片机概述</td><td><code>ch01-mcu-overview.pptx</code></td><td>待上传</td></tr>
+        <tr><td>第 2 章 计算机基础与数制</td><td><code>ch02-computer-fundamentals.pptx</code></td><td>待上传</td></tr>
+        <tr><td>...</td><td>...</td><td>...</td></tr>
+      </tbody>
+    </table>
+
+    <h2>三、数据手册与参考文档</h2>
+    <table>
+      <thead><tr><th>文档名称</th><th>来源</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>STC89C52RC 数据手册</td><td><a href="https://www.stcmcudata.com/">STC 官网</a></td><td>STC89C52RC 系列完整手册（中文）</td></tr>
+        <tr><td>STC89C52RC 手册英文版</td><td>STC 官网</td><td>—</td></tr>
+        <tr><td>STM32F407 参考手册 RM0090</td><td><a href="https://www.st.com/">ST 官网</a></td><td>STM32F405/415/407/417 寄存器与外设详解</td></tr>
+        <tr><td>STM32F407 数据手册</td><td>ST 官网</td><td>引脚定义、电气特性</td></tr>
+        <tr><td>Cortex-M4 权威指南</td><td>ARM / Joseph Yiu</td><td>内核架构、NVIC、DSP/FPU</td></tr>
+        <tr><td>UM1725 STM32 HAL 库用户手册</td><td>ST 官网</td><td>HAL 库函数参考</td></tr>
+        <tr><td>FreeRTOS 官方手册</td><td><a href="https://www.freertos.org/">FreeRTOS.org</a></td><td>实时内核使用指南</td></tr>
+        <tr><td>MSP430x5xx 用户手册</td><td><a href="https://www.ti.com/">TI 官网</a></td><td>MSP430F5xx/6xx 系列手册</td></tr>
+      </tbody>
+    </table>
+
+    <h2>四、工具链安装包</h2>
+    <table>
+      <thead><tr><th>工具</th><th>适用平台</th><th>下载地址</th></tr></thead>
+      <tbody>
+        <tr><td>STC-ISP 烧录软件</td><td>STC 8 位单片机</td><td><a href="https://www.stcmcudata.com/">STC 官网</a></td></tr>
+        <tr><td>Keil C51</td><td>STC 8位单片机</td><td><a href="https://www.keil.com/c51/">Keil 官网</a>（评估版免费）</td></tr>
+        <tr><td>Keil MDK-ARM</td><td>STM32</td><td><a href="https://www.keil.com/arm/">Keil 官网</a>（评估版有 32K 代码限制）</td></tr>
+        <tr><td>STM32CubeMX</td><td>STM32 全系列</td><td><a href="https://www.st.com/en/development-tools/stm32cubemx.html">ST 官网</a>（免费）</td></tr>
+        <tr><td>STM32CubeIDE</td><td>STM32 全系列</td><td><a href="https://www.st.com/en/development-tools/stm32cubeide.html">ST 官网</a>（免费）</td></tr>
+        <tr><td>STM32CubeProgrammer</td><td>STM32 烧录</td><td>ST 官网（免费）</td></tr>
+        <tr><td>VS Code</td><td>通用编辑器</td><td><a href="https://code.visualstudio.com/">VS Code 官网</a></td></tr>
+        <tr><td>PlatformIO 插件</td><td>VS Code 内</td><td>VS Code 扩展市场搜索 "PlatformIO IDE"</td></tr>
+        <tr><td>TRAE / GitHub Copilot</td><td>VS Code AI 辅助</td><td>各 AI 工具官网订阅</td></tr>
+        <tr><td>ST-Link 驱动</td><td>STM32 调试器</td><td>ST 官网（CubeMX/CubeIDE 安装时一并安装）</td></tr>
+        <tr><td>Code Composer Studio</td><td>MSP430</td><td><a href="https://www.ti.com/tool/CCSTUDIO">TI 官网</a>（免费）</td></tr>
+      </tbody>
+    </table>
+
+    <h2>五、实验报告模板与教学文件</h2>
+    <ul>
+      <li><strong>实验报告模板</strong>：<code>docs/实验报告模板.docx</code>（待上传）</li>
+      <li><strong>课程设计说明书模板</strong>：<code>docs/课程设计说明书模板.docx</code>（待上传）</li>
+      <li><strong>教学进度表</strong>：见 <a href="/syllabus.html">教学大纲</a> 页面</li>
+    </ul>
+
+    <h2>六、如何克隆与本地预览</h2>
+    <p>推荐使用 Git 克隆整个仓库到本地：</p>
+<pre><code class="language-bash">git clone &lt;仓库地址&gt;
+cd Intelligent-McuCourse
+# 启动本地静态服务器预览
+python -m http.server 8000
+# 浏览器访问 http://localhost:8000</code></pre>
+    <p>或直接下载 ZIP 压缩包：在 GitHub 仓库页面点击 "Code → Download ZIP"。</p>
+
+    <nav class="chapter-nav">
+      <a href="/index.html" class="home">← 返回首页</a>
+    </nav>
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

@@ -1,0 +1,518 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第11章 显示与接口技术 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link active" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 2 篇 STC &gt; <span>第 11 章 显示与接口技术</span>
+    </div>
+
+    <h1>第 11 章 显示与接口技术</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>掌握数码管静态/动态显示原理及共阴/共阳段码表的编写</li>
+        <li>能够编写 LCD1602 字符液晶的 C51 驱动程序</li>
+        <li>理解 I2C 总线协议时序并能用 GPIO 软件模拟</li>
+        <li>掌握 AT24C02 EEPROM 读写流程与时序</li>
+        <li>了解 DS1302 实时时钟与 SPI 总线、74HC595 IO 扩展方法</li>
+      </ul>
+    </div>
+
+    <h2>11.1 数码管静态与动态显示</h2>
+    <p><strong>数码管（Seven-Segment Display）</strong>由 8 个发光二极管（a/b/c/d/e/f/g + 小数点 dp）按"日"字形排列，分<strong>共阴极</strong>（公共端接地，段位高电平点亮）和<strong>共阳极</strong>（公共端接 VCC，段位低电平点亮）两种。一位数码管显示一位数字需 8 条段线 + 1 条位选线。</p>
+
+    <h3>11.1.1 段码表</h3>
+    <p>段码表是字符（0~9、A~F 等）与 8 位段数据的映射。常见段位顺序为 <code>dp g f e d c b a</code>（dp 在最高位）。下表给出共阴数码管段码（共阳取反即可）：</p>
+    <table>
+      <thead><tr><th>字符</th><th>共阴段码</th><th>共阳段码</th><th>字符</th><th>共阴段码</th><th>共阳段码</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>0x3F</td><td>0xC0</td><td>8</td><td>0x7F</td><td>0x80</td></tr>
+        <tr><td>1</td><td>0x06</td><td>0xF9</td><td>9</td><td>0x6F</td><td>0x90</td></tr>
+        <tr><td>2</td><td>0x5B</td><td>0xA4</td><td>A</td><td>0x77</td><td>0x88</td></tr>
+        <tr><td>3</td><td>0x4F</td><td>0xB0</td><td>b</td><td>0x7C</td><td>0x83</td></tr>
+        <tr><td>4</td><td>0x66</td><td>0x99</td><td>C</td><td>0x39</td><td>0xC6</td></tr>
+        <tr><td>5</td><td>0x6D</td><td>0x92</td><td>d</td><td>0x5E</td><td>0xA1</td></tr>
+        <tr><td>6</td><td>0x7D</td><td>0x82</td><td>E</td><td>0x79</td><td>0x86</td></tr>
+        <tr><td>7</td><td>0x07</td><td>0xF8</td><td>F</td><td>0x71</td><td>0x8E</td></tr>
+      </tbody>
+    </table>
+
+    <h3>11.1.2 静态显示与动态显示</h3>
+    <ul>
+      <li><strong>静态显示</strong>：每位数码管独占一个 8 位 IO 口，编程简单、亮度高，但 IO 占用大，仅适合 1~2 位。</li>
+      <li><strong>动态显示</strong>：所有数码管段线并联，位选分开，逐位轮流显示。利用视觉暂留（&gt;50 Hz）人眼看到稳定画面，IO 占用少，是多位数码管主流方案。</li>
+    </ul>
+
+    <p>动态扫描典型 4 位数码管代码（共阴，P0 段码，P2 低 4 位位选）：</p>
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+
+const unsigned char code SEG[] = {       // 共阴 0~9
+    0x3F, 0x06, 0x5B, 0x4F, 0x66,
+    0x6D, 0x7D, 0x07, 0x7F, 0x6F
+};
+unsigned char disp_buf[4] = {1, 2, 3, 4}; // 显示 1234
+
+void Delay_ms(unsigned int ms)
+{
+    unsigned int i, j;
+    for (i = 0; i &lt; ms; i++)
+        for (j = 0; j &lt; 110; j++);
+}
+
+void Display(void)
+{
+    unsigned char i;
+    for (i = 0; i &lt; 4; i++) {
+        P0 = 0x00;                       // 消影
+        P2 = (P2 &amp; 0xF0) | (1 &lt;&lt; i);     // 选中第 i 位
+        P0 = SEG[disp_buf[i]];           // 送段码
+        Delay_ms(2);                     // 显示 2 ms
+        P0 = 0x00;                       // 消影
+    }
+}
+
+void main(void)
+{
+    while (1) Display();
+}
+</code></pre>
+
+    <div class="tip">
+      <strong>消影（Blanking）</strong>：切换位选前先关闭段码可避免"残影"。这是动态扫描的关键技巧，省去会导致上一位闪到下一位。
+    </div>
+
+    <h2>11.2 LCD1602 字符液晶</h2>
+    <p><strong>LCD1602</strong>是 16×2 字符液晶模块，内置 HD44780 控制器，可显示 ASCII 字符，3.3~5V 供电。引脚包括 RS（寄存器选择）、RW（读/写）、EN（使能）、D0~D7（数据）以及 V0（对比度）、A/K（背光正负）。</p>
+
+    <h3>11.2.1 控制指令表</h3>
+    <table>
+      <thead><tr><th>指令</th><th>RS RW</th><th>D7..D0</th><th>功能</th></tr></thead>
+      <tbody>
+        <tr><td>清屏</td><td>0 0</td><td>0x01</td><td>清除 DDRAM，光标回原点</td></tr>
+        <tr><td>归位</td><td>0 0</td><td>0x02</td><td>光标返回 0x00</td></tr>
+        <tr><td>输入模式</td><td>0 0</td><td>0x06</td><td>写入后光标右移，画面不动</td></tr>
+        <tr><td>显示开关</td><td>0 0</td><td>0x0C</td><td>显示开，光标关，闪烁关</td></tr>
+        <tr><td>功能设置</td><td>0 0</td><td>0x38</td><td>8 位总线，2 行，5×8 点阵</td></tr>
+        <tr><td>DDRAM 地址</td><td>0 0</td><td>0x80+addr</td><td>设置 DDRAM 地址（第 1 行 0x00~0x27，第 2 行 0x40~0x67）</td></tr>
+        <tr><td>写数据</td><td>1 0</td><td>dat</td><td>向 DDRAM 写字符</td></tr>
+        <tr><td>读忙标志</td><td>0 1</td><td>BF..AC</td><td>BF=1 表示忙</td></tr>
+      </tbody>
+    </table>
+
+    <h3>11.2.2 写时序</h3>
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch11-display-interface-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+participant MCU
+participant LCD
+MCU -&gt; LCD : RS=0/1, RW=0
+MCU -&gt; LCD : D0~D7 = data
+MCU -&gt; LCD : EN 高脉冲 (≥450ns)
+LCD --&gt; MCU : 锁存数据
+MCU -&gt; LCD : EN=0
+Note over MCU,LCD: 延时或读 BF 等待完成
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 11-1 LCD1602 写时序</div>
+
+    <h3>11.2.3 C51 驱动代码</h3>
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+#define LCD_DATA P0
+sbit RS = P2^6;
+sbit RW = P2^5;
+sbit EN = P2^7;
+
+void Delay_ms(unsigned int ms)
+{
+    unsigned int i, j;
+    for (i = 0; i &lt; ms; i++)
+        for (j = 0; j &lt; 110; j++);
+}
+
+void LCD_WaitBusy(void)
+{
+    LCD_DATA = 0xFF;
+    RS = 0; RW = 1;
+    EN = 1; EN = 0;                   // 下降沿读
+    while (LCD_DATA &amp; 0x80);          // BF=1 等待
+}
+
+void LCD_WriteCmd(unsigned char cmd)
+{
+    LCD_WaitBusy();
+    RS = 0; RW = 0;
+    LCD_DATA = cmd;
+    EN = 1; EN = 0;                   // 下降沿锁存
+}
+
+void LCD_WriteDat(unsigned char dat)
+{
+    LCD_WaitBusy();
+    RS = 1; RW = 0;
+    LCD_DATA = dat;
+    EN = 1; EN = 0;
+}
+
+void LCD_Init(void)
+{
+    Delay_ms(15);                     // 上电等待
+    LCD_WriteCmd(0x38);               // 8 位 2 行 5×8
+    LCD_WriteCmd(0x0C);               // 显示开光标关
+    LCD_WriteCmd(0x06);               // 光标右移
+    LCD_WriteCmd(0x01);               // 清屏
+    Delay_ms(2);
+}
+
+void LCD_ShowStr(unsigned char row, unsigned char col, char *s)
+{
+    unsigned char addr = (row == 0) ? 0x00 + col : 0x40 + col;
+    LCD_WriteCmd(0x80 | addr);
+    while (*s) LCD_WriteDat(*s++);
+}
+
+void main(void)
+{
+    LCD_Init();
+    LCD_ShowStr(0, 0, "Hello, MCU!");
+    LCD_ShowStr(1, 2, "Jiaying Univ.");
+    while (1);
+}
+</code></pre>
+
+    <h2>11.3 I2C 总线协议与软件模拟</h2>
+    <p><strong>I2C（Inter-Integrated Circuit）</strong>是 Philips 公司（现 NXP）提出的二线串行总线：SCL（时钟）+ SDA（数据），所有设备开漏输出 + 上拉电阻线与，支持多主多从，标准模式 100 kHz、快速模式 400 kHz。每帧 8 位数据 + 1 位应答（ACK）。</p>
+
+    <h3>11.3.1 起始/停止/数据/应答时序</h3>
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch11-display-interface-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+left to right direction
+component "起始条件\nSCL 高时 SDA 由高变低" as START
+component "发送 8 位数据\nSCL 高时数据稳定" as BYTE
+component "应答\n第 9 个 SCL 周期接收方拉低 SDA" as ACK
+component "停止条件\nSCL 高时 SDA 由低变高" as STOP
+START --&gt; BYTE
+BYTE --&gt; ACK
+ACK --&gt; BYTE
+BYTE --&gt; STOP
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 11-2 I2C 起始/数据/应答/停止时序</div>
+
+    <h3>11.3.2 软件模拟 I2C</h3>
+    <p>STC 8位单片机无硬件 I2C，使用 GPIO 软件模拟。SCL、SDA 配置为开漏（写 0 拉低，写 1 释放由上拉拉高）：</p>
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+#include &lt;intrins.h&gt;
+sbit SCL = P2^1;
+sbit SDA = P2^0;
+
+void I2C_Delay(void) { _nop_(); _nop_(); _nop_(); _nop_(); }
+
+void I2C_Start(void)
+{
+    SDA = 1; SCL = 1; I2C_Delay();
+    SDA = 0; I2C_Delay();          // SCL 高时 SDA 下降沿
+    SCL = 0; I2C_Delay();
+}
+
+void I2C_Stop(void)
+{
+    SDA = 0; SCL = 1; I2C_Delay();
+    SDA = 1; I2C_Delay();          // SCL 高时 SDA 上升沿
+}
+
+bit I2C_Write(unsigned char dat)
+{
+    unsigned char i;
+    bit ack;
+    for (i = 0; i &lt; 8; i++) {
+        SDA = (dat &amp; 0x80) ? 1 : 0;
+        dat &lt;&lt;= 1;
+        SCL = 1; I2C_Delay(); SCL = 0; I2C_Delay();
+    }
+    SDA = 1;                        // 释放 SDA 接收 ACK
+    SCL = 1; I2C_Delay();
+    ack = SDA;                      // 0=ACK, 1=NACK
+    SCL = 0; I2C_Delay();
+    return ack;
+}
+
+unsigned char I2C_Read(bit ack)
+{
+    unsigned char i, dat = 0;
+    SDA = 1;                        // 释放 SDA
+    for (i = 0; i &lt; 8; i++) {
+        dat &lt;&lt;= 1;
+        SCL = 1; I2C_Delay();
+        if (SDA) dat |= 0x01;
+        SCL = 0; I2C_Delay();
+    }
+    SDA = ack ? 1 : 0;              // 发送 ACK/NACK
+    SCL = 1; I2C_Delay(); SCL = 0; I2C_Delay();
+    SDA = 1;
+    return dat;
+}
+</code></pre>
+
+    <h2>11.4 AT24C02 EEPROM 读写</h2>
+    <p><strong>AT24C02</strong>是 Atmel（现 Microchip）2 Kbit（256 字节）I2C EEPROM，器件地址 7 位为 <code>1010 A2A1A0</code>，后接 R/W 位。写入后需<strong>5 ms</strong>内部写周期，连续读可在 256 字节内回绕。</p>
+
+    <h3>11.4.1 写字节流程</h3>
+    <p>起始 → 发器件地址+W → 等 ACK → 发字节地址 → 等 ACK → 发数据 → 等 ACK → 停止 → 延时 5 ms。</p>
+
+    <h3>11.4.2 读字节流程</h3>
+    <p>起始 → 发器件地址+W → 等 ACK → 发字节地址 → 等 ACK → <strong>再次起始</strong> → 发器件地址+R → 等 ACK → 读数据 → NACK → 停止。这种"伪写"用于设置读地址。</p>
+
+    <pre><code class="language-c">void EEPROM_WriteByte(unsigned char addr, unsigned char dat)
+{
+    I2C_Start();
+    I2C_Write(0xA0);                // 器件地址 + W
+    I2C_Write(addr);                // 字节地址
+    I2C_Write(dat);                 // 数据
+    I2C_Stop();
+    Delay_ms(5);                    // 内部写周期
+}
+
+unsigned char EEPROM_ReadByte(unsigned char addr)
+{
+    unsigned char dat;
+    I2C_Start();
+    I2C_Write(0xA0);                // 伪写
+    I2C_Write(addr);
+    I2C_Start();                    // 重新起始
+    I2C_Write(0xA1);                // 器件地址 + R
+    dat = I2C_Read(1);              // 读 1 字节并 NACK
+    I2C_Stop();
+    return dat;
+}
+</code></pre>
+
+    <h2>11.5 DS1302 实时时钟简介</h2>
+    <p><strong>DS1302</strong>是 Maxim 公司的低功耗实时时钟（RTC），含 31 字节 SRAM，三线串行接口：CE（使能）、SCLK（时钟）、IO（双向数据）。秒、分、时、日、月、周、年寄存器采用<strong>BCD 码</strong>存储，需在读写时与二进制转换。</p>
+
+    <table>
+      <thead><tr><th>寄存器</th><th>写地址</th><th>读地址</th><th>范围（BCD）</th></tr></thead>
+      <tbody>
+        <tr><td>秒</td><td>0x80</td><td>0x81</td><td>00~59</td></tr>
+        <tr><td>分</td><td>0x82</td><td>0x83</td><td>00~59</td></tr>
+        <tr><td>时</td><td>0x84</td><td>0x85</td><td>00~23 / 01~12</td></tr>
+        <tr><td>日</td><td>0x86</td><td>0x87</td><td>01~31</td></tr>
+        <tr><td>月</td><td>0x88</td><td>0x89</td><td>01~12</td></tr>
+        <tr><td>周</td><td>0x8A</td><td>0x8B</td><td>01~07</td></tr>
+        <tr><td>年</td><td>0x8C</td><td>0x8D</td><td>00~99</td></tr>
+        <tr><td>写保护</td><td>0x8E</td><td>0x8F</td><td>bit7=WP</td></tr>
+      </tbody>
+    </table>
+
+    <p>DS1302 采用类似 SPI 的协议：CE 拉高期间通信，每个字节先发命令字（LSB 在前），SCLK 上升沿写、下降沿读。BCD 与二进制转换：<code>bin = bcd/16*10 + bcd%16</code>，<code>bcd = bin/10*16 + bin%10</code>。</p>
+
+    <h2>11.6 SPI 总线与 74HC595 扩展 IO</h2>
+    <p><strong>SPI（Serial Peripheral Interface）</strong>是 Motorola 提出的同步串行总线，4 线：SCLK（时钟）、MOSI（主出从入）、MISO（主入从出）、CS/SS（片选）。SPI 比 I2C 速度更快（数十 MHz），但线多、无应答。STC 无硬件 SPI，常用 GPIO 软件模拟。</p>
+
+    <h3>11.6.1 74HC595 串入并出</h3>
+    <p><strong>74HC595</strong>是 8 位串入并出移位寄存器，3 条控制线 SER（数据）、SRCLK（移位时钟）、RCLK（锁存时钟）。级联多片可仅用 3 个 IO 扩展任意位输出，是 LED 点阵、数码管驱动首选。</p>
+
+    <p>工作时序：每个 SRCLK 上升沿将 SER 上的位移入寄存器；8 位（或多片级联的全部位）移完后 RCLK 上升沿将数据并行输出。OE 接 GND 常通，SRCLR 接 VCC 不清零。</p>
+
+    <h3>11.6.2 74HC595 级联驱动 8 位数码管</h3>
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+#include &lt;intrins.h&gt;
+sbit SER   = P2^0;          // 串行数据
+sbit SRCLK = P2^1;          // 移位时钟
+sbit RCLK  = P2^2;          // 锁存时钟
+
+const unsigned char code SEG[] = {
+    0x3F, 0x06, 0x5B, 0x4F, 0x66,
+    0x6D, 0x7D, 0x07, 0x7F, 0x6F
+};
+
+// 向 74HC595 写入 1 字节（高位先发）
+void HC595_Write(unsigned char dat)
+{
+    unsigned char i;
+    for (i = 0; i &lt; 8; i++) {
+        SER = (dat &amp; 0x80) ? 1 : 0;
+        dat &lt;&lt;= 1;
+        SRCLK = 1; _nop_(); SRCLK = 0;     // 上升沿移位
+    }
+}
+
+// 级联两片：段码 + 位选
+void HC595_Show(unsigned char seg, unsigned char pos)
+{
+    HC595_Write(seg);          // 第一片：段码
+    HC595_Write(~pos);         // 第二片：位选（共阴低有效）
+    RCLK = 1; _nop_(); RCLK = 0;          // 锁存输出
+}
+
+void main(void)
+{
+    unsigned char i;
+    while (1) {
+        for (i = 0; i &lt; 8; i++) {
+            HC595_Show(SEG[i + 1], 1 &lt;&lt; i);
+            // 简化延时
+            { unsigned int t; for (t = 0; t &lt; 1000; t++); }
+        }
+    }
+}
+</code></pre>
+
+    <div class="tip">
+      <strong>级联要点</strong>：多片 74HC595 串联时，Q7' 接下一片 SER，所有 SRCLK、RCLK 并联。一次移完所有位数后统一锁存，可避免输出"半态"闪烁。
+    </div>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>数码管分共阴/共阳，多位显示采用动态扫描，关键是消影与刷新率 &gt;50 Hz。</li>
+        <li>LCD1602 是 16×2 字符液晶，需按指令表初始化，写数据/命令通过 RS、RW、EN 配合完成。</li>
+        <li>I2C 是二线串行总线，起始/停止/数据/应答四类时序，可用 GPIO 软件模拟。</li>
+        <li>AT24C02 EEPROM 通过 I2C 读写，写后需 5 ms 内部写周期，读操作需要"伪写"设置地址。</li>
+        <li>DS1302 实时时钟采用 SPI-like 三线协议，时间以 BCD 码存储，需做转换。</li>
+        <li>SPI 是四线同步总线，74HC595 利用类似时序的串入并出实现 IO 扩展，可级联驱动多位数码管或点阵。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>简述共阴数码管与共阳数码管的区别，并说明段码表的对应关系。</li>
+        <li>动态显示为什么需要"消影"？常见消影方法有哪两种？</li>
+        <li>LCD1602 初始化需要发送哪些指令？写出 8 位总线、2 行、5×8 点阵的初始化序列。</li>
+        <li>I2C 的起始条件与停止条件分别是什么？为什么 SCL 高电平期间 SDA 必须保持稳定？</li>
+        <li>编写程序：使用软件模拟 I2C 向 AT24C02 地址 0x10 写入字节 0x55，再读回并通过 P1 显示。</li>
+        <li>74HC595 级联两片时如何区分段码与位选？画出级联连接示意图并说明 SRCLK、RCLK 的接法。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>张毅刚. 单片机原理及应用——C51 编程 + Proteus 仿真（第 4 版）[M]. 北京：高等教育出版社, 2021.</li>
+        <li>STC 官方. STC89C52RC 数据手册 [Z]. 2024. https://www.stcmcudata.com/</li>
+        <li>郭天祥. 新概念 51 单片机 C 语言教程 [M]. 北京：电子工业出版社, 2018.</li>
+        <li>NXP Semiconductors. I2C-bus Specification and User Manual (UM10204) [Z]. 2021.</li>
+        <li>Maxim Integrated. DS1302 Trickle-Charge Timekeeping Chip Datasheet [Z]. 2015.</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/chapters/part2-stc89c52rc/ch10-serial-communication.html" class="prev">← 第 10 章 串行通信</a>
+      <a href="/index.html" class="home">返回首页</a>
+      <a href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html" class="next">第 12 章 STC 综合实验 →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实验8 ADC采集与DAC输出 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=6">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html" class="active">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+  <main class="content" style="max-width: 1000px;">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt;
+      <a href="/lab/index.html">实验指导</a> &gt;
+      <span>实验8 ADC采集与DAC输出</span>
+    </div>
+
+    <h1>实验8 ADC采集与DAC输出</h1>
+
+    <p>ADC (Analog-to-Digital Converter，模数转换器) 与 DAC (Digital-to-Analog Converter，数模转换器) 是连接模拟世界与数字世界的桥梁。本实验使用 STM32F407 的 12 位 ADC 采集电位器电压，并通过 DAC 输出正弦波，掌握 ADC/DAC 配置与 DMA 数据采集。完整工程源码见 <code>/code/stm32f407/08-adc-dac/</code>。</p>
+
+    <h2>一、实验目的</h2>
+    <ul>
+      <li>掌握 STM32F407 ADC 的配置 (通道、采样时间、转换模式)。</li>
+      <li>掌握 DMA (Direct Memory Access，直接存储器访问) 配合 ADC 实现连续采集。</li>
+      <li>掌握 DAC 输出正弦波的方法。</li>
+      <li>理解采样定理 (Nyquist Theorem) 与分辨率、转换时间的关系。</li>
+    </ul>
+
+    <h2>二、知识点</h2>
+    <ul>
+      <li><strong>ADC 原理</strong>：逐次逼近型 (SAR) ADC，STM32F407 为 12 位，分辨率 $V_{ref}/2^{12} = 3.3/4096 \approx 0.806\text{ mV}$。</li>
+      <li><strong>通道映射</strong>：PA0 = ADC1_IN0，PA1 = ADC1_IN1，温度传感器接 IN16/IN18。多个 ADC 可组成规则组 (Regular) 或注入组 (Injected)。</li>
+      <li><strong>转换时间</strong>：$T_{conv} = (采样时间 + 12) \times T_{ADCCLK}$。ADCCLK 最高 36 MHz，采样时间 3 周期时 $T_{conv} = 15/36\text{M} \approx 0.42\,\mu\text{s}$。</li>
+      <li><strong>DMA 采集</strong>：ADC 转换完成触发 DMA，将结果自动搬移到内存数组，无需 CPU 干预，适合连续高速采集。</li>
+      <li><strong>DAC 输出</strong>：STM32F407 内置 2 路 12 位 DAC，PA4=DAC_OUT1, PA5=DAC_OUT2。可定时器触发输出波形。</li>
+      <li><strong>正弦波查表</strong>：预先计算一个周期的正弦值存于数组，定时输出到 DAC，频率 $f = f_{trigger} / N$，N 为点数。</li>
+      <li><strong>采样定理</strong>：采样频率 $f_s \geq 2 f_{max}$ 才能无失真恢复，实际工程取 5-10 倍。</li>
+    </ul>
+
+    <h2>三、硬件清单</h2>
+    <table>
+      <thead>
+        <tr><th>序号</th><th>器材</th><th>规格</th><th>数量</th><th>备注</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>STM32F407VET6 板</td><td>—</td><td>1</td><td>主平台</td></tr>
+        <tr><td>2</td><td>电位器</td><td>10 kΩ</td><td>1</td><td>接 PA0</td></tr>
+        <tr><td>3</td><td>示波器</td><td>—</td><td>1</td><td>观察 DAC 波形</td></tr>
+        <tr><td>4</td><td>杜邦线</td><td>—</td><td>若干</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <h2>四、电路连接</h2>
+    <p>电位器两端接 +3.3V 与 GND，中间抽头接 PA0 (ADC1_IN0)；DAC_OUT1 (PA4) 接示波器探头观察波形。STM32F407 的 ADC 参考电压 Vref+ 接 +3.3V。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/lab08-adc-dac-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+component "电位器 10k" as POT
+component "PA0 ADC1_IN0" as PA0
+component "ADC 转换" as ADC
+component "内存数组" as MEM
+component "串口输出电压值" as UART
+component "DAC_OUT1" as DAC
+component "PA4" as PA4
+component "示波器" as SCOPE
+component "TIM6 触发" as TIM6
+POT --&gt; PA0 : 中间抽头
+PA0 --&gt; ADC
+ADC --&gt; MEM : DMA
+MEM --&gt; UART
+DAC --&gt; PA4
+PA4 --&gt; SCOPE
+TIM6 --&gt; DAC
+@enduml</code></pre>
+  </details>
+</div>
+
+    <h2>五、代码框架</h2>
+
+    <h3>5.1 ADC + DMA 连续采集 PA0</h3>
+    <p>工程 <code>/code/stm32f407/08-adc-dac/adc_dma.c</code>。</p>
+    <pre><code class="language-c">#include "stm32f4xx_hal.h"
+
+#define ADC_BUF_LEN 16
+volatile uint16_t adc_buf[ADC_BUF_LEN];   /* DMA 缓冲 */
+ADC_HandleTypeDef hadc1;
+DMA_HandleTypeDef hdma_adc1;
+
+void ADC_DMA_Init(void) {
+    /* ADC1 时钟 + DMA2 时钟 + GPIOA 时钟 */
+    __HAL_RCC_ADC1_CLK_ENABLE();
+    __HAL_RCC_DMA2_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+
+    /* PA0 模拟输入 */
+    GPIO_InitTypeDef gpio = {0};
+    gpio.Pin = GPIO_PIN_0;
+    gpio.Mode = GPIO_MODE_ANALOG;
+    HAL_GPIO_Init(GPIOA, &amp;gpio);
+
+    /* DMA2 Stream0 Channel0 -> ADC1 */
+    hdma_adc1.Instance = DMA2_Stream0;
+    hdma_adc1.Init.Channel = DMA_CHANNEL_0;
+    hdma_adc1.Init.Direction = DMA_PERIPH_TO_MEMORY;
+    hdma_adc1.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_adc1.Init.MemInc = DMA_MINC_ENABLE;       /* 内存地址自增 */
+    hdma_adc1.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+    hdma_adc1.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
+    hdma_adc1.Init.Mode = DMA_CIRCULAR;            /* 循环模式 */
+    hdma_adc1.Init.Priority = DMA_PRIORITY_HIGH;
+    HAL_DMA_Init(&amp;hdma_adc1);
+    __HAL_LINKDMA(&amp;hadc1, DMA_Handle, hdma_adc1);
+
+    /* ADC1 配置 */
+    hadc1.Instance = ADC1;
+    hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;   /* 84/4=21MHz */
+    hadc1.Init.Resolution = ADC_RESOLUTION_12B;              /* 12 位 */
+    hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+    hadc1.Init.ScanConvMode = DISABLE;
+    hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+    hadc1.Init.ContinuousConvMode = ENABLE;                  /* 连续转换 */
+    hadc1.Init.DMAContinuousRequests = ENABLE;
+    hadc1.Init.NbrOfConversion = 1;
+    HAL_ADC_Init(&amp;hadc1);
+
+    ADC_ChannelConfTypeDef sConfig = {0};
+    sConfig.Channel = ADC_CHANNEL_0;          /* PA0 = IN0 */
+    sConfig.Rank = 1;
+    sConfig.SamplingTime = ADC_SAMPLETIME_56CYCLES;   /* 采样 56 周期 */
+    HAL_ADC_ConfigChannel(&amp;hadc1, &amp;sConfig);
+
+    HAL_ADC_Start_DMA(&amp;hadc1, (uint32_t*)adc_buf, ADC_BUF_LEN);
+}
+
+/* 计算平均电压 (mV) */
+float ADC_GetVoltage(void) {
+    uint32_t sum = 0;
+    uint16_t i;
+    for (i = 0; i &lt; ADC_BUF_LEN; i++) sum += adc_buf[i];
+    float avg = sum / (float)ADC_BUF_LEN;
+    return avg * 3300.0f / 4096.0f;   /* 12位, 3.3V 参考 */
+}</code></pre>
+
+    <h3>5.2 DAC 输出正弦波 (定时器触发)</h3>
+    <p>工程 <code>/code/stm32f407/08-adc-dac/dac_sine.c</code>。TIM6 触发 DAC，每个触发输出一个查表点。</p>
+    <pre><code class="language-c">#include "stm32f4xx_hal.h"
+#include &lt;math.h&gt;
+
+#define SINE_POINTS 64                    /* 一个周期 64 点 */
+uint16_t sine_table[SINE_POINTS];
+DAC_HandleTypeDef hdac;
+TIM_HandleTypeDef htim6;
+
+/* 生成正弦表: 12位, 0-4095, 偏置 2048, 幅度 2047 */
+void Sine_Table_Init(void) {
+    uint16_t i;
+    for (i = 0; i &lt; SINE_POINTS; i++) {
+        sine_table[i] = (uint16_t)(2048.0f + 2047.0f * sinf(2 * 3.1415926f * i / SINE_POINTS));
+    }
+}
+
+void DAC_Sine_Init(void) {
+    __HAL_RCC_DAC_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+    __HAL_RCC_TIM6_CLK_ENABLE();
+
+    /* PA4 模拟输出 */
+    GPIO_InitTypeDef gpio = {0};
+    gpio.Pin = GPIO_PIN_4;
+    gpio.Mode = GPIO_MODE_ANALOG;
+    HAL_GPIO_Init(GPIOA, &amp;gpio);
+
+    /* TIM6 触发 DAC: 频率 f = 84M / ((PSC+1)(ARR+1)) / SINE_POINTS */
+    htim6.Instance = TIM6;
+    htim6.Init.Prescaler = 0;                 /* 不分频 84MHz */
+    htim6.Init.Period = 84 - 1;               /* 1MHz 触发 */
+    htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
+    HAL_TIM_Base_Init(&amp;htim6);
+
+    /* DAC1 配置: 定时器触发 */
+    hdac.Instance = DAC;
+    HAL_DAC_Init(&amp;hdac);
+    DAC_ChannelConfTypeDef ch = {0};
+    ch.DAC_Trigger = DAC_TRIGGER_T6_TRGO;     /* TIM6 触发 */
+    ch.DAC_OutputBuffer = DAC_OUTPUTBUFFER_ENABLE;
+    HAL_DAC_ConfigChannel(&amp;hdac, &amp;ch, DAC_CHANNEL_1);
+
+    /* DMA 搬运正弦表到 DAC (略, 可用 DMA1 Stream5 Channel7) */
+    HAL_DAC_Start(&amp;hdac, DAC_CHANNEL_1);
+    HAL_TIM_Base_Start(&amp;htim6);
+
+    /* 正弦波频率 = 1MHz / 64 = 15.625 kHz */
+}
+
+int main(void) {
+    HAL_Init();
+    Sine_Table_Init();
+    DAC_Sine_Init();
+    ADC_DMA_Init();
+    while (1) {
+        float v = ADC_GetVoltage();   /* 采集电位器电压 */
+        /* 串口输出 v (mV) 略 */
+        HAL_Delay(100);
+    }
+}</code></pre>
+
+    <h2>六、调试要点</h2>
+    <ul>
+      <li><strong>参考电压</strong>：ADC 测量范围 0-Vref+ (3.3V)，超过会损坏引脚；电压换算 $V = ADC值 \times 3.3 / 4096$。</li>
+      <li><strong>采样时间</strong>：信号源内阻大时需更长采样时间，否则结果偏小。电位器 10 kΩ 建议 ≥ 56 周期。</li>
+      <li><strong>DMA 缓冲对齐</strong>：16 位数据用 HALFWORD，地址自增；若模式配错则只更新第一个值。</li>
+      <li><strong>正弦波平滑度</strong>：点数越多越接近正弦，但频率越低；点数少则阶梯明显，可加 RC 低通滤波 ($f_c$ 略高于正弦频率) 平滑。</li>
+      <li><strong>DAC 阻抗</strong>：DAC 输出缓冲开启后驱动能力增强 (可带 kΩ 负载)；关闭缓冲时输出阻抗高，需外接运放跟随。</li>
+      <li><strong>触发频率</strong>：正弦频率 = 触发频率 / 点数。TIM6 触发 1 MHz、64 点，正弦约 15.6 kHz。</li>
+    </ul>
+
+    <h2>七、思考题</h2>
+    <ol>
+      <li>STM32F407 的 ADC 分辨率是多少？参考电压 3.3V 时最小可分辨电压为多少 mV？</li>
+      <li>什么是采样定理？为什么采样频率必须大于信号最高频率的 2 倍？</li>
+      <li>DMA 相比中断/查询方式采集 ADC 有什么优势？什么场景必须用 DMA？</li>
+      <li>查表法生成正弦波的频率如何计算？如何提高正弦波的质量 (减少谐波)？</li>
+      <li>若用 DAC 输出音频，采样频率一般取多少？为什么？简述 PWM 替代 DAC 输出音频的原理。</li>
+    </ol>
+
+    <nav class="chapter-nav">
+      <a href="/lab/lab07-lcd1602.html" class="prev">← 实验7 LCD1602显示</a>
+      <a href="/lab/index.html" class="home">返回实验列表</a>
+      <a href="/lab/lab09-pwm-breathing-led.html" class="next">实验9 PWM呼吸灯 →</a>
+    </nav>
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+</body>
+</html>

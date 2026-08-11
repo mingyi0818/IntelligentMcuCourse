@@ -1,0 +1,535 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第20章 SPI 与 I2C 总线 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link active" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 3 篇 STM32 &gt; <span>第 20 章 SPI 与 I2C 总线</span>
+    </div>
+
+    <h1>第 20 章 SPI 与 I2C 总线</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>理解 SPI 总线协议，掌握主从模式、CPOL/CPHA 4 种时序模式</li>
+        <li>学会使用 HAL_SPI 库函数读写 W25Q64 Flash，完成擦除、编程、读取全流程</li>
+        <li>理解 I2C 总线协议，掌握起始/停止/应答时序与寻址方式</li>
+        <li>能够使用 HAL_I2C 库函数驱动 SSD1306 OLED 显示字符与图形</li>
+        <li>掌握 CubeMX 配置 SPI/I2C 的 DMA 与中断模式，并理解硬件外设与软件模拟的选择策略</li>
+      </ul>
+    </div>
+
+    <h2>20.1 SPI 协议详解</h2>
+    <p><strong>SPI</strong>（Serial Peripheral Interface，串行外设接口）是 Motorola 公司提出的高速、全双工、同步串行通信总线，仅用 4 根线即可完成主从通信，广泛应用于 Flash、SD 卡、LCD 屏、传感器等外设的连接。</p>
+
+    <h3>20.1.1 SPI 四线制</h3>
+    <table>
+      <thead><tr><th>信号</th><th>全称</th><th>方向</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>SCK</td><td>Serial Clock</td><td>主→从</td><td>同步时钟</td></tr>
+        <tr><td>MOSI</td><td>Master Out Slave In</td><td>主→从</td><td>主输出从输入</td></tr>
+        <tr><td>MISO</td><td>Master In Slave Out</td><td>从→主</td><td>主输入从输出</td></tr>
+        <tr><td>NSS/CS</td><td>Slave Select / Chip Select</td><td>主→从</td><td>片选，低有效</td></tr>
+      </tbody>
+    </table>
+
+    <h3>20.1.2 CPOL 与 CPHA 4 种模式</h3>
+    <p>SPI 时序由 <strong>CPOL</strong>（Clock Polarity，时钟极性）与 <strong>CPHA</strong>（Clock Phase，时钟相位）共同决定，共 4 种组合：</p>
+
+    <table>
+      <thead><tr><th>模式</th><th>CPOL</th><th>CPHA</th><th>空闲电平</th><th>采样沿</th></tr></thead>
+      <tbody>
+        <tr><td>Mode 0</td><td>0</td><td>0</td><td>低</td><td>第 1 个边沿（上升沿）</td></tr>
+        <tr><td>Mode 1</td><td>0</td><td>1</td><td>低</td><td>第 2 个边沿（下降沿）</td></tr>
+        <tr><td>Mode 2</td><td>1</td><td>0</td><td>高</td><td>第 1 个边沿（下降沿）</td></tr>
+        <tr><td>Mode 3</td><td>1</td><td>1</td><td>高</td><td>第 2 个边沿（上升沿）</td></tr>
+      </tbody>
+    </table>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch20-spi-i2c-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+component "SPI 时钟模式" as A
+component "CPOL=0 空闲低" as B
+component "CPOL=1 空闲高" as C
+component "CPHA=0 第1沿采样 Mode0" as D
+component "CPHA=1 第2沿采样 Mode1" as E
+component "CPHA=0 第1沿采样 Mode2" as F
+component "CPHA=1 第2沿采样 Mode3" as G
+A --&gt; B
+A --&gt; C
+B --&gt; D
+B --&gt; E
+C --&gt; F
+C --&gt; G
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 20-1 SPI 4 种时钟模式决策树</div>
+
+    <p>SPI 通信过程：<strong>主设备拉低 NSS → 主设备产生 SCK → 主从双方在 MOSI/MISO 上同时收发数据 → 通信结束拉高 NSS</strong>。由于是全双工，主设备发 1 字节同时也接收 1 字节，这种特性常被称为"交换"通信。</p>
+
+    <h2>20.2 HAL_SPI 库函数与 W25Q64 Flash 读写</h2>
+    <p><strong>W25Q64</strong> 是华邦（Winbond）公司生产的 64Mbit（8MB）SPI Flash，是 STM32 学习板最常见的外扩存储芯片。其关键命令包括：</p>
+
+    <table>
+      <thead><tr><th>命令</th><th>16进制</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>READ</td><td>0x03</td><td>读取数据</td></tr>
+        <tr><td>WRITE_ENABLE</td><td>0x06</td><td>写使能</td></tr>
+        <tr><td>PAGE_PROGRAM</td><td>0x02</td><td>页编程（最多 256B）</td></tr>
+        <tr><td>SECTOR_ERASE</td><td>0x20</td><td>4KB 扇区擦除</td></tr>
+        <tr><td>READ_ID</td><td>0x9F</td><td>读取 JEDEC ID</td></tr>
+        <tr><td>READ_STATUS</td><td>0x05</td><td>读状态寄存器</td></tr>
+      </tbody>
+    </table>
+
+    <pre><code class="language-c">/* w25q64.c - W25Q64 读写驱动 */
+#include "main.h"
+
+extern SPI_HandleTypeDef hspi1;
+#define W25_CS_LOW()   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET)
+#define W25_CS_HIGH()  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET)
+
+/* 等待 Flash 空闲 */
+static void w25_wait_busy(void)
+{
+    uint8_t cmd = 0x05;
+    uint8_t status;
+    do {
+        W25_CS_LOW();
+        HAL_SPI_Transmit(&amp;hspi1, &amp;cmd, 1, 100);
+        HAL_SPI_Receive(&amp;hspi1, &amp;status, 1, 100);
+        W25_CS_HIGH();
+    } while (status &amp; 0x01);   /* BUSY 位 */
+}
+
+/* 读取 JEDEC ID */
+void w25_read_id(uint8_t *mid, uint16_t *did)
+{
+    uint8_t cmd = 0x9F;
+    uint8_t buf[3];
+    W25_CS_LOW();
+    HAL_SPI_Transmit(&amp;hspi1, &amp;cmd, 1, 100);
+    HAL_SPI_Receive(&amp;hspi1, buf, 3, 100);
+    W25_CS_HIGH();
+    *mid = buf[0];
+    *did = (buf[1] &lt;&lt; 8) | buf[2];
+}
+
+/* 4KB 扇区擦除 */
+void w25_erase_sector(uint32_t addr)
+{
+    uint8_t cmd[4] = { 0x20,
+        (addr &gt;&gt; 16) &amp; 0xFF,
+        (addr &gt;&gt; 8)  &amp; 0xFF,
+        addr         &amp; 0xFF };
+
+    /* 1. 写使能 */
+    uint8_t we = 0x06;
+    W25_CS_LOW();
+    HAL_SPI_Transmit(&amp;hspi1, &amp;we, 1, 100);
+    W25_CS_HIGH();
+
+    /* 2. 发送擦除命令 */
+    W25_CS_LOW();
+    HAL_SPI_Transmit(&amp;hspi1, cmd, 4, 100);
+    W25_CS_HIGH();
+
+    /* 3. 等待擦除完成 */
+    w25_wait_busy();
+}
+
+/* 页编程：最多 256 字节，不能跨页 */
+void w25_page_program(uint32_t addr, uint8_t *data, uint16_t len)
+{
+    uint8_t cmd[4] = { 0x02,
+        (addr &gt;&gt; 16) &amp; 0xFF,
+        (addr &gt;&gt; 8)  &amp; 0xFF,
+        addr         &amp; 0xFF };
+
+    uint8_t we = 0x06;
+    W25_CS_LOW();
+    HAL_SPI_Transmit(&amp;hspi1, &amp;we, 1, 100);
+    W25_CS_HIGH();
+
+    W25_CS_LOW();
+    HAL_SPI_Transmit(&amp;hspi1, cmd, 4, 100);
+    HAL_SPI_Transmit(&amp;hspi1, data, len, 1000);
+    W25_CS_HIGH();
+
+    w25_wait_busy();
+}
+
+/* 读取数据 */
+void w25_read(uint32_t addr, uint8_t *buf, uint16_t len)
+{
+    uint8_t cmd[4] = { 0x03,
+        (addr &gt;&gt; 16) &amp; 0xFF,
+        (addr &gt;&gt; 8)  &amp; 0xFF,
+        addr         &amp; 0xFF };
+
+    W25_CS_LOW();
+    HAL_SPI_Transmit(&amp;hspi1, cmd, 4, 100);
+    HAL_SPI_Receive(&amp;hspi1, buf, len, 2000);
+    W25_CS_HIGH();
+}</code></pre>
+
+    <p>以下为使用示例：先擦除扇区 0，再写入字符串"Hello STM32!"，最后读回并校验。</p>
+
+    <pre><code class="language-c">uint8_t wr[] = "Hello STM32!";
+uint8_t rd[32] = {0};
+uint8_t mid;
+uint16_t did;
+
+w25_read_id(&amp;mid, &amp;did);     /* 应返回 EF 40 17 */
+w25_erase_sector(0x000000);
+w25_page_program(0x000000, wr, sizeof(wr));
+w25_read(0x000000, rd, sizeof(wr));
+
+printf("Read back: %s\r\n", rd);</code></pre>
+
+    <h2>20.3 I2C 协议详解</h2>
+    <p><strong>I2C</strong>（Inter-Integrated Circuit）是 Philips 公司（现 NXP）提出的两线制、半双工、同步串行总线，仅需 <strong>SCL</strong>（Serial Clock Line，时钟线）与 <strong>SDA</strong>（Serial Data Line，数据线）两根线即可完成多主多从通信，广泛用于 EEPROM、传感器、OLED 显示等低速外设。</p>
+
+    <h3>20.3.1 起始与停止信号</h3>
+    <p>I2C 通信由<strong>起始条件</strong>（START）开始、由<strong>停止条件</strong>（STOP）结束：</p>
+    <ul>
+      <li><strong>START</strong>：SCL 为高电平时，SDA 由高变低。</li>
+      <li><strong>STOP</strong>：SCL 为高电平时，SDA 由低变高。</li>
+    </ul>
+
+    <h3>20.3.2 数据传输与应答</h3>
+    <p>每个时钟脉冲传输 1 位数据，数据在 SCL 高电平期间必须保持稳定，仅在 SCL 低电平期间允许变化。每发送 8 位数据后，接收方需给出 1 位应答（ACK=0 表示应答，NACK=1 表示非应答）。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch20-spi-i2c-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+participant "主机 Master" as M
+participant "从机 Slave" as S
+M -&gt; S : START (SCL高时SDA下降)
+M -&gt; S : 7位地址 + R/W (1字节)
+S -&gt; M : ACK
+M -&gt; S : 数据字节
+S -&gt; M : ACK
+M -&gt; S : STOP (SCL高时SDA上升)
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 20-2 I2C 一次完整数据传输时序</div>
+
+    <h3>20.3.3 寻址方式</h3>
+    <p>I2C 设备使用 7 位地址 + 1 位读写位组成 8 位地址字节。例如 SSD1306 OLED 默认地址 0x3C（7 位），写入时发送 0x78，读取时发送 0x79。部分芯片支持 10 位地址扩展。</p>
+
+    <h2>20.4 HAL_I2C 库函数与 OLED SSD1306 显示</h2>
+    <p><strong>SSD1306</strong> 是最常见的 0.96 寸 OLED 控制器，128×64 像素，I2C 接口，地址 0x3C 或 0x3D。HAL 库提供以下常用 I2C 函数：</p>
+
+    <pre><code class="language-c">HAL_StatusTypeDef HAL_I2C_Master_Transmit(I2C_HandleTypeDef *hi2c,
+        uint16_t DevAddress, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+HAL_StatusTypeDef HAL_I2C_Master_Receive(I2C_HandleTypeDef *hi2c,
+        uint16_t DevAddress, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+HAL_StatusTypeDef HAL_I2C_Mem_Write(I2C_HandleTypeDef *hi2c,
+        uint16_t DevAddress, uint16_t MemAddress, uint16_t MemAddSize,
+        uint8_t *pData, uint16_t Size, uint32_t Timeout);</code></pre>
+
+    <p>以下为 SSD1306 显示驱动核心代码，使用 HAL_I2C_Mem_Write 简化命令/数据封装。</p>
+
+    <pre><code class="language-c">/* ssd1306.c - OLED SSD1306 显示驱动 */
+#include "main.h"
+
+extern I2C_HandleTypeDef hi2c1;
+#define SSD1306_ADDR        0x78     /* 0x3C &lt;&lt; 1 */
+#define SSD1306_CMD         0x00     /* Co=0, D/C=0 命令 */
+#define SSD1306_DAT         0x40     /* Co=0, D/C=1 数据 */
+
+/* 发送单条命令 */
+static void ssd1306_write_cmd(uint8_t cmd)
+{
+    HAL_I2C_Mem_Write(&amp;hi2c1, SSD1306_ADDR, SSD1306_CMD,
+                      1, &amp;cmd, 1, 100);
+}
+
+/* 发送显示数据 */
+static void ssd1306_write_data(uint8_t *buf, uint16_t len)
+{
+    HAL_I2C_Mem_Write(&amp;hi2c1, SSD1306_ADDR, SSD1306_DAT,
+                      1, buf, len, 200);
+}
+
+/* 初始化序列 */
+void ssd1306_init(void)
+{
+    HAL_Delay(100);
+    ssd1306_write_cmd(0xAE);  /* Display Off */
+    ssd1306_write_cmd(0x20); ssd1306_write_cmd(0x10); /* Page addr mode */
+    ssd1306_write_cmd(0xB0); /* Page 0 */
+    ssd1306_write_cmd(0xC8); /* COM reverse */
+    ssd1306_write_cmd(0x00); /* Low col */
+    ssd1306_write_cmd(0x10); /* High col */
+    ssd1306_write_cmd(0x40); /* Start line */
+    ssd1306_write_cmd(0x81); ssd1306_write_cmd(0xFF); /* Contrast */
+    ssd1306_write_cmd(0xA1); /* Segment remap */
+    ssd1306_write_cmd(0xA6); /* Normal display */
+    ssd1306_write_cmd(0xA8); ssd1306_write_cmd(0x3F); /* Multiplex 1/64 */
+    ssd1306_write_cmd(0xD3); ssd1306_write_cmd(0x00); /* Display offset */
+    ssd1306_write_cmd(0xD5); ssd1306_write_cmd(0x80); /* Clock divide */
+    ssd1306_write_cmd(0xD9); ssd1306_write_cmd(0xF1); /* Pre-charge */
+    ssd1306_write_cmd(0xDA); ssd1306_write_cmd(0x12); /* COM pins */
+    ssd1306_write_cmd(0xDB); ssd1306_write_cmd(0x40); /* VCOMH */
+    ssd1306_write_cmd(0x8D); ssd1306_write_cmd(0x14); /* Charge pump */
+    ssd1306_write_cmd(0xAF);  /* Display On */
+}
+
+/* 设置光标位置 */
+void ssd1306_set_pos(uint8_t page, uint8_t col)
+{
+    ssd1306_write_cmd(0xB0 + page);
+    ssd1306_write_cmd(0x00 | (col &amp; 0x0F));
+    ssd1306_write_cmd(0x10 | (col &gt;&gt; 4));
+}
+
+/* 清屏 */
+void ssd1306_clear(void)
+{
+    uint8_t buf[128] = {0};
+    uint8_t p;
+    for (p = 0; p &lt; 8; p++) {
+        ssd1306_set_pos(p, 0);
+        ssd1306_write_data(buf, 128);
+    }
+}
+
+/* 在 (x, page) 显示一个 8x16 字符 */
+void ssd1306_show_char(uint8_t x, uint8_t page, char ch)
+{
+    extern const uint8_t font8x16[][16];
+    uint8_t i;
+    uint8_t c = ch - ' ';
+    ssd1306_set_pos(page, x);
+    for (i = 0; i &lt; 8; i++) ssd1306_write_cmd_skip(); ;
+    /* 上半 8 字节 */
+    uint8_t up[8];
+    for (i = 0; i &lt; 8; i++) up[i] = font8x16[c][i];
+    ssd1306_set_pos(page, x);
+    ssd1306_write_data(up, 8);
+    /* 下半 8 字节 */
+    uint8_t down[8];
+    for (i = 0; i &lt; 8; i++) down[i] = font8x16[c][8 + i];
+    ssd1306_set_pos(page + 1, x);
+    ssd1306_write_data(down, 8);
+}</code></pre>
+
+    <div class="tip">
+      <strong>提示</strong>：使用 HAL_I2C_Mem_Write 将命令/数据封装到 MemAddress 字段（0x00 或 0x40），可避免手动拼接 I2C 帧，代码更简洁。
+    </div>
+
+    <h2>20.5 CubeMX 配置 SPI/I2C</h2>
+
+    <h3>20.5.1 SPI 配置（W25Q64）</h3>
+    <ol>
+      <li>选择 SPI1，Mode 设为 <strong>Full-Duplex Master</strong>。</li>
+      <li>PA5/PA6/PA7 自动分配为 SCK/MISO/MOSI，PA4 手动设为 GPIO_Output 作为 CS。</li>
+      <li>Parameter Settings：
+        <ul>
+          <li>Frame Format: Motorola</li>
+          <li>Data Size: 8 Bits</li>
+          <li>First Bit: MSB First</li>
+          <li>Prescaler: 设置 SPI 时钟为 21MHz（FPCLK/4）</li>
+          <li>Clock Polarity: <strong>High</strong>（CPOL=1）</li>
+          <li>Clock Phase: <strong>2 Edge</strong>（CPHA=1）→ Mode 3</li>
+          <li>NSS: Software（避免硬件 NSS 误触发）</li>
+        </ul>
+      </li>
+      <li>按需在 DMA Settings 添加 SPI1_TX / SPI1_RX。</li>
+    </ol>
+
+    <h3>20.5.2 I2C 配置（SSD1306）</h3>
+    <ol>
+      <li>选择 I2C1，Mode 设为 <strong>I2C</strong>。</li>
+      <li>PB6/PB9 自动分配为 SCL/SDA（也可选 PB8/PB9 等备用引脚）。</li>
+      <li>Parameter Settings：
+        <ul>
+          <li>I2C Speed Mode: <strong>Fast Mode 400kHz</strong></li>
+          <li>Addressing Mode: 7-bit</li>
+          <li>Dual Address Acknowledged: Disable</li>
+          <li>Analog Noise Filter: Enable</li>
+        </ul>
+      </li>
+      <li>启用 I2C1_EV_IRQn 与 I2C1_ER_IRQn 中断（中断模式时）。</li>
+      <li>DMA Settings 添加 I2C1_TX（OLED 只发送不接收，可省略 RX）。</li>
+    </ol>
+
+    <h2>20.6 软件模拟 vs 硬件外设选择</h2>
+    <p>当外设引脚冲突或硬件 I2C/SPI 不可用时，可使用 GPIO 软件"位爆炸"（Bit-Bang）模拟。两者对比如下：</p>
+
+    <table>
+      <thead><tr><th>对比项</th><th>硬件外设</th><th>软件模拟（Bit-Bang）</th></tr></thead>
+      <tbody>
+        <tr><td>速度</td><td>高（可达数十 Mbps）</td><td>低（取决于 GPIO 翻转速度，通常 &lt;1 Mbps）</td></tr>
+        <tr><td>CPU 占用</td><td>低（DMA 几乎零占用）</td><td>高（CPU 全程参与）</td></tr>
+        <tr><td>引脚灵活性</td><td>固定引脚（受 AF 映射限制）</td><td>任意 GPIO</td></tr>
+        <tr><td>时序精度</td><td>硬件保证，非常稳定</td><td>受中断/调度影响，可能抖动</td></tr>
+        <tr><td>实现复杂度</td><td>需查寄存器/HAL 库</td><td>代码直观，调试容易</td></tr>
+        <tr><td>典型应用</td><td>SPI Flash、SD 卡、高分辨率显示</td><td>简单的 EEPROM、低速 OLED、传感器</td></tr>
+        <tr><td>可移植性</td><td>厂商强相关</td><td>跨平台通用</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>选择建议</strong>：高速、CPU 负担重、需 DMA 时优先硬件外设；引脚紧张或调试阶段可用软件模拟；OLED 等 100kHz~400kHz 设备两者皆可。
+    </div>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>SPI 是 4 线全双工同步串行总线，由 CPOL/CPHA 决定 4 种时序模式，适合高速外设如 W25Q64 Flash。</li>
+        <li>I2C 是 2 线半双工同步串行总线，通过 START/STOP/ACK 时序与 7 位地址寻址，适合低速外设如 SSD1306 OLED。</li>
+        <li>HAL_SPI_Transmit/Receive 配合 GPIO 控制 CS 即可完成 W25Q64 擦除、页编程、读取全流程。</li>
+        <li>HAL_I2C_Mem_Write 用 MemAddress 封装命令/数据，可大幅简化 SSD1306 驱动代码。</li>
+        <li>CubeMX 配置 SPI 选 Mode 3，I2C 选 Fast Mode 400kHz；DMA 模式可减轻 CPU 负担。</li>
+        <li>硬件外设与软件模拟各有优劣，应根据速度、引脚、CPU 占用灵活选择。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>简述 SPI 的 4 种时钟模式（CPOL/CPHA），W25Q64 Flash 应使用哪种模式？为什么？</li>
+        <li>编写程序：使用 SPI1 读取 W25Q64 JEDEC ID，并与数据手册对比验证通信成功。</li>
+        <li>I2C 的 START 与 STOP 信号如何定义？为什么 SCL 高电平期间 SDA 必须保持稳定？</li>
+        <li>使用 HAL_I2C 驱动 SSD1306 在 OLED 第一行居中显示"Hello MCU"。</li>
+        <li>CubeMX 配置 SPI1 的 DMA 模式，编写基于 DMA 的大块 Flash 读取程序，对比 CPU 占用差异。</li>
+        <li>对比软件模拟 I2C 与硬件 I2C 的优劣，并说明何种场景适合用软件模拟。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>ST 官方. STM32F405/415/407/417 参考手册 RM0090 [Z]. 2024. https://www.st.com/</li>
+        <li>Winbond. W25Q64JV Datasheet [Z]. 2024. https://www.winbond.com/</li>
+        <li>Solomon Systech. SSD1306 Datasheet [Z]. 2024. https://www.solomon-systech.com/</li>
+        <li>NXP Semiconductors. I2C-bus Specification and User Manual (UM10204) [Z]. 2021.</li>
+        <li>正点原子. STM32F4 开发指南——HAL 库版本 [M]. 北京：北京航空航天大学出版社, 2020.</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/chapters/part3-stm32f407/ch19-adc-dac.html" class="prev">← 第 19 章 ADC 与 DAC</a>
+      <a href="/index.html" class="home">返回首页</a>
+      <a href="/chapters/part3-stm32f407/ch21-dma-rtc.html" class="next">第 21 章 DMA 与 RTC →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

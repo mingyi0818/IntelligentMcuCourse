@@ -1,0 +1,372 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第30章 智能交通灯系统（STC89C52RC） - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link active" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 5 篇 综合项目 &gt; <span>第 30 章 智能交通灯系统</span>
+    </div>
+
+    <h1>第 30 章 智能交通灯系统（STC89C52RC）</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>掌握基于 STC89C52RC 的项目需求分析方法与系统架构设计</li>
+        <li>学会使用定时器中断与数码管动态扫描实现倒计时显示</li>
+        <li>掌握有限状态机（FSM）思想在多状态切换控制中的应用</li>
+        <li>理解按键消抖原理与外部中断处理行人请求的方法</li>
+        <li>能独立完成交通灯系统的硬件接线、程序编写与调试扩展</li>
+      </ul>
+    </div>
+
+    <h2>30.1 项目需求分析</h2>
+    <p>本项目模拟一个十字路口交通灯控制系统，基于 STC89C52RC 单片机实现。具体功能需求如下：</p>
+    <ul>
+      <li><strong>双向灯组</strong>：主干道（南北向）与支路（东西向）各一组红、黄、绿三色 LED，共 6 个 LED。</li>
+      <li><strong>倒计时显示</strong>：使用 4 位数码管分别显示主干道与支路当前剩余时间，单位为秒。</li>
+      <li><strong>状态切换</strong>：默认循环"主干绿—主干黄—支路绿—支路黄—主干绿"，每段时长可调（默认 15s/3s/10s/3s）。</li>
+      <li><strong>行人按键</strong>：支路方向设有一个按键，主干道绿灯剩余 ≥10 秒时按下可缩短至 10 秒后切换；黄灯期间请求忽略。</li>
+      <li><strong>夜间模式</strong>：长按按键 3 秒进入夜间模式，两个方向黄灯同时闪烁，数码管熄灭。</li>
+    </ul>
+
+    <h2>30.2 系统架构设计</h2>
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch30-traffic-light-stc-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+skinparam componentStyle rectangle
+skinparam shadowing true
+top to bottom direction
+component "STC89C52RC" as MCU
+component "6 个 LED\n红/黄/绿 x2 方向" as LED
+component "4 位数码管\n动态扫描" as SEG
+component "行人按键\n外部中断 INT0" as KEY
+component "定时器 0\n1ms 系统时基" as T0
+component "定时器 1\n数码管扫描" as T1
+component "状态机" as FSM
+MCU --&gt; LED
+MCU --&gt; SEG
+MCU --&gt; KEY
+MCU --&gt; T0
+MCU --&gt; T1
+KEY --&gt; FSM : 按键请求
+T0 --&gt; FSM : 1s 节拍
+FSM --&gt; LED : 控制输出
+FSM --&gt; SEG : 倒计时数据
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 30-1 智能交通灯系统架构框图</div>
+
+    <h2>30.3 硬件设计</h2>
+    <p>使用 STC89C52RC 最小系统 + LED 模块 + 4 位共阴数码管 + 1 个按键。考虑到 P0 口需接上拉电阻驱动数码管段选，端口分配如下表：</p>
+
+    <table>
+      <thead><tr><th>模块</th><th>引脚</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>主干道红/黄/绿</td><td>P1.0 / P1.1 / P1.2</td><td>低电平点亮 LED</td></tr>
+        <tr><td>支路红/黄/绿</td><td>P1.3 / P1.4 / P1.5</td><td>低电平点亮 LED</td></tr>
+        <tr><td>数码管段选 a~g/dp</td><td>P0.0~P0.7</td><td>接 10k 上拉排阻，共阴数码管</td></tr>
+        <tr><td>数码管位选 DIG1~DIG4</td><td>P2.0~P2.3</td><td>低电平选中对应位（PNP 三极管驱动）</td></tr>
+        <tr><td>行人按键</td><td>P3.2（INT0）</td><td>按下接 GND，触发外部中断 0</td></tr>
+        <tr><td>晶振</td><td>XTAL1/2</td><td>11.0592 MHz + 2×30pF</td></tr>
+      </tbody>
+    </table>
+
+    <h2>30.4 软件设计</h2>
+
+    <h3>30.4.1 状态机设计</h3>
+    <p>使用有限状态机（Finite State Machine，FSM）描述交通灯的所有状态，每个状态包含：当前灯组合、倒计时初值、下一个状态。状态切换由定时器 0 提供的 1 秒节拍驱动。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch30-traffic-light-stc-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+skinparam state {
+    BackgroundColor #f1f3f5
+    BorderColor #2d6a4f
+}
+left to right direction
+state "S1 主干绿\n支路红\n15s" as S1
+state "S2 主干黄\n支路红\n3s" as S2
+state "S3 主干红\n支路绿\n10s" as S3
+state "S4 主干红\n支路黄\n3s" as S4
+S1 --&gt; S2 : 倒计时=0
+S2 --&gt; S3 : 倒计时=0
+S3 --&gt; S4 : 倒计时=0
+S4 --&gt; S1 : 倒计时=0
+S1 -[dashed]-&gt; S2 : 行人按键
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 30-2 交通灯状态机迁移图</div>
+
+    <h3>30.4.2 关键代码示例</h3>
+    <p>下面给出主程序框架与定时器中断、状态机更新、按键处理的核心代码片段。完整工程位于 <code>/code/stc89c52rc/10-traffic-light/</code>。</p>
+
+    <h4>30.4.2.1 主程序框架与中断服务</h4>
+
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+
+/* ============ 引脚定义 ============ */
+sbit NS_R = P1^0;  sbit NS_Y = P1^1;  sbit NS_G = P1^2;
+sbit EW_R = P1^3;  sbit EW_Y = P1^4;  sbit EW_G = P1^5;
+sbit KEY   = P3^2;   /* 行人按键，接 INT0 */
+
+/* ============ 状态定义 ============ */
+typedef enum { S_NS_GREEN, S_NS_YELLOW, S_EW_GREEN, S_EW_YELLOW } State;
+State g_state = S_NS_GREEN;
+unsigned char g_count = 15;   /* 当前状态剩余秒数 */
+unsigned char g_1ms    = 0;  /* 1ms 计数器 */
+bit g_pedestrian_req   = 0;  /* 行人请求标志 */
+
+/* 各状态灯组合：1=亮 0=灭 */
+code unsigned char LAMP[4][6] = {
+    {0,0,1, 1,0,0},   /* S_NS_GREEN: NS绿/支红 */
+    {0,1,0, 1,0,0},   /* S_NS_YELLOW: NS黄/支红 */
+    {1,0,0, 0,0,1},   /* S_EW_GREEN: NS红/支绿 */
+    {1,0,0, 0,1,0}    /* S_EW_YELLOW: NS红/支黄 */
+};
+code unsigned char STATE_TIME[4] = {15, 3, 10, 3};
+
+void Update_Lamps(State s) {
+    NS_R = !LAMP[s][0]; NS_Y = !LAMP[s][1]; NS_G = !LAMP[s][2];
+    EW_R = !LAMP[s][3]; EW_Y = !LAMP[s][4]; EW_G = !LAMP[s][5];
+}
+
+void Timer0_Init(void) {
+    TMOD &amp;= 0xF0; TMOD |= 0x01;
+    TH0 = 0xFC; TL0 = 0x66;   /* 11.0592MHz, 1ms */
+    ET0 = 1; EA = 1; TR0 = 1;
+}
+
+void Int0_Init(void) {
+    IT0 = 1;   /* 下降沿触发 */
+    EX0 = 1;   /* 允许 INT0 */
+    EA  = 1;
+}
+
+void main(void) {
+    Update_Lamps(g_state);
+    Timer0_Init();
+    Int0_Init();
+    while (1) { /* 主循环空转，全部逻辑在中断里 */ }
+}
+
+/* 1ms 系统节拍 */
+void Timer0_ISR(void) interrupt 1 {
+    TH0 = 0xFC; TL0 = 0x66;
+    if (++g_1ms &gt;= 1000) {
+        g_1ms = 0;
+        if (g_count &gt; 0) {
+            g_count--;
+            /* 行人按键请求：仅主干绿且剩余&gt;10s 时缩短到 10s */
+            if (g_state == S_NS_GREEN &amp;&amp; g_pedestrian_req &amp;&amp; g_count &gt; 10) {
+                g_count = 10; g_pedestrian_req = 0;
+            }
+        } else {
+            /* 状态切换 */
+            g_state = (State)((g_state + 1) % 4);
+            g_count = STATE_TIME[g_state];
+            Update_Lamps(g_state);
+        }
+        Seg_Display(g_state, g_count);   /* 刷新数码管显示 */
+    }
+    Scan_Keypad();  /* 数码管动态扫描 */
+}
+
+/* INT0 行人按键：消抖 + 置请求标志 */
+void Int0_ISR(void) interrupt 0 {
+    unsigned char i, j;
+    for (i = 0; i &lt; 20; i++)   /* 软件消抖 ~20ms */
+        for (j = 0; j &lt; 100; j++);
+    if (KEY == 0) g_pedestrian_req = 1;
+}
+</code></pre>
+
+    <h4>30.4.2.2 关键设计要点解析</h4>
+    <p>这段代码体现了几个关键设计点：</p>
+    <ul>
+      <li><strong>状态机+表驱动</strong>：用 `LAMP[][]` 和 `STATE_TIME[]` 两张表把灯组合与时长数据化，新增/修改状态时只需改表，业务逻辑零改动。</li>
+      <li><strong>定时器 1ms 节拍</strong>：所有时序逻辑挂在 Timer0 中断上，主循环空转，结构清晰。</li>
+      <li><strong>行人请求异步处理</strong>：外部中断只置标志，实际缩短动作在 1 秒节拍中执行，避免竞态条件。</li>
+      <li><strong>按键消抖</strong>：INT0 中断内做 20 ms 延时再判断电平，是最简单的软件消抖方式。</li>
+    </ul>
+
+    <h2>30.5 完整代码与工程结构</h2>
+    <p>完整工程位于 <code>/code/stc89c52rc/10-traffic-light/</code>，目录结构如下：</p>
+    <pre><code>10-traffic-light/
+├── main.c              # 主程序 + 状态机
+├── timer.c / timer.h   # 定时器初始化
+├── seg.c / seg.h       # 4 位数码管动态扫描驱动
+├── key.c / key.h       # 按键扫描与消抖
+├── traffic.h          # 状态机接口定义
+└── README.md          # 编译烧录说明
+</code></pre>
+    <p>使用 Keil C51 打开 <code>traffic.uvproj</code>，编译生成 HEX 后用 STC-ISP 烧录到 STC89C52RC 即可。运行效果：上电后系统自动进入"主干绿"状态，数码管从 15 开始倒计时，依次切换；按下 P3.2 按键可触发主干提前切换。</p>
+
+    <h2>30.6 调试与扩展方向</h2>
+    <p>调试过程中常见问题与排查思路：</p>
+    <ul>
+      <li><strong>数码管闪烁/亮度不均</strong>：动态扫描周期过长，将每位点亮时间从 2 ms 减为 1 ms。</li>
+      <li><strong>状态切换时间不准</strong>：检查 Timer0 初值，11.0592 MHz 下 1 ms 初值应为 0xFC66；若用 12 MHz 晶振则改为 0xFC18。</li>
+      <li><strong>按键无响应</strong>：确认 INT0 中断允许位 EX0=1 且 IT0=1；用万用表确认按键按下时 P3.2 为 0 V。</li>
+    </ul>
+
+    <p>扩展方向：</p>
+    <ul>
+      <li><strong>夜间模式</strong>：长按按键 3 秒进入黄闪模式，再长按 3 秒退出，可通过在中断里累计按键按下时间实现。</li>
+      <li><strong>紧急通行</strong>：增加一个独立按键进入"两向全红"模式，便于特种车辆放行。</li>
+      <li><strong>串口调参</strong>：通过 UART 接收 PC 端指令实时修改各状态时长，便于工程现场调试。</li>
+      <li><strong>红外检测车流</strong>：在路口加装红外对管统计车流量，自适应调整绿灯时长。</li>
+    </ul>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>项目需求分析是工程开发的起点，应明确"做什么、做到什么程度"。</li>
+        <li>系统架构采用"模块化 + 中断驱动"：定时器 0 提供 1 秒节拍，外部中断 0 响应行人按键，主循环空闲。</li>
+        <li>有限状态机是描述多状态控制问题的有效工具，配合表驱动可大幅简化代码维护。</li>
+        <li>按键消抖是工程必备技能，可用软件延时或硬件 RC 滤波实现。</li>
+        <li>实际工程需考虑调试手段（仿真、串口打印）与可扩展性（夜间模式、紧急通行、自适应控制）。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>本项目中"主干绿 15 秒、主干黄 3 秒、支路绿 10 秒、支路黄 3 秒"的时长安排是否合理？查阅实际交通规范，给出改进建议。</li>
+        <li>使用 11.0592 MHz 晶振时，1 ms 定时器初值为什么是 0xFC66？写出计算过程。</li>
+        <li>修改代码，将"行人按键仅在主干绿且剩余 &gt;10s 时缩短至 10s"改为"剩余 &gt;5s 时缩短至 5s"，并思考可能带来的安全问题。</li>
+        <li>如何用软件方式实现"长按 3 秒进入夜间模式"？给出代码思路。</li>
+        <li>设计一个串口调参协议，使 PC 可通过 UART 命令实时修改 4 个状态时长，命令格式自行定义。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>张毅刚. 单片机原理及应用——C51 编程 + Proteus 仿真（第 4 版）[M]. 北京：高等教育出版社, 2021.</li>
+        <li>郭天祥. 新概念 51 单片机 C 语言教程 [M]. 北京：电子工业出版社, 2018.</li>
+        <li>STC 官方. STC89C52RC 数据手册 [Z]. 2024. https://www.stcmcudata.com/</li>
+        <li>GB 14886—2016. 道路交通信号灯设置与安装规范 [S]. 北京：中国标准出版社, 2016.</li>
+        <li>Michael A. Banks. Embedded Microcontrollers and Interfacing [M]. McGraw-Hill, 2018.</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/chapters/part4-additional/ch29-msp430.html" class="prev">← 第 29 章 MSP430 低功耗单片机</a>
+      <a href="/index.html" class="home">返回首页</a>
+      <a href="/chapters/part5-projects/ch31-smart-clock-stm32.html" class="next">第 31 章 STM32 智能电子钟 →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实验4 数码管动态显示 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=6">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html" class="active">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+  <main class="content" style="max-width: 1000px;">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt;
+      <a href="/lab/index.html">实验指导</a> &gt;
+      <span>实验4 数码管动态显示</span>
+    </div>
+
+    <h1>实验4 数码管动态显示</h1>
+
+    <p>数码管 (Seven-Segment Display) 是嵌入式系统最常用的数字显示器件。本实验使用 4 位共阴动态数码管，掌握段码 (Segment Code) 与位码 (Digit Code) 的概念，理解动态扫描 (Dynamic Scanning) 利用视觉暂留 (Persistence of Vision) 实现多位显示的原理。完整工程源码见 <code>/code/stc89c52rc/04-7seg-dynamic/</code>。</p>
+
+    <h2>一、实验目的</h2>
+    <ul>
+      <li>掌握数码管的段码 (a-g, dp) 与共阴/共阳的区别。</li>
+      <li>理解动态扫描原理，能计算刷新频率与显示亮度关系。</li>
+      <li>掌握段选、位选的驱动方法与消影 (Ghosting) 技术。</li>
+      <li>能实现 4 位数字的稳定动态显示。</li>
+    </ul>
+
+    <h2>二、知识点</h2>
+    <ul>
+      <li><strong>数码管结构</strong>：8 段 LED (a, b, c, d, e, f, g, dp) 组成 "8." 字形，共阴 (Common Cathode, CC) 公共端接地，段选高电平点亮；共阳 (Common Anode, CA) 公共端接 Vcc，段选低电平点亮。</li>
+      <li><strong>段码表</strong>：数字 0-9、字母 A-F 的段选编码。共阴 "0" 的段码为 0x3F (abcdef 亮，g 灭)。</li>
+      <li><strong>动态扫描</strong>：多位数码管共享段选线，每位独立位选。依次点亮每一位，每次只亮一位，切换速度高于 50 Hz (人眼视觉暂留约 1/24 s) 即可看到稳定显示，无闪烁。</li>
+      <li><strong>消影</strong>：切换位选前先关闭所有段，避免上一位的段码残影串到下一位 (鬼影 Ghosting)。</li>
+      <li><strong>刷新频率</strong>：4 位轮流显示，每位 5 ms，4 位共 20 ms，刷新频率 $f = 1/0.02 = 50\text{ Hz}$。每位占空比 25%，亮度约为静态显示的 1/4。</li>
+      <li><strong>亮度与限流</strong>：动态显示每位平均电流减小，可适当减小限流电阻 (如 100-150 Ω) 提升单次点亮电流，但不可超过段的最大峰值电流。</li>
+    </ul>
+
+    <h2>三、硬件清单</h2>
+    <table>
+      <thead>
+        <tr><th>序号</th><th>器材</th><th>规格</th><th>数量</th><th>备注</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>STC89C52RC 最小系统板</td><td>11.0592 MHz</td><td>1</td><td>—</td></tr>
+        <tr><td>2</td><td>4 位共阴数码管</td><td>3461BS 或类似</td><td>1</td><td>动态显示</td></tr>
+        <tr><td>3</td><td>限流电阻</td><td>220 Ω</td><td>8</td><td>段选</td></tr>
+        <tr><td>4</td><td>三极管</td><td>PNP (8550) 或 NPN</td><td>4</td><td>位选驱动 (共阴用 NPN)</td></tr>
+        <tr><td>5</td><td>基极电阻</td><td>1 kΩ</td><td>4</td><td>—</td></tr>
+        <tr><td>6</td><td>面包板与杜邦线</td><td>—</td><td>若干</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <h2>四、电路连接</h2>
+    <p>段选 a-g, dp 接 P0.0-P0.7 (需外接 10 kΩ 上拉排阻，因 P0 为开漏)；位选 DIG1-DIG4 接 P2.0-P2.3，经 NPN 三极管 (8050) 驱动公共端 (共阴数码管位选为高有效，三极管导通拉低公共端接地)。实际模块常已集成三极管与电阻。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/lab04-7seg-display-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+package "STC89C52RC" {
+  component "P0 口" as P0
+  component "4位共阴数码管" as SEG
+  component "P2.0-P2.3" as P2
+  component "8050 x4" as Q1
+  P0 --&gt; SEG : 段选 a-g,dp + 上拉
+  P2 --&gt; Q1 : 位选
+  Q1 --&gt; SEG : 驱动公共端
+}
+@enduml</code></pre>
+  </details>
+</div>
+
+    <p>共阴数码管段码表 (0-F)：</p>
+    <table>
+      <thead><tr><th>显示</th><th>段码 (共阴)</th><th>段码 (共阳)</th><th>显示</th><th>段码 (共阴)</th><th>段码 (共阳)</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>0x3F</td><td>0xC0</td><td>8</td><td>0x7F</td><td>0x80</td></tr>
+        <tr><td>1</td><td>0x06</td><td>0xF9</td><td>9</td><td>0x6F</td><td>0x90</td></tr>
+        <tr><td>2</td><td>0x5B</td><td>0xA4</td><td>A</td><td>0x77</td><td>0x88</td></tr>
+        <tr><td>3</td><td>0x4F</td><td>0xB0</td><td>b</td><td>0x7C</td><td>0x83</td></tr>
+        <tr><td>4</td><td>0x66</td><td>0x99</td><td>C</td><td>0x39</td><td>0xC6</td></tr>
+        <tr><td>5</td><td>0x6D</td><td>0x92</td><td>d</td><td>0x5E</td><td>0xA1</td></tr>
+        <tr><td>6</td><td>0x7D</td><td>0x82</td><td>E</td><td>0x79</td><td>0x86</td></tr>
+        <tr><td>7</td><td>0x07</td><td>0xF8</td><td>F</td><td>0x71</td><td>0x8E</td></tr>
+      </tbody>
+    </table>
+
+    <h2>五、代码框架</h2>
+    <p>实现 4 位计数显示 0000-9999。工程 <code>/code/stc89c52rc/04-7seg-dynamic/main.c</code>。</p>
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+
+#define SEG_PORT P0   /* 段选口 */
+#define DIG_PORT P2   /* 位选口 */
+
+/* 共阴段码 0-9 */
+unsigned char code SEG[] = {
+    0x3F, 0x06, 0x5B, 0x4F, 0x66,
+    0x6D, 0x7D, 0x07, 0x7F, 0x6F
+};
+
+/* 位选码: 从右到左 DIG1-DIG4 (位选高有效经三极管) */
+unsigned char code DIG[] = {0x01, 0x02, 0x04, 0x08};
+
+unsigned char disp_buf[4] = {0, 0, 0, 0};   /* 显示缓冲: 个十百千 */
+
+void delay_ms(unsigned int ms) {
+    unsigned int i, j;
+    for (i = 0; i &lt; ms; i++)
+        for (j = 0; j &lt; 114; j++) ;
+}
+
+/* 动态扫描一次: 4 位轮流显示 */
+void Display_Scan(void) {
+    unsigned char i;
+    for (i = 0; i &lt; 4; i++) {
+        SEG_PORT = 0x00;                  /* 1. 消影: 先关段 */
+        DIG_PORT = DIG[i];                /* 2. 选位 */
+        SEG_PORT = SEG[disp_buf[i]];      /* 3. 送段码 */
+        delay_ms(5);                      /* 4. 延时保持 */
+        SEG_PORT = 0x00;                  /* 5. 消影 */
+    }
+}
+
+void main(void) {
+    unsigned int counter = 0;
+    unsigned int scan_cnt = 0;
+
+    while (1) {
+        /* 更新显示缓冲 */
+        disp_buf[0] = counter % 10;          /* 个位 */
+        disp_buf[1] = (counter / 10) % 10;   /* 十位 */
+        disp_buf[2] = (counter / 100) % 10;  /* 百位 */
+        disp_buf[3] = (counter / 1000) % 10; /* 千位 */
+
+        Display_Scan();   /* 扫描一次约 20 ms */
+
+        /* 每 50 次扫描计数 +1, 即约 1 s 加 1 */
+        scan_cnt++;
+        if (scan_cnt &gt;= 50) {
+            scan_cnt = 0;
+            counter++;
+            if (counter &gt; 9999) counter = 0;
+        }
+    }
+}</code></pre>
+
+    <p>更稳定的方案是使用定时器中断进行扫描 (见实验5)，主循环只负责更新数据，避免阻塞。</p>
+
+    <h2>六、调试要点</h2>
+    <ul>
+      <li><strong>消影必须</strong>：切换位选前一定要先关段 (写 0)，否则会产生鬼影，显示模糊。代码中 "1. 消影" 与 "5. 消影" 两步不可省。</li>
+      <li><strong>刷新频率</strong>：4 位 × 5 ms = 20 ms，刷新频率 50 Hz 刚好临界，建议每位 2-3 ms 提升到 80-100 Hz，显示更稳定。</li>
+      <li><strong>亮度不均</strong>：若各位亮度不一致，多为位选驱动能力不足或限流电阻差异；三极管基极电阻要匹配。</li>
+      <li><strong>共阴共阳确认</strong>：模块标识 "BS" 通常为共阴，"AS" 为共阳。段码与位码逻辑相反，混淆会导致全亮或全灭。</li>
+      <li><strong>P0 口上拉</strong>：STC P0 口开漏，必须外接上拉电阻 (10 kΩ 排阻) 才能输出高电平驱动段选。</li>
+      <li><strong>三极管方向</strong>：共阴数码管位选用 NPN (8050)，共阳用 PNP (8550)；接反则不显示。</li>
+    </ul>
+
+    <h2>七、思考题</h2>
+    <ol>
+      <li>动态显示的刷新频率应不低于多少？若低于该值会出现什么现象？</li>
+      <li>为什么动态显示的每位亮度约为静态显示的 1/N (N 为位数)？如何提升亮度？</li>
+      <li>消影 (消隐) 的作用是什么？如果不做消影会出现什么现象？</li>
+      <li>共阴与共阳数码管在段码、位码上有何区别？给出共阳 "5" 的段码。</li>
+      <li>若将扫描放在定时器中断中实现，相比主循环扫描有何优势？请描述定时器中断扫描的方案。</li>
+    </ol>
+
+    <nav class="chapter-nav">
+      <a href="/lab/lab03-matrix-keypad.html" class="prev">← 实验3 矩阵键盘扫描</a>
+      <a href="/lab/index.html" class="home">返回实验列表</a>
+      <a href="/lab/lab05-timer-interrupt.html" class="next">实验5 定时器中断（秒表） →</a>
+    </nav>
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实验6 串口通信（与PC收发） - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=6">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html" class="active">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+  <main class="content" style="max-width: 1000px;">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt;
+      <a href="/lab/index.html">实验指导</a> &gt;
+      <span>实验6 串口通信（与PC收发）</span>
+    </div>
+
+    <h1>实验6 串口通信（与PC收发）</h1>
+
+    <p>串口通信 (Serial Communication) 是单片机与 PC 之间最常用的通信方式。本实验使用 STC89C52RC 的串口方式 1 与 STM32F407 的 USART1，实现波特率 115200 的全双工通信：PC 发送字符，单片机回显并统计收发字节数。掌握 UART (Universal Asynchronous Receiver/Transmitter) 配置与波特率计算。完整工程源码见 <code>/code/stc89c52rc/06-uart/</code> 与 <code>/code/stm32f407/06-hal-uart/</code>。</p>
+
+    <h2>一、实验目的</h2>
+    <ul>
+      <li>掌握 UART 异步串行通信的帧格式 (起始位、数据位、校验位、停止位)。</li>
+      <li>掌握 STC89C52RC 串口方式 1 的配置与波特率计算。</li>
+      <li>掌握 STM32F407 USART1 的 HAL 库配置。</li>
+      <li>能实现单片机与 PC 的全双工收发，使用串口助手调试。</li>
+    </ul>
+
+    <h2>二、知识点</h2>
+    <ul>
+      <li><strong>UART 帧格式</strong>：1 位起始位 (低) + 8 位数据位 + 1 位停止位 (高)，无校验。波特率 (Baud Rate) 即每秒传输的位数。</li>
+      <li><strong>STC 串口方式 1</strong>：8 位 UART，可变波特率。SCON 寄存器 SM0=0, SM1=1。波特率由 T1 方式 2 (8 位自动重装) 产生。</li>
+      <li><strong>STC 波特率公式</strong>：$\text{Baud} = \dfrac{2^{SMOD}}{32} \times \dfrac{f_{osc}}{12 \times (256 - TH1)}$。其中 SMOD 为 PCON.7 倍频位。11.0592 MHz 下 115200 波特率：$TH1 = 256 - \dfrac{2^1}{32} \times \dfrac{11059200}{12 \times 115200} = 256 - 4 = 252 = 0xFC$ (SMOD=1)。</li>
+      <li><strong>晶振选择</strong>：11.0592 MHz 能整除产生标准波特率 (9600/19200/115200)，误差为 0；12 MHz 下 9600 波特率有 8.5% 误差，易通信失败。</li>
+      <li><strong>STM32 USART</strong>：挂载于 APB2 (84 MHz)，波特率寄存器 BRR = $f_{PCLK} / \text{Baud}$，硬件自动分频，精度高。</li>
+      <li><strong>中断收发</strong>：RI (接收中断)、TI (发送中断) 标志，中断服务函数中清标志并处理数据。STM32 使用 HAL_UART_RxCpltCallback 回调。</li>
+    </ul>
+
+    <h2>三、硬件清单</h2>
+    <table>
+      <thead>
+        <tr><th>序号</th><th>器材</th><th>规格</th><th>数量</th><th>备注</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>STC89C52RC 板</td><td>USB 转串口 CH340</td><td>1</td><td>—</td></tr>
+        <tr><td>2</td><td>STM32F407 板</td><td>板载 USB 转串口</td><td>1</td><td>—</td></tr>
+        <tr><td>3</td><td>USB 线</td><td>—</td><td>1</td><td>连接 PC</td></tr>
+        <tr><td>4</td><td>PC</td><td>串口助手软件</td><td>1</td><td>如 SSCOM/XCOM</td></tr>
+      </tbody>
+    </table>
+
+    <h2>四、电路连接</h2>
+    <p>STC89C52RC 板载 USB 转串口芯片 (CH340)，单片机 P3.0 (RXD)、P3.1 (TXD) 经 CH340 连接 PC USB。STM32F407 的 USART1 (PA9=TX, PA10=RX) 同样经板载 CH340 连 PC。无需额外连线，插 USB 即可。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/lab06-uart-communication-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+component "PC 串口助手" as PC
+component "CH340 USB转串口" as CH1
+component "P3.0/PA10 RXD" as RXD1
+component "单片机" as MCU1
+component "P3.1/PA9 TXD" as TXD1
+PC --&gt; CH1 : USB
+CH1 --&gt; RXD1 : TXD
+RXD1 --&gt; MCU1
+MCU1 --&gt; TXD1 : TXD
+TXD1 --&gt; CH1
+CH1 --&gt; PC : USB
+@enduml</code></pre>
+  </details>
+</div>
+
+    <h2>五、代码框架</h2>
+
+    <h3>5.1 STC89C52RC 串口方式 1 收发回显</h3>
+    <p>工程 <code>/code/stc89c52rc/06-uart/main.c</code>。波特率 115200，8N1，SMOD=1。</p>
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+
+volatile unsigned char rx_byte;
+volatile bit rx_flag = 0;       /* 接收完成标志 */
+unsigned int rx_cnt = 0, tx_cnt = 0;
+
+/* 串口中断号 4 */
+void UART_ISR(void) interrupt 4 {
+    if (RI) {                   /* 接收中断 */
+        RI = 0;                 /* 清接收标志 */
+        rx_byte = SBUF;         /* 读取数据 */
+        rx_flag = 1;            /* 置接收标志 */
+        rx_cnt++;
+    }
+    if (TI) {                   /* 发送中断 */
+        TI = 0;                 /* 清发送标志 */
+        /* 发送完成处理 */
+    }
+}
+
+void UART_Init(void) {
+    SCON = 0x50;                /* 方式1, 8位UART, 允许接收 (REN=1) */
+    PCON |= 0x80;               /* SMOD=1 波特率倍频 */
+    TMOD &amp;= 0x0F;               /* 清 T1 模式位 */
+    TMOD |= 0x20;               /* T1 方式2: 8位自动重装 */
+    TH1 = 0xFC;                 /* 115200 @11.0592MHz SMOD=1 */
+    TL1 = 0xFC;
+    TR1 = 1;                    /* 启动 T1 */
+    ES = 1;                     /* 使能串口中断 */
+    EA = 1;                     /* 开总中断 */
+}
+
+/* 发送一个字节 (查询方式) */
+void UART_SendByte(unsigned char dat) {
+    SBUF = dat;
+    while (!TI) ;               /* 等待发送完成 */
+    TI = 0;
+    tx_cnt++;
+}
+
+/* 发送字符串 */
+void UART_SendString(char *str) {
+    while (*str) {
+        UART_SendByte(*str++);
+    }
+}
+
+void main(void) {
+    UART_Init();
+    UART_SendString("UART Ready 115200\r\n");
+    while (1) {
+        if (rx_flag) {
+            rx_flag = 0;
+            UART_SendByte(rx_byte);   /* 回显收到的字符 */
+            if (rx_byte == '\r') {     /* 回车换行处理 */
+                UART_SendByte('\n');
+            }
+        }
+    }
+}</code></pre>
+
+    <h3>5.2 STM32F407 HAL USART1 中断收发</h3>
+    <p>工程 <code>/code/stm32f407/06-hal-uart/main.c</code>。</p>
+    <pre><code class="language-c">#include "stm32f4xx_hal.h"
+
+UART_HandleTypeDef huart1;
+uint8_t rx_byte;
+volatile uint32_t rx_cnt = 0, tx_cnt = 0;
+
+void USART1_IRQHandler(void) {
+    HAL_UART_IRQHandler(&amp;huart1);
+}
+
+/* 接收完成回调 */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+    if (huart-&gt;Instance == USART1) {
+        rx_cnt++;
+        HAL_UART_Transmit(&amp;huart1, &amp;rx_byte, 1, 10);   /* 回显 */
+        HAL_UART_Receive_IT(&amp;huart1, &amp;rx_byte, 1);     /* 继续接收 */
+    }
+}
+
+void USART1_Init(void) {
+    __HAL_RCC_USART1_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+    /* PA9 TX, PA10 RX 复用配置略 */
+    huart1.Instance = USART1;
+    huart1.Init.BaudRate = 115200;
+    huart1.Init.WordLength = UART_WORDLENGTH_8B;
+    huart1.Init.StopBits = UART_STOPBITS_1;
+    huart1.Init.Parity = UART_PARITY_NONE;
+    huart1.Init.Mode = UART_MODE_TX_RX;
+    huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    HAL_UART_Init(&amp;huart1);
+    HAL_NVIC_SetPriority(USART1_IRQn, 1, 0);
+    HAL_NVIC_EnableIRQ(USART1_IRQn);
+    HAL_UART_Receive_IT(&amp;huart1, &amp;rx_byte, 1);   /* 开启中断接收 */
+}
+
+int main(void) {
+    HAL_Init();
+    USART1_Init();
+    HAL_UART_Transmit(&amp;huart1, (uint8_t*)"Ready\r\n", 7, 100);
+    while (1) { }
+}</code></pre>
+
+    <h2>六、调试要点</h2>
+    <ul>
+      <li><strong>波特率匹配</strong>：PC 串口助手必须设为与单片机一致的 115200，8N1，无校验，否则乱码。</li>
+      <li><strong>COM 口选择</strong>：设备管理器查看 CH340 枚举的 COM 号，串口助手选对应 COM。</li>
+      <li><strong>晶振核对</strong>：STC 波特率依赖晶振，11.0592 MHz 必须与实际板子一致，否则通信失败。</li>
+      <li><strong>SMOD 倍频</strong>：115200 高波特率需 SMOD=1 (PCON |= 0x80)，否则 TH1 装不下值。</li>
+      <li><strong>中断清标志</strong>：RI/TI 必须软件清零 (写 0)，否则反复进中断。</li>
+      <li><strong>发送等待</strong>：查询方式发送要等 TI 置位再发下一字节；中断方式更高效。</li>
+      <li><strong>USB 转串口驱动</strong>：CH340 需安装驱动，Windows 11 一般自带。</li>
+    </ul>
+
+    <h2>七、思考题</h2>
+    <ol>
+      <li>UART 异步通信为什么需要双方波特率一致？波特率误差超过多少会导致通信失败？</li>
+      <li>为什么 11.0592 MHz 晶振比 12 MHz 更适合串口通信？分别计算 9600 波特率下的 TH1 与误差。</li>
+      <li>SMOD 倍频位的作用是什么？什么情况下需要开启 SMOD？</li>
+      <li>查询发送与中断发送各有何优缺点？什么场景应该用中断或 DMA？</li>
+      <li>如何实现单片机之间的多机通信 (一主多从)？简述地址帧与数据帧的区分方法。</li>
+    </ol>
+
+    <nav class="chapter-nav">
+      <a href="/lab/lab05-timer-interrupt.html" class="prev">← 实验5 定时器中断（秒表）</a>
+      <a href="/lab/index.html" class="home">返回实验列表</a>
+      <a href="/lab/lab07-lcd1602.html" class="next">实验7 LCD1602显示 →</a>
+    </nav>
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+</body>
+</html>

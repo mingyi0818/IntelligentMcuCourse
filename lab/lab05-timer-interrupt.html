@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实验5 定时器中断（秒表） - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=6">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html" class="active">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+  <main class="content" style="max-width: 1000px;">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt;
+      <a href="/lab/index.html">实验指导</a> &gt;
+      <span>实验5 定时器中断（秒表）</span>
+    </div>
+
+    <h1>实验5 定时器中断（秒表）</h1>
+
+    <p>定时器 (Timer) 是单片机最重要的内部外设之一。本实验使用 STC89C52RC 的定时器 0 与 STM32F407 的基本定时器 TIM6 实现精确的 1 秒中断，制作 0-99 秒表，并显示在数码管上。掌握定时器初值计算、中断服务函数编写与多平台定时器配置差异。完整工程源码见 <code>/code/stc89c52rc/05-timer-stopwatch/</code> 与 <code>/code/stm32f407/05-hal-timer-stopwatch/</code>。</p>
+
+    <h2>一、实验目的</h2>
+    <ul>
+      <li>掌握 STC89C52RC 定时器 T0/T1 的工作方式与寄存器配置。</li>
+      <li>掌握 STM32F407 基本定时器 TIM6/TIM7 的配置方法。</li>
+      <li>能根据时钟频率计算定时器初值，实现指定时间的定时中断。</li>
+      <li>掌握中断服务函数中累加计数实现长时间定时的方法。</li>
+      <li>制作 0-99 秒表并在数码管显示。</li>
+    </ul>
+
+    <h2>二、知识点</h2>
+    <ul>
+      <li><strong>STC89C52RC 定时器</strong>：T0/T1 有 4 种工作方式。方式 1 为 16 位定时器，方式 2 为 8 位自动重装。TMOD 寄存器配置方式，TCON 控制启停。</li>
+      <li><strong>时钟与机器周期</strong>：STC89C52RC 时钟 11.0592 MHz，12T 模式下机器周期 = $12 / 11.0592\text{ MHz} \approx 1.085\,\mu\text{s}$。定时器每个机器周期加 1。</li>
+      <li><strong>初值计算</strong>：方式 1 (16 位) 定时 $t$，计数次数 $N = t / T_{机器}$，初值 $X = 65536 - N$，TH0 = $X \gg 8$，TL0 = $X$ &amp; 0xFF。例：定时 50 ms，$N = 50000 / 1.085 \approx 46083$，$X = 65536 - 46083 = 19453 = 0x4BFD$，TH0 = 0x4B，TL0 = 0xFD。</li>
+      <li><strong>累加实现长定时</strong>：方式 1 最大定时 $65536 \times 1.085\,\mu\text{s} \approx 71\text{ ms}$。要实现 1 s，需用 50 ms 中断 20 次累加。</li>
+      <li><strong>STM32 TIM6</strong>：基本定时器，16 位自动重装载，时钟来自内部时钟 (经 APB1 分频)。F407 中 TIM6/TIM7 挂在 APB1 (42 MHz)，定时器时钟倍频为 84 MHz (APB1 预分频 ≠ 1 时)。</li>
+      <li><strong>STM32 定时计算</strong>：定时 $t = (ARR+1) \times (PSC+1) / f_{TIM}$。例：1 s，$f_{TIM} = 84\text{ MHz}$，取 PSC = 8399 (分频 8400，定时器时钟 10 kHz)，ARR = 9999，$t = 10000 \times 8400 / 84\text{M} = 1\text{ s}$。</li>
+    </ul>
+
+    <h2>三、硬件清单</h2>
+    <table>
+      <thead>
+        <tr><th>序号</th><th>器材</th><th>规格</th><th>数量</th><th>备注</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>STC89C52RC 最小系统板</td><td>11.0592 MHz</td><td>1</td><td>—</td></tr>
+        <tr><td>2</td><td>STM32F407VET6 板</td><td>—</td><td>1</td><td>对照</td></tr>
+        <tr><td>3</td><td>2 位共阴数码管</td><td>—</td><td>1</td><td>显示秒数</td></tr>
+        <tr><td>4</td><td>限流电阻</td><td>220 Ω</td><td>8</td><td>—</td></tr>
+        <tr><td>5</td><td>按键</td><td>—</td><td>1</td><td>启停控制 (可选)</td></tr>
+      </tbody>
+    </table>
+
+    <h2>四、电路连接</h2>
+    <p>STC89C52RC：P0 接数码管段选 (外接上拉)，P2.0、P2.1 接位选 (经三极管)。TIM0 中断每 50 ms 触发一次，20 次后秒数 +1。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/lab05-timer-interrupt-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+package "定时器中断流程" {
+  component "主程序初始化" as A
+  component "启动T0" as B
+  component "主循环: 显示秒数" as C
+  component "50ms中断" as D
+  card "中断次数=20?" as E
+  component "次数+1, 重装初值" as F
+  component "秒数+1, 次数清0" as G
+  card "秒数=99?" as H
+  component "秒数清0" as I
+  A --&gt; B
+  B --&gt; C
+  C --&gt; C
+  D --&gt; E
+  E --&gt; F : 否
+  E --&gt; G : 是
+  F --&gt; D
+  G --&gt; H
+  H --&gt; D : 否
+  H --&gt; I : 是
+  I --&gt; D
+}
+@enduml</code></pre>
+  </details>
+</div>
+
+    <h2>五、代码框架</h2>
+
+    <h3>5.1 STC89C52RC T0 方式 1 秒表</h3>
+    <p>50 ms 中断 × 20 = 1 秒。工程 <code>/code/stc89c52rc/05-timer-stopwatch/main.c</code>。</p>
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+
+#define SEG_PORT P0
+#define DIG_PORT P2
+
+unsigned char code SEG[] = {
+    0x3F, 0x06, 0x5B, 0x4F, 0x66,
+    0x6D, 0x7D, 0x07, 0x7F, 0x6F
+};
+unsigned char code DIG[] = {0x01, 0x02};   /* 2 位 */
+
+/* 50ms @11.0592MHz 方式1
+   机器周期 = 12/11.0592 us = 1.085 us
+   计数次数 N = 50000 / 1.085 = 46083
+   初值 X = 65536 - 46083 = 19453 = 0x4BFD */
+#define TH0_VAL 0x4B
+#define TL0_VAL 0xFD
+
+volatile unsigned char sec = 0;
+volatile unsigned char cnt_50ms = 0;
+unsigned char disp_buf[2];
+
+void delay_ms(unsigned int ms) {
+    unsigned int i, j;
+    for (i = 0; i &lt; ms; i++)
+        for (j = 0; j &lt; 114; j++) ;
+}
+
+/* T0 中断号 1 */
+void Timer0_ISR(void) interrupt 1 {
+    TH0 = TH0_VAL;   /* 方式1 需软件重装初值 */
+    TL0 = TL0_VAL;
+    cnt_50ms++;
+    if (cnt_50ms &gt;= 20) {   /* 20 次 = 1 s */
+        cnt_50ms = 0;
+        sec++;
+        if (sec &gt;= 100) sec = 0;
+    }
+}
+
+void Timer0_Init(void) {
+    TMOD &amp;= 0xF0;        /* 清 T0 模式位 */
+    TMOD |= 0x01;        /* T0 方式1: 16位定时器 */
+    TH0 = TH0_VAL;       /* 装初值 */
+    TL0 = TL0_VAL;
+    ET0 = 1;             /* 使能 T0 中断 */
+    EA  = 1;             /* 开总中断 */
+    TR0 = 1;             /* 启动 T0 */
+}
+
+void Display_Scan(void) {
+    unsigned char i;
+    for (i = 0; i &lt; 2; i++) {
+        SEG_PORT = 0x00;
+        DIG_PORT = DIG[i];
+        SEG_PORT = SEG[disp_buf[i]];
+        delay_ms(3);
+        SEG_PORT = 0x00;
+    }
+}
+
+void main(void) {
+    Timer0_Init();
+    while (1) {
+        disp_buf[0] = sec % 10;        /* 个位 */
+        disp_buf[1] = sec / 10;        /* 十位 */
+        Display_Scan();
+    }
+}</code></pre>
+
+    <h3>5.2 STM32F407 TIM6 实现 1 秒中断</h3>
+    <p>工程 <code>/code/stm32f407/05-hal-timer-stopwatch/main.c</code>。TIM6 时钟 84 MHz，PSC=8399 (分频 8400 → 10 kHz)，ARR=9999 (计数 10000 → 1 s)。</p>
+    <pre><code class="language-c">#include "stm32f4xx_hal.h"
+
+volatile uint8_t sec = 0;
+
+void TIM6_DAC_IRQHandler(void) {
+    HAL_TIM_IRQHandler(&amp;htim6);   /* 进入 HAL 回调 */
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+    if (htim-&gt;Instance == TIM6) {
+        sec++;
+        if (sec &gt;= 100) sec = 0;
+    }
+}
+
+TIM_HandleTypeDef htim6;
+
+void TIM6_Init(void) {
+    __HAL_RCC_TIM6_CLK_ENABLE();
+    htim6.Instance = TIM6;
+    htim6.Init.Prescaler = 8399;       /* 84MHz / 8400 = 10kHz */
+    htim6.Init.Period = 9999;          /* 10kHz / 10000 = 1Hz = 1s */
+    htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
+    HAL_TIM_Base_Init(&amp;htim6);
+    HAL_NVIC_SetPriority(TIM6_DAC_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(TIM6_DAC_IRQn);
+    HAL_TIM_Base_Start_IT(&amp;htim6);    /* 启动并开中断 */
+}
+
+int main(void) {
+    HAL_Init();
+    TIM6_Init();
+    /* 数码管/串口初始化略 */
+    while (1) {
+        /* 主循环: 显示 sec */
+    }
+}</code></pre>
+
+    <h2>六、调试要点</h2>
+    <ul>
+      <li><strong>初值计算验证</strong>：用秒表对时，秒表走 60 秒，实际应为 60.0 秒，误差应在 ±0.5 秒内。误差来源主要是晶振偏差 (11.0592 MHz 标称值有 ±30 ppm 偏差)。</li>
+      <li><strong>方式 1 重装</strong>：方式 1 溢出后归零，必须在中断里重装 TH0/TL0，否则下次定时为最大值 71 ms。方式 2 自动重装可省此步。</li>
+      <li><strong>中断响应时间</strong>：从中断触发到进入 ISR 有 3-8 个机器周期延迟，对 50 ms 定时影响可忽略，但高频中断需考虑。</li>
+      <li><strong>volatile 关键字</strong>：在中断中修改的变量 (sec, cnt_50ms) 必须声明为 volatile，否则编译器优化可能导致主循环读不到更新值。</li>
+      <li><strong>STM32 时钟树</strong>：TIM6 时钟来自 APB1 (42 MHz)，APB1 预分频 ≠ 1 时定时器时钟倍频为 84 MHz。需用 HAL_RCC_GetPCLK1Freq() 确认。</li>
+      <li><strong>中断优先级</strong>：秒表精度要求不高，但若同时有显示扫描中断，需合理设置优先级，避免相互阻塞。</li>
+    </ul>
+
+    <h2>七、思考题</h2>
+    <ol>
+      <li>STC89C52RC 方式 1 的最大定时时间是多少 (11.0592 MHz)？要实现 1 秒定时为什么不能直接用一次中断？</li>
+      <li>方式 1 与方式 2 各有什么优缺点？为什么自动重装的方式 2 更适合做波特率发生器？</li>
+      <li>为什么 11.0592 MHz 晶振比 12 MHz 更常用于串口通信？计算 9600 波特率下两者的误差。</li>
+      <li>在中断服务函数中修改的变量为什么要加 volatile 关键字？如果不加会出现什么问题？</li>
+      <li>STM32F407 的 TIM6 与 TIM2 (通用定时器) 在做基本定时上有何区别？什么场景需要用通用定时器？</li>
+    </ol>
+
+    <nav class="chapter-nav">
+      <a href="/lab/lab04-7seg-display.html" class="prev">← 实验4 数码管动态显示</a>
+      <a href="/lab/index.html" class="home">返回实验列表</a>
+      <a href="/lab/lab06-uart-communication.html" class="next">实验6 串口通信（与PC收发） →</a>
+    </nav>
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+</body>
+</html>

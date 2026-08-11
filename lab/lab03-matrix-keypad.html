@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实验3 矩阵键盘扫描 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=6">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html" class="active">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+  <main class="content" style="max-width: 1000px;">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt;
+      <a href="/lab/index.html">实验指导</a> &gt;
+      <span>实验3 矩阵键盘扫描</span>
+    </div>
+
+    <h1>实验3 矩阵键盘扫描</h1>
+
+    <p>当按键数量较多时，独立式按键会占用大量 IO 口。矩阵键盘 (Matrix Keypad) 通过行列交叉结构，用 $n+m$ 条线即可实现 $n \times m$ 个按键的识别，是嵌入式系统常用的输入方案。本实验使用 4×4 矩阵键盘，掌握行列扫描法与线反转法两种识别算法。完整工程源码见 <code>/code/stc89c52rc/03-matrix-keypad/</code>。</p>
+
+    <h2>一、实验目的</h2>
+    <ul>
+      <li>理解矩阵键盘的行列交叉结构，掌握节省 IO 的原理。</li>
+      <li>掌握行列扫描法 (Row-Column Scanning) 的实现步骤。</li>
+      <li>掌握线反转法 (Line Inversion) 的快速识别原理。</li>
+      <li>能将按键值在数码管或串口输出验证。</li>
+      <li>理解扫描周期与响应速度的关系。</li>
+    </ul>
+
+    <h2>二、知识点</h2>
+    <ul>
+      <li><strong>矩阵结构</strong>：4 行 4 列共 16 键，行线接 P1.0-P1.3，列线接 P1.4-P1.7，每个按键跨接在一条行线与一条列线之间，按键按下时该行与该列导通。</li>
+      <li><strong>行列扫描法</strong>：逐行输出低电平，其余行输出高电平，读取列线；若某列为低则该行该列交叉的按键被按下。需扫描 4 次遍历全部按键。</li>
+      <li><strong>线反转法</strong>：先将行线全输出 0、列线作输入读回，得到列号；再将列线全输出 0、行线作输入读回，得到行号；两次读取组合即可确定按键，速度更快。要求 IO 必须支持双向，STC 准双向口满足此条件。</li>
+      <li><strong>键码映射</strong>：行列值组合通过查表映射为 0-F 的键码，本实验布局为 0-9 数字键与 A-F 功能键。</li>
+      <li><strong>扫描周期</strong>：主循环每次扫描约 1-2 ms，消抖等待 10-20 ms，整体响应时间 &lt; 50 ms 即手感良好。</li>
+      <li><strong>IO 复用</strong>：4×4 = 16 键仅用 8 条 IO，相比独立按键省 8 条，是典型的 IO 复用技术。</li>
+    </ul>
+
+    <h2>三、硬件清单</h2>
+    <table>
+      <thead>
+        <tr><th>序号</th><th>器材</th><th>规格</th><th>数量</th><th>备注</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>STC89C52RC 最小系统板</td><td>11.0592 MHz</td><td>1</td><td>—</td></tr>
+        <tr><td>2</td><td>4×4 矩阵键盘模块</td><td>薄膜或 PCB</td><td>1</td><td>16 键</td></tr>
+        <tr><td>3</td><td>数码管</td><td>共阴 1 位</td><td>1</td><td>显示键值 (可选)</td></tr>
+        <tr><td>4</td><td>限流电阻</td><td>220 Ω</td><td>8</td><td>段选</td></tr>
+        <tr><td>5</td><td>杜邦线</td><td>—</td><td>若干</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <h2>四、电路连接</h2>
+    <p>矩阵键盘的 4 条行线 R0-R3 接 STC89C52RC 的 P1.0-P1.3，4 条列线 C0-C3 接 P1.4-P1.7。无按键按下时，行线、列线因 P1 口内部弱上拉均为高电平。按键按下时对应行列导通。数码管段选接 P0 口 (共阴，需外接上拉)，公共端接地。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/lab03-matrix-keypad-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+package "4x4矩阵键盘" {
+  component "行0 P1.0" as R0
+  component "键0" as K00
+  component "键1" as K01
+  component "键2" as K02
+  component "键3" as K03
+  component "行1 P1.1" as R1
+  component "键4" as K10
+  component "键5" as K11
+  component "行2 P1.2" as R2
+  component "键8" as K20
+  component "行3 P1.3" as R3
+  component "键C" as K30
+  component "列0 P1.4" as C0
+  component "列1 P1.5" as C1
+  component "列2 P1.6" as C2
+  component "列3 P1.7" as C3
+  R0 -- K00
+  R0 -- K01
+  R0 -- K02
+  R0 -- K03
+  R1 -- K10
+  R1 -- K11
+  R2 -- K20
+  R3 -- K30
+  C0 -- K00
+  C0 -- K10
+  C1 -- K01
+  C1 -- K11
+  C2 -- K02
+  C3 -- K03
+}
+@enduml</code></pre>
+  </details>
+</div>
+
+    <p>键值映射表如下：行号 × 4 + 列号 = 键码 (0-F)。</p>
+    <table>
+      <thead><tr><th>行\列</th><th>列0 (P1.4)</th><th>列1 (P1.5)</th><th>列2 (P1.6)</th><th>列3 (P1.7)</th></tr></thead>
+      <tbody>
+        <tr><td>行0 (P1.0)</td><td>0</td><td>1</td><td>2</td><td>3</td></tr>
+        <tr><td>行1 (P1.1)</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
+        <tr><td>行2 (P1.2)</td><td>8</td><td>9</td><td>A</td><td>B</td></tr>
+        <tr><td>行3 (P1.3)</td><td>C</td><td>D</td><td>E</td><td>F</td></tr>
+      </tbody>
+    </table>
+
+    <h2>五、代码框架</h2>
+
+    <h3>5.1 行列扫描法</h3>
+    <p>逐行拉低，读取列线判断按键。工程 <code>/code/stc89c52rc/03-matrix-keypad/scan.c</code>。</p>
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+
+#define KEY_PORT P1   /* 矩阵键盘接 P1 口 */
+
+/* 共阴数码管段码表 0-F */
+unsigned char code SEG[] = {
+    0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07,
+    0x7F, 0x6F, 0x77, 0x7C, 0x39, 0x5E, 0x79, 0x71
+};
+
+void delay_ms(unsigned int ms) {
+    unsigned int i, j;
+    for (i = 0; i &lt; ms; i++)
+        for (j = 0; j &lt; 114; j++) ;
+}
+
+/* 行列扫描法: 返回 0-15 按键值, 0xFF 表示无键 */
+unsigned char Key_Scan(void) {
+    unsigned char row, col, key = 0xFF;
+    for (row = 0; row &lt; 4; row++) {
+        /* 拉低当前行, 其余行高 */
+        KEY_PORT = ~(0x01 &lt;&lt; row);   /* 例如 row=0 输出 0xFE */
+        if ((KEY_PORT &amp; 0xF0) != 0xF0) {   /* 读高 4 位列线 */
+            col = (KEY_PORT &gt;&gt; 4) &amp; 0x0F;   /* 取列状态 */
+            /* 找到为 0 的列 */
+            if      (col == 0x0E) col = 0;
+            else if (col == 0x0D) col = 1;
+            else if (col == 0x0B) col = 2;
+            else if (col == 0x07) col = 3;
+            else continue;
+            key = row * 4 + col;     /* 计算键码 */
+            while ((KEY_PORT &amp; 0xF0) != 0xF0) ;  /* 等待释放 */
+            delay_ms(10);            /* 释放消抖 */
+            return key;
+        }
+    }
+    return 0xFF;
+}
+
+void main(void) {
+    unsigned char key;
+    P0 = 0x00;   /* 数码管初始熄灭 */
+    while (1) {
+        key = Key_Scan();
+        if (key != 0xFF) {
+            P0 = SEG[key];   /* 数码管显示键值 */
+        }
+        delay_ms(1);        /* 扫描间隔 */
+    }
+}</code></pre>
+
+    <h3>5.2 线反转法</h3>
+    <p>两次读取行、列状态组合按键值，速度更快。工程 <code>/code/stc89c52rc/03-matrix-keypad/invert.c</code>。</p>
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+
+#define KEY_PORT P1
+
+/* 行列组合 -> 键码 查表 */
+unsigned char code KEY_TABLE[] = {
+    0xEE, 0xED, 0xEB, 0xE7,   /* 行0: 按键 0,1,2,3 */
+    0xDE, 0xDD, 0xDB, 0xD7,   /* 行1: 按键 4,5,6,7 */
+    0xBE, 0xBD, 0xBB, 0xB7,   /* 行2: 按键 8,9,A,B */
+    0x7E, 0x7D, 0x7B, 0x77    /* 行3: 按键 C,D,E,F */
+};
+
+void delay_ms(unsigned int ms) {
+    unsigned int i, j;
+    for (i = 0; i &lt; ms; i++)
+        for (j = 0; j &lt; 114; j++) ;
+}
+
+unsigned char Key_Invert(void) {
+    unsigned char row_read, col_read, code_val, i;
+
+    /* 第 1 步: 行线输出 0, 列线作输入读 */
+    KEY_PORT = 0x0F;            /* 行线 P1.0-P1.3 = 0, 列线 P1.4-P1.7 = 1 */
+    if (KEY_PORT != 0x0F) {     /* 列线读回不全 1, 有按键 */
+        delay_ms(10);            /* 消抖 */
+        if (KEY_PORT != 0x0F) {
+            row_read = KEY_PORT &amp; 0x0F;    /* 读行 (实际列状态) */
+
+            /* 第 2 步: 列线输出 0, 行线作输入读 */
+            KEY_PORT = 0xF0;
+            col_read = KEY_PORT &amp; 0xF0;    /* 读列 (实际行状态) */
+
+            code_val = col_read | row_read;  /* 组合 8 位键码 */
+            while (KEY_PORT != 0xF0) ;        /* 等待释放 */
+            KEY_PORT = 0x0F;
+            while (KEY_PORT != 0x0F) ;
+
+            /* 查表得键值 */
+            for (i = 0; i &lt; 16; i++) {
+                if (code_val == KEY_TABLE[i]) return i;
+            }
+        }
+    }
+    return 0xFF;
+}
+
+void main(void) {
+    while (1) {
+        unsigned char k = Key_Invert();
+        if (k != 0xFF) {
+            SBUF = k;   /* 通过串口输出键值 (需先初始化串口) */
+            while (!TI) ; TI = 0;
+        }
+    }
+}</code></pre>
+
+    <h2>六、调试要点</h2>
+    <ul>
+      <li><strong>行列方向</strong>：实际接线需与代码中行、列定义一致，否则键码错乱。建议先用万用表蜂鸣档确认按键的行列对应关系。</li>
+      <li><strong>读取时机</strong>：写行线后立即读列线，STC 准双向口翻转需几个机器周期，必要时加 1-2 个 NOP。</li>
+      <li><strong>多键同时按下</strong>：扫描法可能误判，工程中应加保护 (如只响应单键，多键视为无效)。</li>
+      <li><strong>线反转法适用条件</strong>：IO 口必须支持双向快速切换，STC 准双向口可以；若 GPIO 为单向输入或输出则不可用。</li>
+      <li><strong>扫描频率</strong>：主循环扫描过快会浪费 CPU，过慢响应迟钝；建议 1-5 ms 一次扫描。</li>
+      <li><strong>长按处理</strong>：等待释放 (while 循环) 会阻塞扫描，若需支持长按连发，应使用状态机 + 定时器。</li>
+    </ul>
+
+    <h2>七、思考题</h2>
+    <ol>
+      <li>4×4 矩阵键盘用 8 条 IO 实现 16 键，相比独立按键节省了多少条 IO？若需要 64 键，矩阵方案需要多少条 IO？</li>
+      <li>行列扫描法与线反转法各有何优缺点？为什么线反转法速度更快？</li>
+      <li>线反转法对 IO 口有什么特殊要求？STM32 的 GPIO 能否直接使用线反转法？</li>
+      <li>若矩阵键盘的某条行线断路，会出现什么现象？如何通过现象定位故障？</li>
+      <li>设计一个支持 "长按连发" 的矩阵键盘扫描算法 (按住超过 0.5 s 后每 50 ms 触发一次)，描述状态机设计思路。</li>
+    </ol>
+
+    <nav class="chapter-nav">
+      <a href="/lab/lab02-button-control.html" class="prev">← 实验2 按键控制与外部中断</a>
+      <a href="/lab/index.html" class="home">返回实验列表</a>
+      <a href="/lab/lab04-7seg-display.html" class="next">实验4 数码管动态显示 →</a>
+    </nav>
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+</body>
+</html>

@@ -1,0 +1,1256 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>前导课程基础知识 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+      <a class="sidebar-link active" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link active" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link active" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link active" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link active" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; <span>前导课程</span>
+    </div>
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>理解模拟电路中与单片机相关的基础元器件（电阻、电容、二极管、三极管、MOS 管、运放）与典型电路</li>
+        <li>掌握电源电路设计要点，理解 LDO 线性稳压原理、关键参数与选型方法</li>
+        <li>掌握数字电路中与单片机相关的逻辑门、时序元件、时钟与复位电路及电平标准</li>
+        <li>复习 ANSI C 语言核心语法（数据类型、指针、结构体、预处理、位运算），为 C51 程序设计奠定基础</li>
+        <li>了解 C51 与 ANSI C 的关系及 C51 扩展点概貌，建立"前导 → 基础 → STC → STM32"的递进学习路径</li>
+      </ul>
+    </div>
+
+    <div class="note">
+      <strong>本篇定位</strong>：本篇为<strong>前导复习与衔接</strong>内容，面向已修过《模拟电路》《数字电路》《C 语言程序设计》但可能遗忘或基础薄弱的同学。内容以"够用、实用、对接单片机"为原则，不做深入展开。若你已牢固掌握上述先修课程，可快速浏览本篇后直接进入第 1 篇。
+    </div>
+
+    <h1 id="sec-1">1 模拟电路常识</h1>
+
+    <p>单片机虽然以"数字"为核心，但它的输入输出必须与真实物理世界打交道——传感器输出的是模拟信号，执行机构（电机、蜂鸣器、继电器）需要功率驱动，电源需要稳压滤波。因此，掌握少量必要的模拟电路常识，是单片机硬件设计的基础。</p>
+
+    <h2>1.1 电阻、电容、电感基础</h2>
+
+    <p><strong>电阻（Resistor，符号 R）</strong>是电路中最基本的元件，主要作用包括：<strong>限流</strong>（如 LED 限流）、<strong>分压</strong>（电位器采样）、<strong>上拉/下拉</strong>（确定总线默认电平）。电阻单位为欧姆（Ω），常用千欧（kΩ）。</p>
+
+    <p>直插电阻用色环标识阻值，贴片电阻用数字标识（如 <code>103</code> = 10×10³ = 10 kΩ，<code>472</code> = 47×10² = 4.7 kΩ）。单片机电路中常用 <strong>1/4 W 直插</strong>或 <strong>0805/0603 贴片</strong>封装。</p>
+
+    <p><strong>电容（Capacitor，符号 C）</strong>的核心特性是"通交隔直"——对直流相当于开路，对交流呈现容抗 $X_C = \frac{1}{2\pi f C}$。主要用途包括：</p>
+    <table>
+      <thead><tr><th>用途</th><th>典型场景</th><th>常用类型与容值</th></tr></thead>
+      <tbody>
+        <tr><td>滤波 / 去耦</td><td>电源引脚旁就近放置，滤除高频纹波</td><td>0.1 μF 瓷片 + 10 μF 电解</td></tr>
+        <tr><td>耦合</td><td>级间信号传递，隔除直流偏置</td><td>0.1-1 μF 瓷片 / 电解</td></tr>
+        <tr><td>旁路</td><td>为高频噪声提供低阻抗回路</td><td>0.01-0.1 μF 瓷片</td></tr>
+        <tr><td>定时</td><td>与电阻组成 RC 定时 / 复位电路</td><td>10 μF 电解（上电复位）</td></tr>
+        <tr><td>储能</td><td>电源储能、平滑输出</td><td>100-1000 μF 电解 / 钽电容</td></tr>
+      </tbody>
+    </table>
+
+    <p>电容选型要点：<strong>瓷片电容</strong>（MLCC）低 ESR、高频特性好，适合去耦；<strong>电解电容</strong>容量大但 ESR 高、有极性，适合储能滤波；<strong>钽电容</strong>性能介于两者之间，但过压易起火。单片机复位电路的 10 μF 电容通常选电解电容。</p>
+
+    <p><strong>电感（Inductor，符号 L）</strong>在单片机电路中主要用于电源滤波（如 DC-DC 输出滤波）和高频抑制，单位亨利（H），常用微亨（μH）。共模电感用于抑制共模干扰（如 USB 接口前端）。在基础实验中较少直接使用电感，但在电机驱动和开关电源中不可或缺。</p>
+
+    <h2>1.2 半导体二极管与 LED</h2>
+
+    <p><strong>二极管</strong>具有单向导电性：正向导通时压降约为 0.7 V（硅管），反向截止。在单片机电路中常见以下应用：</p>
+    <ul>
+      <li><strong>续流二极管</strong>：并联在继电器线圈、电机两端，泄放断电瞬间反电动势，保护驱动管。</li>
+      <li><strong>钳位二极管</strong>：将信号电压限制在安全范围，保护 GPIO。</li>
+      <li><strong>稳压二极管</strong>：工作在反向击穿区，提供参考电压（如 3.3 V 稳压管）。</li>
+    </ul>
+
+    <p><strong>LED（发光二极管）</strong>是单片机最常用的输出指示元件。LED 正向导通时压降 $V_f$ 因颜色而异：红色约 1.8-2.0 V，绿色约 2.0-2.2 V，蓝色/白色约 2.8-3.2 V。工作电流 $I_f$ 一般取 5-20 mA。</p>
+
+    <p>LED 限流电阻的计算公式为：</p>
+    <p>$$R = \frac{V_{cc} - V_f}{I_f}$$</p>
+
+    <p>例如：5 V 供电点亮一颗红色 LED（$V_f = 1.8$ V，$I_f = 10$ mA），则限流电阻 $R = (5 - 1.8) / 0.01 = 320$ Ω，取标称值 330 Ω。</p>
+
+    <div class="tip">
+      <strong>实战提示</strong>：单片机 GPIO 直接驱动 LED 时，注意灌电流（sink，LED 共阳接法）和拉电流（source，LED 共阴接法）的能力限制。STC89C52RC 单口灌电流可达 20 mA，但拉电流仅约 100 μA，因此常用共阳接法让 GPIO 低电平点亮 LED。STM32 单口驱动能力约 8 mA（25 mA 极限），多个 LED 同时点亮需核算总电流。
+    </div>
+
+    <h2>1.3 三极管与场效应管开关驱动</h2>
+
+    <p>单片机 GPIO 的驱动能力有限（通常几毫安），无法直接驱动蜂鸣器、继电器、电机等大电流负载。此时需要<strong>三极管</strong>或 <strong>MOS 管</strong>作为开关驱动。</p>
+
+    <p><strong>三极管作开关</strong>：以 NPN 型（如 S8050、S9013）为例，当基极电流 $I_B$ 足够大时，三极管进入<strong>饱和区</strong>，集电极与发射极间近似短路（$V_{CE} \approx 0.3$ V），相当于开关闭合；当 $I_B = 0$ 时三极管截止，集电极与发射极间断开。基极限流电阻计算：</p>
+    <p>$$R_B = \frac{V_{OH} - V_{BE}}{I_B} = \frac{V_{OH} - 0.7}{I_C / \beta}$$</p>
+
+    <p>其中 $V_{OH}$ 为 GPIO 高电平输出电压，$V_{BE} \approx 0.7$ V，$\beta$ 为三极管直流放大倍数（通常取 100），$I_C$ 为负载电流。为可靠饱和，实际 $I_B$ 取计算值的 2-3 倍。</p>
+
+    <p><strong>MOS 管作开关</strong>：MOS 管是电压驱动器件，栅极几乎不取电流，开关速度快、导通电阻小。<strong>NMOS</strong>常用作低边开关（负载在上，MOS 在下），<strong>PMOS</strong>常用作高边开关（负载在下，MOS 在上）。单片机 3.3 V GPIO 通常可直接驱动逻辑电平 MOS 管（如 AO3400、IRFML9014）。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch00-prerequisite-basics-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+left to right direction
+component "GPIO" as A
+component "三极管基极" as B
+component "集电极" as C
+component "Vcc" as D
+component "负载\n蜂鸣器/继电器" as E
+component "发射极 → GND" as F
+A --&gt; B : 限流电阻
+B --&gt; C
+D --&gt; E
+E --&gt; C
+C --&gt; F
+C .. E : 续流二极管
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 0-1 NPN 三极管驱动感性负载（蜂鸣器/继电器）典型电路</div>
+
+    <h2>1.4 运算放大器基础</h2>
+
+    <p><strong>运算放大器</strong>（Op-Amp，简称运放）是模拟电路的核心器件，在单片机系统中常用于信号调理（放大、滤波、阻抗变换）和比较器。理想运放的两个核心特性是：</p>
+    <ul>
+      <li><strong>虚短</strong>：同相端与反相端电压相等（$V_+ = V_-$）</li>
+      <li><strong>虚断</strong>：流入同相端与反相端的电流为零（输入阻抗无穷大）</li>
+    </ul>
+
+    <p>常见电路：</p>
+    <table>
+      <thead><tr><th>电路</th><th>功能</th><th>增益 / 公式</th></tr></thead>
+      <tbody>
+        <tr><td>电压跟随器</td><td>阻抗变换、缓冲隔离</td><td>$V_{out} = V_{in}$，增益 = 1</td></tr>
+        <tr><td>同相放大器</td><td>放大且不反相</td><td>$A_v = 1 + R_f / R_1$</td></tr>
+        <tr><td>反相放大器</td><td>放大且反相</td><td>$A_v = -R_f / R_1$</td></tr>
+        <tr><td>比较器</td><td>模拟信号 → 数字脉冲</td><td>$V_{in} > V_{ref}$ 则输出高 / 低</td></tr>
+      </tbody>
+    </table>
+
+    <p>在单片机 ADC 采样前，常用电压跟随器做阻抗变换（高阻传感器输出 → 低阻 ADC 输入），或用同相放大器将毫伏级信号放大到 0-3.3 V 范围。比较器则可将模拟信号转换为数字脉冲，直接送 GPIO 外部中断捕获。</p>
+
+    <h2>1.5 滤波电路</h2>
+
+    <p><strong>RC 低通滤波器</strong>是最简单实用的抗混叠滤波器，用于 ADC 采样前滤除高频噪声。截止频率为：</p>
+    <p>$$f_c = \frac{1}{2\pi R C}$$</p>
+
+    <p>例如：$R = 1$ kΩ，$C = 0.1$ μF，则 $f_c = 1 / (2\pi \times 1000 \times 0.1 \times 10^{-6}) \approx 1591$ Hz，可滤除 1.6 kHz 以上的高频干扰。</p>
+
+    <p><strong>去耦电容</strong>是单片机电路的"标配"：每个 VDD 引脚就近放置一个 0.1 μF 瓷片电容（去高频）+ 一个 10 μF 电解或钽电容（去低频纹波）。缺少去耦电容会导致单片机工作不稳定、复位、通信误码。</p>
+
+    <h2>1.6 上拉与下拉电阻</h2>
+
+    <p>当 GPIO 引脚处于高阻态（输入模式且未接外部信号）时，电平不确定，容易受干扰。<strong>上拉电阻</strong>将引脚默认拉到高电平，<strong>下拉电阻</strong>将引脚默认拉到低电平，确保总线在空闲时有确定状态。</p>
+
+    <p>取值考量：</p>
+    <ul>
+      <li><strong>功耗</strong>：阻值越小，静态电流越大。4.7 kΩ 上拉在 3.3 V 下耗电约 0.7 mA。</li>
+      <li><strong>速度</strong>：阻值越大，与引线寄生电容组成的 RC 时间常数越大，信号上升沿越慢。I2C 总线 100 kHz 常用 4.7 kΩ，400 kHz 常用 2.2 kΩ。</li>
+      <li><strong>线与</strong>：OC/OD 门（如 I2C）必须外接上拉电阻才能输出高电平。</li>
+    </ul>
+
+    <p>STC89C52RC 的准双向口内部有弱上拉，可直接接按键到 GND；STM32 的 GPIO 可配置内部上拉/下拉电阻（约 40 kΩ），也可外接更小的阻值以增强驱动。</p>
+
+    <h1 id="sec-2">2 电源电路常识</h1>
+
+    <p>稳定的电源是单片机系统可靠运行的前提。本节重点介绍单片机系统中最常用的<strong>线性稳压器（LDO）</strong>，它是将 USB 5 V 或电池电压转换为单片机所需 3.3 V / 5 V 的核心器件。</p>
+
+    <h2>2.1 单片机系统供电需求</h2>
+
+    <table>
+      <thead><tr><th>平台</th><th>主电压</th><th>容差</th><th>典型供电来源</th></tr></thead>
+      <tbody>
+        <tr><td>STC89C52RC</td><td>5.0 V</td><td>±5%</td><td>USB 5V / 7805 / AMS1117-5.0</td></tr>
+        <tr><td>STM32F407</td><td>3.3 V</td><td>±4%</td><td>AMS1117-3.3 / RT9013 / MP2359</td></tr>
+        <tr><td>MSP430</td><td>2.2-3.6 V</td><td>宽范围</td><td>纽扣电池 / LDO</td></tr>
+      </tbody>
+    </table>
+
+    <p>除主电源外，还需注意：</p>
+    <ul>
+      <li><strong>电压纹波</strong>：应小于 50 mV，过大会导致 ADC 采样噪声、复位误触发。</li>
+      <li><strong>多电源域隔离</strong>：模拟部分（VDDA）与数字部分（VDD）分开供电或加磁珠隔离，减小数字噪声窜入 ADC。</li>
+      <li><strong>上电时序</strong>：多电源系统中应保证电源域上电顺序，避免闩锁效应。</li>
+    </ul>
+
+    <h2>2.2 线性稳压器（LDO）原理</h2>
+
+    <p><strong>LDO（Low Dropout Regulator，低压差线性稳压器）</strong>是一种通过负反馈将输入电压稳定为固定输出电压的器件。其内部结构包含三个核心部分：</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch00-prerequisite-basics-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+left to right direction
+component "Vin 输入" as A
+component "调整管\nPMOS / NPN" as B
+component "Vout 输出" as C
+component "误差放大器" as D
+component "Vref 参考电压" as E
+component "负载" as F
+A --&gt; B
+B --&gt; C
+C --&gt; D : 反馈分压\nR1/R2
+D --&gt; B : 栅极/基极
+E --&gt; D
+C --&gt; F
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 0-2 LDO 内部结构与闭环负反馈稳压原理</div>
+
+    <p>工作原理：当输出电压 $V_{out}$ 因负载变化而下降时，反馈分压 $V_{FB}$ 也下降，误差放大器检测到 $V_{FB} < V_{ref}$，驱动调整管导通更深，使 $V_{out}$ 回升；反之亦然。这是一个<strong>闭环负反馈</strong>系统，输出电压稳定在：</p>
+    <p>$$V_{out} = V_{ref} \times \left(1 + \frac{R_1}{R_2}\right)$$</p>
+
+    <p>LDO 的关键参数：</p>
+    <table>
+      <thead><tr><th>参数</th><th>含义</th><th>典型值</th><th>选型意义</th></tr></thead>
+      <tbody>
+        <tr><td>压差 Dropout</td><td>Vin - Vout 的最小差值</td><td>50-500 mV</td><td>5V→3.3V 场景压差 1.7V，任意 LDO 都满足；电池供电需低压差</td></tr>
+        <tr><td>静态电流</td><td>空载时 LDO 自身消耗电流</td><td>1-100 μA</td><td>电池供电场景越小越好</td></tr>
+        <tr><td>PSRR</td><td>电源纹波抑制比</td><td>40-70 dB</td><td>值越大，输入纹波对输出影响越小，ADC 供电关键</td></tr>
+        <tr><td>输出噪声</td><td>输出端电压噪声密度</td><td>10-100 μVrms</td><td>精密模拟电路（ADC 参考）需低噪声</td></tr>
+        <tr><td>最大输出电流</td><td>额定输出能力</td><td>100-1000 mA</td><td>需大于系统总功耗电流并留余量</td></tr>
+        <tr><td>封装热阻</td><td>θJA（结到环境）</td><td>60-200 °C/W</td><td>决定散热能力，功耗大时需选低热阻封装</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>功耗与散热</strong>是 LDO 设计必须核算的关键项。LDO 自身功耗为：</p>
+    <p>$$P_{LDO} = (V_{in} - V_{out}) \times I_{out}$$</p>
+
+    <p>例如：AMS1117-3.3 将 5 V 转为 3.3 V，负载电流 500 mA，则 LDO 自身功耗 $P = (5 - 3.3) \times 0.5 = 0.85$ W。SOT-223 封装热阻约 60 °C/W，环境温度 25 °C 时结温 $T_J = 25 + 0.85 \times 60 = 76$ °C，低于 125 °C 上限，可以工作。但若用更小封装（如 SOT-23，热阻约 200 °C/W），则结温 $25 + 0.85 \times 200 = 195$ °C，远超标，会烧毁。</p>
+
+    <div class="tip">
+      <strong>选型经验</strong>：LDO 适合压差小、电流小于 1 A 的场合。若输入输出压差大或电流大（如 12 V → 3.3 V @ 1 A），应改用 DC-DC 开关电源（效率可达 90%+），否则 LDO 自身功耗 $P = (12-3.3) \times 1 = 8.7$ W，需大型散热器，不现实。
+    </div>
+
+    <h2>2.3 常用 LDO 芯片与选型</h2>
+
+    <table>
+      <thead><tr><th>型号</th><th>输出</th><th>最大电流</th><th>压差</th><th>封装</th><th>典型应用</th></tr></thead>
+      <tbody>
+        <tr><td>AMS1117-3.3</td><td>3.3 V 固定</td><td>1 A</td><td>1.2 V</td><td>SOT-223</td><td>5V → 3.3V，STM32 最常用</td></tr>
+        <tr><td>AMS1117-5.0</td><td>5.0 V 固定</td><td>1 A</td><td>1.2 V</td><td>SOT-223</td><td>9V/12V → 5V，STC 供电</td></tr>
+        <tr><td>RT9013-3.3</td><td>3.3 V 固定</td><td>500 mA</td><td>300 mV</td><td>SOT-23-5</td><td>低压差、小封装，便携设备</td></tr>
+        <tr><td>ME6211C33</td><td>3.3 V 固定</td><td>500 mA</td><td>200 mV</td><td>SOT-23-5</td><td>超低压差、低静态电流</td></tr>
+        <tr><td>HT7333</td><td>3.3 V 固定</td><td>250 mA</td><td>400 mV</td><td>TO-92 / SOT-89</td><td>小电流、直插方便</td></tr>
+        <tr><td>LM1117-ADJ</td><td>可调 1.25-13.8 V</td><td>1 A</td><td>1.2 V</td><td>SOT-223</td><td>可调输出电压场景</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>选型要点</strong>：</p>
+    <ol>
+      <li>输入输出电压差 > Dropout 电压 + 余量（建议 0.5 V 以上）。</li>
+      <li>最大输出电流 > 系统总电流 × 1.5（留 50% 余量）。</li>
+      <li>核算功耗 $P = (V_{in} - V_{out}) \times I_{out}$，对照封装热阻验证结温不超过 100 °C。</li>
+      <li>输入输出电容按数据手册推荐选型：通常输入 10 μF + 输出 10 μF 电解，并联 0.1 μF 瓷片去高频。某些 LDO（如 RT9013）要求输出电容 ESR 在特定范围内，选错会导致振荡。</li>
+    </ol>
+
+    <h2>2.4 电源滤波与保护</h2>
+
+    <p><strong>输入端保护</strong>：</p>
+    <ul>
+      <li><strong>TVS 二极管</strong>：并联在电源输入端，吸收浪涌电压（如 USB 热插拔尖峰），钳位电压高于工作电压。</li>
+      <li><strong>自恢复保险丝 PTC</strong>：串联在电源输入端，过流时阻值增大限制电流，故障解除后自动恢复。</li>
+      <li><strong>反接保护</strong>：串联肖特基二极管（压降 0.3 V）或用 PMOS 做理想二极管，防止电源正负接反烧毁芯片。</li>
+    </ul>
+
+    <p><strong>输出端滤波</strong>：大电解（10-100 μF）平滑低频纹波 + 小瓷片（0.1 μF）去高频噪声，两者并联。每个芯片电源引脚就近放 0.1 μF 去耦电容。</p>
+
+    <h1 id="sec-3">3 数字电路常识</h1>
+
+    <p>单片机的内部结构（CPU、寄存器、存储器、总线）和工作方式（指令执行、中断响应、时序）完全建立在数字电路基础上。理解数字电路基础是理解单片机内部工作原理的前提。</p>
+
+    <h2>3.1 数制与编码</h2>
+
+    <p>单片机内部以二进制（0/1）工作，但人类阅读和编写代码时常用十六进制（0x 前缀）表示。十六进制与二进制转换非常直观：每 4 位二进制对应 1 位十六进制。</p>
+
+    <table>
+      <thead><tr><th>十进制</th><th>二进制</th><th>十六进制</th><th>寄存器表示</th></tr></thead>
+      <tbody>
+        <tr><td>15</td><td>0000 1111</td><td>0x0F</td><td>0x0F</td></tr>
+        <tr><td>255</td><td>1111 1111</td><td>0xFF</td><td>0xFF</td></tr>
+        <tr><td>65535</td><td>1111 1111 1111 1111</td><td>0xFFFF</td><td>0xFFFF</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>BCD 码</strong>：用 4 位二进制表示 1 位十进制数（0-9），用于数码管显示。例如十进制数 59 的 BCD 码为 <code>0101 1001</code> = 0x59。单片机内部做十进制运算时常需在二进制与 BCD 之间转换。</p>
+
+    <p><strong>ASCII 码</strong>：用 7 位二进制表示一个字符，串口通信的基础。例如 '0' = 0x30，'A' = 0x41，'a' = 0x61。单片机串口发送字符 'A' 实际发送的是字节 0x41。</p>
+
+    <p><strong>补码</strong>：有符号数在计算机中的表示方法。正数的补码是其本身，负数的补码 = 原码取反 + 1。例如 8 位有符号数 -1 的补码为 0xFF，-128 的补码为 0x80。单片机进行减法、比较大小、有符号数运算时都依赖补码。</p>
+
+    <h2>3.2 基本逻辑门与布尔代数</h2>
+
+    <p>基本逻辑门是数字电路的基本构建块。下表列出常用逻辑门的符号、表达式与真值表：</p>
+
+    <table>
+      <thead><tr><th>逻辑门</th><th>符号</th><th>表达式</th><th>真值表（A,B → Y）</th></tr></thead>
+      <tbody>
+        <tr><td>与 AND</td><td>&</td><td>Y = A · B</td><td>00→0, 01→0, 10→0, 11→1</td></tr>
+        <tr><td>或 OR</td><td>≥1</td><td>Y = A + B</td><td>00→0, 01→1, 10→1, 11→1</td></tr>
+        <tr><td>非 NOT</td><td>1</td><td>Y = Ā</td><td>0→1, 1→0</td></tr>
+        <tr><td>与非 NAND</td><td>&</td><td>Y = (A · B)'</td><td>00→1, 01→1, 10→1, 11→0</td></tr>
+        <tr><td>或非 NOR</td><td>≥1</td><td>Y = (A + B)'</td><td>00→1, 01→0, 10→0, 11→0</td></tr>
+        <tr><td>异或 XOR</td><td>=1</td><td>Y = A ⊕ B</td><td>00→0, 01→1, 10→1, 11→0</td></tr>
+      </tbody>
+    </table>
+
+    <div class="figure-caption">图 0-3 基本逻辑门符号与真值表</div>
+
+    <p><strong>德摩根定律</strong>在位运算和寄存器操作中非常实用：</p>
+    <p>$$\overline{A \cdot B} = \bar{A} + \bar{B}, \quad \overline{A + B} = \bar{A} \cdot \bar{B}$$</p>
+
+    <p>例如：要清除寄存器 P1 的第 0 位和第 1 位（清 0），可用 <code>P1 &amp;= ~0x03</code>（与非运算等价于"清零特定位"）。这将在 0.4 节 C 语言位运算中详述。</p>
+
+    <h2>3.3 组合逻辑电路</h2>
+
+    <p>组合逻辑电路的输出仅取决于当前输入，无记忆功能。单片机系统中常见的组合逻辑器件：</p>
+    <ul>
+      <li><strong>3-8 译码器 74HC138</strong>：3 位地址输入，8 路输出中只有 1 路有效（低电平），常用于地址译码、外设片选。</li>
+      <li><strong>数据选择器 74HC153</strong>：多路输入选 1 路输出，常用于 ADC 多通道切换模拟前端。</li>
+      <li><strong>三态门</strong>：输出有高电平、低电平、高阻态三种状态。高阻态相当于断开，使多个器件可共享总线。单片机 GPIO 的输入模式即高阻态。</li>
+      <li><strong>OC/OD 门</strong>：集电极开路 / 漏极开路，无法输出高电平，必须外接上拉电阻。多个 OC/OD 输出可接到同一根线，实现<strong>线与</strong>（任意一个为低则总线为低）。<strong>I2C 总线即基于 OD 门线与</strong>，这是理解 I2C 协议的硬件基础。</li>
+    </ul>
+
+    <h2>3.4 时序逻辑电路</h2>
+
+    <p>时序逻辑电路有记忆功能，输出取决于当前输入和历史状态。<strong>触发器</strong>是最基本单元：</p>
+    <table>
+      <thead><tr><th>触发器</th><th>功能</th><th>单片机中的应用</th></tr></thead>
+      <tbody>
+        <tr><td>D 触发器</td><td>时钟上升沿锁存 D 端数据到 Q</td><td>寄存器、GPIO 输出锁存</td></tr>
+        <tr><td>RS 触发器</td><td>置位 / 复位</td><td>按键消抖、SRAM 单元</td></tr>
+        <tr><td>JK 触发器</td><td>通用触发器，可计数、分频</td><td>计数器、分频器</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>移位寄存器 74HC595</strong>：串行输入、并行输出，通过 3 根线（数据、时钟、锁存）控制 8 路输出，可级联扩展。是单片机扩展 IO 口的经典器件（第 11 章详述）。</p>
+
+    <p><strong>计数器</strong>：对时钟脉冲计数，可实现分频、定时。单片机内部的定时器/计数器外设本质上就是一个可预置的计数器（第 9 章详述）。</p>
+
+    <h2>3.5 时钟与复位电路</h2>
+
+    <p><strong>时钟电路</strong>是单片机的心跳。STC89C52RC 使用外部无源晶振 + 两个负载电容组成皮尔斯振荡器：</p>
+    <ul>
+      <li>晶振频率：常用 11.0592 MHz（便于串口波特率整除）或 12 MHz（便于定时器整时）。</li>
+      <li>负载电容：通常取 20-30 pF，两个电容另一端接地。</li>
+      <li>周期与频率关系：$T = 1/f$。12 MHz 晶振周期 = 83.3 ns，机器周期 = 12T = 1 μs。</li>
+    </ul>
+
+    <p>STM32F407 可使用外部 8 MHz 高速晶振（HSE）经内部 PLL 倍频到 168 MHz，也可使用内部 16 MHz RC 振荡器（HSI，精度较差）。</p>
+
+    <p><strong>复位电路</strong>确保单片机上电时从确定状态启动：</p>
+    <ul>
+      <li><strong>上电复位（POR）</strong>：RC 电路，上电瞬间电容未充电，RST 引脚为高，随电容充电 RST 下降到低，完成复位。常用 10 μF 电容 + 10 kΩ 电阻。</li>
+      <li><strong>按键复位</strong>：并联一个按键到 Vcc，按下时 RST 为高，手动复位。</li>
+      <li><strong>看门狗复位</strong>：程序跑飞时看门狗定时器溢出，自动产生复位，系统恢复。</li>
+    </ul>
+
+    <p>复位有效电平：STC89C52RC 高电平复位（RST = 1 持续 24 个机器周期以上），STM32 低电平复位（NRST = 0）。</p>
+
+    <h2>3.6 电平标准与电平转换</h2>
+
+    <p>不同芯片系列使用不同电平标准，互联时必须注意兼容性：</p>
+    <table>
+      <thead><tr><th>标准</th><th>Vcc</th><th>VIH（高电平输入）</th><th>VIL（低电平输入）</th><th>VOH / VOL</th></tr></thead>
+      <tbody>
+        <tr><td>TTL</td><td>5 V</td><td>≥ 2.0 V</td><td>≤ 0.8 V</td><td>≥ 2.4 V / ≤ 0.4 V</td></tr>
+        <tr><td>CMOS 5V</td><td>5 V</td><td>≥ 3.5 V</td><td>≤ 1.5 V</td><td>≥ 4.4 V / ≤ 0.5 V</td></tr>
+        <tr><td>CMOS 3.3V</td><td>3.3 V</td><td>≥ 2.0 V</td><td>≤ 0.8 V</td><td>≥ 2.4 V / ≤ 0.4 V</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>5V 系统与 3.3V 系统互联</strong>：</p>
+    <ul>
+      <li>3.3V 单片机（STM32）→ 5V 器件输入：STM32 输出高电平 3.3 V，多数 5V TTL 器件的 VIH = 2.0 V，<strong>可直接驱动</strong>。</li>
+      <li>5V 器件输出 → 3.3V 单片机输入：5V 高电平 4.4 V 超过 STM32 的最大耐受电压（VDD + 0.3 V = 3.6 V），<strong>必须电平转换</strong>，否则会损坏 GPIO。</li>
+    </ul>
+
+    <p>常用电平转换方案：</p>
+    <ul>
+      <li><strong>电阻分压</strong>：5V → 3.3V 用 1 kΩ + 2 kΩ 分压，简单但只能单向、速度慢。</li>
+      <li><strong>专用电平转换芯片</strong>：TXS0108 / 74LVC245 / 74LVC1T45，支持双向、高速，推荐用于 SPI / I2C 等总线。</li>
+      <li><strong>MOS 管电平转换</strong>：用一颗 NMOS + 上拉电阻实现双向 I2C 电平转换，成本低。</li>
+    </ul>
+
+    <h1 id="sec-4">4 ANSI C 语言基础（C51 先修）</h1>
+
+    <p>单片机程序绝大多数用 C 语言编写。<strong>ANSI C（标准 C）</strong>是所有 C 语言变体（包括 C51）的基础。本节复习 C 语言核心语法，重点关注与单片机编程紧密相关的部分（位运算、指针、结构体、预处理）。</p>
+
+    <h2>4.1 数据类型与运算符</h2>
+
+    <p>C 语言基本数据类型及其在 PC 上的字节数和取值范围：</p>
+    <table>
+      <thead><tr><th>类型</th><th>关键字</th><th>字节数</th><th>取值范围</th></tr></thead>
+      <tbody>
+        <tr><td>字符</td><td>char</td><td>1</td><td>-128 ~ 127（或 0~255）</td></tr>
+        <tr><td>无符号字符</td><td>unsigned char</td><td>1</td><td>0 ~ 255</td></tr>
+        <tr><td>整型</td><td>int</td><td>2 或 4</td><td>取决于平台</td></tr>
+        <tr><td>无符号整型</td><td>unsigned int</td><td>2 或 4</td><td>取决于平台</td></tr>
+        <tr><td>长整型</td><td>long</td><td>4</td><td>-2³¹ ~ 2³¹-1</td></tr>
+        <tr><td>单精度浮点</td><td>float</td><td>4</td><td>±3.4E±38（6-7 位有效数字）</td></tr>
+        <tr><td>双精度浮点</td><td>double</td><td>8</td><td>±1.7E±308（15-16 位有效数字）</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      <strong>注意</strong>：在 C51（8051 平台）中，<code>int</code> 默认是 16 位（2 字节），与 PC 上的 32 位 int 不同。这是跨平台移植代码时的常见陷阱。详见第 6 章。
+    </div>
+
+    <p><strong>位运算</strong>是单片机编程最常用的运算，直接操作寄存器的每一位：</p>
+    <table>
+      <thead><tr><th>运算符</th><th>名称</th><th>示例</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td>&amp;</td><td>按位与</td><td>P1 &amp; 0x0F</td><td>取低 4 位 / 清零特定位</td></tr>
+        <tr><td>|</td><td>按位或</td><td>P1 | 0x01</td><td>置位第 0 位</td></tr>
+        <tr><td>~</td><td>按位取反</td><td>~0x0F</td><td>生成掩码 0xF0</td></tr>
+        <tr><td>^</td><td>按位异或</td><td>P1 ^ 0x01</td><td>翻转第 0 位</td></tr>
+        <tr><td>&lt;&lt;</td><td>左移</td><td>1 &lt;&lt; 3</td><td>生成第 3 位的掩码 = 0x08</td></tr>
+        <tr><td>&gt;&gt;</td><td>右移</td><td>P1 &gt;&gt; 4</td><td>取高 4 位到低 4 位</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>寄存器操作的标准范式</strong>（务必牢记）：</p>
+    <pre><code class="language-c">// 置位第 n 位（设为 1）
+REG |= (1 &lt;&lt; n);
+
+// 清零第 n 位（设为 0）
+REG &amp;= ~(1 &lt;&lt; n);
+
+// 翻转第 n 位
+REG ^= (1 &lt;&lt; n);
+
+// 读取第 n 位
+bit = (REG &gt;&gt; n) &amp; 1;
+
+// 设置第 n 位为某值 val（0 或 1）
+REG = (REG &amp; ~(1 &lt;&lt; n)) | (val &lt;&lt; n);</code></pre>
+
+    <h2>4.2 控制流</h2>
+
+    <p>C 语言的控制流与多数高级语言相似，简要复习：</p>
+    <pre><code class="language-c">// if-else 分支
+if (temperature &gt; 30) {
+    fan_on();
+} else if (temperature &gt; 20) {
+    fan_low();
+} else {
+    fan_off();
+}
+
+// switch-case 状态机
+switch (state) {
+    case STATE_IDLE:    do_idle();    break;
+    case STATE_RUNNING: do_run();    break;
+    case STATE_ERROR:    do_error();  break;
+    default:             state = STATE_IDLE;
+}
+
+// for 循环（延时）
+for (volatile int i = 0; i &lt; 1000; i++) {
+    // 空循环延时（不精确，仅演示）
+}
+
+// while 循环（等待事件）
+while (!(USART1->SR &amp; USART_SR_RXNE)) {
+    // 等待接收完成
+}</code></pre>
+
+    <p><strong>volatile</strong> 关键字在单片机编程中非常重要：它告诉编译器该变量可能被硬件 / 中断修改，不要优化掉对它的读写。所有映射到硬件寄存器的变量和中断中修改的全局变量都应加 <code>volatile</code>。</p>
+
+    <h2>4.3 函数与变量作用域</h2>
+
+    <pre><code class="language-c">// 函数声明（原型）
+void delay_ms(unsigned int ms);
+
+// 函数定义
+void delay_ms(unsigned int ms) {
+    while (ms--) {
+        for (volatile int i = 0; i &lt; 120; i++);
+    }
+}
+
+// 全局变量：整个文件可见，可用 extern 在其他文件引用
+int system_tick = 0;
+
+// static 局部变量：函数退出后保留值，但仅函数内可见
+int counter(void) {
+    static int count = 0;
+    return ++count;
+}
+
+// static 全局变量：仅当前文件可见（限制作用域）
+static int internal_state = 0;</code></pre>
+
+    <h2>4.4 数组与字符串</h2>
+
+    <pre><code class="language-c">// 一维数组：数码管段码表
+const unsigned char seg_table[] = {
+    0x3F, 0x06, 0x5B, 0x4F, 0x66,  // 0-4
+    0x6D, 0x7D, 0x07, 0x7F, 0x6F   // 5-9
+};
+
+// 二维数组：LED 点阵字模
+const unsigned char font[2][8] = {
+    {0x00, 0x1C, 0x22, 0x22, 0x22, 0x22, 0x1C, 0x00},  // 'O'
+    {0x00, 0x1C, 0x22, 0x22, 0x22, 0x22, 0x1C, 0x00}   // 'K'
+};
+
+// 字符串：以 '\0' 结尾
+char msg[] = "Hello";
+// sizeof(msg) = 6（含 '\0'），strlen(msg) = 5
+
+// 字符串常用函数（需 #include &lt;string.h&gt;）
+char buf[32];
+sprintf(buf, "Temp=%d C", 25);  // 格式化字符串</code></pre>
+
+    <h2>4.5 指针</h2>
+
+    <p>指针是 C 语言的灵魂，也是单片机操作硬件寄存器的基础。<strong>指针 = 地址</strong>，通过指针可以间接访问内存。</p>
+
+    <pre><code class="language-c">int a = 10;
+int *p = &amp;a;  // p 存储 a 的地址
+
+*p = 20;       // 通过指针修改 a 的值为 20
+
+// 指针与数组
+int arr[5] = {1, 2, 3, 4, 5};
+int *q = arr;  // 数组名就是首元素地址
+// q[2] == *(q+2) == arr[2] == 3
+
+// 指针作为函数参数（传址调用，可修改实参）
+void swap(int *x, int *y) {
+    int t = *x;
+    *x = *y;
+    *y = t;
+}
+swap(&amp;a, &amp;b);
+
+// 直接访问硬件寄存器地址（STM32 常用）
+// 将 0x40021000 解释为指向 unsigned int 的指针并解引用
+volatile unsigned int *reg = (unsigned int *)0x40021000;
+*reg |= (1 &lt;&lt; 5);  // 置位第 5 位</code></pre>
+
+    <p><strong>函数指针</strong>：指向函数的指针，用于回调、状态机表驱动：</p>
+    <pre><code class="language-c">// 定义函数指针类型
+typedef void (*handler_t)(void);
+
+// 函数
+void handle_idle(void)  { /* ... */ }
+void handle_run(void)   { /* ... */ }
+void handle_error(void) { /* ... */ }
+
+// 函数指针数组（状态机表驱动）
+handler_t handlers[] = {
+    handle_idle,
+    handle_run,
+    handle_error
+};
+
+// 调用
+int state = 1;
+handlers[state]();  // 调用 handle_run()</code></pre>
+
+    <h2>4.6 结构体、联合与枚举</h2>
+
+    <p><strong>结构体（struct）</strong>将相关数据组织在一起，是单片机程序组织配置参数、通信协议帧的利器：</p>
+    <pre><code class="language-c">// 串口配置参数
+typedef struct {
+    unsigned int baudrate;
+    unsigned char data_bits;
+    unsigned char parity;
+    unsigned char stop_bits;
+} uart_config_t;
+
+uart_config_t cfg = {115200, 8, 0, 1};
+// cfg.baudrate == 115200</code></pre>
+
+    <p><strong>联合（union）</strong>让不同类型共享同一段内存，是寄存器位 / 字节访问的经典技巧：</p>
+    <pre><code class="language-c">// 16 位寄存器：可按字访问，也可按字节访问
+typedef union {
+    unsigned int  word;   // 16 位整体访问
+    struct {
+        unsigned char low;   // 低字节
+        unsigned char high;  // 高字节
+    } byte;
+} reg16_t;
+
+reg16_t r;
+r.word = 0xABCD;
+// r.byte.low == 0xCD, r.byte.high == 0xAB</code></pre>
+
+    <p><strong>枚举（enum）</strong>定义具名常量，使状态机代码更可读：</p>
+    <pre><code class="language-c">typedef enum {
+    STATE_IDLE = 0,
+    STATE_RUNNING,
+    STATE_PAUSED,
+    STATE_ERROR
+} system_state_t;
+
+system_state_t state = STATE_RUNNING;
+if (state == STATE_ERROR) {
+    // 错误处理
+}</code></pre>
+
+    <p><strong>typedef</strong>：为类型起别名，提升可读性与可移植性：</p>
+    <pre><code class="language-c">typedef unsigned char  uint8_t;   // 8 位无符号
+typedef unsigned int   uint16_t;  // 16 位无符号
+typedef unsigned long  uint32_t;  // 32 位无符号</code></pre>
+
+    <h2>4.7 预处理与模块化编程</h2>
+
+    <p>预处理指令在编译前处理，是 C 语言模块化编程的基础：</p>
+    <pre><code class="language-c">// led.h 头文件
+#ifndef __LED_H__       // 防止重复包含
+#define __LED_H__
+
+#define LED_PIN  5      // 宏常量
+#define LED_ON(port)  (port &amp;= ~(1 &lt;&lt; LED_PIN))  // 带参宏
+
+void led_init(void);   // 函数声明
+void led_toggle(void);
+
+#endif // __LED_H__
+
+// led.c 源文件
+#include "led.h"
+
+void led_init(void) {
+    P1 |= (1 &lt;&lt; LED_PIN);   // 初始化
+}
+
+void led_toggle(void) {
+    P1 ^= (1 &lt;&lt; LED_PIN);   // 翻转
+}
+
+// 条件编译：调试版本打印日志，发布版本不打印
+#ifdef DEBUG
+    #define LOG(msg)  printf(msg)
+#else
+    #define LOG(msg)
+#endif</code></pre>
+
+    <p><strong>头文件与源文件分离</strong>是工程化编程的基本规范：.h 文件放声明（接口），.c 文件放定义（实现）。这为第 6 章学习 C51 模块化编程打下基础。</p>
+
+    <h2>4.8 volatile 关键字详解</h2>
+
+    <p><code>volatile</code>（易变的）是 C 语言中容易被忽视但<strong>在单片机编程中至关重要</strong>的关键字。它告诉编译器："这个变量的值可能在你看不到的地方被改变，每次访问都必须从内存重新读取，不要优化到寄存器里。"</p>
+
+    <p><strong>三种必须使用 volatile 的场景</strong>：</p>
+
+    <p><strong>1）硬件寄存器映射</strong>：外设寄存器的值可能被硬件改变（如串口的接收数据寄存器在收到新字节时自动更新），若编译器将寄存器值缓存到 CPU 寄存器，后续读取将得到旧值。</p>
+    <pre><code class="language-c">// 错误：可能被优化为只读一次，导致死循环
+unsigned int *p = (unsigned int *)0x40011004;
+while ((*p &amp; 0x0080) == 0) {  // 等待 TXE 标志位置 1
+    // 编译器可能认为 *p 不会变，直接优化成 while(1)
+}
+
+// 正确：加 volatile 强制每次从内存读取
+volatile unsigned int *p = (volatile unsigned int *)0x40011004;
+while ((*p &amp; 0x0080) == 0) {  // 每次循环都重新读寄存器
+    // 正确等待硬件置位
+}</code></pre>
+
+    <p><strong>2）中断与主循环共享变量</strong>：中断函数修改的变量，若主循环未加 volatile，编译器可能将主循环中的读取优化掉。</p>
+    <pre><code class="language-c">// 错误：flag 可能被优化，主循环读不到中断里的修改
+int flag = 0;
+
+void EXTI0_IRQHandler(void) {  // 中断服务函数
+    flag = 1;
+}
+
+int main(void) {
+    while (flag == 0) {  // 编译器可能认为 flag 不会变，优化为 while(1)
+        // 死等，永远等不到中断
+    }
+}
+
+// 正确：共享变量加 volatile
+volatile int flag = 0;
+
+void EXTI0_IRQHandler(void) {
+    flag = 1;
+}
+
+int main(void) {
+    while (flag == 0) {  // 每次都重新读取
+    }
+    // 中断触发后正常跳出
+}</code></pre>
+
+    <p><strong>3）多线程 / RTOS 共享变量</strong>：FreeRTOS 任务间共享的标志位、队列索引等同样需要 volatile（或使用 RTOS 提供的同步原语）。</p>
+
+    <div class="tip">
+      <strong>易错点</strong>：<code>volatile</code> 只保证"每次都从内存读取"，<strong>不保证原子性</strong>。对于 32 位变量在 8 位 MCU 上的读 / 写操作，仍可能被中断打断导致数据撕裂，此时需要关中断或使用原子操作。STM32 的 <code>__disable_irq()</code> / <code>__enable_irq()</code> 可保护临界区。
+    </div>
+
+    <p><strong>const 与 volatile 可以同时使用</strong>：例如 <code>const volatile unsigned int *p</code> 表示"指针本身不能改（const），但所指内容可能被硬件改（volatile）"——典型的只读硬件状态寄存器映射。</p>
+
+    <h2>4.9 跨文件变量与函数的使用方案</h2>
+
+    <p>实际工程不会把所有代码塞在一个 .c 文件里。多文件工程中，"变量和函数如何跨文件共享"是初学者最容易卡住的地方。核心工具是 <code>extern</code>、<code>static</code> 和规范的头文件。</p>
+
+    <p><strong>跨文件共享变量</strong>：在 <strong>一个</strong>.c 文件中定义，在其他文件中用 <code>extern</code> 声明：</p>
+    <pre><code class="language-c">// === config.c === （定义处，分配内存）
+unsigned int system_tick = 0;       // 全局变量定义
+unsigned char device_addr = 0x50;   // 另一个全局变量
+
+// === config.h === （声明处，告诉其他文件"这些变量存在"）
+#ifndef __CONFIG_H__
+#define __CONFIG_H__
+extern unsigned int system_tick;     // extern 表示"变量在别处定义"
+extern unsigned char device_addr;
+#endif
+
+// === main.c === （使用方，包含头文件即可访问）
+#include "config.h"
+void main(void) {
+    system_tick = 100;    // 正确：能访问到 config.c 中的变量
+    device_addr = 0x60;
+}</code></pre>
+
+    <p><strong>常见错误</strong>：</p>
+    <ul>
+      <li><strong>在 .h 中写定义而非声明</strong>：<code>unsigned int system_tick = 0;</code> 写在 .h 里，被多个 .c 包含后会导致链接错误"multiple definition"。.h 中必须用 <code>extern</code> 声明，定义只能放 .c。</li>
+      <li><strong>忘记 <code>extern</code></strong>：在 .c 中写 <code>unsigned int system_tick;</code>（无 extern）会被当作"定义"，若 main.c 也这么做，会重复定义。</li>
+      <li><strong>头文件没加防卫式包含</strong>：缺少 <code>#ifndef __CONFIG_H__</code> 会导致重复包含、重复声明报错。</li>
+    </ul>
+
+    <p><strong>跨文件共享函数</strong>：函数默认是 extern 的（可被其他文件调用），无需写 <code>extern</code> 关键字，只要在头文件中放<strong>函数原型声明</strong>即可：</p>
+    <pre><code class="language-c">// === uart.c === （函数定义）
+void uart_init(unsigned int baud) {
+    // 实现
+}
+void uart_send(unsigned char byte) {
+    // 实现
+}
+
+// === uart.h === （函数声明，供其他文件调用）
+#ifndef __UART_H__
+#define __UART_H__
+void uart_init(unsigned int baud);
+void uart_send(unsigned char byte);
+#endif
+
+// === main.c ===
+#include "uart.h"
+void main(void) {
+    uart_init(115200);
+    uart_send('A');
+}</code></pre>
+
+    <p><strong>限制作用域用 <code>static</code></strong>：希望某个全局变量或函数<strong>只在本文件内可见</strong>（不被其他文件访问），用 <code>static</code> 修饰：</p>
+    <pre><code class="language-c">// === uart.c ===
+static unsigned char tx_buf[64];    // 仅 uart.c 可见，其他文件即使 extern 也访问不到
+static void delay_short(void) {      // 仅 uart.c 内部可调用
+    for (volatile int i = 0; i &lt; 10; i++);
+}
+
+void uart_send(unsigned char byte) {
+    tx_buf[0] = byte;       // 可访问本文件的 static 变量
+    delay_short();          // 可调用本文件的 static 函数
+}</code></pre>
+
+    <p><strong>static 的两种用途</strong>（注意区分）：</p>
+    <table>
+      <thead><tr><th>位置</th><th>作用</th><th>典型场景</th></tr></thead>
+      <tbody>
+        <tr><td>全局变量前</td><td>限制作用域到本文件</td><td>模块内部状态、内部缓冲区</td></tr>
+        <tr><td>函数前</td><td>限制函数可见性到本文件</td><td>模块内部辅助函数</td></tr>
+        <tr><td>局部变量前</td><td>改变存储位置（存于静态区），函数退出后值保留</td><td>计数器、状态机记忆</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>工程化最佳实践</strong>：<strong>所有跨文件共享的变量和函数都通过头文件暴露，内部数据用 static 封装</strong>——这就是 C 语言的"面向对象"思想（信息隐藏）。模块对外只暴露接口，隐藏实现细节，便于维护和移植。
+    </div>
+
+    <h2>4.10 第三方开源库的集成与使用</h2>
+
+    <p>实际项目经常会用到第三方开源库（如 JSON 解析库 cJSON、UART 缓冲库、CRC 计算库、传感器驱动等）。初学者常常"源码下载下来了，但不知道怎么编进工程里"。本节以 cJSON 为例，讲解通用流程。</p>
+
+    <p><strong>第一步：获取源码</strong>。从 GitHub 下载（<code>git clone</code> 或下载 ZIP）：</p>
+    <pre><code class="language-bash"># 方法 1：git clone（推荐，便于后续更新）
+git clone https://github.com/DaveGamble/cJSON.git
+
+# 方法 2：直接下载 ZIP 解压
+# 访问 https://github.com/DaveGamble/cJSON → Code → Download ZIP</code></pre>
+
+    <p><strong>第二步：挑选必要文件</strong>。一个库通常包含很多文件（示例、测试、文档），但<strong>核心源文件往往只有一两个</strong>。以 cJSON 为例：</p>
+    <table>
+      <thead><tr><th>文件</th><th>用途</th><th>是否需要</th></tr></thead>
+      <tbody>
+        <tr><td>cJSON.c</td><td>核心实现</td><td>必需</td></tr>
+        <tr><td>cJSON.h</td><td>接口声明</td><td>必需</td></tr>
+        <tr><td>cJSON_Utils.c/h</td><td>JSON Pointer / Patch 扩展</td><td>按需</td></tr>
+        <tr><td>test.c / fuzzing/</td><td>测试代码</td><td>不需要</td></tr>
+        <tr><td>README.md / CHANGELOG</td><td>文档</td><td>参考</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>第三步：放入工程目录</strong>。推荐建立统一目录结构：</p>
+    <pre><code class="language-text">project/
+├── Core/
+│   ├── Src/main.c
+│   └── Inc/main.h
+├── Drivers/               ← 厂商 HAL 库
+└── ThirdParty/            ← 第三方库统一放这里
+    └── cJSON/
+        ├── cJSON.c
+        └── cJSON.h</code></pre>
+
+    <p><strong>第四步：配置编译器</strong>。需要让编译器找到头文件（添加 include 路径）和编译源文件：</p>
+    <ul>
+      <li><strong>Keil MDK</strong>：Project → Manage → Project Items → Add Files 把 cJSON.c 加入 Group；Options for Target → C/C++ → Include Paths 添加 <code>../ThirdParty/cJSON</code>。</li>
+      <li><strong>STM32CubeIDE</strong>：右键项目 → Properties → C/C++ Build → Settings → MCU GCC Compiler → Include paths 添加目录；右键文件夹 → Add/Remove from Build Path。</li>
+      <li><strong>PlatformIO</strong>：把库放到 <code>lib/cJSON/</code> 目录，PlatformIO 会自动编译；或在 <code>platformio.ini</code> 中用 <code>lib_deps</code> 直接从库管理器安装。</li>
+      <li><strong>Keil C51</strong>：同样通过 Project → Add Files 把 .c 加入工程，Options → C51 → Include Paths 添加头文件路径。</li>
+    </ul>
+
+    <p><strong>第五步：包含头文件并使用</strong>：</p>
+    <pre><code class="language-c">#include "cJSON.h"   // 双引号表示先在工程目录找，再到系统目录找
+#include &lt;stdio.h&gt;   // 尖括号表示只在系统目录找
+
+void main(void) {
+    // 解析 JSON 字符串
+    const char *json_str = "{\"name\":\"STC\",\"version\":2}";
+    cJSON *root = cJSON_Parse(json_str);
+    if (root == NULL) {
+        // 解析失败
+        return;
+    }
+    cJSON *name = cJSON_GetObjectItem(root, "name");
+    if (cJSON_IsString(name)) {
+        printf("name = %s\n", name->valuestring);
+    }
+    cJSON_Delete(root);   // 释放内存（嵌入式需谨慎使用 malloc）
+}</code></pre>
+
+    <p><strong>注意 <code>#include "..."</code> 与 <code>#include &lt;...&gt;</code> 的区别</strong>：</p>
+    <ul>
+      <li><code>"xxx.h"</code>（双引号）：先在<strong>当前源文件所在目录</strong>找，找不到再到编译器指定的 include 路径找。用于工程内自定义头文件。</li>
+      <li><code>&lt;xxx.h&gt;</code>（尖括号）：只在<strong>编译器指定的系统目录</strong>找。用于标准库和编译器自带头文件。</li>
+    </ul>
+
+    <p><strong>嵌入式使用第三方库的注意事项</strong>：</p>
+    <ul>
+      <li><strong>内存占用</strong>：cJSON 默认使用 <code>malloc</code> / <code>free</code>，在 STC89C52RC（512 B RAM）上几乎不可用；在 STM32F407（192 KB RAM）上可用但需配置堆大小（Heap_Size）。</li>
+      <li><strong>静态分配版本</strong>：很多库提供"无 malloc"版本或可配置分配器，适合资源受限场景。cJSON 可用 <code>cJSON_InitHooks</code> 自定义内存分配函数。</li>
+      <li><strong>裁剪</strong>：通过宏关闭不需要的功能（如 cJSON 可用 <code>-DENABLE_CJSON_UTILS=OFF</code> 关闭扩展模块）。</li>
+      <li><strong>可重入性</strong>：确保库函数可被中断安全调用，或在中断中禁止调用。</li>
+    </ul>
+
+    <h2>4.11 通过绝对地址访问内存与寄存器</h2>
+
+    <p>用户提到"绝对地址怎么用"——这是单片机编程中访问<strong>固定内存地址</strong>的技术，常用于操作硬件寄存器（寄存器被映射到固定内存地址）或访问特定 RAM 区域。本节系统讲解。</p>
+
+    <p><strong>原理</strong>：在 ARM Cortex-M 系列（如 STM32）中，外设寄存器被映射到固定的内存地址（如 GPIOA 的 ODR 寄存器在 0x40020014）。要操作这些寄存器，必须<strong>把整数地址转换为指针并解引用</strong>。</p>
+
+    <p><strong>方法 1：直接强制类型转换</strong>（最基础，理解原理）：</p>
+    <pre><code class="language-c">// 把整数 0x40020014 转换为"指向 unsigned int 的指针"，再解引用
+// 等价于直接写 GPIOA->ODR = 0x0001
+*(volatile unsigned int *)0x40020014 = 0x0001;   // 写寄存器：PA0 输出高
+
+// 读取寄存器值
+unsigned int val = *(volatile unsigned int *)0x40020014;</code></pre>
+
+    <p>拆解这一行代码：</p>
+    <ul>
+      <li><code>0x40020014</code>：整数地址（无符号整型）</li>
+      <li><code>(unsigned int *)0x40020014</code>：将整数转换为"指向 unsigned int 的指针"类型</li>
+      <li><code>(volatile unsigned int *)0x40020014</code>：加 volatile，防止编译器优化掉访问</li>
+      <li><code>*(...)</code>：解引用，访问该地址的内容</li>
+    </ul>
+
+    <p><strong>方法 2：用宏封装</strong>（可读性更好，推荐）：</p>
+    <pre><code class="language-c">// 定义寄存器宏
+#define GPIOA_ODR   (*(volatile unsigned int *)0x40020014)
+
+// 使用
+GPIOA_ODR = 0x0001;          // 写
+unsigned int val = GPIOA_ODR;  // 读</code></pre>
+
+    <p><strong>方法 3：用结构体映射一片连续寄存器</strong>（CMSIS 标准做法）：</p>
+    <pre><code class="language-c">// 定义 GPIO 寄存器结构体
+typedef struct {
+    volatile unsigned int MODER;    // 0x00
+    volatile unsigned int OTYPER;   // 0x04
+    volatile unsigned int OSPEEDR;   // 0x08
+    volatile unsigned int PUPDR;    // 0x0C
+    volatile unsigned int IDR;      // 0x10
+    volatile unsigned int ODR;      // 0x14
+    // ... 其他寄存器
+} GPIO_TypeDef;
+
+// 把基地址强制转换为结构体指针
+#define GPIOA   ((GPIO_TypeDef *)0x40020000)
+
+// 使用：结构体成员自动按偏移量访问对应寄存器
+GPIOA->MODER = 0x00000000;   // 访问 0x40020000
+GPIOA->ODR   = 0x0001;        // 访问 0x40020014（结构体偏移 0x14）
+unsigned int val = GPIOA->IDR; // 访问 0x40020010</code></pre>
+
+    <p>STM32 的 HAL 库、CMSIS 设备头文件就是用方法 3 把所有外设寄存器封装成结构体指针，开发者只需写 <code>GPIOA->ODR = 0x01</code>，底层自动映射到绝对地址。</p>
+
+    <p><strong>方法 4：8051 / STC 平台的特殊功能寄存器</strong>。8051 不用指针访问 SFR，而是用 C51 扩展关键字 <code>sfr</code> / <code>sbit</code>（详见第 6 章）：</p>
+    <pre><code class="language-c">// C51 写法（与 ARM 不同）
+sfr P1 = 0x90;          // 定义 P1 端口寄存器，地址 0x90
+sbit LED = P1^0;         // 定义 P1.0 位
+
+P1 = 0xFF;               // 整字节写
+LED = 1;                 // 位写</code></pre>
+
+    <div class="tip">
+      <strong>STC 与 STM32 的区别</strong>：STC（8051）用 <code>sfr/sbit</code> 关键字直接绑定地址，语法简洁但只能用于 SFR 区；STM32（Cortex-M）用<strong>指针 + 强制类型转换</strong>访问任意内存地址，灵活但需注意 volatile 和缓存问题。
+    </div>
+
+    <p><strong>绝对地址访问 RAM</strong>：有时需要访问特定 RAM 地址（如启动文件保留的备用寄存器区、链接脚本指定的特殊区域）：</p>
+    <pre><code class="language-c">// 访问 STM32 备份寄存器（RTC 域，地址 0x40002800+）
+#define RTC_BKP0   (*(volatile unsigned int *)0x40002800)
+RTC_BKP0 = 0x12345678;   // 写入备份寄存器（掉电后由 VBAT 维持）</code></pre>
+
+    <h2>4.12 单片机 C 编程常见陷阱与最佳实践</h2>
+
+    <p>本节整理初学者最容易踩坑的若干问题，每条都附正确写法。</p>
+
+    <p><strong>1）整数溢出与隐式类型转换</strong>：</p>
+    <pre><code class="language-c">// 错误：两个 unsigned char 相加可能溢出
+unsigned char a = 200, b = 100;
+unsigned int sum = a + b;   // 期望 300，但 a+b 在 int 为 8 位的平台上溢出
+
+// 正确：显式转换
+unsigned int sum = (unsigned int)a + (unsigned int)b;
+
+// 陷阱：1 &lt;&lt; 31 在 32 位 int 下是 UB（未定义行为），需用 U 后缀
+unsigned int mask = 1U &lt;&lt; 31;   // 加 U 表示 unsigned</code></pre>
+
+    <p><strong>2）有符号数与无符号数比较</strong>：</p>
+    <pre><code class="language-c">int a = -1;
+unsigned int b = 1;
+if (a &lt; b) { ... }   // 错误：a 被隐式转为无符号，变成 0xFFFFFFFF，远大于 1
+
+// 正确：显式转换或都使用同类型
+if ((unsigned int)a &lt; b) { ... }   // 仍可能错
+if (a &lt; (int)b) { ... }            // 推荐</code></pre>
+
+    <p><strong>3）宏定义副作用</strong>：</p>
+    <pre><code class="language-c">// 错误：宏参数被求值两次
+#define MAX(a, b)  ((a) &gt; (b) ? (a) : (b))
+int x = MAX(i++, j++);   // i 或 j 可能自增两次！
+
+// 正确：用内联函数（C99+）或写明副作用
+static inline int max(int a, int b) { return a &gt; b ? a : b; }
+int x = max(i++, j++);   // 安全，每个参数只求值一次</code></pre>
+
+    <p><strong>4）指针未初始化与野指针</strong>：</p>
+    <pre><code class="language-c">// 错误：未初始化的指针指向随机地址
+int *p;
+*p = 10;   // 可能崩溃
+
+// 正确：初始化为 NULL 或有效地址
+int *p = NULL;
+int a = 0;
+p = &amp;a;
+*p = 10;
+
+// 错误：返回局部变量地址
+int *get_value(void) {
+    int local = 42;
+    return &amp;local;   // 函数返回后 local 已销毁，指针悬挂
+}
+
+// 正确：用 static 或动态分配
+int *get_value(void) {
+    static int local = 42;   // static 变量生命周期为整个程序
+    return &amp;local;
+}</code></pre>
+
+    <p><strong>5）缓冲区溢出</strong>：</p>
+    <pre><code class="language-c">// 错误：sprintf 不检查目标缓冲区大小
+char buf[8];
+sprintf(buf, "Temp=%d C, Hum=%d%%", 25, 60);   // 字符串长度可能超过 8
+
+// 正确：用 snprintf 限制长度
+snprintf(buf, sizeof(buf), "Temp=%d", 25);   // 最多写 7 个字符 + '\0'</code></pre>
+
+    <p><strong>6）switch 漏 break</strong>：</p>
+    <pre><code class="language-c">// 错误：漏 break 导致 fall-through（穿透执行下一个 case）
+switch (state) {
+    case 0: do_a();
+    case 1: do_b();   // state==0 时也会执行 do_b()！
+    case 2: do_c();
+}
+
+// 正确：每个 case 后加 break（除非有意穿透）
+switch (state) {
+    case 0: do_a(); break;
+    case 1: do_b(); break;
+    case 2: do_c(); break;
+    default: break;
+}</code></pre>
+
+    <p><strong>7）sizeof 与数组退化</strong>：</p>
+    <pre><code class="language-c">int arr[10] = {0};
+printf("%d\n", sizeof(arr));   // 40（10 × 4 字节）
+
+void func(int arr[]) {
+    printf("%d\n", sizeof(arr));   // 4 或 8（指针大小！数组退化为指针）
+}
+
+// 正确：数组长度作为参数传递
+void func(int *arr, int len) {
+    for (int i = 0; i &lt; len; i++) { ... }
+}
+// 调用方：func(arr, sizeof(arr) / sizeof(arr[0]));</code></pre>
+
+    <p><strong>8）注释嵌套与中文标点</strong>：C 语言不支持 <code>/* /* */</code> 嵌套，外层 <code>/*</code> 会与第一个 <code>*/</code> 匹配，导致后续代码意外被注释或语法错误。另外，代码中的标点（逗号、分号、括号）必须是英文半角，中文标点（，；（））会导致编译错误，且不易察觉。</p>
+
+    <div class="tip">
+      <strong>建议初学者养成以下习惯</strong>：
+      <ul>
+        <li>每个源文件开头写注释：文件名、作者、日期、功能简述。</li>
+        <li>函数前写注释：参数含义、返回值、副作用。</li>
+        <li>变量名用有意义的英文（如 <code>temperature</code> 而非 <code>t</code>），循环变量可用 <code>i, j, k</code>。</li>
+        <li>开启编译器警告（<code>-Wall -Wextra</code>），所有警告都应认真对待。</li>
+        <li>使用版本控制（Git），每完成一个功能就 commit，便于回退。</li>
+      </ul>
+    </div>
+
+    <h1 id="sec-5">5 C51 概览（衔接第 6 章）</h1>
+
+    <p>本节简要介绍 C51 是什么、与 ANSI C 的关系以及扩展点概貌，<strong>深入细节（sfr/sbit 语法、存储类型、中断函数写法）将在第 6 章详述</strong>。本节目的在于让你在进入第 4 章 MCS-51 体系结构之前，对"C 语言如何与单片机硬件结合"有一个整体印象。</p>
+
+    <h2>5.1 什么是 C51</h2>
+
+    <p><strong>C51</strong>是 Keil 公司为 8051 系列单片机设计的 C 语言编译器。它允许开发者用 C 语言而非汇编语言编写 8051 程序，极大提升了开发效率、代码可读性和可移植性。STC89C52RC 基于 8051 内核，因此使用 C51 编程。</p>
+
+    <p>使用 C 语言而非汇编的优势：</p>
+    <ul>
+      <li><strong>开发效率</strong>：一行 C 代码可能对应多行汇编，编写和阅读更高效。</li>
+      <li><strong>可读性</strong>：变量名、函数名、注释使代码自解释。</li>
+      <li><strong>可移植性</strong>：C 代码可跨 8051 变种（STC、AT89C51、AT89S52 等）移植，汇编则不行。</li>
+      <li><strong>可维护性</strong>：模块化、结构化编程使大型项目管理成为可能。</li>
+    </ul>
+
+    <h2>5.2 C51 与 ANSI C 的关系</h2>
+
+    <p>C51 是 ANSI C 的超集（严格说是子集 + 扩展），可分解为两部分：</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch00-prerequisite-basics-fig3.svg" alt="PlantUML 图 3" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+left to right direction
+component "C51 程序" as A
+component "ANSI C 标准部分\n变量/函数/控制流/指针/结构体" as B
+component "8051 硬件扩展部分" as C
+component "存储类型\ndata/idata/xdata/code" as D
+component "寄存器操作\nsfr/sbit/sfr16" as E
+component "中断函数\ninterrupt/using" as F
+component "位变量\nbit/bdata" as G
+A --&gt; B
+A --&gt; C
+C --&gt; D
+C --&gt; E
+C --&gt; F
+C --&gt; G
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 0-4 C51 程序的组成结构与从 ANSI C 到 C51 的学习路径</div>
+
+    <p>本节 0.4 复习的 ANSI C 语法在 C51 中完全适用——<code>if</code>、<code>for</code>、<code>while</code>、<code>switch</code>、函数、指针、结构体的用法与 PC 上编程一致。差异仅在于"扩展部分"：C51 为了描述 8051 硬件特性（哈佛结构存储器、特殊功能寄存器、位寻址区、中断系统），新增了少量关键字。</p>
+
+    <h2>5.3 C51 扩展点一览</h2>
+
+    <p>下表列出 C51 相对于 ANSI C 的主要扩展，每项对应 8051 的一个硬件特性。详细语法和用法请见<strong>第 6 章</strong>。</p>
+    <table>
+      <thead><tr><th>扩展点</th><th>关键字</th><th>对应的 8051 硬件特性</th><th>详见</th></tr></thead>
+      <tbody>
+        <tr><td>存储类型</td><td>data / idata / xdata / pdata / code</td><td>哈佛结构：内部 RAM / 外部 RAM / ROM</td><td>第 6 章 §6.2</td></tr>
+        <tr><td>寄存器操作</td><td>sfr / sfr16 / sbit</td><td>特殊功能寄存器 SFR 与位寻址</td><td>第 6 章 §6.3</td></tr>
+        <tr><td>中断函数</td><td>interrupt / using</td><td>5 个中断源、中断向量、中断号映射</td><td>第 6 章 §6.5</td></tr>
+        <tr><td>位变量</td><td>bit / bdata</td><td>位寻址区（20H-2FH）</td><td>第 6 章 §6.4</td></tr>
+        <tr><td>指针扩展</td><td>通用指针 / 存储区指针</td><td>区分指针指向的存储区域</td><td>第 6 章 §6.6</td></tr>
+        <tr><td>重入函数</td><td>reentrant</td><td>8051 默认不可重入，需特殊声明</td><td>第 6 章 §6.7</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      <strong>本节只列概览</strong>：以上每个扩展点的语法细节、使用示例和注意事项将在第 6 章深入讲解。本节目的在于让你知道"有这些扩展"以及"它们为什么存在"，从而在学习第 4 章体系结构时不至于对硬件特性感到突兀。
+    </div>
+
+    <h2>5.4 从 ANSI C 到 C51 的学习路径</h2>
+
+    <p>建议按以下路径从 ANSI C 过渡到 C51：</p>
+    <ol>
+      <li><strong>复习 ANSI C 基础</strong>（本章 0.4 节）：确保理解指针、结构体、位运算、预处理。</li>
+      <li><strong>理解 8051 体系结构</strong>（第 4 章）：学习 8051 的存储器结构、SFR、I/O 端口、中断系统，理解"为什么 C51 需要扩展"。</li>
+      <li><strong>搭建开发环境</strong>（第 5 章）：安装 Keil C51 或 PlatformIO，创建第一个工程。</li>
+      <li><strong>学习 C51 扩展语法</strong>（第 6 章）：逐个掌握存储类型、sfr/sbit、中断函数。</li>
+      <li><strong>实战</strong>（第 7 章起）：点亮 LED、按键输入、数码管显示……在实战中巩固。</li>
+    </ol>
+
+    <p>这个递进路径的核心思路是：<strong>先理解硬件结构，再学习描述硬件的语言扩展</strong>。C51 的每个扩展关键字都对应一个 8051 硬件特性，理解了硬件，C51 语法就成了水到渠成的事。</p>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li><strong>模拟电路</strong>：电阻限流分压、电容滤波去耦、二极管续流钳位、三极管 / MOS 管开关驱动、运放信号调理、RC 滤波截止频率 $f_c = 1/(2\pi RC)$、上拉下拉电阻确定默认电平。</li>
+        <li><strong>电源电路</strong>：LDO 通过闭环负反馈稳压，输出 $V_{out} = V_{ref}(1 + R_1/R_2)$，自身功耗 $P = (V_{in} - V_{out}) \times I_{out}$，需核算散热。常用 AMS1117-3.3 / 5.0。输入端加 TVS / PTC / 反接保护，输出端加大电解 + 小瓷片滤波。</li>
+        <li><strong>数字电路</strong>：二进制 / 十六进制 / BCD / ASCII / 补码编码；与 / 或 / 非 / 异或逻辑门；译码器 74HC138、移位寄存器 74HC595、计数器；时钟电路（晶振 + 负载电容）、复位电路（上电 / 按键 / 看门狗）；TTL / CMOS 电平标准与 5V/3.3V 互联的电平转换。</li>
+        <li><strong>ANSI C</strong>：数据类型与位运算（寄存器置位 / 清零 / 翻转范式）、控制流、函数与作用域、数组与字符串、指针（含直接访问硬件寄存器地址）、结构体 / 联合 / 枚举（寄存器位 / 字节双重视图）、预处理与模块化编程（.h/.c 分离）。</li>
+        <li><strong>volatile 关键字</strong>：三种必用场景——硬件寄存器映射、中断与主循环共享变量、RTOS 任务间共享变量。volatile 只保证每次从内存读取，不保证原子性（32 位变量在 8 位 MCU 上需关中断保护）。const + volatile 组合用于只读硬件状态寄存器。</li>
+        <li><strong>跨文件工程</strong>：变量在 .c 中定义、.h 中用 extern 声明；函数在 .c 中定义、.h 中放原型声明；static 限制作用域到本文件（信息隐藏）；头文件必须加防卫式包含（#ifndef）；所有跨文件共享通过头文件暴露、内部数据用 static 封装。</li>
+        <li><strong>第三方开源库集成</strong>：获取源码 → 挑选核心 .c/.h 文件 → 放入 ThirdParty/ 目录 → 配置编译器 include 路径与编译文件 → <code>#include "xxx.h"</code>（双引号，工程内头文件）vs <code>#include &lt;xxx.h&gt;</code>（尖括号，系统头文件）。嵌入式需注意 malloc 可用性、内存占用与可重入性。</li>
+        <li><strong>绝对地址访问</strong>：Cortex-M 用 <code>*(volatile unsigned int *)地址</code> 访问寄存器，可封装为宏或用结构体映射一片连续寄存器（CMSIS 做法）；8051 用 C51 扩展关键字 sfr/sbit 直接绑定地址（详见第 6 章）。</li>
+        <li><strong>常见陷阱</strong>：整数溢出、有符号与无符号比较、宏参数副作用、野指针、缓冲区溢出（用 snprintf）、switch 漏 break、数组退化为指针（sizeof 在函数内失效）、注释嵌套与中文标点。</li>
+        <li><strong>C51 概览</strong>：C51 = ANSI C + 8051 硬件扩展；扩展点包括存储类型、sfr/sbit、中断函数、位变量；学习路径为"复习 ANSI C → 理解 8051 结构 → 学习 C51 扩展 → 实战点亮 LED"。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>用 5 V 供电点亮一颗蓝色 LED（$V_f = 3.0$ V，$I_f = 10$ mA），计算限流电阻值。若改用 3.3 V 供电，结果如何？</li>
+        <li>AMS1117-3.3 将 5 V 转为 3.3 V，负载电流 300 mA，环境温度 30 °C，SOT-223 封装热阻 60 °C/W。计算 LDO 自身功耗和结温，判断是否安全。</li>
+        <li>一个 RC 低通滤波器，$R = 2$ kΩ，$C = 0.047$ μF，计算截止频率。若要截止频率降低到 100 Hz，应如何调整 R 或 C？</li>
+        <li>用 NPN 三极管 S8050（$\beta = 100$）驱动一个 100 mA 的继电器，GPIO 高电平输出 3.3 V，计算基极限流电阻值（取 2 倍饱和余量）。</li>
+        <li>写出下列位运算的结果：(a) 0xF0 &amp; 0x0F；(b) 0xF0 | 0x0F；(c) 0xAA ^ 0xFF；(d) 1 &lt;&lt; 4；(e) ~0x0F。</li>
+        <li>用 C 语言写一段代码：将变量 <code>reg</code> 的第 3 位置 1、第 5 位清 0、第 7 位翻转，其他位不变。</li>
+        <li>定义一个 <code>union</code>，使 16 位变量既能按 <code>unsigned int</code> 整体访问，又能拆分为高字节和低字节单独访问。</li>
+        <li>简述 C51 相对于 ANSI C 的主要扩展点，以及每个扩展对应的 8051 硬件特性。为什么说"理解了 8051 硬件结构，C51 语法就水到渠成"？</li>
+        <li>判断下列代码是否有问题并说明原因：(a) <code>int flag = 0; void ISR(void){flag=1;} int main(){while(flag==0);}</code>；(b) <code>unsigned char a=200, b=100; unsigned int s = a + b;</code> 在 8051 上；(c) <code>int *p; *p = 10;</code>。</li>
+        <li>设计一个两文件工程：在 <code>config.c</code> 中定义全局变量 <code>uint32_t system_clock</code> 和函数 <code>void clock_update(void)</code>，在 <code>main.c</code> 中访问它们。写出 <code>config.h</code>、<code>config.c</code>、<code>main.c</code> 三个文件的内容（含防卫式包含）。若 <code>tx_buf</code> 是 <code>config.c</code> 内部缓冲区不希望被外部访问，应如何声明？</li>
+        <li>用三种方式实现"向 STM32 GPIOA 的 ODR 寄存器（地址 0x40020014）写入 0x0001"：(a) 直接强制类型转换；(b) 宏封装；(c) 结构体指针映射（GPIOA 基地址 0x40020000）。说明每种方式的优缺点。</li>
+        <li>从 GitHub 下载 cJSON 库后，若要在 Keil MDK 工程中使用，需要哪些步骤？为什么嵌入式系统使用 cJSON 时要谨慎？</li>
+        <li>说明 <code>#include "uart.h"</code> 与 <code>#include &lt;stdio.h&gt;</code> 的区别，以及在 Keil 中如何让编译器找到自定义头文件路径。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>童诗白, 华成英. 模拟电子技术基础（第 5 版）[M]. 北京：高等教育出版社, 2015.</li>
+        <li>阎石. 数字电子技术基础（第 6 版）[M]. 北京：高等教育出版社, 2016.</li>
+        <li>谭浩强. C 程序设计（第 5 版）[M]. 北京：清华大学出版社, 2017.</li>
+        <li>Kernighan B W, Ritchie D M. The C Programming Language (2nd Edition) [M]. Prentice Hall, 1988.</li>
+        <li>张毅刚. 单片机原理及应用——C51 编程 + Proteus 仿真（第 4 版）[M]. 北京：高等教育出版社, 2021.</li>
+        <li>郭天祥. 新概念 51 单片机 C 语言教程 [M]. 北京：电子工业出版社, 2018.</li>
+        <li>STC 官方. STC89C52RC 数据手册 [Z]. 2024. https://www.stcmcudata.com/</li>
+        <li>ST 官方. STM32F405/415/407/417 参考手册 RM0090 [Z]. 2024. https://www.st.com/</li>
+        <li>AMS 官方. AMS1117 系列线性稳压器数据手册 [Z]. 2015.</li>
+        <li>TI 官方. TLV700 / TLV701 系列低压差线性稳压器数据手册 [Z]. 2023.</li>
+        <li>Andrew Koenig. C 陷阱与缺陷 [M]. 北京：人民邮电出版社, 2008.</li>
+        <li>Peter van der Linden. C 专家编程 [M]. 北京：人民邮电出版社, 2008.</li>
+        <li>Dave Gamble. cJSON Library Documentation [Z]. https://github.com/DaveGamble/cJSON</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/index.html" class="home">← 返回首页</a>
+      <a href="/chapters/part1-basics/ch01-mcu-overview.html" class="next">第 1 章 单片机概述 →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

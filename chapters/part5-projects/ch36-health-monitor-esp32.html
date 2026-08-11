@@ -1,0 +1,904 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第36章 智能健康监测（ESP32+MAX30102） - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link active" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 5 篇 综合项目 &gt; <span>第 36 章 智能健康监测</span>
+    </div>
+
+    <h1>第 36 章 智能健康监测（ESP32+MAX30102）</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>掌握基于 ESP32 + MAX30102 的可穿戴健康监测系统需求分析与架构设计</li>
+        <li>理解光体积描记法（PPG）测量心率（HR）与血氧饱和度（SpO<sub>2</sub>）的物理原理</li>
+        <li>学会使用 I2C 协议配置 MAX30102 寄存器，正确读取 FIFO 数据</li>
+        <li>掌握直流/交流分离、自相关法心率计算、R 比值法 SpO<sub>2</sub> 计算等关键算法</li>
+        <li>能独立完成 OLED 波形显示、BLE 蓝牙数据上传与运动伪影抑制</li>
+        <li>了解医疗器械电气安全、数据隐私与伦理合规的基本要求</li>
+      </ul>
+    </div>
+
+    <h2>§36.1 项目需求分析</h2>
+
+    <h3>§36.1.1 项目背景</h3>
+    <p>智慧医疗是物联网技术最重要的应用领域之一。随着人口老龄化加剧和慢病管理需求上升，可穿戴式生理参数监测设备成为家庭健康管理的核心终端。其中，心率（Heart Rate, HR）和血氧饱和度（Peripheral Capillary Oxygen Saturation, SpO<sub>2</sub>）是反映心血管与呼吸系统状态的两项关键指标。</p>
+    <p>本项目基于乐鑫 ESP32 双核 MCU 与美信（Maxim Integrated，现属 ADI）MAX30102 集成光学传感器，构建一个完整的腕式/指夹式健康监测终端，可实时显示 PPG 波形并计算 HR、SpO<sub>2</sub>，同时通过低功耗蓝牙（BLE）将数据上传到手机 APP，实现家庭场景下的连续健康监测。</p>
+
+    <h3>§36.1.2 功能需求</h3>
+    <ul>
+      <li><strong>生理参数采集</strong>：通过 MAX30102 红光（RED, 660 nm）+ 红外光（IR, 880 nm）双 LED 采集 PPG 信号，采样率 100 Hz，ADC 18 位。</li>
+      <li><strong>心率计算</strong>：使用自相关法从 IR 信号的交流分量中提取基频，计算心率，量程 30~250 BPM，分辨率 1 BPM。</li>
+      <li><strong>血氧饱和度计算</strong>：基于红光/红外光交流-直流比 R 值，按经验公式计算 SpO<sub>2</sub>，量程 70%~100%，分辨率 1%。</li>
+      <li><strong>OLED 实时显示</strong>：0.96 英寸 SSD1306 OLED 同屏显示心率数值、SpO<sub>2</sub> 数值与 IR 通道 PPG 波形（滚动刷新）。</li>
+      <li><strong>BLE 数据上传</strong>：作为 BLE 外设，每秒通过自定义 GATT 服务向手机推送 HR、SpO<sub>2</sub>、波形峰值，APP 端可绘制趋势曲线。</li>
+      <li><strong>低功耗运行</strong>：3.7 V 锂电池 + TP4056 充电管理，连续工作时长 ≥ 8 小时；待机电流 ≤ 1 mA。</li>
+      <li><strong>异常报警</strong>：HR &lt; 50 或 &gt; 120、SpO<sub>2</sub> &lt; 90% 时 OLED 反色闪烁并在 BLE 通道推送告警标志位。</li>
+    </ul>
+
+    <h3>§36.1.3 性能指标</h3>
+    <table>
+      <thead><tr><th>参数</th><th>指标</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>心率测量范围</td><td>30~250 BPM</td><td>覆盖静息到剧烈运动</td></tr>
+        <tr><td>心率误差</td><td>±3 BPM（静息）</td><td>与指夹式血氧仪对比</td></tr>
+        <tr><td>SpO<sub>2</sub> 量程</td><td>70%~100%</td><td>低于 70% 视为无效</td></tr>
+        <tr><td>SpO<sub>2</sub> 误差</td><td>±2%（80%~100% 段）</td><td>由经验公式标定</td></tr>
+        <tr><td>采样率</td><td>100 Hz</td><td>支持最高 3200 Hz</td></tr>
+        <tr><td>ADC 分辨率</td><td>18 bit</td><td>MAX30102 内置</td></tr>
+        <tr><td>刷新率</td><td>1 Hz（数值）/ 25 Hz（波形）</td><td>OLED 局部刷新</td></tr>
+        <tr><td>续航</td><td>≥ 8 h（连续采集）</td><td>1000 mAh 锂电池</td></tr>
+        <tr><td>BLE 连接距离</td><td>≥ 10 m（空旷）</td><td>ESP32 内置天线</td></tr>
+      </tbody>
+    </table>
+
+    <h3>§36.1.4 医疗应用场景与伦理</h3>
+    <h4>§36.1.4.1 合规注意事项</h4>
+    <p>本项目属于"消费级健康监测设备"，与"医疗器械"之间存在明确界限。实际开发中需注意以下几点：</p>
+    <ul>
+      <li><strong>设备定位</strong>：消费级设备用于日常健康参考，不可用于临床诊断。若需进入医疗器械注册流程，须满足 IEC 60601-1 电气安全、ISO 80601-2-61 脉搏血氧设备专用要求等标准。</li>
+      <li><strong>数据真实性</strong>：算法输出必须如实反映传感器数据，不得在硬件未测量时编造数值，亦不得通过软件"美化"无效测量。</li>
+      <li><strong>用户隐私</strong>：生理数据属于个人敏感信息。BLE 通信须使用配对加密（LE Secure Connections）；手机端 APP 上传云端须明示告知用户并获得授权。</li>
+      <li><strong>知情同意</strong>：测试受试者需知晓数据用途、存储位置与删除方式；未成年人数据应由监护人授权。</li>
+      <li><strong>误用风险</strong>：在低灌注、深色皮肤、运动伪影场景下 SpO<sub>2</sub> 误差增大，设备须明确提示"测量可能不准确"，避免延误就医。</li>
+    </ul>
+
+    <h4>§36.1.4.2 教学使用提示</h4>
+    <div class="tip">
+      <strong>提示</strong>：MAX30102 是消费级传感器，并非医用级（如 Nonin、Masimo）。教学项目不可作为医疗诊断依据，但可用于学习 PPG 信号处理与可穿戴系统设计方法。
+    </div>
+
+    <h2>§36.2 系统架构设计</h2>
+
+    <p>系统采用 ESP32 作为主控，通过 I2C 总线同时挂载 MAX30102 与 SSD1306 OLED（共享同一总线，地址不同：MAX30102 = 0x57，OLED = 0x3C）。MAX30102 的中断引脚 INT 连接到 ESP32 GPIO19，FIFO 满或转换完成后触发中断，避免轮询开销。BLE 协议栈由 ESP-IDF 内置的 Bluedroid 提供，Arduino 框架封装为 <code>BLEDevice</code> API。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch36-health-monitor-esp32-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+skinparam componentStyle rectangle
+skinparam shadowing true
+top to bottom direction
+component "3.7V 锂电池\n+ TP4056 充电" as PWR
+component "系统电源 3.3V" as BUS
+component "ESP32 双核 240MHz" as MCU
+component "MAX30102\n0x57" as SNS
+component "SSD1306 OLED\n0x3C" as OLED
+component "BLE Radio\n内置" as BLE
+component "手机 APP" as PHONE
+component "云端健康档案" as CLOUD
+component "手指/腕部" as FINGER
+PWR --&gt; BUS : 5V USB
+BUS --&gt; MCU
+BUS --&gt; SNS
+BUS --&gt; OLED
+BUS --&gt; BLE
+MCU --&gt; SNS : I2C SCL GPIO22
+MCU --&gt; SNS : I2C SDA GPIO21
+MCU --&gt; SNS : INT GPIO19
+MCU --&gt; OLED : I2C 共享总线
+MCU &lt;--&gt; PHONE : 2.4GHz BLE GATT
+PHONE --&gt; CLOUD : HTTPS
+SNS --&gt; FINGER : RED/IR LED
+FINGER --&gt; SNS : 反射/透射光
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 36-1 智能健康监测系统架构框图</div>
+
+    <p>架构上分为四层：<strong>传感层</strong>（MAX30102 完成光电转换）、<strong>处理层</strong>（ESP32 完成 FIFO 读取、滤波、HR/SpO<sub>2</sub> 计算）、<strong>呈现层</strong>（OLED 数值与波形显示）、<strong>通信层</strong>（BLE 上传到手机）。四层之间通过共享缓冲区与标志位解耦，便于后续替换或扩展。</p>
+
+    <h2>§36.3 硬件设计</h2>
+
+    <h3>§36.3.1 物料清单（BOM）</h3>
+    <table>
+      <thead><tr><th>序号</th><th>元件</th><th>型号/规格</th><th>数量</th><th>单价参考/元</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>主控 MCU</td><td>ESP32-DevKitC V4（ESP32-WROOM-32）</td><td>1</td><td>30</td><td>双核 240MHz，内置 BLE/Wi-Fi</td></tr>
+        <tr><td>2</td><td>光电传感器</td><td>MAX30102 模块（带 1.8V LDO + 电平转换）</td><td>1</td><td>15</td><td>I2C 地址 0x57</td></tr>
+        <tr><td>3</td><td>显示屏</td><td>0.96" OLED SSD1306 I2C 128×64</td><td>1</td><td>10</td><td>I2C 地址 0x3C</td></tr>
+        <tr><td>4</td><td>锂电池</td><td>3.7V 1000 mAh 聚合物</td><td>1</td><td>12</td><td>尺寸 40×30×5 mm</td></tr>
+        <tr><td>5</td><td>充电管理</td><td>TP4056 模块（带 Type-C 与保护）</td><td>1</td><td>3</td><td>1A 线性充电</td></tr>
+        <tr><td>6</td><td>稳压</td><td>AMS1117-3.3 SOT-223</td><td>1</td><td>0.5</td><td>3.3V LDO</td></tr>
+        <tr><td>7</td><td>电源开关</td><td>SS-12D00 G3 拨动</td><td>1</td><td>0.5</td><td>—</td></tr>
+        <tr><td>8</td><td>按键</td><td>6×6×5 mm 轻触按键</td><td>2</td><td>0.2</td><td>复位/模式切换</td></tr>
+        <tr><td>9</td><td>电阻</td><td>4.7kΩ 0805</td><td>2</td><td>0.05</td><td>I2C 上拉</td></tr>
+        <tr><td>10</td><td>电容</td><td>10µF/6.3V 0805</td><td>2</td><td>0.1</td><td>电源滤波</td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption">表 36-1 系统 BOM 清单（总成本约 72 元）</div>
+
+    <h3>§36.3.2 接线表</h3>
+    <table>
+      <thead><tr><th>从（模块）</th><th>引脚</th><th>到（ESP32）</th><th>到（其他）</th><th>备注</th></tr></thead>
+      <tbody>
+        <tr><td>MAX30102</td><td>VIN</td><td>3V3</td><td>—</td><td>模块自带 1.8V LDO</td></tr>
+        <tr><td>MAX30102</td><td>GND</td><td>GND</td><td>—</td><td>—</td></tr>
+        <tr><td>MAX30102</td><td>SCL</td><td>GPIO22</td><td>OLED SCL</td><td>共享 I2C，4.7kΩ 上拉</td></tr>
+        <tr><td>MAX30102</td><td>SDA</td><td>GPIO21</td><td>OLED SDA</td><td>共享 I2C，4.7kΩ 上拉</td></tr>
+        <tr><td>MAX30102</td><td>INT / IRD</td><td>GPIO19</td><td>—</td><td>开漏输出，需上拉</td></tr>
+        <tr><td>OLED</td><td>VCC</td><td>3V3</td><td>—</td><td>—</td></tr>
+        <tr><td>OLED</td><td>GND</td><td>GND</td><td>—</td><td>—</td></tr>
+        <tr><td>TP4056</td><td>BAT+</td><td>开关 + AMS1117 IN</td><td>锂电池 +</td><td>—</td></tr>
+        <tr><td>TP4056</td><td>BAT-</td><td>GND</td><td>锂电池 -</td><td>—</td></tr>
+        <tr><td>AMS1117</td><td>OUT</td><td>ESP32 3V3 / OLED / MAX30102</td><td>—</td><td>10µF 滤波</td></tr>
+        <tr><td>按键 K1</td><td>—</td><td>GPIO0 / GND</td><td>—</td><td>BOOT 模式切换</td></tr>
+        <tr><td>按键 K2</td><td>—</td><td>EN / GND</td><td>—</td><td>系统复位</td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption">表 36-2 完整接线表</div>
+
+    <div class="tip">
+      <strong>提示</strong>：MAX30102 模块板上 INT 引脚为开漏输出，ESP32 GPIO19 需配置 <code>INPUT_PULLUP</code>。多个 I2C 设备共享总线时，上拉电阻只需挂一组（4.7kΩ），切勿每个模块都加。
+    </div>
+
+    <h2>§36.4 MAX30102 工作原理与 I2C 协议</h2>
+
+    <h3>§36.4.1 PPG 光体积描记法原理</h3>
+    <h4>§36.4.1.1 PPG 信号生成机制</h4>
+    <p>PPG（Photoplethysmography）是一种基于光电技术的容积描记方法。其物理本质是：心脏每次收缩时动脉血液灌注量瞬时增大，血液对光的吸收也瞬时增强，因此光电探测器接收到的反射（或透射）光强度呈现周期性波动。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch36-health-monitor-esp32-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+skinparam componentStyle rectangle
+skinparam shadowing true
+left to right direction
+component "红光 LED\n660 nm" as LED1
+component "皮下组织\n动脉/静脉/毛细血管" as TISSUE
+component "红外 LED\n880 nm" as LED2
+component "光电二极管 PD" as PD
+component "模拟前端\nI-V 转换+积分+ADC" as AFE
+component "FIFO 缓冲 32 样本" as FIFO
+package "CARDIAC" {
+  component "收缩期\n血容量↑\n吸光↑\nPD 电流↓" as SYSTOLE
+  component "舒张期\n血容量↓\n吸光↓\nPD 电流↑" as DIASTOLE
+}
+LED1 --&gt; TISSUE : 照射
+LED2 --&gt; TISSUE : 照射
+TISSUE --&gt; PD : 反射光
+PD --&gt; AFE : 光电流
+AFE --&gt; FIFO : 18bit 数字
+SYSTOLE --&gt; DIASTOLE
+DIASTOLE --&gt; SYSTOLE
+CARDIAC ..&gt; TISSUE : 调制
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 36-2 PPG 信号生成原理示意图</div>
+
+    <h4>§36.4.1.2 信号分量与血氧原理</h4>
+    <p>PPG 信号可分解为两个分量：</p>
+    <ul>
+      <li><strong>直流分量 DC</strong>：由骨骼、肌肉、静脉血、皮下组织等"非搏动性"吸收决定，幅度大、变化缓慢。</li>
+      <li><strong>交流分量 AC</strong>：由动脉搏动产生，频率即为心率，幅度约为 DC 的 1%~5%。</li>
+    </ul>
+    <p>红光（660 nm）与红外光（880 nm）的吸光特性对氧合血红蛋白（HbO<sub>2</sub>）和脱氧血红蛋白（Hb）的吸收差异不同：HbO<sub>2</sub> 对红外光吸收更多，Hb 对红光吸收更多。两路 AC/DC 比值的比值 R 即可反映血氧饱和度。</p>
+
+    <h3>§36.4.2 MAX30102 内部结构与寄存器</h3>
+    <p>MAX30102 集成了红光 LED、红外 LED、光电二极管、低噪声模拟前端（AFE）、18 位 ADC、32 深度 FIFO 与 I2C 从接口。I2C 设备地址固定为 <strong>0x57</strong>（7 位地址），写操作使用 0xAE，读操作使用 0xAF。</p>
+
+    <table>
+      <thead><tr><th>寄存器地址</th><th>名称</th><th>功能</th><th>复位值</th></tr></thead>
+      <tbody>
+        <tr><td>0x00</td><td>INTR_STATUS_1</td><td>中断状态 1（A_FULL、PPG_RDY、ALC_OVF）</td><td>0x00</td></tr>
+        <tr><td>0x01</td><td>INTR_STATUS_2</td><td>中断状态 2（VDD_RDY）</td><td>0x00</td></tr>
+        <tr><td>0x02</td><td>INTR_ENABLE_1</td><td>中断使能 1</td><td>0x00</td></tr>
+        <tr><td>0x03</td><td>INTR_ENABLE_2</td><td>中断使能 2</td><td>0x00</td></tr>
+        <tr><td>0x04</td><td>FIFO_WR_PTR</td><td>FIFO 写指针</td><td>0x00</td></tr>
+        <tr><td>0x05</td><td>OVF_COUNTER</td><td>FIFO 溢出计数（环形覆盖）</td><td>0x00</td></tr>
+        <tr><td>0x06</td><td>FIFO_RD_PTR</td><td>FIFO 读指针</td><td>0x00</td></tr>
+        <tr><td>0x07</td><td>FIFO_DATA</td><td>FIFO 数据寄存器（连续读）</td><td>0x00</td></tr>
+        <tr><td>0x08</td><td>FIFO_CONFIG</td><td>FIFO 配置（平均、溢出阈值）</td><td>0x7F</td></tr>
+        <tr><td>0x09</td><td>MODE_CONFIG</td><td>模式：HR/SpO2/Multi-LED/Shutdown</td><td>0x40</td></tr>
+        <tr><td>0x0A</td><td>SPO2_CONFIG</td><td>SpO2 ADC 范围、采样率、脉宽</td><td>0x27</td></tr>
+        <tr><td>0x0B</td><td>LED1_PA</td><td>红光 LED 电流（0~255，0.2mA/step）</td><td>0x24</td></tr>
+        <tr><td>0x0C</td><td>LED2_PA</td><td>红外 LED 电流</td><td>0x24</td></tr>
+        <tr><td>0x0D</td><td>PILOT_PA</td><td>Proximity 模式 LED 电流</td><td>0x7F</td></tr>
+        <tr><td>0x10</td><td>PART_ID</td><td>器件 ID（固定 0x15）</td><td>0x15</td></tr>
+        <tr><td>0x11</td><td>Multi-LED_CTRL1</td><td>Slot1/Slot2 LED 选择</td><td>0x00</td></tr>
+        <tr><td>0x12</td><td>Multi-LED_CTRL2</td><td>Slot3/Slot4 LED 选择</td><td>0x00</td></tr>
+        <tr><td>0x1F</td><td>TEMP_CONFIG</td><td>温度转换使能</td><td>0x00</td></tr>
+        <tr><td>0x20</td><td>TEMP_INTR</td><td>温度整数部分</td><td>0x00</td></tr>
+        <tr><td>0x21</td><td>TEMP_FRAC</td><td>温度小数部分</td><td>0x00</td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption">表 36-3 MAX30102 寄存器映射表</div>
+
+    <h3>§36.4.3 采样配置详解</h3>
+    <h4>§36.4.3.1 采样参数选择</h4>
+    <p>本项目的关键采样参数由 SPO2_CONFIG（0x0A）与 MODE_CONFIG（0x09）共同决定，需根据应用场景折中。</p>
+
+    <table>
+      <thead><tr><th>参数</th><th>可选值</th><th>本项目选用</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>ADC range</td><td>2048 / 4096 / 8192 / 16384 nA</td><td>4096 nA</td><td>范围大则噪声大，但适应深色皮肤</td></tr>
+        <tr><td>采样率 SR</td><td>50 / 100 / 200 / 400 / 800 / 1000 / 1600 / 3200 Hz</td><td>100 Hz</td><td>心率带宽 &lt; 5 Hz，100 Hz 足够</td></tr>
+        <tr><td>LED 脉宽 PW</td><td>69 / 118 / 215 / 411 µs</td><td>215 µs（17 bit）</td><td>脉宽宽则 SNR 高，但功耗大</td></tr>
+        <tr><td>LED 电流</td><td>0~51 mA（0.2 mA 步进）</td><td>红光 7.0 mA / 红外 7.0 mA</td><td>由 LED_PA 寄存器控制</td></tr>
+        <tr><td>FIFO 平均</td><td>1 / 2 / 4 / 8 / 16 / 32 样本</td><td>4 样本</td><td>硬件平均降低噪声</td></tr>
+        <tr><td>FIFO 阈值</td><td>0~32</td><td>17</td><td>触发 A_FULL 中断</td></tr>
+        <tr><td>工作模式</td><td>HR-only / SpO2 / Multi-LED</td><td>SpO2</td><td>同时点亮红光与红外光</td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption">表 36-4 MAX30102 采样配置参数表</div>
+
+    <h4>§36.4.3.2 寄存器位域配置</h4>
+    <p>SPO2_CONFIG 寄存器位域结构为：<code>[6:5] ADC_range | [4:2] SR | [1:0] LED_PW</code>。本项目取 ADC_range=01（4096 nA）、SR=011（100 Hz）、PW=11（215 µs, 17 bit），即 <code>0x27</code>。FIFO_CONFIG（0x08）取 SMP_AVE=010（4 平均）、FIFO_ROLLOVER_ON=1、FIFO_A_FULL=10001（17），即 <code>0x5F</code>。</p>
+
+    <h3>§36.4.4 FIFO 读取协议</h3>
+    <p>MAX30102 的 FIFO 深度为 32，每个样本占 6 字节（SpO2 模式下：红光 3 字节 + 红外 3 字节，MSB 优先）。读取流程为：</p>
+    <ol>
+      <li>读取 INTR_STATUS_1（0x00）清除中断标志。</li>
+      <li>读取 FIFO_WR_PTR（0x04）与 FIFO_RD_PTR（0x06），计算样本数 <code>num = (WR - RD + 32) % 32</code>。</li>
+      <li>从 FIFO_DATA（0x07）连续读取 <code>num * 6</code> 字节。</li>
+      <li>每 3 字节拼成 18 位（高 2 位补 0，左移后取低 18 位）。</li>
+    </ol>
+
+    <h2>§36.5 软件架构与关键代码</h2>
+
+    <h3>§36.5.1 软件流程</h3>
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch36-health-monitor-esp32-fig3.svg" alt="PlantUML 图 3" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+skinparam componentStyle rectangle
+skinparam shadowing true
+top to bottom direction
+usecase "上电/复位" as START
+component "setup:\n初始化 I2C/OLED/MAX30102/BLE" as INIT
+component "loop 主循环" as LOOP
+card "INT 引脚\n低电平?" as CHK
+component "readPPG:\n读 FIFO 多个样本" as READ
+component "直流/交流分离\n+ 带通滤波" as FILT
+component "写入 4 秒环形缓冲" as BUF
+card "缓冲满\n4 秒?" as FULL
+component "drawWave:\nOLED 波形刷新" as DRAW
+component "calcHeartRate:\n自相关法" as HR
+component "calcSpO2:\nR 比值法" as SPO
+component "bleNotify:\n推送 HR/SpO2/波形" as BLE
+START --&gt; INIT
+INIT --&gt; LOOP
+LOOP --&gt; CHK
+CHK --&gt; LOOP : 否
+CHK --&gt; READ : 是
+READ --&gt; FILT
+FILT --&gt; BUF
+BUF --&gt; FULL
+FULL --&gt; DRAW : 否
+FULL --&gt; HR : 是
+FULL --&gt; SPO : 是
+HR --&gt; BLE
+SPO --&gt; BLE
+BLE --&gt; DRAW
+DRAW --&gt; LOOP
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 36-3 主程序流程图</div>
+
+    <h3>§36.5.2 关键算法原理</h3>
+
+    <h4>直流/交流分离</h4>
+    <p>使用滑动平均滤波提取直流分量：</p>
+    <p style="text-align:center"><code>DC[i] = (1/N) Σ x[i-k], k = 0..N-1</code>，N = 100（即 1 秒）。</p>
+    <p>交流分量为 <code>AC[i] = x[i] - DC[i]</code>。再通过 0.5~5 Hz 带通滤波抑制呼吸基线漂移与高频噪声。</p>
+
+    <h4>自相关法心率计算</h4>
+    <p>对 4 秒 AC 信号 x[n] 计算自相关函数：</p>
+    <p style="text-align:center"><code>R(τ) = Σ x[n] · x[n+τ]</code></p>
+    <p>在 τ ∈ [0.24 s, 2 s]（对应 30~250 BPM）范围内寻找 R(τ) 的极大值点 τ<sub>peak</sub>，则心率：</p>
+    <p style="text-align:center"><code>HR = 60 × f<sub>s</sub> / τ<sub>peak</sub> [BPM]</code></p>
+    <p>自相关法相比简单峰值检测具有更强抗噪性，但计算量为 O(N²)，需在 ESP32 上用 4 秒 × 100 Hz = 400 样本实现，约 16 万次乘加，耗时 &lt; 10 ms。</p>
+
+    <h4>R 比值法 SpO<sub>2</sub> 计算</h4>
+    <p>计算红光与红外光的 RMS 交流值与直流值：</p>
+    <p style="text-align:center"><code>R = (AC_red / DC_red) / (AC_ir / DC_ir)</code></p>
+    <p>经验公式：</p>
+    <p style="text-align:center"><code>SpO<sub>2</sub> = 104 - 17 × R  (%)</code></p>
+    <p>R 值通常在 0.4~1.0 之间，对应 SpO<sub>2</sub> 在 87%~97%。该公式因传感器批次、贴片方式不同需要标定，工程上常以指夹式医用血氧仪为参考做线性回归修正。</p>
+
+    <h3>§36.5.3 完整 Arduino C++ 代码</h3>
+    <h4>§36.5.3.1 程序结构与依赖</h4>
+    <p>下面给出可编译运行的完整工程主文件 <code>health_monitor.ino</code>。依赖库：<code>SparkFun MAX3010x</code>、<code>Adafruit SSD1306</code>、<code>Adafruit GFX</code>、<code>BLEDevice</code>（ESP32 Arduino 内置）。</p>
+
+    <pre><code class="language-cpp">/*
+ * health_monitor.ino  ——  ESP32 + MAX30102 智能健康监测
+ * 功能：实时采集 PPG，计算 HR/SpO2，OLED 显示波形，BLE 上传手机
+ * 依赖：SparkFun_MAX3010x、Adafruit_SSD1306、Adafruit_GFX、ESP32 BLE Arduino
+ */
+#include &lt;Wire.h&gt;
+#include &lt;SPI.h&gt;
+#include &lt;Adafruit_GFX.h&gt;
+#include &lt;Adafruit_SSD1306.h&gt;
+#include &lt;"MAX30105.h"&gt;
+#include &lt;"heartRate.h"&gt;
+#include &lt;BLEDevice.h&gt;
+#include &lt;BLEServer.h&gt;
+#include &lt;BLEUtils.h&gt;
+#include &lt;BLE2902.h&gt;
+
+/* ============ 引脚与常量 ============ */
+#define SDA_PIN        21
+#define SCL_PIN        22
+#define INT_PIN        19
+#define SCREEN_W       128
+#define SCREEN_H       64
+#define OLED_ADDR      0x3C
+#define SAMPLE_RATE_HZ 100
+#define BUF_SECONDS    4
+#define BUF_LEN        (SAMPLE_RATE_HZ * BUF_SECONDS)   /* 400 */
+
+/* ============ 全局对象 ============ */
+Adafruit_SSD1306 display(SCREEN_W, SCREEN_H, &amp;Wire, -1);
+MAX30105 particleSensor;
+
+/* BLE 服务与特征 UUID（自定义） */
+#define SERVICE_UUID        "6E400001-B5A3-F393-E0A9-E50E24DCCA9E"
+#define CHAR_HR_UUID        "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"
+#define CHAR_SPO2_UUID      "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"
+#define CHAR_WAVE_UUID      "6E400004-B5A3-F393-E0A9-E50E24DCCA9E"
+BLEServer*         pServer = nullptr;
+BLECharacteristic* pCharHR = nullptr;
+BLECharacteristic* pCharSpO2 = nullptr;
+BLECharacteristic* pCharWave = nullptr;
+bool deviceConnected = false;
+
+/* ============ PPG 数据缓冲 ============ */
+uint32_t irBuf[BUF_LEN];       /* 红外光原始样本 */
+uint32_t redBuf[BUF_LEN];      /* 红光原始样本   */
+float    irAC[BUF_LEN];        /* 红外交流分量   */
+float    redAC[BUF_LEN];       /* 红光交流分量   */
+int      bufIdx = 0;
+bool     bufFull = false;
+
+/* 当前测量结果 */
+volatile uint8_t  g_hr = 0;        /* BPM */
+volatile uint8_t  g_spo2 = 0;      /* % */
+volatile bool     g_hrValid = false;
+volatile bool     g_spo2Valid = false;
+
+/* OLED 波形显示游标 */
+int waveX = 0;
+
+/* ============ BLE 连接回调 ============ */
+class ServerCallbacks: public BLEServerCallbacks {
+  void onConnect(BLEServer* s) {
+    deviceConnected = true;
+  }
+  void onDisconnect(BLEServer* s) {
+    deviceConnected = false;
+    BLEDevice::startAdvertising();
+  }
+};
+
+/* ============ 传感器初始化 ============ */
+bool initSensor() {
+  if (!particleSensor.begin(Wire, I2C_SPEED_FAST)) return false;
+  particleSensor.setup(
+      60,                       /* LED 亮度 0~255，约 11.4 mA */
+      4,                        /* 样本平均 4 */
+      2,                        /* LED 脉宽 215µs, 17 bit */
+      100,                      /* 采样率 100 Hz */
+      4096,                     /* ADC 范围 4096 nA */
+      0x1F);                    /* SpO2 模式，红光+红外 */
+  particleSensor.enableAFULL(); /* FIFO 满中断 */
+  particleSensor.setPulseAmplitudeRed(0x0A);
+  particleSensor.setPulseAmplitudeIR(0x0A);
+  return true;
+}
+
+/* ============ OLED 初始化 ============ */
+void initOLED() {
+  display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR);
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(0, 0);
+  display.println(F("ESP32 Health Monitor"));
+  display.println(F("Booting..."));
+  display.display();
+}
+
+/* ============ BLE 初始化 ============ */
+void initBLE() {
+  BLEDevice::init("ESP32_HealthMonitor");
+  BLEDevice::setMTU(185);
+  pServer = BLEDevice::createServer();
+  pServer-&gt;setCallbacks(new ServerCallbacks());
+  BLEService* pService = pServer-&gt;createService(SERVICE_UUID);
+
+  pCharHR   = pService-&gt;createCharacteristic(
+      CHAR_HR_UUID, BLECharacteristic::PROPERTY_NOTIFY);
+  pCharSpO2 = pService-&gt;createCharacteristic(
+      CHAR_SPO2_UUID, BLECharacteristic::PROPERTY_NOTIFY);
+  pCharWave = pService-&gt;createCharacteristic(
+      CHAR_WAVE_UUID, BLECharacteristic::PROPERTY_NOTIFY);
+
+  pCharHR-&gt;addDescriptor(new BLE2902());
+  pCharSpO2-&gt;addDescriptor(new BLE2902());
+  pCharWave-&gt;addDescriptor(new BLE2902());
+
+  pService-&gt;start();
+  BLEAdvertising* pAdv = BLEDevice::getAdvertising();
+  pAdv-&gt;addServiceUUID(SERVICE_UUID);
+  pAdv-&gt;setScanResponse(true);
+  BLEDevice::startAdvertising();
+}
+
+/* ============ 读取 PPG 样本 ============ */
+/* 每次最多读 32 个样本入缓冲，缓冲满后置 bufFull=true */
+void readPPG() {
+  uint8_t numSamples = particleSensor.available();
+  if (numSamples == 0) return;
+  for (uint8_t i = 0; i &lt; numSamples; i++) {
+    redBuf[bufIdx] = particleSensor.getRed();
+    irBuf[bufIdx]  = particleSensor.getIR();
+    particleSensor.nextSample();
+    bufIdx++;
+    if (bufIdx &gt;= BUF_LEN) {
+      bufIdx = 0;
+      bufFull = true;
+    }
+  }
+}
+
+/* ============ 直流/交流分离 ============ */
+/* 滑动平均 1 秒（100 样本）求 DC，AC = x - DC */
+void separateDC_AC() {
+  const int win = 100;
+  uint32_t sumRed = 0, sumIr = 0;
+  /* 初始窗口 */
+  for (int k = 0; k &lt; win; k++) {
+    sumRed += redBuf[k];
+    sumIr  += irBuf[k];
+  }
+  for (int i = 0; i &lt; BUF_LEN; i++) {
+    float dcRed = (float)sumRed / win;
+    float dcIr  = (float)sumIr  / win;
+    redAC[i] = (float)redBuf[i] - dcRed;
+    irAC[i]  = (float)irBuf[i]  - dcIr;
+    /* 滑动窗口 */
+    sumRed += redBuf[(i + win) % BUF_LEN] - redBuf[i];
+    sumIr  += irBuf[(i + win) % BUF_LEN]  - irBuf[i];
+  }
+}
+
+/* ============ 自相关法计算心率 ============ */
+uint8_t calcHeartRate() {
+  /* 仅用 IR 通道 AC 分量，搜索 τ ∈ [24, 200]（30~250 BPM） */
+  const int tauMin = 24;
+  const int tauMax = 200;
+  float bestR = 0;
+  int   bestTau = 0;
+  for (int tau = tauMin; tau &lt;= tauMax; tau++) {
+    float r = 0;
+    for (int n = 0; n &lt; BUF_LEN - tau; n++) {
+      r += irAC[n] * irAC[n + tau];
+    }
+    if (r &gt; bestR) { bestR = r; bestTau = tau; }
+  }
+  if (bestTau == 0) return 0;
+  /* 排除与零延迟的相关性（恒为最大） */
+  float r0 = 0;
+  for (int n = 0; n &lt; BUF_LEN; n++) r0 += irAC[n] * irAC[n];
+  if (bestR &lt; 0.5 * r0) return 0;     /* 信噪比不足 */
+  return (uint8_t)(60.0f * SAMPLE_RATE_HZ / bestTau + 0.5f);
+}
+
+/* ============ R 比值法计算 SpO2 ============ */
+uint8_t calcSpO2() {
+  /* 计算 IR 与 RED 的 RMS 交流与平均直流 */
+  float sumIr = 0, sumRed = 0;
+  float sqIr = 0, sqRed = 0;
+  for (int i = 0; i &lt; BUF_LEN; i++) {
+    sumIr  += irBuf[i];
+    sumRed += redBuf[i];
+    sqIr   += irAC[i]  * irAC[i];
+    sqRed  += redAC[i] * redAC[i];
+  }
+  float dcIr  = sumIr  / BUF_LEN;
+  float dcRed = sumRed / BUF_LEN;
+  float acIr  = sqrtf(sqIr  / BUF_LEN);
+  float acRed = sqrtf(sqRed / BUF_LEN);
+  if (dcIr &lt; 1 || dcRed &lt; 1) return 0;
+  float R = (acRed / dcRed) / (acIr / dcIr);
+  float spo2 = 104.0f - 17.0f * R;
+  if (spo2 &lt; 70) spo2 = 70;
+  if (spo2 &gt; 100) spo2 = 100;
+  return (uint8_t)(spo2 + 0.5f);
+}
+
+/* ============ OLED 波形绘制 ============ */
+void drawWave() {
+  static int lastY = SCREEN_H / 2;
+  /* 取最新 AC 样本归一化到 0~40 像素 */
+  int idx = (bufIdx - 1 + BUF_LEN) % BUF_LEN;
+  float v = irAC[idx];
+  /* 自适应增益：以 1 秒内最大值为满刻度 */
+  int y = SCREEN_H / 2 - (int)(v / 200.0f);
+  if (y &lt; 16) y = 16;
+  if (y &gt; 60) y = 60;
+  /* 画线 */
+  display.drawLine(waveX, lastY, waveX + 1, y, WHITE);
+  display.drawLine(waveX, 16, waveX, 60, BLACK); /* 清旧点 */
+  display.drawLine(waveX, 16, waveX, 60, WHITE);
+  /* 实际项目用局部刷新 + 双缓冲消除闪烁 */
+  lastY = y;
+  waveX++;
+  if (waveX &gt;= SCREEN_W) waveX = 0;
+
+  /* 顶部数值条 */
+  display.fillRect(0, 0, SCREEN_W, 14, BLACK);
+  display.setCursor(0, 0);
+  display.setTextColor(WHITE);
+  if (g_hrValid)
+    display.printf("HR:%3d", g_hr);
+  else
+    display.print("HR:---");
+  display.setCursor(64, 0);
+  if (g_spo2Valid)
+    display.printf("SpO2:%3d%%", g_spo2);
+  else
+    display.print("SpO2:--%");
+  display.display();
+}
+
+/* ============ BLE 数据推送 ============ */
+void bleNotify() {
+  if (!deviceConnected) return;
+  uint8_t hr[2]  = { g_hr, (uint8_t)(g_hrValid ? 1 : 0) };
+  uint8_t sp[2]  = { g_spo2, (uint8_t)(g_spo2Valid ? 1 : 0) };
+  /* 异常告警标志位 */
+  uint8_t alert = 0;
+  if (g_hrValid &amp;&amp; (g_hr &lt; 50 || g_hr &gt; 120)) alert |= 0x01;
+  if (g_spo2Valid &amp;&amp; g_spo2 &lt; 90) alert |= 0x02;
+  sp[1] |= alert &lt;&lt; 4;
+  /* 推送最新 4 个波形点 */
+  uint8_t wave[5] = {0};
+  wave[0] = 4;
+  for (int i = 0; i &lt; 4; i++) {
+    int idx = (bufIdx - 4 + i + BUF_LEN) % BUF_LEN;
+    wave[i + 1] = (uint8_t)((irAC[idx] / 1000.0f) + 128);
+  }
+  pCharHR-&gt;setValue(hr, 2);
+  pCharHR-&gt;notify();
+  pCharSpO2-&gt;setValue(sp, 2);
+  pCharSpO2-&gt;notify();
+  pCharWave-&gt;setValue(wave, 5);
+  pCharWave-&gt;notify();
+}
+
+/* ============ setup / loop ============ */
+void setup() {
+  Serial.begin(115200);
+  Wire.begin(SDA_PIN, SCL_PIN, 400000);
+  pinMode(INT_PIN, INPUT_PULLUP);
+
+  initOLED();
+  initBLE();
+  if (!initSensor()) {
+    display.clearDisplay();
+    display.setCursor(0, 0);
+    display.println("MAX30102 NOT FOUND");
+    display.display();
+    while (1) delay(1000);
+  }
+  Serial.println("Health Monitor Ready");
+}
+
+void loop() {
+  readPPG();
+  /* 缓冲满后做一次完整计算 */
+  if (bufFull) {
+    bufFull = false;
+    separateDC_AC();
+    uint8_t hr = calcHeartRate();
+    if (hr &gt; 0) { g_hr = hr; g_hrValid = true; }
+    uint8_t sp = calcSpO2();
+    if (sp &gt; 0) { g_spo2 = sp; g_spo2Valid = true; }
+    bleNotify();
+    Serial.printf("HR=%d BPM, SpO2=%d%%\n", g_hr, g_spo2);
+  }
+  drawWave();
+  delay(10);     /* ~100Hz 主循环 */
+}
+</code></pre>
+
+    <h4>§36.5.3.2 代码设计要点</h4>
+    <p>上述代码体现了几个工程化要点：</p>
+    <ul>
+      <li><strong>缓冲满才计算</strong>：每凑满 4 秒数据做一次完整 HR/SpO<sub>2</sub> 计算，避免单点噪声影响。</li>
+      <li><strong>滑动平均分离 DC</strong>：避免了 FFT 的运算量，1 秒窗口平滑跟踪呼吸基线漂移。</li>
+      <li><strong>自相关法抗噪</strong>：相比峰值检测对幅值波动不敏感，且 <code>bestR &lt; 0.5 * r0</code> 的判据可以剔除无效数据。</li>
+      <li><strong>BLE 推送独立特征</strong>：HR、SpO<sub>2</sub>、波形分别使用不同 UUID，便于 APP 端订阅分离处理；告警标志位编码进 SpO<sub>2</sub> 特征的高 4 位。</li>
+      <li><strong>异常告警</strong>：HR &lt; 50 / &gt; 120、SpO<sub>2</sub> &lt; 90% 时通过 alert 位告知 APP，APP 可触发震动或语音提示。</li>
+    </ul>
+
+    <h2>§36.6 完整工程结构与调试</h2>
+
+    <h3>§36.6.1 工程目录结构</h3>
+    <pre><code>health-monitor/
+├── health_monitor.ino        # 主程序（上文完整代码）
+├── config.h                  # 引脚、采样率、UUID 等宏
+├── ppg_filter.h/.cpp         # 直流/交流分离、带通滤波
+├── hr_algorithm.h/.cpp       # 自相关法心率计算
+├── spo2_algorithm.h/.cpp     # R 比值法 SpO2 计算
+├── ble_service.h/.cpp        # BLE GATT 服务封装
+├── oled_view.h/.cpp          # OLED 显示与波形绘制
+├── calibration.h             # SpO2 标定系数（线性回归参数）
+├── data/                     # 测试样本（CSV）
+│   ├── rest_5min.csv
+│   ├── walk_5min.csv
+│   └── motion_3min.csv
+├── scripts/
+│   ├── spo2_calibrate.py     # 用 Python 拟合 R-SpO2 曲线
+│   └── plot_ppg.py           # 离线绘制波形
+├── docs/
+│   ├── schematic.pdf         # 原理图
+│   └── bom.md                # 物料清单
+└── README.md                 # 编译烧录说明
+</code></pre>
+
+    <h3>§36.6.2 信号调试方法</h3>
+    <p>MAX30102 的实际信号调试是本项目最难的部分。常见现象与排查思路如下：</p>
+
+    <table>
+      <thead><tr><th>现象</th><th>可能原因</th><th>排查/解决方法</th></tr></thead>
+      <tbody>
+        <tr><td>IR 值恒为 0 或 65535</td><td>未初始化 / I2C 地址错误</td><td>用 I2C 扫描确认 0x57 存在；检查 setup() 是否成功</td></tr>
+        <tr><td>IR 值过大饱和（&gt; 100000）</td><td>LED 电流过大 / 手指压太紧</td><td>降低 LED1_PA/LED2_PA 到 0x0A；调整佩戴松紧</td></tr>
+        <tr><td>IR 值过小（&lt; 5000）</td><td>未接触手指 / LED 电流过小</td><td>提示用户重新放置；增大 LED 电流</td></tr>
+        <tr><td>波形毛刺多、HR 跳变</td><td>电源噪声 / 运动伪影</td><td>增加 10µF 电源滤波；启用 4× 平均；带通滤波</td></tr>
+        <tr><td>HR 恒为 60 / 0</td><td>算法判据过严 / 缓冲未满</td><td>降低 bestR 阈值；延长 BUF_SECONDS 到 6</td></tr>
+        <tr><td>SpO2 恒为 99~100</td><td>R 值过小 / 公式未标定</td><td>打印 R 值；用医用血氧仪做两点标定</td></tr>
+        <tr><td>OLED 闪烁</td><td>整屏刷新太慢</td><td>改为局部刷新（drawLine 区域填充）+ 双缓冲</td></tr>
+        <tr><td>BLE 连接后断开</td><td>MTU 不匹配 / 协议栈异常</td><td>setMTU(185)；notify 间隔 ≥ 200 ms</td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption">表 36-5 常见调试问题与解决方法</div>
+
+    <h3>§36.6.3 运动伪影处理</h3>
+    <h4>§36.6.3.1 处理方法</h4>
+    <p>运动伪影（Motion Artifact）是 PPG 信号的最大干扰源，主要由手腕或手指运动引起皮肤与传感器相对位移。常用处理方法：</p>
+    <ul>
+      <li><strong>硬件层面</strong>：增加传感器与皮肤的接触压力（腕带紧固），使用柔性 FPC 减小机械共振。</li>
+      <li><strong>滤波层面</strong>：3 阶 Butterworth 带通 0.5~4 Hz，比简单滑动平均更陡峭；自适应陷波滤除 50 Hz 工频。</li>
+      <li><strong>自适应滤波</strong>：使用加速度计（如 MPU6050）采集运动信号作为参考，LMS 自适应滤波器抵消运动分量。本项目可扩展加 MPU6050，I2C 地址 0x68。</li>
+      <li><strong>信号质量评估</strong>：计算 AC/DC 比值、过零率、自相关峰值比，作为信号质量指数 SQI，SQI &lt; 阈值时不输出 HR。</li>
+      <li><strong>时域插值</strong>：对短暂丢点用前一次有效值填充，避免数值跳变引起 APP 报警误触发。</li>
+    </ul>
+
+    <h4>§36.6.3.2 调试建议</h4>
+    <div class="tip">
+      <strong>提示</strong>：调试 PPG 信号时，强烈建议先用串口把原始 IR 值打印到 Serial Plotter，观察波形是否呈典型"双峰"形态（主峰 + 重搏切迹）。波形正常后再做算法验证，可大幅缩短调试时间。
+    </div>
+
+    <h2>§36.7 扩展方向</h2>
+
+    <h3>§36.7.1 多参数融合</h3>
+    <h4>§36.7.1.1 扩展传感器方案</h4>
+    <p>在 MAX30102 基础上叠加更多生理传感器，可显著提升监测价值：</p>
+    <ul>
+      <li><strong>加速度计 + 陀螺仪</strong>（MPU6050/ICM-42670）：活动量统计、运动伪影抑制、跌倒检测。</li>
+      <li><strong>皮电传感器</strong>（GSR，模拟量接 ESP32 ADC）：情绪/压力水平评估。</li>
+      <li><strong>体温传感器</strong>（MLX90614 非接触）：连续体温监测。</li>
+      <li><strong>心电前端</strong>（ADS1292 / MAX30003）：ECG 与 PPG 联合测量，可实现脉搏波传导时间（PTT）法无创血压估算。</li>
+    </ul>
+    <h4>§36.7.1.2 融合设计考量</h4>
+    <p>多参数融合需考虑传感器间时序对齐与功耗预算，建议使用 FreeRTOS 多任务调度。</p>
+
+    <h3>§36.7.2 云端长期记录与分析</h3>
+    <p>本项目 BLE 仅完成短距离上传，长期记录需结合 Wi-Fi 与云平台：</p>
+    <ul>
+      <li>ESP32 启用 Wi-Fi，通过 MQTT 上报数据到 EMQX/阿里云 IoT 平台。</li>
+      <li>云端做时序数据库存储（InfluxDB/TimescaleDB），按用户聚合。</li>
+      <li>提供 REST API 供 APP 拉取历史曲线、日报、周报。</li>
+      <li>可训练轻量 LSTM 模型做心律失常初筛（房颤、早搏），但模型推理建议放在云端，避免设备端算力瓶颈。</li>
+    </ul>
+
+    <h3>§36.7.3 跌倒检测</h3>
+    <h4>§36.7.3.1 检测流程</h4>
+    <p>跌倒是老年人意外伤害的首要原因。融合加速度计后可实现跌倒检测：</p>
+    <ol>
+      <li>检测三轴加速度合矢量是否超过 2.5 g（撞击瞬间）。</li>
+      <li>检测跌倒后 5 秒内姿态是否水平且无显著运动（无法起身）。</li>
+      <li>触发条件满足后通过 BLE/Wi-Fi 向监护人手机发送 SOS 推送。</li>
+    </ol>
+    <h4>§36.7.3.2 误报抑制</h4>
+    <p>注意误报率控制：通过 SVM 或随机森林分类器对加速度模式做模式识别，区分跌倒与坐下、跳跃等动作。</p>
+
+    <h3>§36.7.4 医疗合规性</h3>
+    <h4>§36.7.4.1 合规标准清单</h4>
+    <p>若要将设备推向医疗器械市场，需满足以下标准与流程：</p>
+    <ul>
+      <li><strong>IEC 60601-1</strong>：医用电气设备基本安全和基本性能。</li>
+      <li><strong>ISO 80601-2-61</strong>：脉搏血氧设备的基本安全和基本性能专用要求。</li>
+      <li><strong>YY 0601</strong>（中国行业标准）：脉搏血氧仪设备专用要求。</li>
+      <li><strong>IEC 62304</strong>：医用软件生命周期过程。</li>
+      <li><strong>GDPR / HIPAA / 个保法</strong>：患者数据隐私与跨境传输。</li>
+      <li><strong>NMPA / FDA / CE</strong>：根据销售地区选择注册路径，二类医疗器械通常需要 6~12 个月临床评价。</li>
+    </ul>
+    <h4>§36.7.4.2 工程实践建议</h4>
+    <p>教学项目通常不进入医疗器械注册流程，但了解这些标准有助于在工程早期规避后续合规风险（如电源隔离、生物相容性、电磁兼容）。</p>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>智慧医疗是单片机的重要应用方向，PPG 是消费级心率血氧监测的核心物理原理。</li>
+        <li>MAX30102 集成双 LED + 光电二极管 + AFE + FIFO，通过 I2C 接口（地址 0x57）配置寄存器即可获取原始样本，简化了硬件设计。</li>
+        <li>系统架构采用"传感-处理-呈现-通信"四层模型，I2C 总线共享降低布线复杂度，INT 中断驱动避免轮询。</li>
+        <li>关键算法包括：直流/交流分离（滑动平均）、自相关法心率计算（抗噪强）、R 比值法 SpO<sub>2</sub> 计算（需标定）。</li>
+        <li>OLED 波形显示需采用局部刷新避免闪烁；BLE GATT 服务需合理拆分特征以适应订阅模型。</li>
+        <li>运动伪影是 PPG 应用的核心难点，需结合机械设计、滤波、自适应算法、信号质量评估多管齐下。</li>
+        <li>医疗设备具有严格的合规要求，教学项目需明确"消费级"定位，并在文档中如实标注测量精度与适用范围。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>简述 PPG 信号中直流分量与交流分量的物理来源，并说明为何取 AC/DC 比值可以消除皮肤厚度、肤色等个体差异。</li>
+        <li>在 100 Hz 采样率下，自相关法搜索心率时的 τ 范围 [24, 200] 分别对应多少 BPM？为什么不在 τ &lt; 24 的区间搜索？</li>
+        <li>修改 <code>calcSpO2()</code>，使其通过 <code>calibration.h</code> 中保存的线性回归参数（斜率 k、截距 b）替代默认的 104 - 17R，并说明如何用医用血氧仪做两点标定。</li>
+        <li>本项目的 BLE 通信未使用加密。请查阅 LE Secure Connections 资料，给出在 ESP32 上启用加密配对的代码思路，并讨论其对功耗的影响。</li>
+        <li>若把采样率从 100 Hz 提升到 400 Hz，对 HR 算法的精度与计算量分别有何影响？应如何修改缓冲长度与 τ 搜索范围？</li>
+        <li>设计一个跌倒检测方案：选用的传感器、特征提取方法、判定阈值、误报抑制策略，并讨论在 ESP32 上实现的算力可行性。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>Maxim Integrated. MAX30102 Datasheet: High-Sensitivity Pulse Oximeter and Heart-Rate Sensor for Wearable Health [Z]. 2018. https://www.analog.com/media/en/technical-documentation/data-sheets/MAX30102.pdf</li>
+        <li>Allen J. Photoplethysmography and its application in clinical physiological measurement [J]. Physiological Measurement, 2007, 28(3): R1-R39.</li>
+        <li>IEEE 17062-2016. Recommended Practice for the Functional Verification of Devices for Pulse Oximetry [S]. IEEE, 2016.</li>
+        <li>ISO 80601-2-61:2017. Medical electrical equipment — Part 2-61: Particular requirements for basic safety and essential performance of pulse oximeter equipment [S]. ISO, 2017.</li>
+        <li>IEC 60601-1:2020. Medical electrical equipment — Part 1: General requirements for basic safety and essential performance [S]. IEC, 2020.</li>
+        <li>张毅刚. 单片机原理及应用——C51 编程 + Proteus 仿真（第 4 版）[M]. 北京：高等教育出版社, 2021.</li>
+        <li>乐鑫科技. ESP32 技术参考手册 [Z]. 2024. https://www.espressif.com/zh-hans/support/documents/technical-documents</li>
+        <li>陈国良, 等. 可穿戴生理信号监测技术综述 [J]. 生物医学工程学杂志, 2022, 39(4): 821-832.</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/chapters/part5-projects/ch35-rfid-access-esp32.html" class="prev">← 第 35 章 RFID 智能门禁</a>
+      <a href="/index.html" class="home">返回首页</a>
+      <a href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html" class="next">第 37 章 智慧农业灌溉 →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

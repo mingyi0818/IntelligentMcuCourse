@@ -1,0 +1,332 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第17章 定时器与 PWM - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link active" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 3 篇 STM32 &gt; <span>第 17 章 定时器与 PWM</span>
+    </div>
+
+    <h1>第 17 章 定时器与 PWM</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>了解 STM32 定时器分类（高级/通用/基本）与各自特点</li>
+        <li>掌握时基单元（PSC/ARR/CNT）与三种计数模式</li>
+        <li>能够编写基本定时器定时中断代码</li>
+        <li>掌握通用定时器 PWM 输出与频率/占空比计算公式</li>
+        <li>了解输入捕获测频原理与编码器接口模式</li>
+        <li>掌握 HAL_TIM 库函数与回调机制</li>
+      </ul>
+    </div>
+
+    <h2>17.1 STM32 定时器分类</h2>
+    <p>STM32F407 共有 17 个定时器，按功能复杂度分为三类：</p>
+    <table>
+      <thead><tr><th>类别</th><th>定时器</th><th>位数</th><th>主要功能</th></tr></thead>
+      <tbody>
+        <tr><td>高级定时器</td><td>TIM1、TIM8</td><td>16</td><td>PWM 互补输出、死区、刹车、重复计数</td></tr>
+        <tr><td>通用定时器</td><td>TIM2/TIM5</td><td>32</td><td>PWM、输入捕获、输出比较、编码器</td></tr>
+        <tr><td>通用定时器</td><td>TIM3/TIM4</td><td>16</td><td>PWM、输入捕获、输出比较、编码器</td></tr>
+        <tr><td>通用定时器</td><td>TIM9-TIM14</td><td>16</td><td>简化 PWM、输入捕获（部分无编码器）</td></tr>
+        <tr><td>基本定时器</td><td>TIM6、TIM7</td><td>16</td><td>定时中断、DAC 触发（无 GPIO）</td></tr>
+      </tbody>
+    </table>
+
+    <p>高级定时器专为电机控制设计，可输出三相互补 PWM 带死区与刹车保护；通用定时器功能最全，是日常 PWM/输入捕获/编码器的主力；基本定时器最简单，仅用于定时中断或触发 DAC/ADC。所有定时器都挂在 APB1（84 MHz）或 APB2（168 MHz）总线上，若 APB1 预分频≠1，定时器时钟自动 ×2。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch17-timer-pwm-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+component "STM32 定时器" as A
+component "高级 TIM1/8" as B
+component "通用 TIM2/3/4/5" as C
+component "通用简化 TIM9-14" as D
+component "基本 TIM6/7" as E
+component "互补PWM+死区+刹车" as B1
+component "PWM/捕获/编码器" as C1
+component "简化 PWM/捕获" as D1
+component "定时中断/DAC触发" as E1
+A --&gt; B
+A --&gt; C
+A --&gt; D
+A --&gt; E
+B --&gt; B1
+C --&gt; C1
+D --&gt; D1
+E --&gt; E1
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 17-1 STM32 定时器分类</div>
+
+    <h2>17.2 时基单元与计数模式</h2>
+    <p>每个定时器的核心是<strong>时基单元</strong>，由三个 16/32 位寄存器构成：</p>
+    <ul>
+      <li><strong>PSC（Prescaler，预分频器）</strong>：将定时器输入时钟分频，写入 PSC 后实际分频系数为 PSC+1。</li>
+      <li><strong>ARR（Auto-Reload Register，自动重装载寄存器）</strong>：计数上限，CNT 计到 ARR 后产生更新事件。</li>
+      <li><strong>CNT（Counter，计数器）</strong>：当前计数值，每来一个分频后时钟脉冲加 1 或减 1。</li>
+    </ul>
+
+    <p>三种计数模式：</p>
+    <ul>
+      <li><strong>向上计数</strong>：CNT 从 0 递增到 ARR，再回 0 产生更新事件。最常用。</li>
+      <li><strong>向下计数</strong>：CNT 从 ARR 递减到 0，重装 ARR 产生更新事件。</li>
+      <li><strong>中心对齐</strong>：CNT 从 0 升到 ARR-1，再从 ARR 降到 1，循环。PWM 频率加倍且为对称波形，适合电机控制。</li>
+    </ul>
+
+    <p>更新事件的频率即定时器溢出频率，公式为：</p>
+    <p>$$f_{update} = \frac{f_{TIM}}{(PSC+1) \cdot (ARR+1)}$$</p>
+
+    <p>其中 $f_{TIM}$ 为定时器输入时钟频率（如 TIM6 挂在 APB1 上，APB1=84 MHz，倍频后 $f_{TIM}=84$ MHz）。例如要 1 秒中断一次：取 PSC=8399（分频 8400，得 10 kHz）、ARR=9999，则 $f_{update}=84000000/(8400 \times 10000)=1$ Hz。</p>
+
+    <h2>17.3 基本定时器定时中断</h2>
+    <p>下例使用 TIM6 实现 1 秒定时中断，每次中断翻转 LED：</p>
+    <pre><code class="language-c">/* CubeMX 配置：TIM6 Prescaler=8399, Counter Period=9999, 
+   启用 NVIC → TIM6 global interrupt */
+
+/* USER CODE BEGIN 2 */
+HAL_TIM_Base_Start_IT(&amp;htim6);     /* 启动定时器并使能更新中断 */
+/* USER CODE END 2 */
+
+/* USER CODE BEGIN 4 */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+    if (htim-&gt;Instance == TIM6) {
+        HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_6);   /* 1 秒翻转 LED */
+    }
+}
+/* USER CODE END 4 */
+</code></pre>
+
+    <p>HAL_TIM_Base_Start_IT 内部完成使能更新中断、启动计数器；中断触发后 ISR 调用 HAL_TIM_PeriodElapsedCallback，由用户重写。注意若多个定时器同时使用，回调内需通过 htim->Instance 区分。</p>
+
+    <h2>17.4 通用定时器 PWM 输出</h2>
+    <p>PWM（Pulse Width Modulation，脉冲宽度调制）通过改变占空比（Duty Cycle）控制平均电压，常用于调光、调速、D/A 输出。STM32 每个 PWM 通道由 CCR（捕获/比较寄存器）控制占空比，CNT 与 CCR 比较产生输出电平翻转。PWM 频率公式：</p>
+    <p>$$f_{PWM} = \frac{f_{TIM}}{(PSC+1) \cdot (ARR+1)}$$</p>
+    <p>占空比：</p>
+    <p>$$D = \frac{CCR}{ARR+1} \times 100\%$$</p>
+
+    <p>下例使用 TIM3 CH1（PA6）输出 1 kHz、初始占空比 30% 的 PWM，并实现呼吸灯：</p>
+    <pre><code class="language-c">/* CubeMX 配置：TIM3 Channel1 → PWM Generation CH1
+   Prescaler=83, Counter Period=999, Pulse=300
+   则 f_PWM = 84MHz/(84*1000) = 1kHz，占空比 300/1000=30% */
+
+/* USER CODE BEGIN 2 */
+HAL_TIM_PWM_Start(&amp;htim3, TIM_CHANNEL_1);   /* 启动 PWM */
+/* USER CODE END 2 */
+
+/* USER CODE BEGIN WHILE */
+uint8_t duty = 0;
+int8_t  step = 5;
+while (1)
+{
+    __HAL_TIM_SET_COMPARE(&amp;htim3, TIM_CHANNEL_1, duty);  /* 修改 CCR */
+    HAL_Delay(30);
+    duty += step;
+    if (duty &gt;= 100 || duty == 0) step = -step;   /* 呼吸反转 */
+    /* USER CODE END WHILE */
+    /* USER CODE BEGIN 3 */
+}
+/* USER CODE END 3 */
+</code></pre>
+
+    <p>修改 CCR 用宏 <code>__HAL_TIM_SET_COMPARE</code>，无需停定时器，运行时实时更新。呼吸灯通过周期性增减 CCR 实现 LED 由暗到亮再到暗的渐变效果。</p>
+
+    <h2>17.5 输入捕获测频率与脉宽</h2>
+    <p>输入捕获（Input Capture）在外部信号边沿到来时把当前 CNT 锁存到 CCR，常用于测量频率、周期、脉宽。下例用 TIM3 CH1（PA6）测方波频率与占空比：</p>
+    <ul>
+      <li>配置为 PWM Input Mode，TI1FP1 映射到 IC1，TI1FP2 反相映射到 IC2。</li>
+      <li>IC1 配置上升沿捕获，IC2 配置下降沿捕获，从模式设为 Reset Mode 由 TI1FP1 复位。</li>
+      <li>每来一个上升沿，CNT 复位为 0，IC1 捕获到周期值 T（CCR1），IC2 捕获到高电平宽度 H（CCR2）。</li>
+      <li>频率 $f = f_{TIM}/CCR1$，占空比 $D = CCR2/CCR1 \times 100\%$。</li>
+    </ul>
+
+    <pre><code class="language-c">/* USER CODE BEGIN 4 */
+void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
+{
+    if (htim-&gt;Instance == TIM3 &amp;&amp; htim-&gt;Channel == HAL_TIM_ACTIVE_CHANNEL_1) {
+        uint32_t high  = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_2);  /* 高电平计数 */
+        uint32_t period = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1); /* 周期计数 */
+        float freq = (float)84000000 / period;       /* 定时器时钟 84 MHz */
+        float duty = (float)high / period * 100.0f;
+        printf("freq=%.2f Hz, duty=%.1f%%\r\n", freq, duty);
+    }
+}
+/* USER CODE END 4 */
+</code></pre>
+
+    <h2>17.6 编码器接口模式</h2>
+    <p>通用定时器（TIM2/3/4/5）支持编码器接口模式（Encoder Interface），可直接解码 AB 相增量编码器的正反转与脉冲数，无需 CPU 干预。配置时将 TIM3 的 TI1/TI2 接 PA6/PA7，编码器模式选 Encoder Mode TI1 and TI2（四倍频），CNT 自动随编码器加减计数，正转递增、反转递减。读取 CNT 即得位置：</p>
+    <pre><code class="language-c">HAL_TIM_Encoder_Start(&amp;htim3, TIM_CHANNEL_ALL);
+int16_t count = __HAL_TIM_GET_COUNTER(&amp;htim3);   /* 当前编码器位置 */
+</code></pre>
+
+    <p>编码器模式广泛用于电机闭环控制、机械手关节位置反馈、滚轮菜单等场景。</p>
+
+    <h2>17.7 HAL_TIM 库函数与回调</h2>
+    <table>
+      <thead><tr><th>函数</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td>HAL_TIM_Base_Start / _IT</td><td>启动基本定时器（无/有中断）</td></tr>
+        <tr><td>HAL_TIM_PWM_Start / _IT</td><td>启动 PWM 输出（无/有中断）</td></tr>
+        <tr><td>HAL_TIM_IC_Start / _IT</td><td>启动输入捕获</td></tr>
+        <tr><td>HAL_TIM_Encoder_Start</td><td>启动编码器模式</td></tr>
+        <tr><td>__HAL_TIM_SET_COMPARE</td><td>运行时修改 CCR（占空比）</td></tr>
+        <tr><td>__HAL_TIM_SET_AUTORELOAD</td><td>运行时修改 ARR（频率）</td></tr>
+        <tr><td>__HAL_TIM_GET_COUNTER</td><td>读取 CNT 当前值</td></tr>
+        <tr><td>HAL_TIM_PeriodElapsedCallback</td><td>更新事件回调</td></tr>
+        <tr><td>HAL_TIM_IC_CaptureCallback</td><td>输入捕获回调</td></tr>
+        <tr><td>HAL_TIM_PWM_PulseFinishedCallback</td><td>PWM 脉冲完成回调</td></tr>
+      </tbody>
+    </table>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>STM32F407 共 17 个定时器，分高级、通用、基本三类，功能从复杂到简单。</li>
+        <li>时基单元由 PSC、ARR、CNT 组成，更新事件频率 $f = f_{TIM}/((PSC+1)(ARR+1))$。</li>
+        <li>基本定时器用于定时中断，HAL_TIM_Base_Start_IT 启动，HAL_TIM_PeriodElapsedCallback 处理。</li>
+        <li>通用定时器 PWM 频率同上式，占空比 $D = CCR/(ARR+1)$，运行时用 __HAL_TIM_SET_COMPARE 调整。</li>
+        <li>输入捕获可测频率与脉宽，编码器接口模式可解码 AB 相编码器。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>简述 STM32 三类定时器的区别，并各举一个典型应用场景。</li>
+        <li>已知 TIM6 时钟 84 MHz，要实现 500 ms 中断一次，给出至少两组 PSC/ARR 取值。</li>
+        <li>编写代码：TIM3 CH1 输出 2 kHz、占空比 50% 的 PWM，并通过按键改变占空比 25%/50%/75%/100% 循环。</li>
+        <li>解释 PWM Input Mode 测频原理，并写出频率与占空比的计算公式。</li>
+        <li>编码器接口模式相比软件计数有哪些优点？四倍频是如何实现的？</li>
+        <li>对比 STC 8位单片机 的定时器 0/1/2 与 STM32 的定时器，从数量、位数、功能、PWM 能力角度分析差异。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>ST 官方. STM32F405/415/407/417 参考手册 RM0090 [Z]. 2024. https://www.st.com/</li>
+        <li>ST 官方. STM32F4xx HAL User Manual UM1025 [Z]. 2024. https://www.st.com/</li>
+        <li>ST 官方. TIM application note AN4013 [Z]. 2024. https://www.st.com/</li>
+        <li>正点原子. STM32F4 开发指南——库函数版本 [M]. 北京：北京航空航天大学出版社, 2020.</li>
+        <li>野火嵌入式. STM32 HAL 库开发实战指南 [M]. 北京：电子工业出版社, 2020.</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/chapters/part3-stm32f407/ch16-gpio-exti.html" class="prev">← 第 16 章 GPIO 与外部中断</a>
+      <a href="/index.html" class="home">返回首页</a>
+      <a href="/chapters/part3-stm32f407/ch18-usart.html" class="next">第 18 章 USART →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

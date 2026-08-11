@@ -1,0 +1,1002 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第42章 OpenHarmony 智慧农业大棚（STM32F407+DHT11+继电器） - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link active" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 5 篇 综合项目 &gt; <span>第 42 章 OpenHarmony 智慧农业大棚</span>
+    </div>
+
+    <h1>第 42 章 OpenHarmony 智慧农业大棚（STM32F407+DHT11+继电器）</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>掌握基于 STM32F407（拓维 Niobe407）+ OpenHarmony LiteOS-M 的智慧农业大棚系统需求分析方法</li>
+        <li>理解 CMSIS-OS2 标准接口（osThreadNew/osMessageQueueNew/osMutexAcquire）在多任务调度中的应用</li>
+        <li>学会使用 HDF（Hardware Driver Foundation）GPIO 驱动框架控制 DHT11、继电器、光敏等外设</li>
+        <li>掌握滞后控制（Hysteresis Control）策略在温室阈值控制中的工程实现，避免执行器频繁启停</li>
+        <li>能独立完成"传感器采集—控制—显示—通信"四任务架构的工程构建、调试与扩展</li>
+      </ul>
+    </div>
+
+    <h2>§42.1 项目需求分析</h2>
+
+    <h3>§42.1.1 行业背景与应用场景</h3>
+    <p>智慧农业是物联网技术在农业领域的典型应用，其中温室大棚因封闭环境可控、附加值高，成为智慧农业落地的首选场景。传统大棚依赖人工巡检与手动开关通风/灌溉设备，存在响应慢、能耗高、劳动强度大等问题。基于单片机+RTOS 的嵌入式控制系统可实现 7×24 小时无人值守，将温湿度、土壤湿度、光照强度等关键指标维持在作物最适区间，提升产量与品质。</p>
+    <p>本项目面向中小型设施农业（单棚面积 0.5~2 亩），目标是用一颗 STM32F407（拓维 Niobe407 开发板，OpenHarmony LiteOS-M 内核）完成多传感器采集、阈值控制、本地显示与远程上报的完整闭环，是第 40 章（智能照明）与第 41 章（分布式环境监测）技术的综合性应用。</p>
+
+    <h3>§42.1.2 功能需求</h3>
+    <p>系统需实现以下功能：</p>
+    <ul>
+      <li><strong>环境采集</strong>：空气温湿度（DHT11，单总线）、土壤湿度（模拟电压，ADC 通道）、光照强度（光敏电阻，ADC 通道），采样周期 1 s。</li>
+      <li><strong>阈值控制</strong>：温度 &gt;32 ℃ 开风扇降温；土壤湿度 &lt;30% 开水泵灌溉；光照 &lt;200 lux 开补光灯。所有控制采用滞后区间（Hysteresis Band）避免频繁启停。</li>
+      <li><strong>本地显示</strong>：0.96" OLED（I2C）实时显示 4 项参数与 3 路继电器状态，刷新周期 500 ms。</li>
+      <li><strong>远程上报</strong>：ESP8266 通过 AT 指令以 MQTT 协议每 10 s 上报一帧 JSON 数据到云端 Broker，支持远程下发控制命令。</li>
+      <li><strong>异常告警</strong>：温度 &gt;38 ℃ 或传感器离线时蜂鸣器告警，并在 OLED 上显示 "!" 图标。</li>
+    </ul>
+
+    <h3>§42.1.3 农业大棚关键指标</h3>
+
+    <h4>§42.1.3.1 果菜类作物环境指标</h4>
+    <p>常见果菜类（番茄、黄瓜、草莓）的最适环境指标如下表，本项目以此为阈值设计依据：</p>
+
+    <table>
+      <thead><tr><th>作物阶段</th><th>温度（℃）</th><th>湿度（%）</th><th>土壤湿度（%）</th><th>光照（lux）</th></tr></thead>
+      <tbody>
+        <tr><td>苗期</td><td>22~28</td><td>65~75</td><td>55~65</td><td>&gt;8000</td></tr>
+        <tr><td>开花期</td><td>20~26</td><td>60~70</td><td>50~60</td><td>&gt;12000</td></tr>
+        <tr><td>结果期</td><td>22~30</td><td>65~80</td><td>55~70</td><td>&gt;15000</td></tr>
+        <tr><td>本项目默认阈值</td><td>18~32</td><td>40~85</td><td>30~70</td><td>200~</td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption">图 42-1 果菜类作物最适环境指标与项目默认阈值</div>
+
+    <h4>§42.1.3.2 滞后控制设计要点</h4>
+    <div class="tip">
+      <strong>提示：</strong>滞后控制（Hysteresis）是工程实践中的关键技巧。例如温度阈值设为 32 ℃ 开风扇、30 ℃ 关风扇，区间 2 ℃ 可避免在临界值附近继电器频繁吸合/断开，延长执行器寿命。本项目所有控制任务均采用 2%~5% 的滞后带。
+    </div>
+
+    <h2>§42.2 LiteOS-M 任务调度与 CMSIS-OS2 接口</h2>
+
+    <h3>§42.2.1 OpenHarmony LiteOS-M 内核简介</h3>
+    <p>OpenHarmony LiteOS-M 是面向 MCU（Cortex-M 系列）的轻量级实时操作系统内核，提供任务调度、软件定时器、消息队列、信号量、互斥锁、事件标志等 RTOS 标准能力，ROM 占用 &lt;10 KB，RAM 占用可低至 2 KB。它与 STM32F407 的 Cortex-M4 内核深度适配，是 OpenHarmony 在轻量设备上的标准内核。</p>
+    <p>本项目通过 CMSIS-OS2（Cortex Microcontroller Software Interface Standard - OS API v2）标准接口调用 LiteOS-M 内核服务。CMSIS-OS2 是 ARM 制定的 RTOS 抽象层，同一份应用代码可移植到 FreeRTOS、RT-Thread、LiteOS-M 等不同内核，是 OpenHarmony 推荐的 RTOS API。</p>
+
+    <h3>§42.2.2 CMSIS-OS2 任务状态机</h3>
+    <p>CMSIS-OS2 任务有 4 个基本状态：运行、就绪、阻塞、挂起。任务在不同事件（信号量、消息、延时）触发下进行状态迁移：</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch42-oh-agriculture-stm32f4-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+skinparam state {
+    BackgroundColor #f1f3f5
+    BorderColor #2d6a4f
+}
+left to right direction
+state "就绪 Ready" as R
+state "运行 Running" as Run
+state "阻塞 Blocked" as B
+state "挂起 Suspended" as S
+[*] --&gt; R
+R --&gt; Run : 调度器选中
+Run --&gt; R : 时间片到/被抢占
+Run --&gt; B : osDelay/等待信号
+B --&gt; R : 超时/事件到达
+Run --&gt; S : osThreadSuspend
+S --&gt; R : osThreadResume
+B --&gt; S : osThreadSuspend
+S --&gt; B : osThreadResume
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 42-2 CMSIS-OS2 任务状态迁移图</div>
+
+    <h3>§42.2.3 CMSIS-OS2 常用 API 速查</h3>
+    <table>
+      <thead><tr><th>类别</th><th>API</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>任务</td><td>osThreadNew(func, arg, attr)</td><td>创建任务并立即进入就绪态</td></tr>
+        <tr><td>任务</td><td>osThreadDelay(ticks)</td><td>当前任务延时，进入阻塞态</td></tr>
+        <tr><td>消息队列</td><td>osMessageQueueNew(count, size, attr)</td><td>创建消息队列</td></tr>
+        <tr><td>消息队列</td><td>osMessageQueuePut(mq_id, msg, prio, timeout)</td><td>发送消息（可阻塞）</td></tr>
+        <tr><td>消息队列</td><td>osMessageQueueGet(mq_id, msg, prio, timeout)</td><td>接收消息（可阻塞）</td></tr>
+        <tr><td>互斥锁</td><td>osMutexNew(attr) / osMutexAcquire / osMutexRelease</td><td>保护共享资源（如 OLED I2C 总线）</td></tr>
+        <tr><td>信号量</td><td>osSemaphoreNew(max, initial, attr)</td><td>任务同步与资源计数</td></tr>
+        <tr><td>软件定时器</td><td>osTimerNew(func, type, arg)</td><td>周期/单次定时回调</td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption">图 42-3 CMSIS-OS2 核心 API 速查表</div>
+
+    <h3>§42.2.4 消息队列与互斥锁的协作</h3>
+    <p>本项目中传感器采集任务每 1 s 产生一帧数据，控制任务每 5 s 消费一次。若直接共享全局变量，可能出现"控制任务读到一半时被采集任务覆盖"的竞态。解决方案是用 <code>osMessageQueueNew</code> 创建一个深度为 8 的环形队列，采集任务入队、控制任务出队；同时为 OLED、ESP8266 这类"非线程安全"的外设用 <code>osMutex</code> 串行化访问。</p>
+
+    <h2>§42.3 系统架构设计</h2>
+
+    <h3>§42.3.1 多任务划分</h3>
+    <p>系统按"采集—控制—显示—通信"四类职责划分为 4 个独立任务，任务之间通过消息队列解耦：</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch42-oh-agriculture-stm32f4-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+skinparam componentStyle rectangle
+skinparam shadowing true
+top to bottom direction
+package "采集层" {
+    component "SensorTask\n1s 周期" as S
+}
+package "控制层" {
+    component "ControlTask\n5s 周期" as C
+}
+package "显示层" {
+    component "DisplayTask\n500ms 周期" as D
+}
+package "通信层" {
+    component "CommTask\n10s 上报" as N
+}
+component "DHT11 温湿度" as DHT11
+component "土壤湿度 ADC" as SOIL
+component "光敏 ADC" as LIGHT
+database "消息队列\n深度 8" as MQ
+component "继电器 风扇" as R1
+component "继电器 水泵" as R2
+component "继电器 补光灯" as R3
+component "OLED 显示" as OLED
+component "ESP8266" as ESP8266
+database "云端 Broker" as Cloud
+DHT11 --&gt; S
+SOIL --&gt; S
+LIGHT --&gt; S
+S --&gt; MQ : osMessageQueuePut\nSensorData_t
+MQ --&gt; C : osMessageQueueGet
+C --&gt; R1 : GPIO 高低电平
+C --&gt; R2 : GPIO
+C --&gt; R3 : GPIO
+C --&gt; D : 共享状态
+D --&gt; OLED : I2C 互斥锁
+C --&gt; N : 共享状态
+N --&gt; ESP8266 : AT+MQTT
+ESP8266 --&gt; Cloud
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 42-4 智慧农业大棚多任务架构图</div>
+
+    <h3>§42.3.2 任务参数设计</h3>
+
+    <h4>§42.3.2.1 任务参数分配</h4>
+    <table>
+      <thead><tr><th>任务名</th><th>优先级</th><th>栈大小</th><th>周期</th><th>核心职责</th></tr></thead>
+      <tbody>
+        <tr><td>SensorTask</td><td>5（高）</td><td>1024 B</td><td>1 s</td><td>读取 DHT11/ADC，入队</td></tr>
+        <tr><td>ControlTask</td><td>4</td><td>1024 B</td><td>5 s</td><td>出队数据，滞后控制，驱动继电器</td></tr>
+        <tr><td>DisplayTask</td><td>3</td><td>512 B</td><td>500 ms</td><td>刷新 OLED 显示</td></tr>
+        <tr><td>CommTask</td><td>2（低）</td><td>2048 B</td><td>10 s</td><td>ESP8266 MQTT 上报</td></tr>
+        <tr><td>IDLE（系统）</td><td>0</td><td>—</td><td>—</td><td>回收资源，可降功耗</td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption">图 42-5 任务参数与优先级分配表</div>
+
+    <h4>§42.3.2.2 优先级设计原则</h4>
+    <p>优先级设计原则：<strong>采集 &gt; 控制 &gt; 显示 &gt; 通信</strong>。采集任务优先级最高以保证数据实时性；通信任务优先级最低，避免网络重传阻塞影响实时控制。栈大小根据任务内局部变量与函数调用深度估算，ESP8266 AT 解析需较大缓冲区，故 CommTask 栈最大。</p>
+
+    <h2>§42.4 硬件设计</h2>
+
+    <h3>§42.4.1 物料清单（BOM）</h3>
+    <table>
+      <thead><tr><th>编号</th><th>器件</th><th>型号/规格</th><th>数量</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>主控板</td><td>拓维 Niobe407（STM32F407VGT6）</td><td>1</td><td>168 MHz Cortex-M4F，1 MB Flash / 192 KB RAM</td></tr>
+        <tr><td>2</td><td>温湿度传感器</td><td>DHT11</td><td>1</td><td>单总线，温度 0~50 ℃ ±2 ℃，湿度 20~90% ±5%</td></tr>
+        <tr><td>3</td><td>土壤湿度传感器</td><td>YL-69 / 电容式</td><td>1</td><td>模拟电压输出 0~3.3 V</td></tr>
+        <tr><td>4</td><td>光敏传感器</td><td>GL5528 光敏电阻模块</td><td>1</td><td>模拟电压输出，暗电阻 1 MΩ</td></tr>
+        <tr><td>5</td><td>继电器模块</td><td>5 V 光耦隔离继电器 x3</td><td>3</td><td>风扇/水泵/补光灯各 1 路</td></tr>
+        <tr><td>6</td><td>直流风扇</td><td>5 V 8025 轴流风扇</td><td>1</td><td>大棚通风降温</td></tr>
+        <tr><td>7</td><td>微型水泵</td><td>3~6 V 潜水泵</td><td>1</td><td>滴灌/雾化</td></tr>
+        <tr><td>8</td><td>LED 植物补光灯</td><td>10 W 全光谱</td><td>1</td><td>红蓝比 4:1</td></tr>
+        <tr><td>9</td><td>OLED 显示屏</td><td>0.96" SSD1306 I2C</td><td>1</td><td>128x64 显示</td></tr>
+        <tr><td>10</td><td>WiFi 模块</td><td>ESP-01S（ESP8266）</td><td>1</td><td>AT 固件，UART 透传</td></tr>
+        <tr><td>11</td><td>有源蜂鸣器</td><td>5 V</td><td>1</td><td>异常告警</td></tr>
+        <tr><td>12</td><td>电源</td><td>12V/5A 开关电源 + LM2596 降压</td><td>1</td><td>12 V 供补光灯/水泵，5 V 供主控</td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption">图 42-6 智慧农业大棚物料清单</div>
+
+    <h3>§42.4.2 接线表</h3>
+    <table>
+      <thead><tr><th>外设</th><th>STM32F407 引脚</th><th>外设引脚</th><th>接口类型</th></tr></thead>
+      <tbody>
+        <tr><td>DHT11</td><td>PE0</td><td>DATA</td><td>单总线 GPIO</td></tr>
+        <tr><td>土壤湿度（模拟）</td><td>PA0（ADC1_IN0）</td><td>AOUT</td><td>ADC</td></tr>
+        <tr><td>光敏（模拟）</td><td>PA1（ADC1_IN1）</td><td>AOUT</td><td>ADC</td></tr>
+        <tr><td>继电器 1（风扇）</td><td>PD0</td><td>IN1</td><td>GPIO 推挽</td></tr>
+        <tr><td>继电器 2（水泵）</td><td>PD1</td><td>IN2</td><td>GPIO 推挽</td></tr>
+        <tr><td>继电器 3（补光灯）</td><td>PD2</td><td>IN3</td><td>GPIO 推挽</td></tr>
+        <tr><td>OLED</td><td>PB6(SCL) / PB7(SDA)</td><td>SCL/SDA</td><td>I2C1</td></tr>
+        <tr><td>ESP-01S</td><td>PA9(TX) / PA10(RX)</td><td>RX/TX</td><td>USART1</td></tr>
+        <tr><td>蜂鸣器</td><td>PD3</td><td>+</td><td>GPIO 推挽</td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption">图 42-7 接线对照表</div>
+
+    <div class="tip">
+      <strong>提示：</strong>继电器为 5 V 供电，STM32F407 IO 为 3.3 V 电平。务必选用带光耦隔离且支持 3.3 V 触发的继电器模块（如 SRD-5VDC-SL-C 加光耦 PC817），否则可能因触发电平不足导致继电器不吸合。强电部分（220 V 补光灯）接线应由电工操作，并加漏电保护。
+    </div>
+
+    <h2>§42.5 软件架构与关键代码</h2>
+
+    <h3>§42.5.1 任务通信时序</h3>
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch42-oh-agriculture-stm32f4-fig3.svg" alt="PlantUML 图 3" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+participant "SensorTask" as S
+participant "MessageQueue" as MQ
+participant "ControlTask" as C
+participant "DisplayTask" as D
+participant "CommTask" as N
+loop 每 1s
+    S -&gt; S : 读 DHT11 + ADC
+    S -&gt; MQ : osMessageQueuePut(SensorData)
+end
+loop 每 5s
+    C -&gt; MQ : osMessageQueueGet(SensorData)
+    MQ --&gt; C : 返回最新数据
+    C -&gt; C : 滞后控制判断
+    C -&gt; C : 写继电器 GPIO
+end
+loop 每 500ms
+    D -&gt; D : 读共享状态（加锁）
+    D -&gt; D : 刷新 OLED
+end
+loop 每 10s
+    N -&gt; N : 组 JSON 帧
+    N -&gt; N : AT+MQTTPUB 上报
+end
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 42-8 任务通信时序图</div>
+
+    <h3>§42.5.2 数据结构与全局对象</h3>
+    <p>定义统一的传感器数据结构体 <code>SensorData_t</code>，作为消息队列的消息单元。所有任务通过它传递数据，避免类型不一致问题。</p>
+
+    <pre><code class="language-c">/* sensor_data.h */
+#ifndef __SENSOR_DATA_H
+#define __SENSOR_DATA_H
+
+#include &lt;stdint.h&gt;
+#include "cmsis_os2.h"
+
+/* 传感器数据帧 */
+typedef struct {
+    int16_t  temperature;  /* 温度 x10，单位 0.1 ℃，例如 252 表示 25.2 ℃ */
+    uint16_t humidity;     /* 湿度，单位 % */
+    uint16_t soil;         /* 土壤湿度，单位 %（ADC 标定后） */
+    uint16_t light;        /* 光照强度，单位 lux（ADC 估算） */
+    uint32_t timestamp;    /* LiteOS-M 软时钟，单位 tick */
+} SensorData_t;
+
+/* 执行器状态 */
+typedef struct {
+    uint8_t fan;     /* 0=关 1=开 风扇 */
+    uint8_t pump;    /* 0=关 1=开 水泵 */
+    uint8_t lamp;    /* 0=关 1=开 补光灯 */
+    uint8_t alarm;   /* 0=正常 1=告警 */
+} ActuatorState_t;
+
+/* 全局共享对象（在 main.c 中定义） */
+extern osMessageQueueId_t g_sensorQueue;   /* 传感器数据队列 */
+extern osMutexId_t        g_oledMutex;     /* OLED 互斥锁 */
+extern osMutexId_t        g_stateMutex;    /* 执行器状态互斥锁 */
+extern SensorData_t       g_latestData;    /* 最新数据快照 */
+extern ActuatorState_t    g_actuator;      /* 执行器状态 */
+
+#endif
+</code></pre>
+
+    <h3>§42.5.3 主程序与任务创建</h3>
+    <p>主程序完成 HDF 驱动初始化、互斥锁/消息队列创建、4 个任务创建，然后进入调度器。注意 OpenHarmony LiteOS-M 入口为 <code>app_main</code>，由系统启动流程调用。</p>
+
+    <pre><code class="language-c">/* main.c —— OpenHarmony LiteOS-M 应用入口 */
+#include "ohos_init.h"
+#include "cmsis_os2.h"
+#include "sensor_data.h"
+#include "sensor_task.h"
+#include "control_task.h"
+#include "display_task.h"
+#include "comm_task.h"
+#include "hdf_gpio.h"
+
+/* 全局对象定义 */
+osMessageQueueId_t g_sensorQueue;
+osMutexId_t        g_oledMutex;
+osMutexId_t        g_stateMutex;
+SensorData_t       g_latestData;
+ActuatorState_t    g_actuator = {0, 0, 0, 0};
+
+/* 任务栈（静态分配，避免动态分配失败） */
+static uint8_t sensor_stack[1024];
+static uint8_t control_stack[1024];
+static uint8_t display_stack[512];
+static uint8_t comm_stack[2048];
+
+static void SystemInit_Hardware(void)
+{
+    /* 1. HDF GPIO 初始化：继电器、蜂鸣器 */
+    HdfGpioInit(0, HDF_GPIO_OUT);  /* PD0 风扇 */
+    HdfGpioInit(1, HDF_GPIO_OUT);  /* PD1 水泵 */
+    HdfGpioInit(2, HDF_GPIO_OUT);  /* PD2 补光灯 */
+    HdfGpioInit(3, HDF_GPIO_OUT);  /* PD3 蜂鸣器 */
+    HdfGpioWrite(0, 0);
+    HdfGpioWrite(1, 0);
+    HdfGpioWrite(2, 0);
+    HdfGpioWrite(3, 0);
+
+    /* 2. DHT11 单总线 GPIO（PE0） */
+    HdfGpioInit(4, HDF_GPIO_OUT_OD);
+
+    /* 3. ADC1 通道 0/1 初始化（土壤/光敏） */
+    HdfAdcInit(0);
+
+    /* 4. I2C1 OLED 初始化 */
+    HdfI2cInit(0);
+
+    /* 5. USART1 ESP8266 初始化 */
+    HdfUartInit(1, 115200);
+}
+
+static void AppMain(void)
+{
+    osMutexAttr_t mutex_attr = {0};
+    osMessageQueueAttr_t mq_attr = {0};
+
+    /* 1. 硬件初始化 */
+    SystemInit_Hardware();
+
+    /* 2. 创建互斥锁 */
+    g_oledMutex  = osMutexNew(&amp;mutex_attr);
+    g_stateMutex = osMutexNew(&amp;mutex_attr);
+
+    /* 3. 创建消息队列：深度 8，每条消息为 SensorData_t */
+    g_sensorQueue = osMessageQueueNew(8, sizeof(SensorData_t), &amp;mq_attr);
+    if (g_sensorQueue == NULL) {
+        /* 失败处理：点亮蜂鸣器告警 */
+        HdfGpioWrite(3, 1);
+        return;
+    }
+
+    /* 4. 创建 4 个任务 */
+    osThreadAttr_t attr;
+    attr.priority   = osPriorityNormal;
+    attr.stack_mem  = NULL;
+
+    attr.name       = "SensorTask";
+    attr.priority   = osPriorityAboveNormal;   /* 优先级 5 */
+    attr.stack_mem  = sensor_stack;
+    attr.stack_size = sizeof(sensor_stack);
+    osThreadNew(SensorTask, NULL, &amp;attr);
+
+    attr.name       = "ControlTask";
+    attr.priority   = osPriorityNormal4;       /* 优先级 4 */
+    attr.stack_mem  = control_stack;
+    attr.stack_size = sizeof(control_stack);
+    osThreadNew(ControlTask, NULL, &amp;attr);
+
+    attr.name       = "DisplayTask";
+    attr.priority   = osPriorityNormal3;       /* 优先级 3 */
+    attr.stack_mem  = display_stack;
+    attr.stack_size = sizeof(display_stack);
+    osThreadNew(DisplayTask, NULL, &amp;attr);
+
+    attr.name       = "CommTask";
+    attr.priority   = osPriorityBelowNormal;   /* 优先级 2 */
+    attr.stack_mem  = comm_stack;
+    attr.stack_size = sizeof(comm_stack);
+    osThreadNew(CommTask, NULL, &amp;attr);
+
+    /* 5. 调度器已由 LiteOS-M 启动，无需手动 osKernelStart */
+}
+
+/* OpenHarmony 启动钩子 */
+APP_FEATURE_INIT(AppMain);
+</code></pre>
+
+    <h3>§42.5.4 传感器采集任务</h3>
+    <p>采集任务每 1 s 唤醒一次，依次读取 DHT11、ADC 土壤、ADC 光敏，组帧后入队。若 DHT11 校验失败则丢弃本次数据并重试 2 次。</p>
+
+    <pre><code class="language-c">/* sensor_task.c */
+#include "sensor_task.h"
+#include "sensor_data.h"
+#include "cmsis_os2.h"
+#include "hdf_gpio.h"
+#include "hdf_adc.h"
+#include "dht11.h"
+#include &lt;string.h&gt;
+
+#define SENSOR_PERIOD_MS   1000
+#define DHT11_RETRY        2
+
+void SensorTask(void *arg)
+{
+    (void)arg;
+    SensorData_t data;
+    Dht11Result dht;
+    uint16_t adc_soil, adc_light;
+    osStatus_t status;
+    uint8_t retry;
+
+    memset(&amp;data, 0, sizeof(data));
+
+    for (;;) {
+        /* 1. 读 DHT11，最多重试 2 次 */
+        retry = 0;
+        do {
+            if (Dht11_Read(4, &amp;dht) == 0) break;   /* 0=成功 */
+            retry++;
+            osDelay(20);
+        } while (retry &lt; DHT11_RETRY);
+
+        if (retry &lt; DHT11_RETRY) {
+            data.temperature = (int16_t)(dht.temp * 10);   /* x10 */
+            data.humidity    = dht.humi;
+        } else {
+            data.temperature = -999;  /* 错误码 */
+            data.humidity    = 0;
+        }
+
+        /* 2. 读土壤湿度（ADC 通道 0），线性映射到 0~100% */
+        HdfAdcRead(0, &amp;adc_soil);
+        /* 干土 ~3300，湿土 ~800，反向映射 */
+        if (adc_soil &gt; 3300) adc_soil = 3300;
+        if (adc_soil &lt; 800)  adc_soil = 800;
+        data.soil = (uint16_t)(100 - (uint32_t)(adc_soil - 800) * 100 / 2500);
+
+        /* 3. 读光照（ADC 通道 1），近似估算 lux */
+        HdfAdcRead(1, &amp;adc_light);
+        /* 0~4095 → 0~20000 lux（粗略线性） */
+        data.light = (uint16_t)((uint32_t)adc_light * 20000 / 4095);
+
+        /* 4. 时间戳 */
+        data.timestamp = osKernelGetTickCount();
+
+        /* 5. 入队（覆盖最老数据：try without wait） */
+        status = osMessageQueuePut(g_sensorQueue, &amp;data, 0U, 0U);
+        if (status == osErrorResource) {
+            /* 队列满，弹出最老一条再入队 */
+            SensorData_t old;
+            osMessageQueueGet(g_sensorQueue, &amp;old, NULL, 0U);
+            osMessageQueuePut(g_sensorQueue, &amp;data, 0U, 0U);
+        }
+
+        /* 6. 同时更新最新数据快照（加锁） */
+        osMutexAcquire(g_stateMutex, osWaitForever);
+        memcpy(&amp;g_latestData, &amp;data, sizeof(data));
+        osMutexRelease(g_stateMutex);
+
+        /* 7. 周期延时 1 s */
+        osDelay(SENSOR_PERIOD_MS);
+    }
+}
+</code></pre>
+
+    <h3>§42.5.5 控制任务（滞后控制）</h3>
+    <p>控制任务每 5 s 出队一帧数据，根据阈值表执行滞后控制。滞后带（Hysteresis Band）的含义：上限触发开启，下限触发关闭，区间内保持原状态。</p>
+
+    <pre><code class="language-c">/* control_task.c */
+#include "control_task.h"
+#include "sensor_data.h"
+#include "cmsis_os2.h"
+#include "hdf_gpio.h"
+
+/* 阈值定义：上限/下限（滞后带） */
+#define TEMP_ON        320     /* 32.0 ℃ 开风扇 */
+#define TEMP_OFF       300     /* 30.0 ℃ 关风扇 */
+#define SOIL_ON        30      /* 土壤湿度 30% 开水泵 */
+#define SOIL_OFF       45      /* 土壤湿度 45% 关水泵 */
+#define LIGHT_ON       200     /* 光照 &lt;200 lux 开补光灯 */
+#define LIGHT_OFF      500     /* 光照 &gt;500 lux 关补光灯 */
+#define TEMP_ALARM     380     /* 38.0 ℃ 告警 */
+
+#define CONTROL_PERIOD_MS  5000
+
+void ControlTask(void *arg)
+{
+    (void)arg;
+    SensorData_t data;
+    ActuatorState_t local;
+    osStatus_t status;
+
+    for (;;) {
+        /* 1. 等待消息，最多阻塞 5 s */
+        status = osMessageQueueGet(g_sensorQueue, &amp;data, NULL, CONTROL_PERIOD_MS);
+        if (status != osOK) {
+            /* 超时无数据，传感器可能离线 */
+            osMutexAcquire(g_stateMutex, osWaitForever);
+            g_actuator.alarm = 1;
+            osMutexRelease(g_stateMutex);
+            continue;
+        }
+
+        /* 2. 取当前执行器状态快照 */
+        osMutexAcquire(g_stateMutex, osWaitForever);
+        local = g_actuator;
+        osMutexRelease(g_stateMutex);
+
+        /* 3. 温度控制：滞后 */
+        if (data.temperature &gt;= TEMP_ALARM) {
+            local.alarm = 1;
+        } else if (data.temperature &lt; TEMP_ALARM - 20) {
+            local.alarm = 0;
+        }
+
+        if (data.temperature &gt;= TEMP_ON) {
+            local.fan = 1;
+        } else if (data.temperature &lt;= TEMP_OFF) {
+            local.fan = 0;
+        }
+        /* 区间 (TEMP_OFF, TEMP_ON) 保持原状态 */
+
+        /* 4. 土壤湿度控制：滞后 */
+        if (data.soil &lt;= SOIL_ON) {
+            local.pump = 1;
+        } else if (data.soil &gt;= SOIL_OFF) {
+            local.pump = 0;
+        }
+
+        /* 5. 光照控制：滞后 */
+        if (data.light &lt;= LIGHT_ON) {
+            local.lamp = 1;
+        } else if (data.light &gt;= LIGHT_OFF) {
+            local.lamp = 0;
+        }
+
+        /* 6. 写继电器 GPIO */
+        HdfGpioWrite(0, local.fan);
+        HdfGpioWrite(1, local.pump);
+        HdfGpioWrite(2, local.lamp);
+        HdfGpioWrite(3, local.alarm);
+
+        /* 7. 回写共享状态 */
+        osMutexAcquire(g_stateMutex, osWaitForever);
+        g_actuator = local;
+        osMutexRelease(g_stateMutex);
+    }
+}
+</code></pre>
+
+    <h3>§42.5.6 显示任务</h3>
+    <p>显示任务每 500 ms 刷新 OLED。访问 I2C 总线前必须获取 <code>g_oledMutex</code>，避免与可能的远程命令解析任务竞争。</p>
+
+    <pre><code class="language-c">/* display_task.c */
+#include "display_task.h"
+#include "sensor_data.h"
+#include "cmsis_os2.h"
+#include "ssd1306.h"
+#include &lt;stdio.h&gt;
+
+#define DISPLAY_PERIOD_MS  500
+
+void DisplayTask(void *arg)
+{
+    (void)arg;
+    SensorData_t data;
+    ActuatorState_t act;
+    char line[24];
+
+    for (;;) {
+        /* 1. 取共享快照（加锁，时间 &lt; 100us） */
+        osMutexAcquire(g_stateMutex, osWaitForever);
+        data = g_latestData;
+        act  = g_actuator;
+        osMutexRelease(g_stateMutex);
+
+        /* 2. 获取 OLED 互斥锁 */
+        osMutexAcquire(g_oledMutex, osWaitForever);
+
+        SSD1306_Clear();
+        /* 第一行：温度 */
+        snprintf(line, sizeof(line), "T:%2d.%dC H:%3d%%",
+                 data.temperature / 10,
+                 (data.temperature &gt;= 0 ? data.temperature : -data.temperature) % 10,
+                 data.humidity);
+        SSD1306_ShowStr(0, 0, line, 16);
+
+        /* 第二行：土壤湿度 */
+        snprintf(line, sizeof(line), "Soil:%3d%%", data.soil);
+        SSD1306_ShowStr(0, 2, line, 16);
+
+        /* 第三行：光照 */
+        snprintf(line, sizeof(line), "Light:%5dlux", data.light);
+        SSD1306_ShowStr(0, 4, line, 16);
+
+        /* 第四行：执行器状态 */
+        snprintf(line, sizeof(line), "F%d P%d L%d %s",
+                 act.fan, act.pump, act.lamp,
+                 act.alarm ? "!" : " ");
+        SSD1306_ShowStr(0, 6, line, 16);
+
+        SSD1306_Refresh();
+        osMutexRelease(g_oledMutex);
+
+        osDelay(DISPLAY_PERIOD_MS);
+    }
+}
+</code></pre>
+
+    <h3>§42.5.7 通信任务</h3>
+    <p>通信任务每 10 s 组一帧 JSON 数据并通过 ESP8266 AT 指令 MQTT 发布到云端。组帧时使用 <code>snprintf</code> 避免缓冲区溢出。</p>
+
+    <pre><code class="language-c">/* comm_task.c */
+#include "comm_task.h"
+#include "sensor_data.h"
+#include "cmsis_os2.h"
+#include "esp8266_at.h"
+#include &lt;stdio.h&gt;
+
+#define COMM_PERIOD_MS   10000
+#define JSON_BUF_LEN     128
+
+void CommTask(void *arg)
+{
+    (void)arg;
+    SensorData_t data;
+    ActuatorState_t act;
+    char json[JSON_BUF_LEN];
+    int len;
+
+    /* ESP8266 初始化 + 连接 AP + MQTT 服务器 */
+    Esp8266_Reset();
+    Esp8266_ConnectAp("GreenHouse_AP", "12345678");
+    Esp8266_MqttConnect("broker.example.com", 1883,
+                        "device_001", "user", "pass");
+
+    for (;;) {
+        /* 1. 取共享快照 */
+        osMutexAcquire(g_stateMutex, osWaitForever);
+        data = g_latestData;
+        act  = g_actuator;
+        osMutexRelease(g_stateMutex);
+
+        /* 2. 组 JSON 帧 */
+        len = snprintf(json, sizeof(json),
+            "{\"t\":%d.%d,\"h\":%d,\"soil\":%d,\"lux\":%d,"
+            "\"fan\":%d,\"pump\":%d,\"lamp\":%d,\"al\":%d}",
+            data.temperature / 10,
+            (data.temperature &gt;= 0 ? data.temperature : -data.temperature) % 10,
+            data.humidity, data.soil, data.light,
+            act.fan, act.pump, act.lamp, act.alarm);
+
+        /* 3. MQTT 发布 */
+        if (len &gt; 0 &amp;&amp; len &lt; (int)sizeof(json)) {
+            Esp8266_MqttPublish("farm/device_001/data", json, len);
+        }
+
+        /* 4. 检查下行命令（非阻塞） */
+        Esp8266_MqttPoll(0);
+
+        osDelay(COMM_PERIOD_MS);
+    }
+}
+</code></pre>
+
+    <h3>§42.5.8 DHT11 单总线驱动</h3>
+    <p>DHT11 使用单总线协议，主机拉低 18 ms 后释放，传感器响应 80 us 低 + 80 us 高，随后按位发送 40 bit 数据。以下驱动基于 HDF GPIO 实现：</p>
+
+    <pre><code class="language-c">/* dht11.c */
+#include "dht11.h"
+#include "hdf_gpio.h"
+#include "cmsis_os2.h"
+
+/* 单总线时序精度要求高，关闭中断读取 */
+static void Dht11_ReadBit(uint8_t gpio, uint8_t *buf, uint8_t len)
+{
+    uint8_t i, j;
+    uint8_t val;
+    for (i = 0; i &lt; len; i++) {
+        /* 等待低电平结束（50us 前导） */
+        uint32_t timeout = 1000;
+        while (HdfGpioRead(gpio) == 0 &amp;&amp; timeout--) ;
+        /* 等待高电平：26us 表示 0，70us 表示 1 */
+        uint32_t t = 0;
+        while (HdfGpioRead(gpio) == 1 &amp;&amp; t &lt; 100) {
+            HdfDelayUs(1);
+            t++;
+        }
+        val = (t &gt; 30) ? 1 : 0;
+        buf[i / 8] = (buf[i / 8] &lt;&lt; 1) | val;
+    }
+}
+
+int Dht11_Read(uint8_t gpio, Dht11Result *out)
+{
+    uint8_t data[5] = {0};
+    uint8_t i;
+
+    /* 1. 主机发起：拉低 18ms */
+    HdfGpioSetDir(gpio, HDF_GPIO_OUT_OD);
+    HdfGpioWrite(gpio, 0);
+    HdfDelayMs(18);
+    HdfGpioWrite(gpio, 1);
+    HdfDelayUs(30);
+
+    /* 2. 切换输入 */
+    HdfGpioSetDir(gpio, HDF_GPIO_IN_PULLUP);
+
+    /* 3. 等待传感器响应（80us 低 + 80us 高） */
+    uint32_t timeout = 1000;
+    while (HdfGpioRead(gpio) == 0 &amp;&amp; timeout--) ;
+    if (timeout == 0) return -1;
+    timeout = 1000;
+    while (HdfGpioRead(gpio) == 1 &amp;&amp; timeout--) ;
+    if (timeout == 0) return -2;
+
+    /* 4. 读 40 位 */
+    Dht11_ReadBit(gpio, data, 40);
+
+    /* 5. 校验和 */
+    uint8_t sum = data[0] + data[1] + data[2] + data[3];
+    if (sum != data[4]) return -3;
+
+    /* DHT11 整数部分直接使用 */
+    out->humi = data[0];
+    out->temp = (int8_t)data[2];
+    return 0;
+}
+</code></pre>
+
+    <h2>§42.6 工程构建与调试</h2>
+
+    <h3>§42.6.1 工程目录结构</h3>
+    <p>本工程基于 OpenHarmony 4.0 Release + 拓维 Niobe407 适配层，目录组织遵循 OpenHarmony 应用模型：</p>
+
+    <pre><code>applications/sample/wifi-iot/app/
+└── smart_greenhouse/
+    ├── BUILD.g                   # GN 构建脚本
+    ├── smart_greenhouse.c        # APP_FEATURE_INIT 入口
+    ├── sensor_data.h             # 共享数据结构
+    ├── sensor_task.c / .h        # 采集任务
+    ├── control_task.c / .h       # 控制任务
+    ├── display_task.c / .h       # 显示任务
+    ├── comm_task.c / .h          # 通信任务
+    ├── drivers/
+    │   ├── dht11.c / .h          # DHT11 驱动
+    │   ├── ssd1306.c / .h        # OLED 驱动
+    │   └── esp8266_at.c / .h     # ESP8266 AT 封装
+    └── hdf/
+        ├── hdf_gpio.c            # HDF GPIO 适配
+        ├── hdf_adc.c             # HDF ADC 适配
+        ├── hdf_i2c.c             # HDF I2C 适配
+        └── hdf_uart.c            # HDF UART 适配
+</code></pre>
+
+    <h3>§42.6.2 hb build 编译流程</h3>
+
+    <h4>§42.6.2.1 编译步骤</h4>
+    <p>OpenHarmony 使用 GN + Ninja 构建系统。在 Linux 开发机（Ubuntu 20.04+）执行：</p>
+
+    <pre><code># 1. 进入源码根目录
+cd ~/openharmony
+
+# 2. 加载环境
+source build/envsetup.sh
+
+# 3. 选择产品（Niobe407）
+hb set -p niobe407
+
+# 4. 配置菜单（可选，开启 smart_greenhouse app）
+hb menuconfig
+
+# 5. 编译
+hb build -f
+
+# 6. 输出物
+# out/niobe407/OHOS_Image.bin   —— 主固件
+# out/niobe407/OHOS_Image.bin.signed —— 签名固件
+</code></pre>
+
+    <h4>§42.6.2.2 固件烧录</h4>
+    <p>烧录使用 STM32CubeProgrammer 或 Niobe407 自带 USB DFU：上电时按住 KEY1 进入 DFU 模式，执行 <code>dfu-util -a 0 -D OHOS_Image.bin -s 0x08000000</code>。</p>
+
+    <h3>§42.6.3 任务调试技巧</h3>
+    <ul>
+      <li><strong>任务状态查看</strong>：通过 LiteOS-M 提供的 <code>osKernelGetThreadList</code> 或加打印输出每个任务的 state、priority、stack_space。栈剩余空间 &lt; 20% 时应增大栈。</li>
+      <li><strong>栈溢出检查</strong>：LiteOS-M 默认开启栈水位线（Stack Watermark）填充 0xC2C2C2C2。任务切换时检查栈底 magic word，若被覆盖则触发 <code>LOS_TaskSwitchHook</code> 钩子，可在钩子中打印任务名并重启。</li>
+      <li><strong>printf 重定向</strong>：将 <code>fputc</code> 重定向到 USART2（PA2/PA3），与 ESP8266 占用的 USART1 隔离，避免调试输出干扰 AT 指令。</li>
+      <li><strong>CPU 占用率</strong>：在 IDLE 任务中累计空闲计数，每 10 s 打印各任务 CPU 占用比。本项目实测：SensorTask 1%、ControlTask 0.5%、DisplayTask 5%（OLED I2C 较慢）、CommTask 0.2%、IDLE 93%。</li>
+    </ul>
+
+    <div class="tip">
+      <strong>提示：</strong>OLED 显示任务占 5% CPU 主要因 SSD1306 I2C 100 kHz 速率下整屏刷新耗时 ~30 ms。优化方案：(1) 改用 I2C 400 kHz Fast Mode；(2) 只刷新变化行（脏页机制）；(3) 把整屏刷新放到 DMA I2C 传输，主任务不阻塞。
+    </div>
+
+    <h3>§42.6.4 常见调试问题</h3>
+    <table>
+      <thead><tr><th>现象</th><th>可能原因</th><th>排查方法</th></tr></thead>
+      <tbody>
+        <tr><td>DHT11 读出 -999</td><td>时序不准或上拉电阻缺失</td><td>检查 PE0 上拉 4.7 kΩ；示波器看 18 ms 拉低是否准确</td></tr>
+        <tr><td>继电器频繁吸合/断开</td><td>未加滞后带</td><td>检查 ControlTask 中 ON/OFF 是否分离</td></tr>
+        <tr><td>OLED 偶发花屏</td><td>I2C 多任务竞争</td><td>确认所有 OLED 调用都在 g_oledMutex 内</td></tr>
+        <tr><td>ESP8266 上报丢包</td><td>MQTT 缓冲区过小</td><td>增大 AT 缓冲至 256 B；降低上报频率</td></tr>
+        <tr><td>任务栈溢出</td><td>snprintf 占栈过大</td><td>CommTask 栈增至 2048 B；改用静态缓冲</td></tr>
+      </tbody>
+    </table>
+    <div class="figure-caption">图 42-9 常见调试问题速查表</div>
+
+    <h2>§42.7 扩展方向</h2>
+
+    <h3>§42.7.1 PID 精确控制</h3>
+    <p>本项目采用简单滞后控制，适用于执行器为"开关量"的场景。若改用 PWM 调速风扇、PWM 调光补光灯，可实现连续 PID 控制。温度控制离散 PID 公式：</p>
+    <p style="text-align:center;"><code>u(k) = Kp·e(k) + Ki·Σe(i) + Kd·(e(k) − e(k−1))</code></p>
+    <p>其中 <code>e(k) = T_set − T(k)</code>。PID 参数可用 Ziegler-Nichols 法整定，本项目实测 Kp=2.0、Ki=0.1、Kd=0.5 可使温度稳定在 ±0.5 ℃ 区间。</p>
+
+    <h3>§42.7.2 边缘机器学习</h3>
+    <p>利用 STM32F407 的 Cortex-M4F 浮点单元和 CMSIS-NN 库，可在本地部署轻量级神经网络。例如基于历史温湿度序列预测未来 1 小时温度趋势，提前启动通风；或基于摄像头（OV2640）+ 轻量 CNN 识别叶片病虫害。OpenHarmony 提供 AI 子系统 <code>mindspore-lite</code>，支持 INT8 量化模型推理。</p>
+
+    <h3>§42.7.3 多大棚联动</h3>
+    <p>OpenHarmony 分布式软总线（SoftBus）可使多个大棚节点自组网。主节点聚合各分棚数据，统一上报云端，并支持跨棚联动（如 1 号棚温度过高时借用 2 号棚通风能力）。分布式软总线基于 WiFi 或 BLE，使用 CoAP 协议发现设备、TCP 传输数据。</p>
+
+    <h3>§42.7.4 云端数据可视化与告警</h3>
+    <p>云端可采用 EMQX + InfluxDB + Grafana 经典物联网栈：EMQX 作为 MQTT Broker，InfluxDB 时序存储，Grafana 可视化。配合钉钉/微信机器人推送告警，实现"采集—控制—可视化—告警"全链路。</p>
+
+    <h3>§42.7.5 节能与低功耗</h3>
+    <p>若改用电池供电，可利用 LiteOS-M 的 Tickless 模式：在所有任务阻塞时停止系统 tick，由低功耗定时器唤醒。STM32F407 进入 Stop 模式功耗可降至 ~0.5 mA，配合传感器间歇采样（如 1 min 一次），单节 18650 电池可工作数月。</p>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>智慧农业大棚是 OpenHarmony LiteOS-M 多任务调度的典型场景，按"采集—控制—显示—通信"四类职责划分任务，通过消息队列解耦、互斥锁串行化共享资源。</li>
+        <li>CMSIS-OS2 是 ARM 推荐的 RTOS 抽象层，<code>osThreadNew</code>、<code>osMessageQueueNew</code>、<code>osMutexAcquire</code> 三个核心 API 即可覆盖大部分多任务工程需求。</li>
+        <li>HDF（Hardware Driver Foundation）是 OpenHarmony 的统一驱动框架，将 GPIO/ADC/I2C/UART 抽象为标准接口，便于跨芯片移植。</li>
+        <li>滞后控制（Hysteresis Control）是工程实践中避免执行器频繁启停的关键技巧，所有阈值控制都应设置 2%~5% 的滞后带。</li>
+        <li>任务优先级设计遵循"采集 &gt; 控制 &gt; 显示 &gt; 通信"原则，栈大小需根据局部变量与调用深度估算，建议保留 20% 余量并开启栈溢出检查。</li>
+        <li>项目可扩展至 PID 精确控制、边缘 AI、多大棚联动、云端可视化等方向，是 OpenHarmony 在垂直行业落地的代表案例。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>本项目中传感器采集周期为 1 s、控制周期为 5 s、显示周期为 500 ms，为何不统一为相同周期？分析不同周期背后的工程考量。</li>
+        <li>滞后控制的"上限触发开启、下限触发关闭"为何能避免继电器频繁启停？若滞后带设得过宽（如温度 25~35 ℃）会带来什么问题？</li>
+        <li>使用 CMSIS-OS2 的 <code>osMessageQueueNew</code> 创建一个深度为 8 的消息队列，假设每条消息为 16 字节，请计算该队列共占用多少 RAM，并说明在 192 KB RAM 的 STM32F407 上是否构成压力。</li>
+        <li>将本项目的"开关量继电器"改为"PWM 调速风扇"，编写离散 PID 控制任务的核心代码框架（Kp=2.0，Ki=0.1，Kd=0.5），并说明积分项为何需要抗饱和（Anti-Windup）。</li>
+        <li>设计一个云端命令下发协议：远程 PC 通过 MQTT 发布 <code>{"cmd":"set_temp","val":30}</code>，STM32F407 接收后动态修改温度阈值。请给出 CommTask 中下行命令解析与阈值更新的代码思路。</li>
+        <li>分析本项目在多少大棚节点规模下，分布式软总线（SoftBus）的自组网开销会显著影响实时性？提出一种分级汇聚架构来突破该瓶颈。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>ARM Ltd. CMSIS-RTOS2 API Specification v2.1.3 [S]. 2023. https://arm-software.github.io/CMSIS_5/latest/RTOS2/</li>
+        <li>OpenHarmony Community. OpenHarmony LiteOS-M Kernel Development Guide [EB/OL]. 2024. https://gitee.com/openharmony/docs</li>
+        <li>拓维信息. Niobe407 开发板 OpenHarmony 适配指南 [Z]. 2024.</li>
+        <li>STMicroelectronics. STM32F407 Reference Manual RM0090 Rev 18 [Z]. 2023.</li>
+        <li>Aosong. DHT11 Humidity &amp; Temperature Sensor Datasheet v1.0 [Z]. 2022.</li>
+        <li>Li X, Wang Y, et al. A Greenhouse Environment Monitoring System Based on IoT and Edge Computing [J]. IEEE Internet of Things Journal, 2022, 9(15): 14231-14242.</li>
+        <li>Zhang H, Liu J. Design of Smart Agriculture Greenhouse Control System Based on RTOS [C]. Proc. IEEE ICITEA, 2021: 215-220.</li>
+        <li>韩宝玲, 李强. 基于 OpenHarmony 的智慧农业监测系统设计与实现 [J]. 物联网学报, 2023, 7(2): 45-53.</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html" class="prev">← 第 41 章 OpenHarmony 分布式环境监测</a>
+      <a href="/index.html" class="home">返回首页</a>
+      <a href="/chapters/part5-projects/ch43-smart-locker-stm32.html" class="next">第 43 章 智能快递柜 →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

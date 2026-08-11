@@ -1,0 +1,499 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第6章 C51 程序设计基础 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link active" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 2 篇 STC &gt; <span>第 6 章 C51 程序设计基础</span>
+    </div>
+
+    <h1>第 6 章 C51 程序设计基础</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>理解 C51 与标准 ANSI C 的主要区别，掌握 C51 的扩展关键字与语法</li>
+        <li>掌握 data/idata/xdata/pdata/code 等存储类型修饰符的含义与适用场景</li>
+        <li>熟练使用 sfr/sbit 关键字操作特殊功能寄存器与位变量</li>
+        <li>掌握 C51 中断函数的写法，理解 interrupt/using 关键字与中断号映射</li>
+        <li>能够进行模块化编程（.h/.c 分离）并理解预处理、优化等级对代码体积的影响</li>
+      </ul>
+    </div>
+
+    <h2>6.1 C51 与标准 ANSI C 的区别</h2>
+    <p><strong>C51</strong> 是 Keil 公司为 8051 系列单片机设计的 C 语言编译器，它在 ANSI C（标准 C）基础上扩展了一系列针对 8051 体系结构的关键字与语法。由于 8051 是哈佛结构、有位寻址区、有特殊功能寄存器，这些硬件特性无法用标准 C 直接描述，因此 C51 的扩展是必要的。下表对比 C51 与标准 ANSI C 的主要区别：</p>
+    <table>
+      <thead><tr><th>对比项</th><th>标准 ANSI C</th><th>Keil C51</th></tr></thead>
+      <tbody>
+        <tr><td>头文件</td><td>stdio.h / stdlib.h 等</td><td>reg52.h / STC89.h（芯片寄存器定义）</td></tr>
+        <tr><td>数据类型</td><td>char/int/long/float</td><td>扩展 bit/sbit/sfr/sfr16，int 默认 16 位</td></tr>
+        <tr><td>存储类型</td><td>无（统一内存模型）</td><td>data/idata/xdata/pdata/code/bdata</td></tr>
+        <tr><td>指针</td><td>统一指针（4 字节）</td><td>区分通用指针（3 字节）与存储区指针（1~2 字节）</td></tr>
+        <tr><td>函数</td><td>标准函数</td><td>扩展 interrupt/using/reentrant/compact 等</td></tr>
+        <tr><td>库函数</td><td>printf/malloc 等完整</td><td>精简版，printf 需自定义 putchar，无 malloc（或精简）</td></tr>
+        <tr><td>启动文件</td><td>无</td><td>STARTUP.A51 初始化 RAM 与堆栈</td></tr>
+      </tbody>
+    </table>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch06-c51-programming-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+left to right direction
+component "C51 程序" as A
+component "ANSI C 标准部分\n变量/函数/控制流" as B
+component "8051 扩展部分" as C
+component "存储类型\ndata/idata/xdata/code" as D
+component "寄存器操作\nsfr/sbit/sfr16" as E
+component "中断函数\ninterrupt/using" as F
+component "位寻址\nbit/bdata" as G
+A --&gt; B
+A --&gt; C
+C --&gt; D
+C --&gt; E
+C --&gt; F
+C --&gt; G
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 6-1 C51 程序的组成结构</div>
+
+    <p>学习 C51 的核心是掌握"扩展部分"——存储类型和寄存器操作，因为它们直接对应 8051 的硬件结构。标准 C 部分的语法（if/for/while/函数调用）与 PC 上编程完全一致。</p>
+
+    <h2>6.2 数据类型与存储类型</h2>
+
+    <h3>6.2.1 数据类型</h3>
+    <p>C51 支持的数据类型及占用的字节数如下表。注意 8051 是 8 位机，<code>int</code> 类型默认为 16 位（2 字节），与 PC 上 32 位 int 不同，这是移植代码时需注意的。</p>
+    <table>
+      <thead><tr><th>类型</th><th>关键字</th><th>位数</th><th>字节数</th><th>取值范围</th></tr></thead>
+      <tbody>
+        <tr><td>无符号字符</td><td>unsigned char</td><td>8</td><td>1</td><td>0 ~ 255</td></tr>
+        <tr><td>有符号字符</td><td>signed char</td><td>8</td><td>1</td><td>-128 ~ 127</td></tr>
+        <tr><td>无符号整型</td><td>unsigned int</td><td>16</td><td>2</td><td>0 ~ 65535</td></tr>
+        <tr><td>有符号整型</td><td>signed int</td><td>16</td><td>2</td><td>-32768 ~ 32767</td></tr>
+        <tr><td>无符号长整型</td><td>unsigned long</td><td>32</td><td>4</td><td>0 ~ 4294967295</td></tr>
+        <tr><td>有符号长整型</td><td>signed long</td><td>32</td><td>4</td><td>-2147483648 ~ 2147483647</td></tr>
+        <tr><td>浮点型</td><td>float</td><td>32</td><td>4</td><td>±1.18e-38 ~ ±3.40e38（IEEE754）</td></tr>
+        <tr><td>位型</td><td>bit</td><td>1</td><td>1（位）</td><td>0 或 1，仅位寻址区</td></tr>
+        <tr><td>特殊位</td><td>sbit</td><td>1</td><td>1（位）</td><td>SFR 的某一位</td></tr>
+        <tr><td>特殊寄存器</td><td>sfr</td><td>8</td><td>1</td><td>直接映射 SFR 地址</td></tr>
+        <tr><td>16 位寄存器</td><td>sfr16</td><td>16</td><td>2</td><td>映射连续两个 SFR（如 T0/T1）</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>性能建议</strong>：8051 是 8 位机，<code>char</code> 运算最快（单字节），<code>int/long</code> 运算需要调用库函数多字节处理，<code>float</code> 运算最慢（可能数百周期）。在性能敏感场景应尽量用 <code>unsigned char</code>，避免浮点运算。
+    </div>
+
+    <h3>6.2.2 存储类型</h3>
+    <p>由于 8051 有多种存储空间（片内 RAM、片外 RAM、ROM），C51 用存储类型修饰符指定变量存放位置，这是 C51 与标准 C 最显著的差异：</p>
+    <table>
+      <thead><tr><th>存储类型</th><th>对应存储区</th><th>访问方式</th><th>速度</th><th>典型用途</th></tr></thead>
+      <tbody>
+        <tr><td>data</td><td>片内 RAM 低 128B（00H~7FH）</td><td>直接寻址</td><td>最快</td><td>频繁访问的全局/局部变量</td></tr>
+        <tr><td>idata</td><td>片内 RAM 全部 256B（00H~FFH）</td><td>间接寻址（R0/R1）</td><td>快</td><td>需要访问高 128B 的变量</td></tr>
+        <tr><td>bdata</td><td>位寻址区（20H~2FH）</td><td>位寻址</td><td>快</td><td>bit 变量与位操作</td></tr>
+        <tr><td>xdata</td><td>片外 RAM（最大 64KB）</td><td>DPTR 间接寻址</td><td>慢</td><td>大数组、显示缓冲区</td></tr>
+        <tr><td>pdata</td><td>片外 RAM 低 256B（分页）</td><td>R0/R1 间接寻址</td><td>中</td><td>外部 RAM 的快速访问分页</td></tr>
+        <tr><td>code</td><td>程序存储器 ROM（只读）</td><td>DPTR/MOVC</td><td>慢</td><td>常量、字模表、查表数据</td></tr>
+      </tbody>
+    </table>
+
+    <p>变量定义示例：</p>
+    <pre><code class="language-c">unsigned char data   cnt = 0;        // 快速访问的计数器
+unsigned char idata   buf[128];      // 内部 RAM 全部 256B 中的缓冲区
+unsigned char xdata   disp[1024];    // 外部 RAM 中的显示缓冲
+unsigned char code    font[] = {     // ROM 中的字模表
+    0x3F, 0x06, 0x5B, 0x4F, 0x66
+};
+bit            bdata  flag_ready;    // 位变量，位于位寻址区
+</code></pre>
+
+    <h2>6.3 特殊功能寄存器操作</h2>
+    <p>8051 的所有片内外设都通过<strong>特殊功能寄存器（SFR）</strong>控制，C51 用 <code>sfr</code> 和 <code>sbit</code> 关键字将 SFR 地址映射为 C 变量，从而用熟悉的赋值语法操作硬件。</p>
+
+    <h3>6.3.1 sfr 关键字</h3>
+    <p><code>sfr</code> 用于定义 8 位特殊功能寄存器，语法为 <code>sfr 名字 = 地址;</code>。这些定义通常已包含在 <code>reg52.h</code> 头文件中，无需用户重复定义。</p>
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+
+// reg52.h 中已定义（用户通常无需重复定义）
+// sfr P0 = 0x80;    // P0 端口，地址 80H
+// sfr P1 = 0x90;    // P1 端口，地址 90H
+// sfr TMOD = 0x89;  // 定时器方式寄存器
+// sfr TH0 = 0x8C;   // 定时器 0 高字节
+
+void main(void) {
+    P1 = 0x55;        // 向 P1 端口输出 01010101
+    TMOD = 0x01;      // 配置定时器 0 为模式 1（16 位）
+    TH0 = 0xFC;       // 设置定时器初值
+}
+</code></pre>
+
+    <h3>6.3.2 sbit 关键字</h3>
+    <p><code>sbit</code> 用于定义可位寻址的 SFR 的某一位，有三种写法：① <code>sbit 名字 = SFR名^位序号;</code>；② <code>sbit 名字 = 字节地址^位序号;</code>；③ <code>sbit 名字 = 位地址;</code>。第一种最常用。</p>
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+
+sbit  LED1 = P1^0;      // P1.0 引脚，方法一（推荐）
+sbit  LED2 = 0x90 ^ 0;  // 同上，方法二
+sbit  KEY  = 0xB4;      // P3.4 的位地址，方法三
+sbit  BEEP = P1^5;      // 蜂鸣器接 P1.5
+
+void main(void) {
+    LED1 = 0;           // 点亮 LED1（位赋值）
+    LED1 = 1;           // 熄灭 LED1
+    if (KEY == 0) {     // 读按键状态
+        BEEP = 1;       // 按键按下，开蜂鸣器
+    }
+}
+</code></pre>
+
+    <h2>6.4 位操作与位变量</h2>
+    <p>8051 的位寻址能力是其重要特色，C51 提供了 <code>bit</code> 类型和位操作运算符，让位级控制既高效又易读。</p>
+
+    <h3>6.4.1 bit 变量</h3>
+    <p><code>bit</code> 类型变量存储在位寻址区（20H~2FH），每个变量只占 1 个比特，适用于标志位。注意 <code>bit</code> 变量不能定义数组，也不能用作函数指针。</p>
+    <pre><code class="language-c">bit flag_recv = 0;       // 接收完成标志
+bit flag_send = 0;       // 发送完成标志
+
+void main(void) {
+    while (1) {
+        if (flag_recv) {     // 检测标志位
+            flag_recv = 0;   // 清除标志
+            flag_send = 1;   // 置发送标志
+        }
+    }
+}
+</code></pre>
+
+    <h3>6.4.2 位操作运算符</h3>
+    <p>对寄存器进行位级控制时，常用 <code>&amp; | ~ ^ &lt;&lt; &gt;&gt;</code> 等位运算符。这是嵌入式编程的核心技巧：</p>
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+
+void main(void) {
+    P1 = P1 | 0x01;        // 置位 P1.0，其余不变（或运算）
+    P1 = P1 &amp; ~0x01;       // 清零 P1.0，其余不变（与运算+取反）
+    P1 = P1 ^ 0x01;        // 翻转 P1.0（异或运算）
+    P1 = 0x01 &lt;&lt; 3;        // P1.3 置 1，等价于 P1 = 0x08
+    if ((P1 &amp; 0x0F) == 0x0F) {  // 判断低 4 位是否全为 1
+        // ...
+    }
+}
+</code></pre>
+
+    <h2>6.5 函数与中断函数写法</h2>
+    <p>C51 的普通函数与标准 C 基本一致，但中断函数是 C51 的重要扩展，需要用 <code>interrupt</code> 关键字声明，并通过中断号关联到具体的中断源。</p>
+
+    <h3>6.5.1 普通函数</h3>
+    <pre><code class="language-c">unsigned char add(unsigned char a, unsigned char b) {
+    return a + b;
+}
+
+void delay_ms(unsigned int ms) {
+    unsigned int i, j;
+    for (i = 0; i &lt; ms; i++)
+        for (j = 0; j &lt; 110; j++);
+}
+</code></pre>
+
+    <h3>6.5.2 中断函数</h3>
+    <p>中断函数的语法为：<code>void 函数名(void) interrupt 中断号 [using 寄存器组号]</code>。中断函数不能有参数和返回值。MCS-51 的中断号映射如下表：</p>
+    <table>
+      <thead><tr><th>中断号</th><th>中断源</th><th>入口地址</th><th>默认优先级</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>外部中断 0（INT0）</td><td>0003H</td><td>最高</td></tr>
+        <tr><td>1</td><td>定时器 0（T0）</td><td>000BH</td><td>次高</td></tr>
+        <tr><td>2</td><td>外部中断 1（INT1）</td><td>0013H</td><td>中</td></tr>
+        <tr><td>3</td><td>定时器 1（T1）</td><td>001BH</td><td>次低</td></tr>
+        <tr><td>4</td><td>串行口（UART）</td><td>0023H</td><td>最低</td></tr>
+        <tr><td>5</td><td>定时器 2（T2，仅 8052/STC）</td><td>002BH</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+
+sbit LED = P1^0;
+
+// 定时器 0 中断函数，中断号 1
+void timer0_isr(void) interrupt 1 {
+    TH0 = 0xFC;      // 重新装载初值（1ms @11.0592MHz）
+    TL0 = 0x18;
+    LED = ~LED;      // 翻转 LED
+}
+
+void main(void) {
+    TMOD = 0x01;     // T0 模式 1（16 位）
+    TH0 = 0xFC;
+    TL0 = 0x18;
+    ET0 = 1;         // 允许 T0 中断
+    EA = 1;          // 开总中断
+    TR0 = 1;         // 启动 T0
+    while (1);       // 主循环空转，等待中断
+}
+</code></pre>
+
+    <h3>6.5.3 using 关键字</h3>
+    <p><code>using n</code> 指定中断函数使用第 n 组工作寄存器（n=0~3），可避免中断与主程序争夺 R0~R7。不写 using 时，编译器会自动 PUSH/POP 现场寄存器，代码体积略大。对实时性要求高的高频中断建议显式指定 using。</p>
+    <pre><code class="language-c">void timer0_isr(void) interrupt 1 using 1 {  // 使用第 1 组寄存器
+    TH0 = 0xFC;
+    TL0 = 0x18;
+    LED = ~LED;
+}
+</code></pre>
+
+    <h2>6.6 模块化编程</h2>
+    <p>当程序规模变大后，将所有代码堆在 main.c 中会难以维护。模块化编程将不同功能拆分到独立的 .c/.h 文件中，每个模块对外暴露接口、对内隐藏实现，是工程化开发的基本规范。</p>
+
+    <h3>6.6.1 头文件与源文件分离</h3>
+    <p>以 LED 模块为例，创建 <code>led.h</code> 声明接口，<code>led.c</code> 实现功能：</p>
+    <pre><code class="language-c">// ===== led.h =====
+#ifndef __LED_H__
+#define __LED_H__
+
+#include &lt;reg52.h&gt;
+
+sbit LED1 = P1^0;
+sbit LED2 = P1^1;
+
+void led_on(unsigned char n);
+void led_off(unsigned char n);
+void led_toggle(unsigned char n);
+
+#endif
+</code></pre>
+
+    <pre><code class="language-c">// ===== led.c =====
+#include "led.h"
+
+void led_on(unsigned char n) {
+    if (n == 1) LED1 = 0;
+    else if (n == 2) LED2 = 0;
+}
+
+void led_off(unsigned char n) {
+    if (n == 1) LED1 = 1;
+    else if (n == 2) LED2 = 1;
+}
+
+void led_toggle(unsigned char n) {
+    if (n == 1) LED1 = ~LED1;
+    else if (n == 2) LED2 = ~LED2;
+}
+</code></pre>
+
+    <pre><code class="language-c">// ===== main.c =====
+#include "led.h"
+
+void delay_ms(unsigned int ms) {
+    unsigned int i, j;
+    for (i = 0; i &lt; ms; i++)
+        for (j = 0; j &lt; 110; j++);
+}
+
+void main(void) {
+    while (1) {
+        led_on(1);
+        delay_ms(500);
+        led_off(1);
+        led_toggle(2);
+        delay_ms(500);
+    }
+}
+</code></pre>
+
+    <div class="tip">
+      <strong>规范</strong>：头文件使用 <code>#ifndef __XXX_H__ / #define / #endif</code> 防止重复包含；sbit/sfr 定义放在 .h 中供多文件共享；全局变量在 .c 中定义，在 .h 中用 <code>extern</code> 声明。
+    </div>
+
+    <h2>6.7 常用预处理与头文件</h2>
+    <p>C51 中常用的预处理指令与头文件如下：</p>
+    <ul>
+      <li><strong>#include &lt;reg52.h&gt;</strong>：包含 STC 的所有 SFR 定义（兼容 8052），是最常用的头文件。</li>
+      <li><strong>#include &lt;intrins.h&gt;</strong>：包含内联函数，如 <code>_nop_()</code>（空操作一个机器周期）、<code>_cror_()</code>/<code>_crol_()</code>（循环移位）等。</li>
+      <li><strong>#define</strong>：定义常量与宏，如 <code>#define FOSC 11059200UL</code>。</li>
+      <li><strong>#ifndef / #define / #endif</strong>：防止头文件重复包含。</li>
+      <li><strong>#pragma</strong>：编译器特定指令，如 <code>#pragma optimize(8)</code> 指定优化等级。</li>
+    </ul>
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+#include &lt;intrins.h&gt;
+
+#define FOSC   11059200UL   // 晶振频率
+#define BAUD   9600         // 波特率
+#define uchar  unsigned char
+#define uint   unsigned int
+
+void main(void) {
+    uchar i;
+    P1 = 0xFE;                  // 11111110
+    while (1) {
+        for (i = 0; i &lt; 7; i++) {
+            P1 = _crol_(P1, 1); // 循环左移一位（流水灯）
+            _nop_();            // 空操作，延时一个机器周期
+        }
+    }
+}
+</code></pre>
+
+    <h2>6.8 Keil 优化等级与代码体积</h2>
+    <p>Keil C51 编译器提供 0~9 共 10 个优化等级，等级越高生成的代码体积越小、运行越快，但调试难度也越大（变量可能被优化掉）。优化等级通过 Project → Options for Target → C51 标签设置。</p>
+    <table>
+      <thead><tr><th>等级</th><th>优化内容</th><th>代码体积</th><th>调试友好度</th></tr></thead>
+      <tbody>
+        <tr><td>Level 0</td><td>基本不优化</td><td>最大</td><td>最好（变量可观察）</td></tr>
+        <tr><td>Level 1~3</td><td>常量折叠、简单折叠</td><td>较大</td><td>较好</td></tr>
+        <tr><td>Level 4~6</td><td>公共子表达式消除、循环优化</td><td>中等</td><td>中等</td></tr>
+        <tr><td>Level 7~8</td><td>寄存器优化、窥孔优化</td><td>小</td><td>较差</td></tr>
+        <tr><td>Level 9</td><td>交叉模块优化（Link 级）</td><td>最小</td><td>差</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>调试建议</strong>：开发调试阶段建议用 Level 0~3，便于观察变量；正式发布时切换到 Level 8 减小代码体积。若用 Proteus 仿真调试，建议 Level 1~2，避免过度优化导致仿真异常。
+    </div>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>C51 是 Keil 为 8051 设计的 C 编译器，在 ANSI C 基础上扩展了存储类型、sfr/sbit、interrupt 等针对 8051 硬件的关键字。</li>
+        <li>8051 的 int 默认 16 位；数据类型 char 最快，float 最慢，应优先使用 unsigned char。</li>
+        <li>存储类型 data/idata/xdata/pdata/code/bdata 决定变量存放位置：data 最快用于频繁访问变量，xdata 用于大数组，code 用于常量与字模。</li>
+        <li>sfr 用于定义 8 位 SFR，sbit 用于定义 SFR 的某一位，二者是 C51 操作硬件寄存器的核心。</li>
+        <li>bit 类型变量存储在位寻址区，占 1 比特；位操作运算符（&amp;|~^&lt;&lt;&gt;&gt;）是寄存器位级控制的关键技巧。</li>
+        <li>中断函数用 interrupt 关键字声明，中断号 0~5 对应 INT0/T0/INT1/T1/UART/T2；using 可指定工作寄存器组减少现场保护开销。</li>
+        <li>模块化编程通过 .h/.c 分离实现，头文件用 #ifndef 防止重复包含，全局变量 extern 声明。</li>
+        <li>Keil 优化等级 0~9：开发阶段用低等级便于调试，发布时用高等级减小体积。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>C51 与标准 ANSI C 的主要区别有哪些？为什么要进行这些扩展？</li>
+        <li>说明 data、idata、xdata、pdata、code 五种存储类型对应的存储区与访问速度差异，并各举一个适用场景。</li>
+        <li>使用 sfr 和 sbit 定义定时器 1 的 TMOD 寄存器（地址 89H）和 P1.5 引脚，并写出将 P1.5 置 1 的代码。</li>
+        <li>编写一个 4×4 字节数组，分别存放在 data 和 xdata 中，说明两者访问方式的差异。</li>
+        <li>编写一个定时器 0 中断函数（中断号 1），要求每 1ms 翻转一次 P1.0，并使用第 1 组工作寄存器。</li>
+        <li>创建一个按键模块 key.h/key.c，定义 4 个按键（P3.0~P3.3），提供 key_scan() 函数返回按下的键号（0 表示无按键）。说明模块化编程中头文件如何防止重复包含。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>Keil 官方. C51 User's Guide [Z]. 2024. https://www.keil.com/support/man/docs/c51/</li>
+        <li>张毅刚. 单片机原理及应用——C51 编程 + Proteus 仿真（第 4 版）[M]. 北京：高等教育出版社, 2021.</li>
+        <li>郭天祥. 新概念 51 单片机 C 语言教程 [M]. 北京：电子工业出版社, 2018.</li>
+        <li>Kernighan B W, Ritchie D M. The C Programming Language (2nd Edition) [M]. Prentice Hall, 1988.</li>
+        <li>STC 官方. STC89C52RC 数据手册 [Z]. 2024. https://www.stcmcudata.com/</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html" class="prev">← 第 5 章 STC 开发环境</a>
+      <a href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html" class="next">第 7 章 GPIO/LED/按键 →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

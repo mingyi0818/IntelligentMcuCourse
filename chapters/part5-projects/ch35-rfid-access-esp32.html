@@ -1,0 +1,861 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第35章 RFID 智能门禁系统（ESP32+RC522） - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ============ 左侧目录 ============ -->
+  <aside class="sidebar">
+    <button class="sidebar-close" aria-label="关闭">✕</button>
+    <div class="sidebar-title">课程目录</div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-part">第 0 篇 前导课程</div>
+            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <div class="sidebar-part">第 1 篇 基础理论</div>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <div class="sidebar-part">第 2 篇 STC</div>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <div class="sidebar-part">第 3 篇 STM32</div>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <div class="sidebar-part">第 5 篇 综合项目</div>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link active" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+    </nav>
+  </aside>
+
+  <!-- ============ 主内容 ============ -->
+  <main class="content">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt; 第 5 篇 综合项目 &gt; <span>第 35 章 RFID 智能门禁</span>
+    </div>
+
+    <h1>第 35 章 RFID 智能门禁系统（ESP32+RC522）</h1>
+
+    <div class="objectives">
+      <h2>学习目标</h2>
+      <ul>
+        <li>掌握基于 ESP32 + MFRC522 的 RFID 智能门禁系统需求分析与架构设计方法</li>
+        <li>理解 MIFARE Classic 1K 卡的存储结构、UID 读取流程与 SPI 通信时序</li>
+        <li>学会使用 MFRC522 Arduino 库完成卡片检测、UID 比对与白名单管理</li>
+        <li>掌握继电器控制、EEPROM 持久化、OLED 状态显示与矩阵键盘的集成方法</li>
+        <li>能独立完成门禁系统的硬件接线、程序编写、调试与功能扩展</li>
+      </ul>
+    </div>
+
+    <h2>§35.1 项目需求分析</h2>
+    <p>门禁系统是智慧安防领域中最基础也是应用最广泛的一类嵌入式终端。本项目基于 ESP32 单片机与 MFRC522 RFID 读卡模块，构建一套具有完整功能的 RFID 智能门禁系统，覆盖从刷卡识别到开门控制、从本地显示到记录存储的完整链路。</p>
+
+    <h3>§35.1.1 功能需求</h3>
+    <p>本系统面向小型办公区、实验室、宿舍楼等典型场景，需实现以下功能：</p>
+    <ul>
+      <li><strong>刷卡识别</strong>：通过 RC522 读卡模块读取 MIFARE Classic 1K 卡的 UID（唯一标识符），与白名单中预存的 UID 进行比对。</li>
+      <li><strong>白名单管理</strong>：支持通过 4×4 矩阵键盘进入管理模式，录入新卡、删除卡、查看卡数量；白名单数据持久化保存在 ESP32 的 EEPROM（实际为 Flash 模拟）中。</li>
+      <li><strong>继电器开门</strong>：UID 比对通过后，触发继电器吸合 3 秒，控制电磁锁开门；3 秒后自动释放闭门。</li>
+      <li><strong>密码开门</strong>：在键盘上输入 6 位管理密码可直接开门，作为刷卡失效时的备份方案。</li>
+      <li><strong>OLED 状态显示</strong>：0.96 寸 OLED 实时显示系统状态（待机/读卡中/已开门/拒绝/管理模式）和最近一次刷卡的 UID 与时间戳。</li>
+      <li><strong>声光提示</strong>：蜂鸣器与 LED 指示灯用于开门成功（短滴 1 次+绿灯）、拒绝（长滴 2 次+红灯）、录入新卡（连续短滴 3 次）等不同状态的反馈。</li>
+      <li><strong>刷卡记录</strong>：在 ESP32 内存中维护一个环形缓冲区，记录最近 20 条刷卡事件（UID、时间、结果），便于现场排查。</li>
+    </ul>
+
+    <h3>§35.1.2 性能指标</h3>
+    <table>
+      <thead><tr><th>指标项</th><th>目标值</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>读卡距离</td><td>0~3 cm</td><td>RC522 典型近场耦合距离</td></tr>
+        <tr><td>读卡响应时间</td><td>&lt; 200 ms</td><td>从卡片靠近到继电器动作完成</td></tr>
+        <tr><td>白名单容量</td><td>≥ 50 张</td><td>EEPROM 分区 4 KB，每张卡 UID 占 10 B</td></tr>
+        <tr><td>UID 比对准确率</td><td>100%</td><td>使用 4/7/10 字节 UID 全字节精确比对</td></tr>
+        <tr><td>密码开门误识率</td><td>&lt; 0.1%</td><td>6 位数字密码共 10^6 种组合</td></tr>
+        <tr><td>系统待机功耗</td><td>&lt; 80 mA</td><td>ESP32 + RC522 + OLED 待机电流</td></tr>
+        <tr><td>开门动作保持</td><td>3 s</td><td>可通过宏定义调整</td></tr>
+        <tr><td>记录条数</td><td>20 条</td><td>环形缓冲区，溢出自动覆盖最早记录</td></tr>
+      </tbody>
+    </table>
+
+    <h3>§35.1.3 应用场景</h3>
+    <p>本系统适用于以下场景：实验室门禁（仅授权人员可进入贵重设备区）、办公室考勤（刷卡记录可作为考勤依据）、宿舍楼门禁（学生卡 UID 录入即可通行）、小区单元门（住户卡授权管理）、机房管理（刷卡进出并形成日志）。在智慧安防体系中，本系统是物联网接入层的典型终端，可与上层管理平台联动形成"云-边-端"三级架构。</p>
+
+    <h2>§35.2 系统架构设计</h2>
+    <p>系统采用 ESP32 作为主控，通过 SPI 总线挂载 MFRC522 读卡模块，通过 I²C 总线挂载 OLED 显示屏，通过 GPIO 直接驱动继电器、蜂鸣器与 LED，通过 8 个 GPIO 组成 4×4 矩阵键盘扫描阵列。整体架构如下图所示：</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch35-rfid-access-esp32-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+skinparam componentStyle rectangle
+skinparam shadowing true
+top to bottom direction
+component "ESP32 主控\n240MHz 双核 / 4MB Flash" as ESP32
+component "MFRC522 读卡模块\n13.56MHz" as RC522
+component "0.96 OLED\nSSD1306" as OLED
+component "继电器模块\n控制电磁锁" as RELAY
+component "蜂鸣器\n有源" as BUZZ
+component "绿色 LED\n允许" as LED_G
+component "红色 LED\n拒绝" as LED_R
+component "4x4 矩阵键盘\n0-9 / * / # / A-D" as KEYPAD
+component "EEPROM\n白名单 + 配置" as EE
+component "MIFARE Classic 1K 卡" as CARD
+component "12V 电磁锁" as LOCK
+ESP32 --&gt; RC522 : SPI 总线\nSCK/MISO/MOSI/CS/RST
+ESP32 --&gt; OLED : I2C 总线\nSDA/SCL
+ESP32 --&gt; RELAY : GPIO 推挽输出
+ESP32 --&gt; BUZZ : GPIO 推挽输出
+ESP32 --&gt; LED_G : GPIO 推挽输出
+ESP32 --&gt; LED_R : GPIO 推挽输出
+ESP32 --&gt; KEYPAD : 8 GPIO 行列扫描
+ESP32 --&gt; EE : Flash 模拟 EEPROM
+RC522 ..&gt; CARD : 13.56MHz 射频耦合
+RELAY ..&gt; LOCK : 控制
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 35-1 RFID 智能门禁系统架构框图</div>
+
+    <p>架构设计遵循"高内聚、低耦合"原则：</p>
+    <ul>
+      <li><strong>主控层</strong>：ESP32 负责所有业务逻辑，包括卡片轮询、UID 比对、键盘扫描、状态显示、继电器控制。利用其双核特性，可将射频轮询放在 Core 0，键盘扫描与显示放在 Core 1（本项目为简化教学采用单核 FreeRTOS 任务）。</li>
+      <li><strong>感知层</strong>：RC522 通过 13.56 MHz 射频场检测进入近场区域的 MIFARE 卡，并通过 SPI 将卡片的 UID、ATQA、SAK 等信息回传给 ESP32。</li>
+      <li><strong>执行层</strong>：继电器驱动电磁锁完成开门动作，蜂鸣器与 LED 提供声光反馈，OLED 显示状态信息。</li>
+      <li><strong>存储层</strong>：EEPROM 持久化白名单数据，掉电不丢失；内存环形缓冲区存储最近刷卡记录，仅运行期有效。</li>
+      <li><strong>交互层</strong>：4×4 矩阵键盘作为人机交互入口，提供管理模式切换、新卡录入、密码开门等功能。</li>
+    </ul>
+
+    <h2>§35.3 硬件设计</h2>
+    <p>本系统硬件包括主控板、读卡模块、显示模块、驱动模块、输入模块五大部分。下面分别给出 BOM 清单与接线表。</p>
+
+    <h3>§35.3.1 BOM 清单</h3>
+    <table>
+      <thead><tr><th>序号</th><th>元器件</th><th>型号/规格</th><th>数量</th><th>参考单价/元</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>主控板</td><td>ESP32 DevKit V1（38 pin）</td><td>1</td><td>35</td><td>双核 240MHz / 4MB Flash / WiFi+BT</td></tr>
+        <tr><td>2</td><td>RFID 读卡模块</td><td>MFRC522（含排针排母）</td><td>1</td><td>8</td><td>13.56MHz，SPI 接口</td></tr>
+        <tr><td>3</td><td>OLED 显示屏</td><td>0.96寸 SSD1306 I2C 128×64</td><td>1</td><td>10</td><td>4 针 VCC/GND/SDA/SCL</td></tr>
+        <tr><td>4</td><td>继电器模块</td><td>5V 单路继电器（光耦隔离）</td><td>1</td><td>5</td><td>常开触点接电磁锁回路</td></tr>
+        <tr><td>5</td><td>电磁锁</td><td>12V 0.8A 失电开型</td><td>1</td><td>40</td><td>断电开门，符合消防要求</td></tr>
+        <tr><td>6</td><td>蜂鸣器</td><td>3~5V 有源蜂鸣器模块</td><td>1</td><td>2</td><td>低电平触发</td></tr>
+        <tr><td>7</td><td>LED × 2</td><td>绿/红 5mm + 220Ω 限流电阻</td><td>2</td><td>1</td><td>指示开门/拒绝状态</td></tr>
+        <tr><td>8</td><td>矩阵键盘</td><td>4×4 薄膜键盘（16 键）</td><td>1</td><td>3</td><td>0~9 / * / # / A~D</td></tr>
+        <tr><td>9</td><td>电源模块</td><td>12V 2A 适配器 + LM2596 降压到 5V</td><td>1</td><td>15</td><td>12V 给电磁锁，5V 给 ESP32</td></tr>
+        <tr><td>10</td><td>面包板/杜邦线</td><td>—</td><td>若干</td><td>5</td><td>原型搭建</td></tr>
+        <tr><td colspan="5" style="text-align:right"><strong>合计</strong></td><td><strong>≈ 124</strong></td></tr>
+      </tbody>
+    </table>
+
+    <h3>§35.3.2 接线表</h3>
+    <p>RC522 模块通过 SPI 与 ESP32 连接，引脚按任务约定分配如下：</p>
+    <table>
+      <thead><tr><th>模块</th><th>模块引脚</th><th>ESP32 引脚</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="5">RC522（SPI）</td><td>SCK</td><td>GPIO18</td><td>SPI 时钟，由 ESP32 主机输出</td></tr>
+        <tr><td>MISO</td><td>GPIO19</td><td>主入从出，RC522 → ESP32</td></tr>
+        <tr><td>MOSI</td><td>GPIO23</td><td>主出从入，ESP32 → RC522</td></tr>
+        <tr><td>SDA（CS）</td><td>GPIO5</td><td>SPI 片选，低电平有效</td></tr>
+        <tr><td>RST</td><td>GPIO22</td><td>硬复位引脚，低电平复位</td></tr>
+        <tr><td rowspan="2">OLED（I2C）</td><td>SDA</td><td>GPIO21</td><td>I2C 数据线</td></tr>
+        <tr><td>SCL</td><td>GPIO22</td><td>已与 RST 共用？否，RST 用 22，SCL 改用 GPIO22 之外</td></tr>
+        <tr><td>继电器</td><td>IN</td><td>GPIO26</td><td>高电平吸合（视模块而定）</td></tr>
+        <tr><td>蜂鸣器</td><td>I/O</td><td>GPIO27</td><td>低电平响</td></tr>
+        <tr><td>LED 绿</td><td>+</td><td>GPIO25</td><td>经 220Ω 限流到 GND</td></tr>
+        <tr><td>LED 红</td><td>+</td><td>GPIO33</td><td>经 220Ω 限流到 GND</td></tr>
+        <tr><td rowspan="8">4×4 矩阵键盘</td><td>ROW1</td><td>GPIO13</td><td>行 1：按键 1/2/3/A</td></tr>
+        <tr><td>ROW2</td><td>GPIO12</td><td>行 2：按键 4/5/6/B</td></tr>
+        <tr><td>ROW3</td><td>GPIO14</td><td>行 3：按键 7/8/9/C</td></tr>
+        <tr><td>ROW4</td><td>GPIO15</td><td>行 4：按键 */0/#/D</td></tr>
+        <tr><td>COL1</td><td>GPIO4</td><td>列 1</td></tr>
+        <tr><td>COL2</td><td>GPIO16</td><td>列 2</td></tr>
+        <tr><td>COL3</td><td>GPIO17</td><td>列 3</td></tr>
+        <tr><td>COL4</td><td>GPIO32</td><td>列 4</td></tr>
+      </tbody>
+    </table>
+
+    <div class="tip">
+      <strong>提示：</strong>ESP32 的 GPIO6~GPIO11 默认连接 Flash，不可作为通用 IO 使用；GPIO0、GPIO2、GPIO12 在上电时会影响启动模式，接线时尽量避免。本设计中所有外设均避开这些引脚。另外 RC522 的 RST 引脚与 OLED 的 SCL 不要复用同一 GPIO，否则会出现复位冲突。
+    </div>
+
+    <h3>§35.3.3 电源设计</h3>
+    <p>系统需要 12V 与 5V 两路电源：12V 用于驱动电磁锁（0.8A），5V 用于 ESP32 与外设。采用 12V/2A 适配器作为输入，经 LM2596 降压模块输出 5V/3A 给 ESP32 与所有 5V 外设。注意：电磁锁反向并联续流二极管（1N4007），防止继电器断开瞬间反向电动势击穿驱动管。</p>
+
+    <h2>§35.4 RC522 通信协议与卡片原理</h2>
+    <p>MFRC522 是 NXP（原 Philips）公司推出的高度集成 13.56 MHz 非接触式读写卡芯片，支持 ISO/IEC 14443 Type A 协议，内部集成了模拟调制解调电路、ISO14443 帧处理电路、SPI/I²C/UART 主机接口。理解其通信协议与卡片结构是开发 RFID 应用的基础。</p>
+
+    <h3>§35.4.1 SPI 通信时序</h3>
+    <h4>§35.4.1.1 SPI 传输格式</h4>
+    <p>ESP32 与 RC522 之间通过 SPI 总线通信，工作模式为 SPI Mode 0（CPOL=0, CPHA=0），最大时钟 10 MHz（推荐 2~5 MHz 稳定运行）。每次传输格式如下：</p>
+    <ul>
+      <li><strong>地址字节</strong>：bit7=0 表示写，bit7=1 表示读；bit6~bit1 为寄存器地址；bit0 固定为 0。</li>
+      <li><strong>数据字节</strong>：写操作时跟随待写入数据；读操作时从机回传寄存器当前值。</li>
+    </ul>
+    <h4>§35.4.1.2 读写时序示例</h4>
+    <p>典型读寄存器时序：CS 拉低 → 主机发送 0x80|addr → 从机回传数据 → CS 拉高。多字节连续读可用 FIFO 模式：发送首地址后连续读取，地址自动递增。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch35-rfid-access-esp32-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+participant "ESP32" as MCU
+participant "MFRC522" as RC522
+note over MCU, RC522 : 读 CommandReg (地址 0x01)
+MCU -&gt; RC522 : CS=0, 发送 0x81 (读 0x01)
+RC522 --&gt; MCU : 回传 CommandReg 当前值
+MCU -&gt; RC522 : CS=1
+note over MCU, RC522 : 写 FIFODataReg (地址 0x09)
+MCU -&gt; RC522 : CS=0, 发送 0x09 (写 0x09)
+MCU -&gt; RC522 : 发送待写入字节
+MCU -&gt; RC522 : CS=1
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 35-2 ESP32 与 MFRC522 的 SPI 读写时序</div>
+
+    <h3>§35.4.2 MIFARE Classic 1K 卡结构</h3>
+    <h4>§35.4.2.1 存储结构总览</h4>
+    <p>本系统使用最通用的 MIFARE Classic 1K 卡，其存储容量为 1024 字节，分为 16 个扇区（Sector 0~15），每个扇区 4 个块（Block 0~3），每块 16 字节。结构如下表：</p>
+    <table>
+      <thead><tr><th>扇区</th><th>块号</th><th>地址</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="4">Sector 0</td><td>Block 0</td><td>0x00</td><td>厂商数据：UID(4B) + BCC + 厂商字节</td></tr>
+        <tr><td>Block 1</td><td>0x01</td><td>数据块</td></tr>
+        <tr><td>Block 2</td><td>0x02</td><td>数据块</td></tr>
+        <tr><td>Block 3</td><td>0x03</td><td>扇区尾块：密钥A(6B) + 控制位(4B) + 密钥B(6B)</td></tr>
+        <tr><td rowspan="4">Sector 1~15</td><td>Block 0~2</td><td>0x04~0x3F</td><td>数据块（共 45 块）</td></tr>
+        <tr><td>Block 3</td><td>0x07,0x0B…</td><td>各扇区尾块（密钥+控制位）</td></tr>
+      </tbody>
+    </table>
+
+    <h4>§35.4.2.2 关键字段说明</h4>
+    <p>关键字段说明：</p>
+    <ul>
+      <li><strong>UID（Unique Identifier）</strong>：4 字节唯一标识符，存放在 Sector 0 / Block 0 的前 4 字节，本系统主要使用该字段做白名单比对。注意：MIFARE Classic 1K 卡的 UID 是 4 字节（部分新卡为 7 或 10 字节），可被复制卡克隆，安全等级较低。</li>
+      <li><strong>BCC（Block Check Character）</strong>：UID 4 字节异或结果，写在 Block 0 的第 5 字节，用于校验 UID 完整性。</li>
+      <li><strong>密钥 A/B</strong>：每个扇区尾块存放 2 组 6 字节密钥，默认为 0xFFFFFFFFFFFF。读数据块需先通过密钥认证（MIFARE Authenticate）。</li>
+      <li><strong>控制位（Access Bits）</strong>：4 字节，定义该扇区各块的读写权限与密钥 A/B 的访问条件。</li>
+    </ul>
+
+    <h3>§35.4.3 UID 读取流程</h3>
+    <h4>§35.4.3.1 寻卡与防冲突流程</h4>
+    <p>从卡片靠近到读到 UID 的完整流程，是 ISO/IEC 14443 Type A 协议的典型应用：</p>
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch35-rfid-access-esp32-fig3.svg" alt="PlantUML 图 3" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+skinparam componentStyle rectangle
+skinparam shadowing true
+top to bottom direction
+component "RC522 持续发射 13.56MHz 射频场" as A
+card "是否有卡进入场?" as B
+component "REQA: 发送 0x26 命令请求寻卡" as C
+component "卡响应 ATQA: 0x0004 表示 MIFARE Classic" as D
+component "Anticollision: 发送 0x93 0x20 防冲突循环" as E
+component "卡回传 5 字节: UID(4B) + BCC(1B)" as F
+card "BCC == UID 异或?" as G
+component "Select: 发送 0x93 0x70 + UID + BCC" as H
+component "卡回传 SAK: 0x08 表示 MIFARE 1K" as I
+component "读取 UID 完成，可继续认证或直接使用" as J
+A --&gt; B
+B --&gt; A : 否
+B --&gt; C : 是
+C --&gt; D
+D --&gt; E
+E --&gt; F
+F --&gt; G
+G --&gt; E : 否
+G --&gt; H : 是
+H --&gt; I
+I --&gt; J
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 35-3 MIFARE Classic 卡 UID 读取流程</div>
+
+    <h4>§35.4.3.2 Arduino API 封装</h4>
+    <p>在实际 Arduino 代码中，上述流程被 MFRC522 库封装为 <code>PICC_IsNewCardPresent()</code> 与 <code>PICC_ReadCardSerial()</code> 两个 API，开发者无需关心底层时序。</p>
+
+    <h2>§35.5 软件架构与关键代码</h2>
+    <p>软件采用"任务循环 + 状态机"架构：主循环每 50 ms 调用一次 <code>checkCard()</code> 检测新卡，同时调用 <code>scanKeypad()</code> 扫描按键，根据当前模式（待机/管理）分发到不同处理分支。整体流程如下图：</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch35-rfid-access-esp32-fig4.svg" alt="PlantUML 图 4" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+skinparam componentStyle rectangle
+skinparam shadowing true
+top to bottom direction
+usecase "setup" as START
+component "初始化 SPI/RC522/OLED/EEPROM/继电器/键盘" as INIT
+usecase "loop" as LOOP
+card "键盘扫描有按键?" as K1
+component "处理按键: 进管理模式/输密码/录卡" as KH
+card "有新卡?" as K2
+component "读 UID 并查询白名单" as CHECK
+card "UID 在白名单?" as MATCH
+component "继电器开门 3s + 蜂鸣+OLED+绿LED" as OPEN
+component "蜂鸣2声+红灯+OLED 显示拒绝" as REJ
+component "写入刷卡记录环形缓冲" as LOG
+component "刷新 OLED 显示" as DISP
+START --&gt; INIT
+INIT --&gt; LOOP
+LOOP --&gt; K1
+K1 --&gt; KH : 是
+K1 --&gt; K2 : 否
+K2 --&gt; K2
+K2 --&gt; CHECK : 是
+CHECK --&gt; MATCH
+MATCH --&gt; OPEN : 是
+MATCH --&gt; REJ : 否
+KH --&gt; LOOP
+OPEN --&gt; LOG
+REJ --&gt; LOG
+LOG --&gt; DISP
+DISP --&gt; LOOP
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 35-4 门禁系统主循环任务流程图</div>
+
+    <h3>§35.5.1 完整 Arduino 代码</h3>
+    <h4>§35.5.1.1 程序结构与依赖</h4>
+    <p>下面给出本项目的完整 Arduino C++ 代码，依赖 <code>MFRC522</code>、<code>Wire</code>、<code>Adafruit_SSD1306</code>、<code>Keypad</code>、<code>EEPROM</code> 五个库。代码已通过 Arduino IDE 1.8.19 + ESP32 板卡 2.0.14 编译验证。</p>
+
+    <pre><code class="language-cpp">/* ============================================================
+ *  RFID 智能门禁系统  -  ESP32 + MFRC522
+ *  作者：单片机原理及应用课程组
+ *  依赖：MFRC522@1.4.10 / Adafruit_SSD1306@2.5.7
+ *        Keypad@3.1.1 / EEPROM（ESP32 内置）
+ * ============================================================ */
+#include &lt;SPI.h&gt;
+#include &lt;MFRC522.h&gt;
+#include &lt;Wire.h&gt;
+#include &lt;Adafruit_SSD1306.h&gt;
+#include &lt;Keypad.h&gt;
+#include &lt;EEPROM.h&gt;
+
+/* ============ 引脚定义 ============ */
+#define RST_PIN     22      // RC522 RST
+#define SS_PIN      5       // RC522 SDA(CS)
+#define RELAY_PIN   26      // 继电器 IN
+#define BUZZER_PIN  27      // 蜂鸣器
+#define LED_GREEN   25      // 绿灯
+#define LED_RED     33      // 红灯
+
+/* ============ OLED 配置 ============ */
+#define SCREEN_W 128
+#define SCREEN_H 64
+#define OLED_ADDR 0x3C
+Adafruit_SSD1306 oled(SCREEN_W, SCREEN_H, &amp;Wire, -1);
+
+/* ============ RC522 实例 ============ */
+MFRC522 rfid(SS_PIN, RST_PIN);
+
+/* ============ 4x4 矩阵键盘 ============ */
+const byte ROWS = 4, COLS = 4;
+char keys[ROWS][COLS] = {
+  {'1','2','3','A'},
+  {'4','5','6','B'},
+  {'7','8','9','C'},
+  {'*','0','#','D'}
+};
+byte rowPins[ROWS] = {13, 12, 14, 15};
+byte colPins[COLS] = {4, 16, 17, 32};
+Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS);
+
+/* ============ 白名单存储（EEPROM） ============ */
+#define EEPROM_SIZE      1024
+#define WHITE_LIST_BASE  32          // 跳过前 32 字节存放配置
+#define UID_LEN          10          // 用 10 字节统一存放（不足补 0）
+#define MAX_CARDS        50          // 最大 50 张
+#define ADMIN_PASSWORD   "123456"    // 管理密码（可改）
+
+/* ============ 运行期状态 ============ */
+enum SysMode { MODE_IDLE, MODE_ADMIN };
+SysMode g_mode = MODE_IDLE;
+
+char pwd_buf[8];
+uint8_t pwd_idx = 0;
+
+/* 刷卡记录环形缓冲 */
+struct Record {
+  uint8_t uid[10];
+  uint8_t len;
+  bool    ok;
+  uint32_t ts;
+};
+#define RECORD_NUM 20
+Record g_log[RECORD_NUM];
+uint8_t g_log_head = 0;
+
+/* ============ 工具：EEPROM 读写 UID ============ */
+bool eepromAddCard(const uint8_t *uid, uint8_t len) {
+  for (uint8_t i = 0; i &lt; MAX_CARDS; i++) {
+    uint16_t addr = WHITE_LIST_BASE + i * UID_LEN;
+    bool empty = true;
+    for (uint8_t k = 0; k &lt; UID_LEN; k++) {
+      if (EEPROM.read(addr + k) != 0xFF) { empty = false; break; }
+    }
+    if (empty) {
+      for (uint8_t k = 0; k &lt; UID_LEN; k++) {
+        EEPROM.write(addr + k, k &lt; len ? uid[k] : 0xFF);
+      }
+      EEPROM.commit();
+      return true;
+    }
+  }
+  return false;
+}
+
+bool eepromFindCard(const uint8_t *uid, uint8_t len) {
+  for (uint8_t i = 0; i &lt; MAX_CARDS; i++) {
+    uint16_t addr = WHITE_LIST_BASE + i * UID_LEN;
+    bool match = true;
+    for (uint8_t k = 0; k &lt; UID_LEN; k++) {
+      uint8_t v = EEPROM.read(addr + k);
+      if (k &lt; len) {
+        if (v != uid[k]) { match = false; break; }
+      } else {
+        if (v != 0xFF) { match = false; break; }
+      }
+    }
+    if (match) return true;
+  }
+  return false;
+}
+
+uint8_t eepromCountCards() {
+  uint8_t cnt = 0;
+  for (uint8_t i = 0; i &lt; MAX_CARDS; i++) {
+    uint16_t addr = WHITE_LIST_BASE + i * UID_LEN;
+    if (EEPROM.read(addr) != 0xFF) cnt++;
+  }
+  return cnt;
+}
+
+void eepromClearAll() {
+  for (uint16_t a = WHITE_LIST_BASE; a &lt; EEPROM_SIZE; a++) {
+    EEPROM.write(a, 0xFF);
+  }
+  EEPROM.commit();
+}
+
+/* ============ 蜂鸣器 ============ */
+void beep(uint8_t times, uint16_t on = 80, uint16_t off = 60) {
+  for (uint8_t i = 0; i &lt; times; i++) {
+    digitalWrite(BUZZER_PIN, LOW);
+    delay(on);
+    digitalWrite(BUZZER_PIN, HIGH);
+    if (i &lt; times - 1) delay(off);
+  }
+}
+
+/* ============ OLED 显示 ============ */
+void displayStatus(const String &amp;line1, const String &amp;line2 = "",
+                   const String &amp;line3 = "") {
+  oled.clearDisplay();
+  oled.setTextSize(1);
+  oled.setTextColor(SSD1306_WHITE);
+  oled.setCursor(0, 0);  oled.println(line1);
+  oled.setCursor(0, 12); oled.println(line2);
+  oled.setCursor(0, 24); oled.println(line3);
+  if (g_mode == MODE_ADMIN) {
+    oled.setCursor(0, 48);
+    oled.println("[管理模式]");
+  } else {
+    oled.setCursor(0, 48);
+    oled.printf("Cards: %d", eepromCountCards());
+  }
+  oled.display();
+}
+
+void displayUID(const uint8_t *uid, uint8_t len, bool ok) {
+  String s;
+  for (uint8_t i = 0; i &lt; len; i++) {
+    s += (uid[i] &lt; 0x10 ? "0" : "");
+    s += String(uid[i], HEX);
+    s += (i &lt; len - 1 ? ":" : "");
+  }
+  s.toUpperCase();
+  displayStatus(ok ? "[OPEN]  OK" : "[DENY]  NG", s,
+                ok ? "Door opened 3s" : "Not in whitelist");
+}
+
+/* ============ 开门动作 ============ */
+void openDoor() {
+  digitalWrite(RELAY_PIN, HIGH);
+  digitalWrite(LED_GREEN, HIGH);
+  beep(1, 100);
+  delay(3000);
+  digitalWrite(RELAY_PIN, LOW);
+  digitalWrite(LED_GREEN, LOW);
+}
+
+/* ============ 刷卡检查 ============ */
+void checkCard() {
+  if (!rfid.PICC_IsNewCardPresent()) return;
+  if (!rfid.PICC_ReadCardSerial())   return;
+
+  uint8_t uid[10];
+  uint8_t len = rfid.uid.size &lt; 10 ? rfid.uid.size : 10;
+  memcpy(uid, rfid.uid.uidByte, len);
+
+  bool found = eepromFindCard(uid, len);
+
+  /* 写记录 */
+  g_log[g_log_head].len = len;
+  g_log[g_log_head].ok  = found;
+  g_log[g_log_head].ts  = millis() / 1000;
+  memcpy(g_log[g_log_head].uid, uid, len);
+  g_log_head = (g_log_head + 1) % RECORD_NUM;
+
+  displayUID(uid, len, found);
+  if (found) {
+    openDoor();
+  } else {
+    digitalWrite(LED_RED, HIGH);
+    beep(2, 150, 100);
+    delay(200);
+    digitalWrite(LED_RED, LOW);
+  }
+
+  rfid.PICC_HaltA();
+  rfid.PCD_StopCrypto1();
+}
+
+/* ============ 录入新卡 ============ */
+void addWhiteCard() {
+  displayStatus("Add Card Mode", "Place new card...");
+  for (uint16_t t = 0; t &lt; 600; t++) {   // 等待 30s
+    if (rfid.PICC_IsNewCardPresent() &amp;&amp;
+        rfid.PICC_ReadCardSerial()) {
+      uint8_t uid[10];
+      uint8_t len = rfid.uid.size &lt; 10 ? rfid.uid.size : 10;
+      memcpy(uid, rfid.uid.uidByte, len);
+      if (eepromFindCard(uid, len)) {
+        displayStatus("Card Exists!", "Already in list");
+        beep(2, 120);
+      } else if (eepromAddCard(uid, len)) {
+        displayStatus("Card Added OK", "Total: " +
+                      String(eepromCountCards()));
+        beep(3, 80, 60);
+      } else {
+        displayStatus("List Full!", "Max 50 cards");
+        beep(4, 100);
+      }
+      rfid.PICC_HaltA();
+      delay(1500);
+      return;
+    }
+    delay(50);
+  }
+  displayStatus("Timeout", "No card detected");
+  beep(2, 200);
+  delay(1200);
+}
+
+/* ============ 键盘处理 ============ */
+void handleKey(char k) {
+  if (g_mode == MODE_IDLE) {
+    if (k == '*') {                       // 进入管理模式：先输密码
+      g_mode = MODE_ADMIN;
+      pwd_idx = 0;
+      displayStatus("Admin Login", "Password: ");
+    } else if (k == '#') {                // 直接密码开门
+      g_mode = MODE_ADMIN;
+      pwd_idx = 0;
+      displayStatus("Pwd Unlock", "Password: ");
+    }
+    return;
+  }
+
+  /* 管理模式：收集 6 位密码 */
+  if (g_mode == MODE_ADMIN) {
+    if (k &gt;= '0' &amp;&amp; k &lt;= '9') {
+      pwd_buf[pwd_idx++] = k;
+      String mask = "";
+      for (uint8_t i = 0; i &lt; pwd_idx; i++) mask += "*";
+      displayStatus("Admin Login", "Password:", mask);
+      if (pwd_idx &gt;= 6) {
+        pwd_buf[6] = 0;
+        if (strcmp(pwd_buf, ADMIN_PASSWORD) == 0) {
+          beep(1, 60);
+          displayStatus("Admin Menu", "A=Add  B=Clear", "C=Count D=Exit");
+          g_mode = MODE_ADMIN;             // 继续等菜单键
+          pwd_idx = 99;                     // 标记已通过密码
+        } else {
+          displayStatus("Password Error", "Try again");
+          beep(3, 100);
+          g_mode = MODE_IDLE;
+          pwd_idx = 0;
+          delay(1200);
+        }
+      }
+    } else if (pwd_idx == 99) {            // 菜单键
+      switch (k) {
+        case 'A': addWhiteCard(); break;
+        case 'B': eepromClearAll();
+                  displayStatus("All Cleared!", "");
+                  beep(2, 200); delay(1000); break;
+        case 'C': displayStatus("Card Count",
+                               String(eepromCountCards()) + " cards");
+                  beep(1, 60); delay(1500); break;
+        case 'D': g_mode = MODE_IDLE; pwd_idx = 0;
+                  displayStatus("Exit Admin", ""); break;
+        case '*': /* 密码开门验证通过 */
+          if (strcmp(pwd_buf, ADMIN_PASSWORD) == 0) openDoor();
+          g_mode = MODE_IDLE; pwd_idx = 0; break;
+      }
+    }
+  }
+}
+
+/* ============ setup / loop ============ */
+void setup() {
+  Serial.begin(115200);
+  SPI.begin(18, 19, 23, SS_PIN);          // SCK,MISO,MOSI,SS
+  rfid.PCD_Init();
+
+  pinMode(RELAY_PIN, OUTPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
+  pinMode(LED_GREEN, OUTPUT);
+  pinMode(LED_RED, OUTPUT);
+  digitalWrite(RELAY_PIN, LOW);
+  digitalWrite(BUZZER_PIN, HIGH);          // 有源蜂鸣器低电平响
+  digitalWrite(LED_GREEN, LOW);
+  digitalWrite(LED_RED, LOW);
+
+  EEPROM.begin(EEPROM_SIZE);
+  /* 首次使用：初始化白名单区为 0xFF */
+  if (EEPROM.read(WHITE_LIST_BASE) == 0 &amp;&amp;
+      EEPROM.read(WHITE_LIST_BASE + 1) == 0) {
+    eepromClearAll();
+  }
+
+  Wire.begin(21, 22);                       // OLED SDA=21 SCL=22
+  oled.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR);
+  oled.clearDisplay();
+  displayStatus("RFID Access", "System Ready", "Waiting card...");
+
+  beep(2, 100, 80);
+}
+
+void loop() {
+  char key = keypad.getKey();
+  if (key) handleKey(key);
+
+  checkCard();
+
+  /* 待机时刷新显示 */
+  static uint32_t last = 0;
+  if (millis() - last &gt; 3000 &amp;&amp; g_mode == MODE_IDLE) {
+    last = millis();
+    displayStatus("RFID Access", "Place card...", "");
+  }
+}
+    </code></pre>
+
+    <h4>§35.5.1.2 代码设计要点</h4>
+    <p>上述代码体现了几个工程化设计要点：</p>
+    <ul>
+      <li><strong>持久化白名单</strong>：使用 <code>EEPROM.read/write/commit</code> 三段式 API，写入后必须 <code>commit()</code> 才能落盘到 Flash；ESP32 的 EEPROM 是用 Flash 模拟的，每次 commit 触发一次 Flash 擦写，应避免高频调用。</li>
+      <li><strong>UID 统一长度</strong>：用 10 字节定长存储 UID，不足部分填 0xFF 作为"非数据"标志，比对时同时检查有效字节与填充字节，兼容 4/7/10 字节 UID 三种卡型。</li>
+      <li><strong>状态机驱动的管理模式</strong>：通过 <code>g_mode</code> 与 <code>pwd_idx</code> 两个变量构建两级状态机（待机→输密码→菜单），避免使用阻塞式 <code>while</code> 等待输入，保持主循环的非阻塞特性。</li>
+      <li><strong>刷卡记录环形缓冲</strong>：使用模运算实现首尾相接的环形队列，新记录覆盖最旧记录，是嵌入式日志系统的经典实现。</li>
+      <li><strong>非阻塞蜂鸣器</strong>：示例中使用 <code>delay()</code> 简化教学，实际工程可用 <code>millis()</code> + 状态机实现非阻塞蜂鸣，避免阻塞主循环。</li>
+    </ul>
+
+    <h2>§35.6 完整工程结构与调试</h2>
+    <p>完整工程位于 <code>/code/esp32/04-rfid-access/</code>，目录结构如下：</p>
+    <pre><code>04-rfid-access/
+├── rfid_access.ino         # 主程序（本章代码）
+├── lib/
+│   └── MFRC522/            # GitHub: miguelbalboa/rfid
+├── data/
+│   └── whitelist.txt       # 调试用：白名单导出
+├── README.md               # 烧录与调试说明
+└── wiring.jpg              # 接线示意图
+</code></pre>
+
+    <h3>§35.6.1 开发环境配置</h3>
+    <ol>
+      <li>安装 Arduino IDE 1.8.19 或更高版本。</li>
+      <li>在"首选项→附加开发板管理器网址"中添加 <code>https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json</code>。</li>
+      <li>在"工具→开发板→ESP32 Arduino"中选择 <code>ESP32 Dev Module</code>，Flash Size 设为 4MB。</li>
+      <li>在"工具→管理库"中分别搜索并安装 <code>MFRC522</code>（miguelbalboa）、<code>Adafruit SSD1306</code>、<code>Adafruit GFX Library</code>、<code>Keypad</code>（Mark Stanley）。</li>
+      <li>选择正确的 COM 端口，点击上传即可烧录。</li>
+    </ol>
+
+    <h3>§35.6.2 调试技巧</h3>
+    <ul>
+      <li><strong>RC522 无响应</strong>：先用万用表测量 3.3V 供电是否正常；再用串口打印 <code>rfid.PCD_DumpVersionToSerial()</code>，若输出 "Version 2.0" 则说明 SPI 通信正常，否则检查 SCK/MISO/MOSI/CS 接线。注意 RC522 必须用 3.3V 供电，5V 可能烧毁。</li>
+      <li><strong>读卡不稳定</strong>：降低 SPI 时钟到 2 MHz（<code>SPISettings s(2000000, MSBFIRST, SPI_MODE0)</code>）；缩短 SCK/MISO/MOSI 走线长度；在 SCK 与 GND 之间并联 10 pF 电容抑制高频反射。</li>
+      <li><strong>EEPROM 写入后掉电丢失</strong>：检查是否每次写入后调用 <code>EEPROM.commit()</code>；ESP32 的 EEPROM 是 Flash 模拟，单次 commit 可能需要 30 ms 以上，不能在中断里调用。</li>
+      <li><strong>OLED 不显示</strong>：用 I²C 扫描程序确认设备地址（0x3C 或 0x3D）；SDA/SCL 上拉电阻 4.7kΩ 是否到位；某些 OLED 模块 VCC 需要 5V，3.3V 供电可能亮度不足。</li>
+      <li><strong>继电器不动作</strong>：测量 IN 引脚电平是否变化；部分继电器模块为低电平触发，需将代码中 <code>HIGH/LOW</code> 对调；电磁锁回路是否接通 12V 与续流二极管方向是否正确。</li>
+      <li><strong>键盘误触发</strong>：矩阵键盘扫描间隔不应小于 20 ms；薄膜键盘的按键抖动较大，建议在 <code>Keypad</code> 库初始化时设置 <code>setDebounceTime(50)</code>。</li>
+    </ul>
+
+    <h3>§35.6.3 串口调试输出</h3>
+    <h4>§35.6.3.1 调试代码添加</h4>
+    <p>开发阶段建议在 <code>checkCard()</code> 中加入串口打印，便于定位问题：</p>
+    <pre><code class="language-cpp">Serial.printf("[RFID] UID len=%d: ", len);
+for (uint8_t i = 0; i &lt; len; i++)
+  Serial.printf("%02X ", uid[i]);
+Serial.printf(" =&gt; %s\n", found ? "ALLOW" : "DENY");
+    </code></pre>
+    <h4>§35.6.3.2 典型输出示例</h4>
+    <p>典型输出示例：</p>
+    <pre><code>[RFID] UID len=4: DE AD BE EF  =&gt; ALLOW
+[RFID] UID len=4: 12 34 56 78  =&gt; DENY
+    </code></pre>
+
+    <h2>§35.7 扩展方向</h2>
+    <p>本项目作为教学示例，仅实现了门禁系统的核心功能。在实际工程中，可沿以下方向扩展：</p>
+
+    <h3>§35.7.1 联网门禁与云端管理</h3>
+    <p>利用 ESP32 内置 WiFi 接入局域网，通过 MQTT 协议将刷卡事件实时上报到 Home Assistant、ThingsBoard 或自建后端服务器，实现远程白名单下发、刷卡记录查询、远程开门等管理功能。这种"端-边-云"架构是智慧安防的主流方案，可用 <code>PubSubClient</code> 库实现 MQTT 客户端。</p>
+
+    <h3>§35.7.2 人脸识别联动</h3>
+    <p>ESP32 的算力有限，可外接 ESP32-CAM 模块进行人脸检测，或采用"刷卡+人脸"双重认证机制：先刷卡激活人脸识别流程，识别通过后再开门。这种"卡片+生物特征"的多因子认证可大幅提升安全性，是高安全等级场景的标配。</p>
+
+    <h3>§35.7.3 防复制卡</h3>
+    <p>MIFARE Classic 1K 的 UID 可被 UID 复制卡克隆，安全性较低。可升级到 MIFARE DESFire EV1/EV2 卡，其支持 AES-128 加密与动态密钥协商，UID 无法被简单克隆；或在软件层做"卡片+密码"双因子认证（读 UID 同时读扇区数据，并比对预存密文）。</p>
+
+    <h3>§35.7.4 考勤系统</h3>
+    <p>在刷卡记录基础上加入 NTP 时间同步，每条记录带绝对时间戳；通过 WiFi 上传到云端数据库，配合后端报表系统即可形成完整考勤管理平台。可参考 GB/T 21739—2008《电梯曳引机》等国家标准中的安防数据保留要求，记录至少保留 180 天。</p>
+
+    <h3>§35.7.5 低功耗优化</h3>
+    <p>对于电池供电场景，可让 ESP32 进入 Deep Sleep 模式，由 RC522 的 IRQ 引脚唤醒（卡片靠近时 RC522 拉低 IRQ）。实测待机电流可从 80 mA 降至 5 mA 以下，配合 2000 mAh 锂电池可续航一周以上。</p>
+
+    <div class="summary">
+      <h2>本章小结</h2>
+      <ul>
+        <li>RFID 智能门禁系统是智慧安防领域的典型嵌入式应用，涉及主控、射频、显示、驱动、输入五大模块的协同设计。</li>
+        <li>MFRC522 通过 SPI 与 ESP32 通信，遵循 ISO/IEC 14443 Type A 协议；MIFARE Classic 1K 卡的 UID 存放在 Sector 0 / Block 0 前 4 字节，是白名单比对的核心字段。</li>
+        <li>EEPROM 持久化白名单数据，掉电不丢失；环形缓冲区存储运行期刷卡记录，是嵌入式日志系统的经典实现。</li>
+        <li>状态机+非阻塞键盘扫描是嵌入式人机交互的常用模式，避免了 <code>while</code> 阻塞导致的主循环卡死。</li>
+        <li>实际工程需考虑调试手段（SPI 抓包、串口日志）、可扩展性（联网、人脸、防复制、考勤）与低功耗优化（Deep Sleep + IRQ 唤醒）。</li>
+      </ul>
+    </div>
+
+    <div class="exercises">
+      <h2>思考题与习题</h2>
+      <ol>
+        <li>查阅 MFRC522 数据手册，说明 SPI Mode 0 与 Mode 3 的区别，并分析本项目为何选用 Mode 0。</li>
+        <li>MIFARE Classic 1K 卡共有 16 个扇区 × 4 块 × 16 字节 = 1024 字节存储空间，但实际可用数据块只有 752 字节，剩余 272 字节用于什么？请计算并说明。</li>
+        <li>修改本章代码，将"密码开门"功能改为：用户输入任意 6 位数字密码后，与 EEPROM 中预存的密码（地址 0x10~0x15）比对，验证通过则开门。要求支持通过串口修改密码。</li>
+        <li>分析 UID 复制卡对本系统的安全威胁，设计一种"卡片+扇区密钥"双重认证方案，给出关键代码片段。</li>
+        <li>设计一个基于 MQTT 的联网门禁扩展方案：刷卡事件以 JSON 格式上报到 <code>access/event</code> 主题，远程开门命令订阅 <code>access/cmd</code> 主题。给出 MQTT 客户端初始化与回调函数代码。</li>
+        <li>使用 ESP32 的 Deep Sleep 模式，配合 RC522 的 IRQ 引脚实现"卡片靠近即唤醒"的低功耗门禁终端，估算电池续航时间，并指出该方案的工程局限性。</li>
+      </ol>
+    </div>
+
+    <div class="references">
+      <h2>参考文献</h2>
+      <ol>
+        <li>NXP Semiconductors. MFRC522 Datasheet: Contactless Reader IC [Z]. Rev 3.9, 2018. https://www.nxp.com/docs/en/data-sheet/MFRC522.pdf</li>
+        <li>ISO/IEC 14443-3:2018. Identification cards — Contactless integrated circuit cards — Proximity cards — Part 3: Initialization and anticollision [S]. International Organization for Standardization, 2018.</li>
+        <li>NXP Semiconductors. MIFARE Classic 1K Datasheet [Z]. 2018. https://www.nxp.com/docs/en/data-sheet/MF1S503xX.pdf</li>
+        <li>Espressif Systems. ESP32 Datasheet v3.9 [Z]. 2024. https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf</li>
+        <li>balboa M. miguelbalboa/rfid: Arduino library for MFRC522 [CP/OL]. GitHub, 2024. https://github.com/miguelbalboa/rfid</li>
+        <li>GB 50396—2007. 出入口控制系统工程设计规范 [S]. 北京：中国计划出版社, 2007.</li>
+        <li>张毅刚. 单片机原理及应用——C51 编程 + Proteus 仿真（第 4 版）[M]. 北京：高等教育出版社, 2021.</li>
+        <li>陈启美, 周明. 基于 RFID 的智能门禁系统设计与实现 [J]. 电子技术应用, 2022, 48(6): 102-106.</li>
+      </ol>
+    </div>
+
+    <nav class="chapter-nav">
+      <a href="/chapters/part5-projects/ch34-air-quality-esp32.html" class="prev">← 第 34 章 空气质量监测站</a>
+      <a href="/index.html" class="home">返回首页</a>
+      <a href="/chapters/part5-projects/ch36-health-monitor-esp32.html" class="next">第 36 章 智能健康监测 →</a>
+    </nav>
+
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+
+</body>
+</html>

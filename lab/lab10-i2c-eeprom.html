@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>实验10 I2C读写EEPROM - 单片机原理及应用</title>
+  <link rel="stylesheet" href="/assets/css/style.css?v=6">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+</head>
+<body>
+<header class="navbar">
+  <div class="nav-container">
+    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="/index.html">首页</a>
+      <a href="/syllabus.html">教学大纲</a>
+      <a href="/lab/index.html" class="active">实验指导</a>
+      <a href="/resources.html">资源下载</a>
+      <a href="/faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+  <main class="content" style="max-width: 1000px;">
+    <div class="breadcrumb">
+      <a href="/index.html">首页</a> &gt;
+      <a href="/lab/index.html">实验指导</a> &gt;
+      <span>实验10 I2C读写EEPROM</span>
+    </div>
+
+    <h1>实验10 I2C读写EEPROM</h1>
+
+    <p>I2C (Inter-Integrated Circuit，内部集成电路总线) 是一种两线制串行通信协议，广泛用于连接低速外设。本实验使用 STC89C52RC 软件模拟 I2C 与 STM32F407 硬件 I2C 读写 AT24C02 EEPROM (256 字节)，写入数据后读回校验，掌握 I2C 协议时序与 EEPROM 读写流程。完整工程源码见 <code>/code/stc89c52rc/10-i2c-eeprom/</code> 与 <code>/code/stm32f407/10-hal-i2c-eeprom/</code>。</p>
+
+    <h2>一、实验目的</h2>
+    <ul>
+      <li>掌握 I2C 总线协议 (START/STOP/ACK/NACK/数据传输)。</li>
+      <li>掌握 STC89C52RC 软件模拟 I2C 时序的方法。</li>
+      <li>掌握 STM32F407 硬件 I2C 外设的 HAL 配置。</li>
+      <li>掌握 AT24C02 EEPROM 的字节写、页写、随机读操作。</li>
+    </ul>
+
+    <h2>二、知识点</h2>
+    <ul>
+      <li><strong>I2C 总线</strong>：两线 SDA (数据) + SCL (时钟)，所有设备共用总线，通过 7 位地址区分。开漏输出需外接上拉电阻 (4.7-10 kΩ)。</li>
+      <li><strong>时序</strong>：START (SCL 高时 SDA 由高变低)、STOP (SCL 高时 SDA 由低变高)、ACK (接收方拉低 SDA 应答)。</li>
+      <li><strong>数据有效性</strong>：SCL 高电平期间 SDA 必须稳定，SCL 低电平期间才允许 SDA 变化。</li>
+      <li><strong>AT24C02</strong>：256 字节 EEPROM，I2C 地址 0xA0 (写) / 0xA1 (读)，A0-A2 引脚接地。页写 (Page Write) 一次最多 8 字节，跨页需延时 5 ms。</li>
+      <li><strong>写时序</strong>：START + 设备地址(写) + ACK + 字节地址 + ACK + 数据 + ACK + STOP，之后 EEPROM 内部写周期约 5 ms。</li>
+      <li><strong>读时序</strong>：先 "伪写" 设字节地址 (START+设备地址写+字节地址)，再 START+设备地址读，连续读出数据，最后 NACK + STOP。</li>
+      <li><strong>软件模拟 vs 硬件 I2C</strong>：软件模拟用 GPIO 翻转实现时序，灵活但占用 CPU；硬件 I2C 由外设自动处理，支持 DMA，效率高。</li>
+    </ul>
+
+    <h2>三、硬件清单</h2>
+    <table>
+      <thead>
+        <tr><th>序号</th><th>器材</th><th>规格</th><th>数量</th><th>备注</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>STC89C52RC 板</td><td>11.0592 MHz</td><td>1</td><td>软件 I2C</td></tr>
+        <tr><td>2</td><td>STM32F407VET6 板</td><td>—</td><td>1</td><td>硬件 I2C</td></tr>
+        <tr><td>3</td><td>AT24C02 模块</td><td>256B EEPROM</td><td>1</td><td>带 PCA8574 上拉</td></tr>
+        <tr><td>4</td><td>上拉电阻</td><td>4.7 kΩ</td><td>2</td><td>SDA, SCL (模块常已带)</td></tr>
+        <tr><td>5</td><td>杜邦线</td><td>—</td><td>若干</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <h2>四、电路连接</h2>
+    <p>STC89C52RC：P2.0 接 SDA、P2.1 接 SCL，A0-A2 接地，VCC 接 +5V，GND 接地。STM32F407：PB6=SCL、PB7=SDA (I2C1 复用)，VCC 接 +3.3V。注意电平匹配，5V 的 AT24C02 与 3.3V 的 STM32 直连需确认 AT24C02 在 3.3V 可工作或加电平转换。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/lab10-i2c-eeprom-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+left to right direction
+package "STC89C52RC" {
+  component "P2.0 SDA" as P20
+  component "AT24C02" as EEPROM1
+  component "P2.1 SCL" as P21
+  component "4.7kΩ" as R1
+  component "SDA" as SDA1
+  component "4.7kΩ" as R2
+  component "SCL" as SCL1
+  component "+5V" as VCC1
+  P20 -- EEPROM1
+  P21 -- EEPROM1
+  R1 -- SDA1
+  R2 -- SCL1
+  SDA1 -- EEPROM1
+  SCL1 -- EEPROM1
+  VCC1 -- EEPROM1
+}
+@enduml</code></pre>
+  </details>
+</div>
+
+    <p>I2C 写一个字节时序：</p>
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/lab10-i2c-eeprom-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam backgroundColor #ffffff
+participant MCU
+participant EEPROM
+MCU -&gt; EEPROM : START
+MCU -&gt; EEPROM : 设备地址(写) 0xA0
+EEPROM --&gt; MCU : ACK
+MCU -&gt; EEPROM : 字节地址 0x00
+EEPROM --&gt; MCU : ACK
+MCU -&gt; EEPROM : 数据 0x5A
+EEPROM --&gt; MCU : ACK
+MCU -&gt; EEPROM : STOP
+note over EEPROM : 内部写周期 ~5ms
+@enduml</code></pre>
+  </details>
+</div>
+
+    <h2>五、代码框架</h2>
+
+    <h3>5.1 STC89C52RC 软件模拟 I2C 读写 AT24C02</h3>
+    <p>工程 <code>/code/stc89c52rc/10-i2c-eeprom/soft_i2c.c</code>。</p>
+    <pre><code class="language-c">#include &lt;reg52.h&gt;
+#include &lt;intrins.h&gt;
+
+sbit SDA = P2 ^ 0;
+sbit SCL = P2 ^ 1;
+
+#define EEPROM_ADDR 0xA0   /* AT24C02 写地址 */
+
+void I2C_Delay(void) {
+    _nop_(); _nop_(); _nop_(); _nop_();   /* 约 4 us @11.0592MHz */
+}
+
+/* I2C 起始信号: SCL 高时 SDA 由高变低 */
+void I2C_Start(void) {
+    SDA = 1; SCL = 1; I2C_Delay();
+    SDA = 0; I2C_Delay();   /* SDA 下降沿 */
+    SCL = 0; I2C_Delay();   /* 钳住总线 */
+}
+
+/* I2C 停止信号: SCL 高时 SDA 由低变高 */
+void I2C_Stop(void) {
+    SDA = 0; SCL = 1; I2C_Delay();
+    SDA = 1; I2C_Delay();   /* SDA 上升沿 */
+}
+
+/* 发送一个字节, 返回 ACK(0)/NACK(1) */
+bit I2C_SendByte(unsigned char dat) {
+    unsigned char i;
+    bit ack;
+    for (i = 0; i &lt; 8; i++) {
+        SDA = (dat &amp; 0x80) ? 1 : 0;   /* 高位先发 */
+        dat &lt;&lt;= 1;
+        SCL = 1; I2C_Delay();
+        SCL = 0; I2C_Delay();
+    }
+    /* 读 ACK */
+    SDA = 1;                  /* 释放 SDA */
+    SCL = 1; I2C_Delay();
+    ack = SDA;                /* 0=ACK, 1=NACK */
+    SCL = 0; I2C_Delay();
+    return ack;
+}
+
+/* 接收一个字节, ack=0 发送 ACK, ack=1 发送 NACK */
+unsigned char I2C_ReadByte(bit ack) {
+    unsigned char i, dat = 0;
+    SDA = 1;                  /* 释放 SDA 作输入 */
+    for (i = 0; i &lt; 8; i++) {
+        SCL = 1; I2C_Delay();
+        dat = (dat &lt;&lt; 1) | SDA;
+        SCL = 0; I2C_Delay();
+    }
+    SDA = ack;                /* 发送 ACK/NACK */
+    SCL = 1; I2C_Delay();
+    SCL = 0; I2C_Delay();
+    SDA = 1;                  /* 释放 */
+    return dat;
+}
+
+/* 向 AT24C02 写一个字节 */
+void EEPROM_WriteByte(unsigned char addr, unsigned char dat) {
+    I2C_Start();
+    I2C_SendByte(EEPROM_ADDR);   /* 设备地址 (写) */
+    I2C_SendByte(addr);          /* 字节地址 */
+    I2C_SendByte(dat);           /* 数据 */
+    I2C_Stop();
+    /* 等待内部写周期 ~5ms */
+    { unsigned int i; for (i = 0; i &lt; 5000; i++) ; }
+}
+
+/* 从 AT24C02 读一个字节 */
+unsigned char EEPROM_ReadByte(unsigned char addr) {
+    unsigned char dat;
+    /* 1. 伪写: 设字节地址 */
+    I2C_Start();
+    I2C_SendByte(EEPROM_ADDR);
+    I2C_SendByte(addr);
+    /* 2. 重启读 */
+    I2C_Start();
+    I2C_SendByte(EEPROM_ADDR | 0x01);   /* 设备地址 (读) */
+    dat = I2C_ReadByte(1);              /* 读 1 字节, NACK */
+    I2C_Stop();
+    return dat;
+}
+
+void delay_ms(unsigned int ms) {
+    unsigned int i, j;
+    for (i = 0; i &lt; ms; i++)
+        for (j = 0; j &lt; 114; j++) ;
+}
+
+void main(void) {
+    unsigned char write_data = 0x5A;
+    unsigned char read_data;
+    unsigned char addr = 0x10;
+
+    EEPROM_WriteByte(addr, write_data);   /* 写入 0x5A */
+    delay_ms(10);
+    read_data = EEPROM_ReadByte(addr);    /* 读回 */
+
+    /* 通过串口输出 (需先初始化) 验证 read_data == 0x5A */
+    SBUF = read_data;
+    while (!TI) ; TI = 0;
+
+    while (1) { }
+}</code></pre>
+
+    <h3>5.2 STM32F407 硬件 I2C1 (HAL 库) 读写</h3>
+    <p>工程 <code>/code/stm32f407/10-hal-i2c-eeprom/main.c</code>。PB6=SCL, PB7=SDA。</p>
+    <pre><code class="language-c">#include "stm32f4xx_hal.h"
+
+#define EEPROM_I2C_ADDR  (0xA0 &lt;&lt; 1)   /* HAL 库地址需左移 1 位 */
+I2C_HandleTypeDef hi2c1;
+
+void I2C1_Init(void) {
+    __HAL_RCC_I2C1_CLK_ENABLE();
+    __HAL_RCC_GPIOB_CLK_ENABLE();
+
+    GPIO_InitTypeDef gpio = {0};
+    gpio.Pin = GPIO_PIN_6 | GPIO_PIN_7;
+    gpio.Mode = GPIO_MODE_AF_OD;          /* 开漏复用 */
+    gpio.Pull = GPIO_PULLUP;             /* 内部上拉 */
+    gpio.Speed = GPIO_SPEED_FREQ_HIGH;
+    gpio.Alternate = GPIO_AF4_I2C1;       /* PB6/PB7 复用 I2C1 */
+    HAL_GPIO_Init(GPIOB, &amp;gpio);
+
+    hi2c1.Instance = I2C1;
+    hi2c1.Init.ClockSpeed = 100000;       /* 100 kHz 标准模式 */
+    hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
+    hi2c1.Init.OwnAddress1 = 0;
+    hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+    hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+    hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+    hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+    HAL_I2C_Init(&amp;hi2c1);
+}
+
+/* 写一个字节 */
+void EEPROM_WriteByte(uint8_t addr, uint8_t dat) {
+    HAL_I2C_Mem_Write(&amp;hi2c1, EEPROM_I2C_ADDR, addr,
+                      I2C_MEMADD_SIZE_8BIT, &amp;dat, 1, 100);
+    HAL_Delay(5);   /* 等待内部写周期 */
+}
+
+/* 读一个字节 */
+uint8_t EEPROM_ReadByte(uint8_t addr) {
+    uint8_t dat;
+    HAL_I2C_Mem_Read(&amp;hi2c1, EEPROM_I2C_ADDR, addr,
+                     I2C_MEMADD_SIZE_8BIT, &amp;dat, 1, 100);
+    return dat;
+}
+
+int main(void) {
+    uint8_t write_data = 0x5A, read_data;
+
+    HAL_Init();
+    I2C1_Init();
+    EEPROM_WriteByte(0x10, write_data);
+    HAL_Delay(10);
+    read_data = EEPROM_ReadByte(0x10);
+
+    /* 验证 read_data == 0x5A, 串口输出略 */
+    while (1) { }
+}</code></pre>
+
+    <h2>六、调试要点</h2>
+    <ul>
+      <li><strong>上拉电阻</strong>：I2C 为开漏总线，SDA/SCL 必须有上拉电阻 (4.7-10 kΩ)，否则电平悬浮通信失败。模块常已集成。</li>
+      <li><strong>设备地址</strong>：AT24C02 地址 0xA0 (写) / 0xA1 (读)，A0-A2 决定地址偏移；HAL 库需左移 1 位 (7 位地址 + 读写位由硬件填)。</li>
+      <li><strong>写周期等待</strong>：每次字节写后需等待 5 ms 内部写周期，连续写会失败。页写最多 8 字节，跨页自动回卷覆盖。</li>
+      <li><strong>时序延时</strong>：软件 I2C 的 I2C_Delay 决定速率，过快 (SCL 高电平 &lt; 4 us) 不符合标准模式 (100 kHz)，过慢影响效率。</li>
+      <li><strong>电平匹配</strong>：5V AT24C02 与 3.3V STM32 通信，若 AT24C02 在 3.3V 可工作可直连；否则需电平转换芯片。</li>
+      <li><strong>应答检查</strong>：发送字节后检查 ACK，NACK 表示无应答 (设备地址错/未连接/写周期未完成)，应重试或报错。</li>
+      <li><strong>总线死锁</strong>：异常复位时从机可能拉低 SDA，主机发 9 个 SCL 脉冲可解锁。</li>
+    </ul>
+
+    <h2>七、思考题</h2>
+    <ol>
+      <li>I2C 总线为什么用开漏输出加上拉电阻？如果改成推挽输出会有什么问题？</li>
+      <li>I2C 的 START 与 STOP 信号是如何定义的？为什么数据线变化必须在 SCL 低电平期间？</li>
+      <li>AT24C02 的页写一次最多多少字节？跨页写会发生什么现象？如何避免？</li>
+      <li>软件模拟 I2C 与硬件 I2C 各有什么优缺点？什么场景适合用软件模拟？</li>
+      <li>I2C 总线可以挂多少个设备？受什么因素限制？如何通过地址引脚区分多个相同设备？</li>
+    </ol>
+
+    <nav class="chapter-nav">
+      <a href="/lab/lab09-pwm-breathing-led.html" class="prev">← 实验9 PWM呼吸灯</a>
+      <a href="/lab/index.html" class="home">返回实验列表</a>
+    </nav>
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="/assets/js/katex-mermaid-init.js"></script>
+<script src="/assets/js/main.js?v=7"></script>
+</body>
+</html>
