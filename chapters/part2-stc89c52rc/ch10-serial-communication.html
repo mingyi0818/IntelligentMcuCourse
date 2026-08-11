@@ -1,11 +1,10 @@
 ﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<script>if(location.hostname.endsWith('github.io')){document.write('<base href="/IntelligentMcuCourse/">')}</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>第10章 串行通信 - 单片机原理及应用</title>
-  <link rel="stylesheet" href="/assets/css/style.css?v=9">
+  <link rel="stylesheet" href="../../assets/css/style.css?v=9">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
 </head>
@@ -13,13 +12,13 @@
 
 <header class="navbar">
   <div class="nav-container">
-    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <a href="../../index.html" class="nav-logo">单片机原理及应用</a>
     <nav class="nav-menu">
-      <a href="/index.html">首页</a>
-      <a href="/syllabus.html">教学大纲</a>
-      <a href="/lab/index.html">实验指导</a>
-      <a href="/resources.html">资源下载</a>
-      <a href="/faq.html">FAQ</a>
+      <a href="../../index.html">首页</a>
+      <a href="../../syllabus.html">教学大纲</a>
+      <a href="../../lab/index.html">实验指导</a>
+      <a href="../../resources.html">资源下载</a>
+      <a href="../../faq.html">FAQ</a>
     </nav>
     <button class="nav-toggle" aria-label="菜单">☰</button>
   </div>
@@ -33,67 +32,67 @@
     <div class="sidebar-title">课程目录</div>
     <nav class="sidebar-nav">
       <div class="sidebar-part">第 0 篇 前导课程</div>
-            <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
-      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
-      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
-      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
-      <a class="sidebar-link" href="/chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+            <a class="sidebar-link" href="../../chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1 模拟电路常识</a>
+      <a class="sidebar-link" href="../../chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2 电源电路常识</a>
+      <a class="sidebar-link" href="../../chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
+      <a class="sidebar-link" href="../../chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
+      <a class="sidebar-link" href="../../chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
       <div class="sidebar-part">第 1 篇 基础理论</div>
-      <a class="sidebar-link" href="/chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
-      <a class="sidebar-link" href="/chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
-      <a class="sidebar-link" href="/chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
+      <a class="sidebar-link" href="../../chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
+      <a class="sidebar-link" href="../../chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
+      <a class="sidebar-link" href="../../chapters/part1-basics/ch03-hardware-fundamentals.html">第 3 章 单片机硬件基础</a>
       <div class="sidebar-part">第 2 篇 STC</div>
-      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
-      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
-      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
-      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
-      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
-      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
-      <a class="sidebar-link active" href="/chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
-      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
-      <a class="sidebar-link" href="/chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
+      <a class="sidebar-link" href="../../chapters/part2-stc89c52rc/ch04-mcs51-architecture.html">第 4 章 MCS-51 体系结构</a>
+      <a class="sidebar-link" href="../../chapters/part2-stc89c52rc/ch05-stc-dev-environment.html">第 5 章 STC 开发环境</a>
+      <a class="sidebar-link" href="../../chapters/part2-stc89c52rc/ch06-c51-programming.html">第 6 章 C51 程序设计</a>
+      <a class="sidebar-link" href="../../chapters/part2-stc89c52rc/ch07-gpio-led-key.html">第 7 章 GPIO/LED/按键</a>
+      <a class="sidebar-link" href="../../chapters/part2-stc89c52rc/ch08-interrupt-system.html">第 8 章 中断系统</a>
+      <a class="sidebar-link" href="../../chapters/part2-stc89c52rc/ch09-timer-counter.html">第 9 章 定时器/计数器</a>
+      <a class="sidebar-link active" href="../../chapters/part2-stc89c52rc/ch10-serial-communication.html">第 10 章 串行通信</a>
+      <a class="sidebar-link" href="../../chapters/part2-stc89c52rc/ch11-display-interface.html">第 11 章 显示与接口</a>
+      <a class="sidebar-link" href="../../chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html">第 12 章 STC 综合实验</a>
       <div class="sidebar-part">第 3 篇 STM32</div>
-      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
-      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
-      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
-      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
-      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
-      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
-      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
-      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
-      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
-      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
-      <a class="sidebar-link" href="/chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch13-stm32-overview.html">第 13 章 STM32 概述</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch14-stm32-dev-environment.html">第 14 章 STM32 开发环境</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch15-hal-library.html">第 15 章 HAL 库与工程</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch16-gpio-exti.html">第 16 章 GPIO 与外部中断</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch17-timer-pwm.html">第 17 章 定时器与 PWM</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch18-usart.html">第 18 章 USART</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch19-adc-dac.html">第 19 章 ADC 与 DAC</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch20-spi-i2c.html">第 20 章 SPI 与 I2C</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch21-dma-rtc.html">第 21 章 DMA 与 RTC</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch22-freertos.html">第 22 章 FreeRTOS</a>
+      <a class="sidebar-link" href="../../chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html">第 23 章 STM32 综合实验</a>
       <div class="sidebar-part">第 4 篇 单片机开发附加内容</div>
-      <a class="sidebar-link" href="/chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
-      <a class="sidebar-link" href="/chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
-      <a class="sidebar-link" href="/chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
-      <a class="sidebar-link" href="/chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
-      <a class="sidebar-link" href="/chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
-      <a class="sidebar-link" href="/chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
+      <a class="sidebar-link" href="../../chapters/part4-additional/ch24-overview.html">第 24 章 概述与学习方法</a>
+      <a class="sidebar-link" href="../../chapters/part4-additional/ch25-altium-designer.html">第 25 章 Altium Designer PCB 设计</a>
+      <a class="sidebar-link" href="../../chapters/part4-additional/ch26-jlceda.html">第 26 章 嘉立创 EDA PCB 设计</a>
+      <a class="sidebar-link" href="../../chapters/part4-additional/ch27-esp32-arduino.html">第 27 章 ESP32+Arduino 开发</a>
+      <a class="sidebar-link" href="../../chapters/part4-additional/ch28-openharmony.html">第 28 章 开源鸿蒙 OpenHarmony</a>
+      <a class="sidebar-link" href="../../chapters/part4-additional/ch29-msp430.html">第 29 章 MSP430 低功耗单片机</a>
       <div class="sidebar-part">第 5 篇 综合项目</div>
-      <a class="sidebar-link" href="/chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
-      <a class="sidebar-link" href="/chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
-      <a class="sidebar-link" href="/chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
-      <a class="sidebar-link" href="/chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
-      <a class="sidebar-link" href="/chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
-      <a class="sidebar-link" href="/chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
-      <a class="sidebar-link" href="/chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
-      <a class="sidebar-link" href="/chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
-      <a class="sidebar-link" href="/chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
-      <a class="sidebar-link" href="/chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
-      <a class="sidebar-link" href="/chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
-      <a class="sidebar-link" href="/chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
-      <a class="sidebar-link" href="/chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
-      <a class="sidebar-link" href="/chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
-      <a class="sidebar-link" href="/chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch30-traffic-light-stc.html">第 30 章 智能交通灯</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch31-smart-clock-stm32.html">第 31 章 STM32 智能电子钟</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch32-temperature-fan-stm32.html">第 32 章 智能温控风扇</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch33-password-lock-stc.html">第 33 章 电子密码锁</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch34-air-quality-esp32.html">第 34 章 空气质量监测站</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch35-rfid-access-esp32.html">第 35 章 RFID 智能门禁</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch36-health-monitor-esp32.html">第 36 章 智能健康监测</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch37-smart-irrigation-esp32.html">第 37 章 智慧农业灌溉</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch38-smart-parking-stm32.html">第 38 章 智能停车管理</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch39-industrial-gateway-stm32.html">第 39 章 工业数据采集网关</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch40-oh-lighting-stm32f4.html">第 40 章 OpenHarmony 智能照明</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html">第 41 章 OpenHarmony 分布式环境监测</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch42-oh-agriculture-stm32f4.html">第 42 章 OpenHarmony 智慧农业大棚</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch43-smart-locker-stm32.html">第 43 章 智能快递柜</a>
+      <a class="sidebar-link" href="../../chapters/part5-projects/ch44-energy-monitor-esp32.html">第 44 章 智能电能监测</a>
     </nav>
   </aside>
 
   <!-- ============ 主内容 ============ -->
   <main class="content">
     <div class="breadcrumb">
-      <a href="/index.html">首页</a> &gt; 第 2 篇 STC &gt; <span>第 10 章 串行通信</span>
+      <a href="../../index.html">首页</a> &gt; 第 2 篇 STC &gt; <span>第 10 章 串行通信</span>
     </div>
 
     <h1>第 10 章 串行通信</h1>
@@ -138,7 +137,7 @@
     <p>异步通信每一字符帧由<strong>起始位（1 位低电平）+ 数据位（5~9 位）+ 校验位（可选 1 位）+ 停止位（1/1.5/2 位高电平）</strong>组成。空闲时数据线为高电平，起始位的下降沿通知接收方开始采样。最常用配置为"<strong>8N1</strong>"：8 位数据、无校验、1 位停止位，共 10 位/字符。</p>
 
     <div class="plantuml-figure">
-  <img src="/assets/diagrams/ch10-serial-communication-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <img src="../../assets/diagrams/ch10-serial-communication-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -237,7 +236,7 @@ STOP --&gt; IDLE2
     <p>由于 PC 已普遍不带 RS-232 串口，常用 <strong>USB 转串口芯片</strong>（CH340、CP2102、FT232、PL2303）将单片机 TTL 电平（3.3V/5V）转为 USB 虚拟串口。CH340 是国产方案，价格低廉、稳定性好，是国内教学板的主流选择。</p>
 
     <div class="plantuml-figure">
-  <img src="/assets/diagrams/ch10-serial-communication-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <img src="../../assets/diagrams/ch10-serial-communication-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -495,9 +494,9 @@ void UART_ISR(void) interrupt 4
     </div>
 
     <nav class="chapter-nav">
-      <a href="/chapters/part2-stc89c52rc/ch09-timer-counter.html" class="prev">← 第 9 章 定时器/计数器</a>
-      <a href="/index.html" class="home">返回首页</a>
-      <a href="/chapters/part2-stc89c52rc/ch11-display-interface.html" class="next">第 11 章 显示与接口 →</a>
+      <a href="../../chapters/part2-stc89c52rc/ch09-timer-counter.html" class="prev">← 第 9 章 定时器/计数器</a>
+      <a href="../../index.html" class="home">返回首页</a>
+      <a href="../../chapters/part2-stc89c52rc/ch11-display-interface.html" class="next">第 11 章 显示与接口 →</a>
     </nav>
 
   </main>
@@ -510,8 +509,8 @@ void UART_ISR(void) interrupt 4
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-<script src="/assets/js/katex-mermaid-init.js"></script>
-<script src="/assets/js/main.js?v=7"></script>
+<script src="../../assets/js/katex-mermaid-init.js"></script>
+<script src="../../assets/js/main.js?v=7"></script>
 
 </body>
 </html>

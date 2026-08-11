@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<script>if(location.hostname.endsWith('github.io')){document.write('<base href="/IntelligentMcuCourse/">')}</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>实验4 数码管动态显示 - 单片机原理及应用</title>
-  <link rel="stylesheet" href="/assets/css/style.css?v=6">
+  <link rel="stylesheet" href="../assets/css/style.css?v=6">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
 </head>
 <body>
 <header class="navbar">
   <div class="nav-container">
-    <a href="/index.html" class="nav-logo">单片机原理及应用</a>
+    <a href="../index.html" class="nav-logo">单片机原理及应用</a>
     <nav class="nav-menu">
-      <a href="/index.html">首页</a>
-      <a href="/syllabus.html">教学大纲</a>
-      <a href="/lab/index.html" class="active">实验指导</a>
-      <a href="/resources.html">资源下载</a>
-      <a href="/faq.html">FAQ</a>
+      <a href="../index.html">首页</a>
+      <a href="../syllabus.html">教学大纲</a>
+      <a href="../lab/index.html" class="active">实验指导</a>
+      <a href="../resources.html">资源下载</a>
+      <a href="../faq.html">FAQ</a>
     </nav>
     <button class="nav-toggle" aria-label="菜单">☰</button>
   </div>
@@ -27,8 +26,8 @@
 <div class="layout">
   <main class="content" style="max-width: 1000px;">
     <div class="breadcrumb">
-      <a href="/index.html">首页</a> &gt;
-      <a href="/lab/index.html">实验指导</a> &gt;
+      <a href="../index.html">首页</a> &gt;
+      <a href="../lab/index.html">实验指导</a> &gt;
       <span>实验4 数码管动态显示</span>
     </div>
 
@@ -73,7 +72,7 @@
     <p>段选 a-g, dp 接 P0.0-P0.7 (需外接 10 kΩ 上拉排阻，因 P0 为开漏)；位选 DIG1-DIG4 接 P2.0-P2.3，经 NPN 三极管 (8050) 驱动公共端 (共阴数码管位选为高有效，三极管导通拉低公共端接地)。实际模块常已集成三极管与电阻。</p>
 
     <div class="plantuml-figure">
-  <img src="/assets/diagrams/lab04-7seg-display-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <img src="../assets/diagrams/lab04-7seg-display-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -189,9 +188,9 @@ void main(void) {
     </ol>
 
     <nav class="chapter-nav">
-      <a href="/lab/lab03-matrix-keypad.html" class="prev">← 实验3 矩阵键盘扫描</a>
-      <a href="/lab/index.html" class="home">返回实验列表</a>
-      <a href="/lab/lab05-timer-interrupt.html" class="next">实验5 定时器中断（秒表） →</a>
+      <a href="../lab/lab03-matrix-keypad.html" class="prev">← 实验3 矩阵键盘扫描</a>
+      <a href="../lab/index.html" class="home">返回实验列表</a>
+      <a href="../lab/lab05-timer-interrupt.html" class="next">实验5 定时器中断（秒表） →</a>
     </nav>
   </main>
 </div>
@@ -202,7 +201,7 @@ void main(void) {
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-<script src="/assets/js/katex-mermaid-init.js"></script>
-<script src="/assets/js/main.js?v=7"></script>
+<script src="../assets/js/katex-mermaid-init.js"></script>
+<script src="../assets/js/main.js?v=7"></script>
 </body>
 </html>
