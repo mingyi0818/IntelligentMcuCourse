@@ -29,3 +29,4 @@ temp_puml/
 
 # 日志文件
 *.log
+add_base_script.py
