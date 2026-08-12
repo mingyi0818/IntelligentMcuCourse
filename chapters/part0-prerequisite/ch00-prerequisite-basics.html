@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -38,6 +38,7 @@
       <a class="sidebar-link active" href="../../chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3 数字电路常识</a>
       <a class="sidebar-link active" href="../../chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4 ANSI C 语言基础</a>
       <a class="sidebar-link active" href="../../chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5 C51 概览</a>
+      <a class="sidebar-link active" href="../../chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-6">6 物联网无线技术概述</a>
       <div class="sidebar-part">第 1 篇 基础理论</div>
       <a class="sidebar-link" href="../../chapters/part1-basics/ch01-mcu-overview.html">第 1 章 单片机概述</a>
       <a class="sidebar-link" href="../../chapters/part1-basics/ch02-computer-fundamentals.html">第 2 章 计算机基础与数制</a>
@@ -104,6 +105,7 @@
         <li>掌握数字电路中与单片机相关的逻辑门、时序元件、时钟与复位电路及电平标准</li>
         <li>复习 ANSI C 语言核心语法（数据类型、指针、结构体、预处理、位运算），为 C51 程序设计奠定基础</li>
         <li>了解 C51 与 ANSI C 的关系及 C51 扩展点概貌，建立"前导 → 基础 → STC → STM32"的递进学习路径</li>
+        <li>建立物联网无线技术整体认知：掌握 WiFi、蓝牙、ZigBee、RFID、LoRa、NB-IoT 等技术的原理、代表芯片与开发方式，为后续综合项目选型打基础</li>
       </ul>
     </div>
 
@@ -1182,6 +1184,151 @@ C --&gt; G
 
     <p>这个递进路径的核心思路是：<strong>先理解硬件结构，再学习描述硬件的语言扩展</strong>。C51 的每个扩展关键字都对应一个 8051 硬件特性，理解了硬件，C51 语法就成了水到渠成的事。</p>
 
+    <h1 id="sec-6">6 物联网无线技术概述</h1>
+
+    <p>现代单片机应用早已不局限于单机运行，而是通过网络互联形成各类物联网（IoT，Internet of Things）系统。本章在第 1 篇学习串行通信、第 4 篇学习 ESP32 之前，先建立一个关于各种<strong>物联网无线通信技术</strong>的整体认知：它们各自的技术原理、适用场景、代表厂商与常用芯片，以及典型的开发方式。当前课程已覆盖 WiFi（ESP32）与蓝牙（第 36 章 MAX30102 健康监测），本章把这些技术放在同一张"频谱图"中对比，并补充 LoRa、NB-IoT、ZigBee、RFID 等课程尚深度涉及的技术。</p>
+
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch00-prerequisite-basics-fig4.svg" alt="PlantUML 图 4" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+top to bottom direction
+rectangle "物联网无线技术全景" as world {
+  rectangle "短距离（&amp;lt;100 m）" as short {
+    rectangle "WiFi\n802.11\nESP8266/ESP32" as wifi
+    rectangle "蓝牙 BLE\nnRF52832/HC-05" as ble
+    rectangle "ZigBee\nCC2530/CC2652" as zig
+    rectangle "RFID\nRC522/EM4095" as rfid
+  }
+  rectangle "中长距离（100 m-15 km）" as mid {
+    rectangle "LoRa\nSX1278/SX1262" as lora
+    rectangle "Sub-1G 自组网\n如 CC1101" as sub1g
+  }
+  rectangle "广域网（蜂窝）" as cell {
+    rectangle "NB-IoT\nBC95/SIM7000C" as nbiot
+    rectangle "4G/5G Cat.1\nSIM7600" as cat1
+  }
+}
+short --&amp;gt; mid
+mid --&amp;gt; cell
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 0-5 主要物联网无线技术按覆盖距离的频谱划分</div>
+
+    <h2>6.1 无线技术选型总览</h2>
+
+    <p>选择何种无线技术，取决于四个核心维度：<strong>覆盖距离</strong>、<strong>数据速率</strong>、<strong>功耗</strong>与<strong>成本</strong>。下表给出课程相关的几类技术的横向对比，便于在学习时建立"选型"思维。</p>
+
+    <table>
+      <thead><tr><th>技术</th><th>频段</th><th>典型距离</th><th>速率</th><th>功耗</th><th>代表芯片 / 模块</th><th>典型场景</th></tr></thead>
+      <tbody>
+        <tr><td>WiFi</td><td>2.4 / 5 GHz</td><td>30-100 m</td><td>高（Mbps）</td><td>中-高</td><td>ESP8266、ESP32、乐鑫</td><td>智能家居、摄像头</td></tr>
+        <tr><td>蓝牙 BLE</td><td>2.4 GHz</td><td>10-30 m</td><td>中（kbps-Mbps）</td><td>很低</td><td>HC-05/HC-06、nRF52832</td><td>手环、穿戴、信标</td></tr>
+        <tr><td>ZigBee 3.0</td><td>2.4 GHz</td><td>10-100 m（可组网延伸）</td><td>低（250 kbps）</td><td>低</td><td>CC2530、CC2652、EFR32MG</td><td>智能家居 Mesh、工业</td></tr>
+        <tr><td>LoRa</td><td>433/868/915 MHz</td><td>2-15 km（空旷）</td><td>很低（0.3-50 kbps）</td><td>很低</td><td>SX1278、SX1262（Semtech）</td><td>智慧农业、环境监测</td></tr>
+        <tr><td>NB-IoT</td><td>授权蜂窝频段</td><td>广域（运营商基站）</td><td>低（上行 20-60 kbps）</td><td>低</td><td>BC95、SIM7000C、NB-IoT 模组</td><td>智能水表、路灯、共享锁</td></tr>
+        <tr><td>RFID</td><td>125 kHz / 13.56 MHz / UHF</td><td>厘米-米</td><td>低-中</td><td>被读卡器供电或无源</td><td>RC522、EM4095、FM11RF08</td><td>门禁、支付、物流盘点</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>选型口诀</strong>：室内近距离、要高速 → WiFi；穿戴低功耗、手机互联 → 蓝牙 BLE；室内组网、节点多 → ZigBee；户外广覆盖、低功耗、数据稀疏 → LoRa；运营商覆盖、要谈资费、免自建网关 → NB-IoT；身份识别、近距离非接触 → RFID。</p>
+
+    <h2>6.2 短距离技术：WiFi、蓝牙、ZigBee、RFID</h2>
+
+    <h3>6.2.1 WiFi</h3>
+    <p>WiFi 遵循 IEEE 802.11 系列标准，是<strong>速率最高</strong>的家庭/办公无线技术，可直接接入现成路由器，协议栈成熟、资料丰富，最适合教学与快速原型。课程第 27 章即用 ESP32+Arduino 开发 WiFi 应用。</p>
+    <ul>
+      <li><strong>代表厂商与芯片</strong>：乐鑫（Espressif）ESP8266（低成本）、ESP32（带蓝牙、更高性能）、ESP32-S3/C3；博通（Broadcom）、瑞昱（Realtek RTL系列）等。国内教程与社区以 ESP8266/ESP32 居多。</li>
+      <li><strong>开发方式</strong>：Arduino 框架（ESP32 Arduino Core）最易上手；其次为乐鑫官方 ESP-IDF（基于 FreeRTOS，专业）；亦可用 MicroPython、RT-Thread 等。通过 AT 指令驱动 ESP8266 串口透传也是经典入门方式。</li>
+      <li><strong>注意</strong>：功耗相对较高，电池供电需配合深度睡眠（ESP32 的 deep_sleep）与唤醒定时器。</li>
+    </ul>
+
+    <h3>6.2.2 蓝牙 / 低功耗蓝牙 BLE</h3>
+    <p>蓝牙经典（BR/EDR）与 BLE（Bluetooth Low Energy）面向短距离、低功耗连接。BLE 是当前穿戴设备、信标（Beacon）、手机互联的主流选择。课程第 36 章健康监测即涉及蓝牙把数据传至手机。</p>
+    <ul>
+      <li><strong>代表芯片</strong>：Nordic nRF52832/nRF52840（低功耗标杆）、意法 STM32WB、乐鑫 ESP32（内置蓝牙）、TI CC2540/CC2640。经典串口透传模块有 HC-05/HC-06、JDY-31 等。</li>
+      <li><strong>开发方式</strong>：最常用<strong>串口透传模块</strong>（HC-05 等，单片机通过 UART 发 AT 指令）；进阶用 BLE 芯片原厂 SDK（Nordic nRF5 SDK、nRF Connect SDK）；手机端可配合 Blynk、BLE Debugger、nRF Connect 等 APP 调试。</li>
+    </ul>
+
+    <h3>6.2.3 ZigBee 3.0</h3>
+    <p>ZigBee 基于 IEEE 802.15.4，工作在 2.4 GHz，速率较低（250 kbps）但<strong>组网能力强</strong>，支持星型、树型、Mesh 多跳，非常契合"大量低功耗终端节点 + 一个协调器"的<strong>智能家居 / 楼宇自动化</strong>场景。每个网络可容纳数万节点。</p>
+    <ul>
+      <li><strong>代表芯片</strong>：TI CC2530（经典 8051 内核，教程多）、CC2652（多协议）；Silicon Labs EFR32MG（支持 Zigbee/Thread/BLE 多协议）；NXP、恩智浦等。常见模块有深圳市众多厂商的 CC2530 模块。</li>
+      <li><strong>开发方式</strong>：TI Z-Stack 协议栈（基于 IAR/CCS）、或使用 Zigbee 协调器+路由+终端的网络拓扑；国内教学常用"CC2530 + Z-Stack"配合 ZigBee 无线透传例程。开发门槛高于 WiFi/蓝牙，适合有一定基础后学习。</li>
+    </ul>
+
+    <h3>6.2.4 RFID</h3>
+    <p>RFID（射频识别）用无线电磁场实现非接触式身份识别，本质是"读卡器 + 电子标签"。频段决定读写距离：125 kHz（低频，门禁卡）、13.56 MHz（高频，校园卡/公交卡，RC522 最常用）、860-960 MHz（超高频 UHF，物流远距离）。课程第 35 章 RFID 智能门禁即使用 13.56 MHz 方案。</p>
+    <ul>
+      <li><strong>代表芯片</strong>：高频读卡器芯片 NXP RC522（MFRC522，最常用）、RC522 模块；NXP NTAG 系列标签；国产复旦微 FM11RF08 等。</li>
+      <li><strong>开发方式</strong>：RC522 模块通过 SPI/I2C/UART 与单片机相连，用厂商库（如 <code>MFRC522</code> Arduino 库）实现读 UID、读写扇区数据。标签（M1 卡）可存 ID 与用户数据，用于门禁、考勤、贵重物品盘库。</li>
+    </ul>
+
+    <h2>6.3 中长距离技术：LoRa 与 Sub-1G 自组网</h2>
+
+    <h3>6.3.1 LoRa</h3>
+    <p>LoRa（Long Range）是 Semtech 公司主导的<strong>远距离、低功耗、低速率</strong>调制技术（采用 Chirp 扩频）。在空旷开阔地，点对点通信距离可达 <strong>2-15 km</strong>，非常契合户外传感器节点、智慧农业、环境监测、水电气表计等"数据稀疏、需广覆盖、电池供电"的场景。LoRa 工作在 Sub-1GHz 免授权频段（国内常用 470-510 MHz 或 433/868/915 MHz）。</p>
+    <ul>
+      <li><strong>代表芯片</strong>：Semtech SX1276/SX1278（经典，国内 E32-433T 模块）、SX1262（新一代，性能更好）；瑞兴恒方、亿佰特（EBYTE）等厂商基于 Semtech 芯片做成的成品模块广受欢迎。</li>
+      <li><strong>开发方式</strong>：<strong>LoRa 网关 + 终端</strong>星型架构，终端通过 SPI 接口驱动 SX1278，主控可用 STM32/ESP32；上层协议常配 LoRaWAN（标准网络协议，含 Join/加密/ADR）或私有透传协议。国内常用"亿佰特 LoRa 模块 AT 指令/透传"配合 OneNET 等云平台。<strong>LoRa 与 LoRaWAN 的区别</strong>：LoRa 是物理层调制技术，LoRaWAN 是基于 LoRa 的 MAC 层网络协议。</li>
+    </ul>
+
+    <h3>6.3.2 Sub-1G 自组网（如 CC1101）</h3>
+    <p>除 LoRa 外，Sub-1G 频段还有多种芯片可实现低成本远距离点对点/星型自组网，如 TI CC1101、SX1272 等。它们不依赖运营商标或标准协议，适合私有协议、抗干扰、点对点透传需求，常用于工业采集、遥控、无线抄表。</p>
+    <ul>
+      <li><strong>代表芯片</strong>：TI CC1101（低成本、经典透传）、Silicon Labs SI4463 等。模块如 CC1101 无线模块。</li>
+      <li><strong>开发方式</strong>：通过 SPI 配置寄存器，用厂商库实现收发；常见为"主控 + 透传模块"直接串口收发，或基于芯片 SDK 做私有自定义协议。开发灵活但需自行处理组网、抗干扰与休眠唤醒。</li>
+    </ul>
+
+    <h2>6.4 广域蜂窝技术：NB-IoT 与 Cat.1</h2>
+
+    <h3>6.4.1 NB-IoT</h3>
+    <p>NB-IoT（Narrow Band IoT，窄带物联网）是 3GPP 标准的<strong>授权蜂窝</strong>窄带技术，直接接入运营商基站（中国移动 OneNET、中国电信等），<strong>无需自建网关</strong>，覆盖广、穿透强、功耗低、单连接成本低。适合智能路灯、智能水表、共享设备、井盖监控等需要广域覆盖、节点海量、单次数据量小的场景。NB-IoT 终端通常需要<strong>插 SIM 卡并签约运营商资费</strong>。</p>
+    <div class="plantuml-figure">
+  <img src="/assets/diagrams/ch00-prerequisite-basics-fig5.svg" alt="PlantUML 图 5" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+top to bottom direction
+component "STM32/8位MCU\n传感器节点" as node
+component "NB-IoT 模组\nBC95 / SIM7000C\n(UART + AT)" as mod
+component "运营商基站\n(中国移动/电信/联通)" as bs
+component "物联网平台\nOneNET / 天翼物联" as plat
+component "应用 APP / 大屏" as app
+node --&amp;gt; mod : UART AT 指令
+mod --&amp;gt; bs : 授权蜂窝
+bs --&amp;gt; plat : 运营商核心网
+plat --&amp;gt; app : 数据推送/API
+@enduml</code></pre>
+  </details>
+</div>
+    <div class="figure-caption">图 0-6 NB-IoT 端到端数据链路（终端 → 基站 → 平台 → 应用）</div>
+    <ul>
+      <li><strong>代表芯片 / 模组</strong>：华为海思 BC95（经典 NB-IoT 模组）、BC260；芯讯通 SIM7000C（多模）；移远、利尔达等众多模组。它们通常以<strong>串口 AT 指令</strong>方式与主控（STM32/单片机）交互。</li>
+      <li><strong>开发方式</strong>：单片机通过 UART 发送 AT 指令（如 <code>AT+CGATT</code>、<code>AT+MIPLOPEN</code>/平台相关指令）让模组入网，再通过 CoAP/UDP 上报数据到 OneNET 等平台；平台侧提供可视化与 API。开发门槛主要在<strong>平台接入协议与资费开通</strong>，硬件本身简单。</li>
+    </ul>
+
+    <h3>6.4.2 Cat.1 / 4G</h3>
+    <p>Cat.1（LTE Cat-1）是面向中速率物联网的蜂窝方案，速率高于 NB-IoT，常用于对上行带宽、实时性有要求又不需要高速视频的场景（如共享单车定位、Pos 机、车载追踪）。模组如 SIM7600、L610 等，通过 UART AT 指令 + MQTT/HTTP 接入平台。</p>
+
+    <h2>6.5 其它射频技术简介</h2>
+    <p>除上述主流技术外，物联网还常涉及以下射频/无线技术，了解即可：</p>
+    <ul>
+      <li><strong>433 MHz 无线 / 315 MHz（ASK/FSK）</strong>：最廉价的遥控方式（如 PT2262/EV1527 编解码），用于无线遥控开关，成本极低。</li>
+      <li><strong>NFC（近场通信）</strong>：由 RFID 演化而来，13.56 MHz，通信距离厘米级，用于移动支付、卡模拟（如手机刷门禁）。芯片如 PN532、NTAG215。</li>
+      <li><strong>Thread / Matter</strong>：面向智能家居的新型低功耗 Mesh 与互联标准，基于 IPv6，Silicon Labs EFR32MG、乐鑫等支持。</li>
+      <li><strong>UWB（超宽带）</strong>：厘米级高精度定位，用于室内定位、车钥匙，代表芯片如 NXP NCJ29D5、Qorvo DW1000。</li>
+      <li><strong>红外 IR</strong>：非射频但常与之一并学习，433 MHz 遥控器与红外遥控支架是消费电子入门经典。</li>
+    </ul>
+
+    <div class="tip">
+      <strong>学习建议</strong>：本篇第 4 篇将深入学习 WiFi（ESP32）与蓝牙；第 5 篇综合项目（如智慧农业灌溉、智能停车、工业网关）会初步涉及 LoRa/NB-IoT 的选型思考。你可以把本章当作一张"技术地图"，后续在每个具体项目中学到某个技术时，回来对照它在"距离-速率-功耗-成本"坐标中的位置，自然就能看懂"为什么这个项目用这个技术"。
+    </div>
+
     <div class="summary">
       <h2>本章小结</h2>
       <ul>
@@ -1195,6 +1342,7 @@ C --&gt; G
         <li><strong>绝对地址访问</strong>：Cortex-M 用 <code>*(volatile unsigned int *)地址</code> 访问寄存器，可封装为宏或用结构体映射一片连续寄存器（CMSIS 做法）；8051 用 C51 扩展关键字 sfr/sbit 直接绑定地址（详见第 6 章）。</li>
         <li><strong>常见陷阱</strong>：整数溢出、有符号与无符号比较、宏参数副作用、野指针、缓冲区溢出（用 snprintf）、switch 漏 break、数组退化为指针（sizeof 在函数内失效）、注释嵌套与中文标点。</li>
         <li><strong>C51 概览</strong>：C51 = ANSI C + 8051 硬件扩展；扩展点包括存储类型、sfr/sbit、中断函数、位变量；学习路径为"复习 ANSI C → 理解 8051 结构 → 学习 C51 扩展 → 实战点亮 LED"。</li>
+        <li><strong>物联网无线技术</strong>：按"距离-速率-功耗-成本"选型。短距离：WiFi（ESP8266/ESP32）、蓝牙 BLE（HC-05/nRF52832）、ZigBee 3.0（CC2530/CC2652，Mesh 组网）、RFID（RC522，13.56 MHz）；中长距离：LoRa（SX1278/SX1262，2-15 km）、Sub-1G 自组网（CC1101）；广域蜂窝：NB-IoT（BC95/SIM7000C，运营商覆盖）、Cat.1。开发上 WiFi/蓝牙多用 AT 透传 + Arduino SDK，LoRa 用 SPI 驱动 + 网关/LoRaWAN，NB-IoT 用 UART AT + 云平台。</li>
       </ul>
     </div>
 
@@ -1214,6 +1362,7 @@ C --&gt; G
         <li>用三种方式实现"向 STM32 GPIOA 的 ODR 寄存器（地址 0x40020014）写入 0x0001"：(a) 直接强制类型转换；(b) 宏封装；(c) 结构体指针映射（GPIOA 基地址 0x40020000）。说明每种方式的优缺点。</li>
         <li>从 GitHub 下载 cJSON 库后，若要在 Keil MDK 工程中使用，需要哪些步骤？为什么嵌入式系统使用 cJSON 时要谨慎？</li>
         <li>说明 <code>#include "uart.h"</code> 与 <code>#include &lt;stdio.h&gt;</code> 的区别，以及在 Keil 中如何让编译器找到自定义头文件路径。</li>
+        <li>某智慧农业项目需要把 20 个分布在 5 公里范围内的土壤湿度传感器数据上报到云端，传感器电池供电、每天上报 4 次。请从 WiFi、蓝牙、ZigBee、LoRa、NB-IoT 中选出最合适的技术并说明理由，同时指出其余技术不合适的原因。</li>
       </ol>
     </div>
 
