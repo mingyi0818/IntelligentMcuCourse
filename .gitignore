@@ -31,3 +31,9 @@ temp_puml/
 *.log
 add_base_script.py
 fix_relative_paths.py
+
+# 本地参考资料（含个人信息，不公开推送）
+ref/
+
+# 评审与草稿文件（不公开推送）
+review_feedback.md
