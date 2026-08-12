@@ -151,7 +151,7 @@
     <h3>45.2.4 控制分配（Mixer）</h3>
     <p>给定四个控制量：油门 $T$、Roll 期望 $\tau_r$、Pitch 期望 $\tau_p$、Yaw 期望 $\tau_y$，分配到四个电机的转速：</p>
     <div class="plantuml-figure">
-  <img src="/assets/diagrams/ch45-quadcopter-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <img src="../../assets/diagrams/ch45-quadcopter-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -172,7 +172,7 @@ N1 -[hidden]right- N2
 
     <h2>45.3 系统架构设计</h2>
     <div class="plantuml-figure">
-  <img src="/assets/diagrams/ch45-quadcopter-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <img src="../../assets/diagrams/ch45-quadcopter-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -272,7 +272,7 @@ S6 .right.&gt; S4 : 紧急切断
     <h3>45.5.1 主控制循环</h3>
     <p>使用 TIM6 触发 500 Hz 中断（2 ms 周期），在中断中执行完整控制流程。也可使用 FreeRTOS 任务 + 高优先级抢占，但本项目为简化代码用裸机中断。</p>
     <div class="plantuml-figure">
-  <img src="/assets/diagrams/ch45-quadcopter-fig3.svg" alt="PlantUML 图 3" class="plantuml-img" loading="lazy" />
+  <img src="../../assets/diagrams/ch45-quadcopter-fig3.svg" alt="PlantUML 图 3" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -297,7 +297,7 @@ stop
 
     <h3>45.5.2 状态机</h3>
     <div class="plantuml-figure">
-  <img src="/assets/diagrams/ch45-quadcopter-fig4.svg" alt="PlantUML 图 4" class="plantuml-img" loading="lazy" />
+  <img src="../../assets/diagrams/ch45-quadcopter-fig4.svg" alt="PlantUML 图 4" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml

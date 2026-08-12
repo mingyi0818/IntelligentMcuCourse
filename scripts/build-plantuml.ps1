@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
   全站 PlantUML 本地预编译脚本。
   扫描所有 HTML 文件中的 <div class="plantuml">@startuml...@enduml</div> 块，
@@ -70,7 +70,15 @@ foreach ($file in $htmlFiles) {
 
         $svgName = "{0}-fig{1}.svg" -f $baseName, $idx
         $svgAbs  = Join-Path $diagramsDir $svgName
-        $svgRel  = "/assets/diagrams/$svgName"
+        # 计算从 HTML 文件到站点根的相对路径，再拼接 assets/diagrams/svgName
+        $fileRelDir = (Split-Path -Parent $file.FullName).Substring($RootDir.Length).TrimStart('\','/')
+        if ($fileRelDir) {
+            $depth = ($fileRelDir -split '[\\/]').Count
+            $relPrefix = ("../" * $depth)
+        } else {
+            $relPrefix = ""
+        }
+        $svgRel  = "${relPrefix}assets/diagrams/$svgName"
 
         # 提取 PlantUML 源码：从 @startuml 到 @enduml
         $rawContent = $m.Groups[2].Value
