@@ -384,12 +384,13 @@ rectangle "STM32F407\n主控" as stm
 rectangle "PWM 调光 LED" as led
 rectangle "OLED 显示" as oled
 rectangle "BH1750\n环境光(可选)" as bh
+rectangle "夜灯/读书模式" as mode
 mic --&gt; ld : 声音
 ld --&gt; stm : SPI
 stm --&gt; led : PWM
 stm --&gt; oled : I2C
 bh --&gt; stm : I2C
-stm --&gt; "夜灯/读书模式" as mode
+stm --&gt; mode
 @enduml</code></pre>
   </details>
 </div>
@@ -757,12 +758,14 @@ rectangle "LoRa 汇聚" as lora
 rectangle "ESP32 网关" as esp
 rectangle "云平台" as cloud
 rectangle "采摘机械臂\n(视觉识别)" as arm
+rectangle "灌溉/施肥建议" as advice
+rectangle "金柚成熟度识别" as ripe
 sens --&gt; node
 node --&gt; lora : LoRa 远距
 lora --&gt; esp : 网关汇聚
 esp --&gt; cloud : WiFi
-cloud --&gt; "灌溉/施肥建议" as advice
-arm --&gt; "金柚成熟度识别" as ripe
+cloud --&gt; advice
+arm --&gt; ripe
 @enduml</code></pre>
   </details>
 </div>
@@ -2238,10 +2241,11 @@ rectangle "RC522 RFID 扫码" as rfid
 rectangle "STM32F407 主控" as stm
 rectangle "LCD 购物清单" as lcd
 rectangle "WiFi 结算" as wifi
+rectangle "结账系统" as pay
 rfid --&gt; stm : SPI
 stm --&gt; lcd : 显示
 stm --&gt; wifi : UART
-wifi --&gt; "结账系统" as pay
+wifi --&gt; pay
 @enduml</code></pre>
   </details>
 </div>
