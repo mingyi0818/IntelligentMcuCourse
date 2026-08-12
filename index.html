@@ -460,6 +460,66 @@
       }
     }
 
+    /* 12. 从这里开始：引导卡片带 */
+    body.home .start-here {
+      max-width: 1320px;
+      margin: 1.5em auto 2em;
+      padding: 1.4em 1.8em;
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border: 2px dashed #f59e0b;
+      border-radius: 12px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1em;
+      align-items: stretch;
+    }
+    body.home .start-here-title {
+      grid-column: 1 / -1;
+      font-size: 1.25em;
+      color: #92400e;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      margin-bottom: 0.2em;
+    }
+    body.home .start-here-title::before {
+      content: "▶";
+      color: #f59e0b;
+      font-size: 0.9em;
+    }
+    body.home .start-card {
+      background: #fff;
+      border: 1px solid #fbbf24;
+      border-radius: 8px;
+      padding: 0.9em 1.1em;
+      transition: transform 0.15s, box-shadow 0.15s;
+      display: flex;
+      flex-direction: column;
+    }
+    body.home .start-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(245, 158, 11, 0.25);
+    }
+    body.home .start-card .sc-title {
+      font-weight: 600;
+      color: #92400e;
+      margin-bottom: 0.3em;
+      font-size: 1em;
+    }
+    body.home .start-card .sc-desc {
+      font-size: 0.88em;
+      color: #6b7280;
+      line-height: 1.5;
+      flex: 1;
+    }
+    body.home .start-card .sc-arrow {
+      color: #f59e0b;
+      font-weight: 600;
+      margin-top: 0.4em;
+      font-size: 0.85em;
+    }
+
     /* 11.10 课程目录动画：卡片错峰淡入 + 3D 悬停 + 头部流光 + 链接指示条 */
     /* 卡片初始隐藏，滚动到视口时添加 .visible 触发动画 */
     body.home .toc-grid { perspective: 1200px; }
@@ -558,6 +618,7 @@
       <a href="lab/index.html">实验指导</a>
       <a href="exercises.html">练习题</a>
       <a href="resources.html">资源下载</a>
+      <a href="sizheng.html">课程思政</a>
       <a href="faq.html">FAQ</a>
     </nav>
     <button class="nav-toggle" aria-label="菜单">☰</button>
@@ -606,6 +667,41 @@
     <div class="stat-num" data-target="68">68</div>
     <div class="stat-label">课程学时</div>
   </div>
+</div>
+
+<!-- ============ 从这里开始：入门引导 ============ -->
+<div class="start-here">
+  <div class="start-here-title">从这里开始 · 新生入学指南</div>
+  <a class="start-card" href="syllabus.html">
+    <div class="sc-title">① 了解课程</div>
+    <div class="sc-desc">查看教学大纲、先修课程要求、34 次课映射表与考核方式</div>
+    <div class="sc-arrow">查看大纲 →</div>
+  </a>
+  <a class="start-card" href="chapters/part0-prerequisite/ch00-prerequisite-basics.html">
+    <div class="sc-title">② 前导复习</div>
+    <div class="sc-desc">开学前复习模拟电路、数字电路、ANSI C 基础与 C51 概览</div>
+    <div class="sc-arrow">开始预习 →</div>
+  </a>
+  <a class="start-card" href="resources.html">
+    <div class="sc-title">③ 准备工具链</div>
+    <div class="sc-desc">安装 STC-ISP、Keil C51、STM32CubeMX、VS Code + PlatformIO</div>
+    <div class="sc-arrow">获取工具 →</div>
+  </a>
+  <a class="start-card" href="resources.html#sec-hardware">
+    <div class="sc-title">④ 采购硬件</div>
+    <div class="sc-desc">STC89C52RC + STM32F407VET6 开发板、面包板、杜邦线、传感器等</div>
+    <div class="sc-arrow">查看清单 →</div>
+  </a>
+  <a class="start-card" href="sizheng.html">
+    <div class="sc-title">⑤ 思政先行</div>
+    <div class="sc-desc">阅读课程思政专栏，了解国产芯片、梅州苏区、金柚产业与生态保护</div>
+    <div class="sc-arrow">阅读思政 →</div>
+  </a>
+  <a class="start-card" href="chapters/part1-basics/ch01-mcu-overview.html">
+    <div class="sc-title">⑥ 正式开课</div>
+    <div class="sc-desc">从第 1 章单片机概述开始，按篇章顺序递进学习 45 章内容</div>
+    <div class="sc-arrow">开始学习 →</div>
+  </a>
 </div>
 
 <div class="container">

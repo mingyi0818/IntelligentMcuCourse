@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>课程思政 - 单片机原理及应用</title>
+  <link rel="stylesheet" href="assets/css/style.css?v=10">
+  <style>
+    /* 课程思政专页样式 */
+    .sizheng-hero {
+      background: linear-gradient(135deg, #b91c1c 0%, #991b1b 50%, #7f1d1d 100%);
+      color: #fff;
+      padding: 3em 2em;
+      border-radius: 0 0 12px 12px;
+      margin: -1em -1.5em 2em;
+      box-shadow: 0 6px 20px rgba(127, 29, 29, 0.25);
+    }
+    .sizheng-hero h1 {
+      color: #fff;
+      border: none;
+      margin-top: 0;
+      font-size: 2.2em;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .sizheng-hero p {
+      margin: 0.5em 0 0;
+      font-size: 1.1em;
+      opacity: 0.95;
+    }
+    .sizheng-hero .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.18);
+      padding: 0.25em 0.9em;
+      border-radius: 12px;
+      font-size: 0.88em;
+      margin-right: 0.4em;
+      margin-top: 0.6em;
+    }
+
+    /* 主题模块卡片 */
+    .sz-module {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-left: 5px solid var(--color-primary);
+      border-radius: var(--radius);
+      padding: 1.6em 2em;
+      margin: 1.8em 0;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .sz-module:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+    .sz-module.red { border-left-color: #dc2626; }
+    .sz-module.green { border-left-color: #16a34a; }
+    .sz-module.blue { border-left-color: #0284c7; }
+    .sz-module.purple { border-left-color: #7c3aed; }
+    .sz-module h2 {
+      margin-top: 0;
+      border-bottom: 2px solid var(--color-border);
+      padding-bottom: 0.4em;
+      display: flex;
+      align-items: center;
+      gap: 0.6em;
+    }
+    .sz-module h2 .icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--color-primary);
+      color: #fff;
+      font-size: 0.95em;
+      font-weight: 700;
+    }
+    .sz-module.red h2 .icon { background: #dc2626; }
+    .sz-module.green h2 .icon { background: #16a34a; }
+    .sz-module.blue h2 .icon { background: #0284c7; }
+    .sz-module.purple h2 .icon { background: #7c3aed; }
+    .sz-module h3 {
+      color: var(--color-primary-dark);
+      margin-top: 1.2em;
+    }
+    .sz-case {
+      background: #fef2f2;
+      border-left: 3px solid #f87171;
+      padding: 0.9em 1.2em;
+      border-radius: 0 4px 4px 0;
+      margin: 1em 0;
+      font-size: 0.95em;
+    }
+    .sz-case.green { background: #f0fdf4; border-left-color: #4ade80; }
+    .sz-case.blue { background: #eff6ff; border-left-color: #60a5fa; }
+    .sz-case.yellow { background: #fefce8; border-left-color: #facc15; }
+    .sz-case strong { color: var(--color-primary-dark); }
+
+    /* 数据卡片 */
+    .sz-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1em;
+      margin: 1.2em 0;
+    }
+    .sz-stat-card {
+      background: #fff;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 1em 1.2em;
+      text-align: center;
+    }
+    .sz-stat-card .num {
+      font-size: 1.8em;
+      font-weight: 700;
+      color: #16a34a;
+      font-family: "JetBrains Mono", "Consolas", monospace;
+      line-height: 1;
+    }
+    .sz-stat-card .label {
+      font-size: 0.85em;
+      color: var(--color-text-light);
+      margin-top: 0.3em;
+    }
+
+    /* 学术诚信章节 */
+    .integrity-box {
+      background: #fffbeb;
+      border: 2px solid #f59e0b;
+      border-radius: var(--radius);
+      padding: 1.6em 2em;
+      margin: 2em 0;
+    }
+    .integrity-box h2 {
+      color: #92400e;
+      margin-top: 0;
+      border-bottom: 1px dashed #f59e0b;
+    }
+    .integrity-box ol { padding-left: 1.6em; }
+    .integrity-box ol li { margin: 0.6em 0; line-height: 1.7; }
+    .integrity-box strong { color: #92400e; }
+
+    /* 引导提示 */
+    .sz-tip {
+      background: #ecfdf5;
+      border-left: 4px solid var(--color-primary);
+      padding: 0.8em 1.2em;
+      border-radius: 0 4px 4px 0;
+      margin: 1em 0;
+      font-size: 0.95em;
+    }
+    .sz-tip strong { color: var(--color-primary-dark); }
+  </style>
+</head>
+<body>
+
+<header class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">单片机原理及应用</a>
+    <nav class="nav-menu">
+      <a href="index.html">首页</a>
+      <a href="syllabus.html">教学大纲</a>
+      <a href="lab/index.html">实验指导</a>
+      <a href="exercises.html">练习题</a>
+      <a href="resources.html">资源下载</a>
+      <a href="sizheng.html" class="active">课程思政</a>
+      <a href="faq.html">FAQ</a>
+    </nav>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+  </div>
+</header>
+
+<div class="layout">
+  <main class="content" style="max-width: 1100px;">
+    <div class="breadcrumb">
+      <a href="index.html">首页</a> &gt; <span>课程思政</span>
+    </div>
+
+    <!-- 页面 Hero -->
+    <section class="sizheng-hero">
+      <h1>课程思政专栏</h1>
+      <p>科技报国 · 苏区精神 · 客家匠心 · 生态守护</p>
+      <div>
+        <span class="badge">国产替代</span>
+        <span class="badge">梅州苏区</span>
+        <span class="badge">世界客都</span>
+        <span class="badge">金柚产业</span>
+        <span class="badge">生态保护</span>
+      </div>
+    </section>
+
+    <p>本专栏立足嘉应学院所在梅州市的独特地缘优势，将<strong>梅州全域中央苏区</strong>的红色基因、<strong>世界客都</strong>的耕读文化、<strong>全球最大柚类产区</strong>的产业实践、<strong>粤港澳大湾区生态保护区</strong>的绿色使命，与单片机课程的技术教学深度融合，构建"科技报国、苏区精神、客家匠心、生态守护"四位一体的课程思政体系。</p>
+
+    <!-- 模块一：国产芯片自主创新 -->
+    <section class="sz-module red">
+      <h2><span class="icon">壹</span>国产芯片自主创新之路</h2>
+      <p>单片机课程的核心载体——芯片，是"卡脖子"技术攻关的典型领域。本课程在介绍 STC、兆易创新、沁恒（WCH）等国产 MCU 时，贯穿"科技自立自强"的价值引领。</p>
+
+      <h3>1.1 国产替代的真实故事</h3>
+      <div class="sz-case">
+        <strong>STC（宏晶科技）</strong>：作为 MCS-51 内核的国产继承者，STC 从 1999 年起步，坚持自主创新，推出 STC89C52RC、STC8H、STC32G 等系列，成为国内 8051 教学与工程应用的主力芯片。北京化工大学《单片机原理及应用》国家级一流课程即以 STC 32 位单片机为授课平台，标志着 8051 教学从 8 位迈入 32 位时代。
+      </div>
+      <div class="sz-case">
+        <strong>兆易创新（GigaDevice）</strong>：国产 Flash 存储器与 ARM Cortex-M 内核 MCU 的代表企业，GD32 系列在工业控制、消费电子领域广泛替代 STM32，是国内 32 位 MCU 的标杆。
+      </div>
+      <div class="sz-case">
+        <strong>沁恒微电子（WCH）</strong>：CH340 系列 USB 转串口芯片几乎成为国内单片机开发板的"标配"，CH32V 系列 RISC-V 单片机在国产替代中扮演重要角色。
+      </div>
+
+      <h3>1.2 课程融入方式</h3>
+      <ul>
+        <li><strong>第 4 章 MCS-51 体系结构</strong>：介绍 STC89C52RC 时，讲述国产芯片如何从仿制到自主创新</li>
+        <li><strong>第 13 章 STM32 与 Cortex-M4 概述</strong>：对比 GD32F4 系列与 STM32F4 系列，讨论国产替代的技术路径</li>
+        <li><strong>第 14 章 STM32 开发环境搭建</strong>：使用 CH340 调试器时，介绍沁恒微电子在 USB 接口芯片领域的国产化贡献</li>
+      </ul>
+
+      <div class="sz-tip">
+        <strong>价值目标</strong>：通过国产芯片的真实发展史，激发学生的民族自豪感与科技报国使命感，理解"卡脖子"技术攻关的现实意义。
+      </div>
+    </section>
+
+    <!-- 模块二：梅州苏区红色资源 -->
+    <section class="sz-module green">
+      <h2><span class="icon">贰</span>梅州全域中央苏区的红色基因</h2>
+      <p>梅州是<strong>广东省唯一全域属原中央苏区的地级市</strong>，拥有叶剑英元帅故乡、三河坝战役旧址等 509 处革命遗址。本课程将苏区精神融入单片机技术教学，让学生在掌握技术的同时，铭记红色历史。</p>
+
+      <h3>2.1 梅州苏区关键数据</h3>
+      <div class="sz-stat-grid">
+        <div class="sz-stat-card">
+          <div class="num">509</div>
+          <div class="label">革命遗址数量</div>
+        </div>
+        <div class="sz-stat-card">
+          <div class="num">1</div>
+          <div class="label">广东省全域苏区地级市</div>
+        </div>
+        <div class="sz-stat-card">
+          <div class="num">1927</div>
+          <div class="label">三河坝战役年份</div>
+        </div>
+        <div class="sz-stat-card">
+          <div class="num">叶帅</div>
+          <div class="label">叶剑英元帅故乡</div>
+        </div>
+      </div>
+
+      <h3>2.2 课程融入方式</h3>
+      <div class="sz-case green">
+        <strong>第 8 章 中断系统</strong>：讲授中断响应机制时，以"紧急情况优先处理"类比人民军队的快速反应能力，引述三河坝战役中朱德率部阻击敌军、掩护南昌起义主力南下的历史，让学生理解"响应"与"担当"的双重含义。
+      </div>
+      <div class="sz-case green">
+        <strong>综合项目设计建议</strong>：第 5 篇综合项目可新增<strong>"苏区红色文旅智能导览系统"</strong>，基于 ESP32+GPS+OLED 开发便携式导览设备，在梅州红色景点为游客提供定位、讲解、互动问答服务。该项目既训练嵌入式开发能力，又让学生在工程实践中传承红色基因。
+      </div>
+      <div class="sz-case green">
+        <strong>第 30 章 智能交通灯系统</strong>：可扩展设计"苏区红色旅游线路智能交通管理"案例，结合梅州红色景点分布优化交通灯控制策略。
+      </div>
+
+      <div class="sz-tip">
+        <strong>价值目标</strong>：让单片机课程不止是技术训练，更是红色基因的代际传承。学生在调试中断、设计项目时，感悟苏区精神"坚定信念、求真务实、一心为民、清正廉洁、艰苦奋斗、争创一流、无私奉献"的内涵。
+      </div>
+    </section>
+
+    <!-- 模块三：梅州金柚产业智能化 -->
+    <section class="sz-module blue">
+      <h2><span class="icon">叁</span>梅州金柚产业的智能化升级</h2>
+      <p>梅州是全球最大的沙田柚生产基地，2025 年梅州柚种植面积约 66 万亩、产量 129.55 万吨，占广东省柚类总产量的九成，全国每五个柚子就有一个产自梅州，品牌价值突破 227.5 亿元，全产业链产值 89 亿元。这是<strong>政产学研结合</strong>最生动的现场教材。</p>
+
+      <h3>3.1 智慧柚园的关键数据</h3>
+      <div class="sz-stat-grid">
+        <div class="sz-stat-card">
+          <div class="num">66万</div>
+          <div class="label">亩种植面积</div>
+        </div>
+        <div class="sz-stat-card">
+          <div class="num">129.55</div>
+          <div class="label">万吨年产量</div>
+        </div>
+        <div class="sz-stat-card">
+          <div class="num">227.5</div>
+          <div class="label">亿元品牌价值</div>
+        </div>
+        <div class="sz-stat-card">
+          <div class="num">89</div>
+          <div class="label">亿元全产业链产值</div>
+        </div>
+        <div class="sz-stat-card">
+          <div class="num">5G</div>
+          <div class="label">智慧农业已部署</div>
+        </div>
+        <div class="sz-stat-card">
+          <div class="num">1/5</div>
+          <div class="label">全国柚子占比</div>
+        </div>
+      </div>
+
+      <h3>3.2 智慧柚园中的单片机技术</h3>
+      <p>梅州金柚产业的现代化升级中，单片机与嵌入式系统已广泛应用于以下环节：</p>
+      <ul>
+        <li><strong>土壤与环境监测节点</strong>：基于 STM32 或 ESP32 的传感器节点，监测土壤湿度、温度、pH 值、光照、气象参数，通过 Wi-Fi/LoRa 上传云平台</li>
+        <li><strong>智能灌溉控制</strong>：根据土壤湿度数据自动控制滴灌阀门，实现精准灌溉（梅县区南福村已部署，肥力成本下降约 15%，产量提升约 20%）</li>
+        <li><strong>无人机植保飞防</strong>：基于 STM32 的飞控系统用于柚园喷药、施肥、航拍监测</li>
+        <li><strong>自动分选产线</strong>：基于单片机的糖度分拣、分级选果系统，实现"以质定价、优质优价"</li>
+        <li><strong>溯源系统</strong>：RFID 标签 + 单片机读取器，实现"从枝头到舌尖"的全链路追溯</li>
+      </ul>
+
+      <h3>3.3 课程融入方式</h3>
+      <div class="sz-case blue">
+        <strong>综合项目建议</strong>：第 5 篇可新增<strong>"梅州金柚智能监测系统"</strong>项目章节，使用 ESP32 + 土壤湿度传感器 + DHT22 + OLED 显示屏，开发一套柚园环境监测节点。学生在完成项目过程中，既掌握嵌入式开发技能，又了解梅州支柱产业的现代化进程，培养"用技术服务家乡"的家国情怀。
+      </div>
+      <div class="sz-case blue">
+        <strong>第 19 章 ADC 与 DAC</strong>：讲授 ADC 采集时，以土壤湿度传感器、糖度传感器为例，结合梅州金柚糖度分拣的真实案例，让数据采集教学具有产业背景。
+      </div>
+      <div class="sz-case blue">
+        <strong>第 37 章 智慧农业灌溉系统（ESP32）</strong>：现有项目可直接对接梅州柚园场景，将通用农业灌溉改造为"柚园智能灌溉"，结合真实气象数据与柚子生长周期参数。
+      </div>
+
+      <div class="sz-tip">
+        <strong>价值目标</strong>：让学生看到单片机技术不是孤立的实验室知识，而是支撑乡村振兴、产业升级的基础技术。鼓励学生毕业后投身梅州本地农业现代化建设，用技术赋能家乡产业。
+      </div>
+    </section>
+
+    <!-- 模块四：生态保护 -->
+    <section class="sz-module purple">
+      <h2><span class="icon">肆</span>粤港澳大湾区生态保护与绿色使命</h2>
+      <p>梅州是粤港澳大湾区的生态保护区，森林覆盖率 74.68%，近半数土壤天然富硒，是"世界长寿之都"。本课程在环境监测、低功耗设计等章节，融入生态保护价值引领。</p>
+
+      <h3>4.1 梅州生态本底数据</h3>
+      <div class="sz-stat-grid">
+        <div class="sz-stat-card">
+          <div class="num">74.68%</div>
+          <div class="label">森林覆盖率</div>
+        </div>
+        <div class="sz-stat-card">
+          <div class="num">0.514</div>
+          <div class="label">mg/kg 土壤平均含硒</div>
+        </div>
+        <div class="sz-stat-card">
+          <div class="num">51</div>
+          <div class="label">家国家3A级以上景区</div>
+        </div>
+        <div class="sz-stat-card">
+          <div class="num">第2</div>
+          <div class="label">广东省3A景区数量排名</div>
+        </div>
+      </div>
+
+      <h3>4.2 课程融入方式</h3>
+      <div class="sz-case yellow">
+        <strong>第 34 章 空气质量监测站（ESP32）</strong>：将通用的空气质量监测项目与梅州生态保护定位结合，设计"梅州生态保护区空气节点"，监测 PM2.5、CO₂、温湿度，数据上传至粤港澳大湾区生态环境共享平台，让学生在工程实践中理解"绿水青山就是金山银山"。
+      </div>
+      <div class="sz-case yellow">
+        <strong>第 29 章 MSP430 低功耗单片机</strong>：MSP430 的超低功耗特性正是生态监测节点的理想选择——电池供电可运行数月，不破坏自然环境。讲授低功耗设计时，强调"技术进步服务于生态保护"的价值导向。
+      </div>
+      <div class="sz-case yellow">
+        <strong>第 22 章 FreeRTOS 基础</strong>：多任务调度可类比"生态系统中的多元共生"，每个任务如同生态链中的一环，协调共存。在讲解优先级反转、死锁等问题时，融入系统思维与生态平衡的哲学思考。
+      </div>
+
+      <div class="sz-tip">
+        <strong>价值目标</strong>：让学生理解技术发展与生态保护不是对立关系，而是可以通过低功耗设计、精准监测等技术手段实现协调发展。培养"用技术守护绿水青山"的责任感。
+      </div>
+    </section>
+
+    <!-- 模块五：客家工匠精神 -->
+    <section class="sz-module">
+      <h2><span class="icon">伍</span>客家耕读文化与工匠精神</h2>
+      <p>梅州是世界客都，客家民系五次迁徙的千年积淀，孕育了"耕读传家、勤劳坚韧、精益求精"的客家文化。这种工匠精神与单片机课程对严谨、细致、耐心的要求高度契合。</p>
+
+      <h3>5.1 课程融入方式</h3>
+      <div class="sz-case green">
+        <strong>实验环节</strong>：每个实验都要求学生严格按照电路图接线、按规范编写代码、按流程调试硬件。这种"一丝不苟"的训练正是客家工匠精神的现代延续——梅州大埔县西岩山茶农对茶叶采摘、制作工艺的精益求精，与单片机调试中对时序、波形的精确把控一脉相承。
+      </div>
+      <div class="sz-case green">
+        <strong>第 25 章 Altium Designer PCB 设计</strong>：PCB 布线要求严格遵守设计规则，线宽、间距、过孔等参数精确到 mil 级。客家围龙屋的建筑布局——中轴对称、功能分区清晰——可作为 PCB 布局的类比，让学生在技术学习中感受客家建筑的工程美学。
+      </div>
+      <div class="sz-case green">
+        <strong>代码规范</strong>：本课程要求所有代码示例遵循统一命名规范、注释规范、模块化结构。这种"规范之美"与客家山歌的格律、客家菜的标准化制作异曲同工。
+      </div>
+
+      <div class="sz-tip">
+        <strong>价值目标</strong>：将客家人"宁卖祖宗田，不忘祖宗言"的文化坚守，转化为对代码规范、工程标准的坚守。培养学生在嵌入式开发中的工匠精神。
+      </div>
+    </section>
+
+    <!-- 学术诚信 -->
+    <section class="integrity-box">
+      <h2>学术诚信与 AI 使用规范</h2>
+      <p>鉴于本课程大量介绍 TRAE、GitHub Copilot、Cursor、WorkBuddy 等 AI 辅助开发工具，为防止技术滥用，特明确以下规范：</p>
+      <ol>
+        <li><strong>作业代码原创性要求</strong>：超星平台提交的所有作业代码必须为学生本人独立完成。允许参考本网站示例代码，但禁止整段复制粘贴作为作业提交。</li>
+        <li><strong>AI 工具使用边界</strong>：
+          <ul>
+            <li>允许：使用 AI 工具辅助理解概念、调试报错信息、生成注释、解释代码逻辑</li>
+            <li>允许：使用 AI 生成学习笔记、知识总结等辅助学习材料</li>
+            <li>禁止：直接将 AI 生成的代码作为作业提交，未经过本人理解与修改</li>
+            <li>禁止：使用 AI 完成实验报告的分析与结论部分（数据记录与现象描述除外）</li>
+          </ul>
+        </li>
+        <li><strong>实验报告提交规范</strong>：实验报告通过超星学习通平台提交，须使用本网站提供的实验报告模板（<a href="lab/report-template.html">下载模板</a>）。报告中的实验数据必须为真实测量所得，禁止编造数据或盗用他人实验结果。</li>
+        <li><strong>引用与转载要求</strong>：本网站教学内容采用 CC BY-NC-SA 4.0 许可，允许学习与转载但须注明出处。代码工程采用 MIT 许可，可自由使用但须保留版权声明。</li>
+        <li><strong>违规处理</strong>：发现抄袭、数据造假、AI 滥用等学术不端行为，将按《嘉应学院学生学术诚信管理办法》处理，作业成绩计零分并通报。</li>
+      </ol>
+      <p style="margin-top:1em;"><strong>诚信是学术的底线，也是做人的底色。</strong>希望同学们在学习技术的同时，坚守诚信原则，用真才实学服务社会。</p>
+    </section>
+
+    <!-- 配套学习路径 -->
+    <section class="objectives">
+      <h2>课程思政学习路径</h2>
+      <p>本思政专栏与本网站技术教学章节深度穿插，建议学习路径如下：</p>
+      <ol>
+        <li><strong>开学第一课</strong>：阅读本页全部内容，建立"技术学习+价值引领"的整体认知</li>
+        <li><strong>第 4 章学习时</strong>：回顾"国产芯片自主创新"模块，理解 STC 的历史意义</li>
+        <li><strong>第 8 章学习时</strong>：回顾"梅州苏区红色基因"模块，感悟中断响应与责任担当</li>
+        <li><strong>第 19 章学习时</strong>：回顾"金柚产业智能化"模块，思考 ADC 采集在农业中的应用</li>
+        <li><strong>第 29 章学习时</strong>：回顾"粤港澳大湾区生态保护"模块，理解低功耗设计的生态价值</li>
+        <li><strong>第 5 篇综合项目</strong>：在 16 个项目中选择梅州本地案例方向，完成项目设计</li>
+      </ol>
+    </section>
+
+    <nav class="chapter-nav">
+      <a href="index.html" class="home">← 返回首页</a>
+    </nav>
+  </main>
+</div>
+
+<button class="back-to-top" aria-label="返回顶部">↑</button>
+<script src="assets/js/main.js?v=8"></script>
+</body>
+</html>

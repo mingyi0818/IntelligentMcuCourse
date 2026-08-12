@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
@@ -101,12 +101,14 @@
 
     <div class="objectives">
       <h2>学习目标</h2>
+      <p style="font-size:0.88em;color:var(--color-text-light);margin-top:0;">学完本章后，你应能够完成以下<strong style="color:var(--color-primary);">可观测的行为指标</strong>，并凭此去超星平台完成对应章节作业：</p>
       <ul>
-        <li>理解中断的基本概念、处理流程与中断源的分类</li>
-        <li>掌握 MCS-51 中断系统结构，熟悉 IE/IP/TCON 寄存器的位定义与配置方法</li>
-        <li>能够编写外部中断 INT0/INT1 的应用程序，实现按键触发等功能</li>
-        <li>理解 2 级中断优先级与嵌套规则，掌握中断现场保护的方法</li>
-        <li>能够分析中断响应时间，理解影响实时性的因素</li>
+        <li><strong>概念解释</strong>：能够用自己的话向同学解释"中断"与"轮询"的区别，并画出 MCS-51 中断处理的 5 个步骤流程图（中断请求→响应→现场保护→服务程序→现场恢复→返回）。</li>
+        <li><strong>寄存器配置</strong>：能够在 Keil C51 中独立编写代码，正确配置 IE、IP、TCON 寄存器的相关位，使能外部中断 INT0 并设置为下降沿触发，代码编译无错误。</li>
+        <li><strong>程序编写</strong>：能够独立编写一个外部中断应用程序：按键连接 P3.2（INT0），每按下一次按键触发中断，在中断服务函数中让 P1 口 LED 状态取反，在 STC89C52RC 实物开发板上观察到 LED 随按键切换的现象。</li>
+        <li><strong>嵌套分析</strong>：能够分析给定的 2 级中断嵌套示例代码，画出执行时序图，标注高优先级中断打断低优先级中断的时刻、现场保护与恢复的顺序，并预测程序输出。</li>
+        <li><strong>响应时间估算</strong>：能够计算 MCS-51 在最坏情况下的中断响应时间（3-8 个机器周期），并能解释晶振频率（11.0592MHz vs 12MHz）对响应时间的具体影响。</li>
+        <li><strong>思政感悟</strong>：阅读<a href="../../sizheng.html">课程思政专栏</a>后，能够联系梅州三河坝战役的"快速响应"案例，写一段 200 字的短文，谈谈"中断响应"与"责任担当"在工程与历史中的共同内涵。</li>
       </ul>
     </div>
 
