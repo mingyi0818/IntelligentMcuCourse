@@ -113,13 +113,13 @@
       </ul>
     </div>
 
-    <h2>§42.1 项目需求分析</h2>
+    <h2>42.1 项目需求分析</h2>
 
-    <h3>§42.1.1 行业背景与应用场景</h3>
+    <h3>42.1.1 行业背景与应用场景</h3>
     <p>智慧农业是物联网技术在农业领域的典型应用，其中温室大棚因封闭环境可控、附加值高，成为智慧农业落地的首选场景。传统大棚依赖人工巡检与手动开关通风/灌溉设备，存在响应慢、能耗高、劳动强度大等问题。基于单片机+RTOS 的嵌入式控制系统可实现 7×24 小时无人值守，将温湿度、土壤湿度、光照强度等关键指标维持在作物最适区间，提升产量与品质。</p>
     <p>本项目面向中小型设施农业（单棚面积 0.5~2 亩），目标是用一颗 STM32F407（拓维 Niobe407 开发板，OpenHarmony LiteOS-M 内核）完成多传感器采集、阈值控制、本地显示与远程上报的完整闭环，是第 40 章（智能照明）与第 41 章（分布式环境监测）技术的综合性应用。</p>
 
-    <h3>§42.1.2 功能需求</h3>
+    <h3>42.1.2 功能需求</h3>
     <p>系统需实现以下功能：</p>
     <ul>
       <li><strong>环境采集</strong>：空气温湿度（DHT11，单总线）、土壤湿度（模拟电压，ADC 通道）、光照强度（光敏电阻，ADC 通道），采样周期 1 s。</li>
@@ -129,9 +129,9 @@
       <li><strong>异常告警</strong>：温度 &gt;38 ℃ 或传感器离线时蜂鸣器告警，并在 OLED 上显示 "!" 图标。</li>
     </ul>
 
-    <h3>§42.1.3 农业大棚关键指标</h3>
+    <h3>42.1.3 农业大棚关键指标</h3>
 
-    <h4>§42.1.3.1 果菜类作物环境指标</h4>
+    <h4>42.1.3.1 果菜类作物环境指标</h4>
     <p>常见果菜类（番茄、黄瓜、草莓）的最适环境指标如下表，本项目以此为阈值设计依据：</p>
 
     <table>
@@ -145,18 +145,18 @@
     </table>
     <div class="figure-caption">图 42-1 果菜类作物最适环境指标与项目默认阈值</div>
 
-    <h4>§42.1.3.2 滞后控制设计要点</h4>
+    <h4>42.1.3.2 滞后控制设计要点</h4>
     <div class="tip">
       <strong>提示：</strong>滞后控制（Hysteresis）是工程实践中的关键技巧。例如温度阈值设为 32 ℃ 开风扇、30 ℃ 关风扇，区间 2 ℃ 可避免在临界值附近继电器频繁吸合/断开，延长执行器寿命。本项目所有控制任务均采用 2%~5% 的滞后带。
     </div>
 
-    <h2>§42.2 LiteOS-M 任务调度与 CMSIS-OS2 接口</h2>
+    <h2>42.2 LiteOS-M 任务调度与 CMSIS-OS2 接口</h2>
 
-    <h3>§42.2.1 OpenHarmony LiteOS-M 内核简介</h3>
+    <h3>42.2.1 OpenHarmony LiteOS-M 内核简介</h3>
     <p>OpenHarmony LiteOS-M 是面向 MCU（Cortex-M 系列）的轻量级实时操作系统内核，提供任务调度、软件定时器、消息队列、信号量、互斥锁、事件标志等 RTOS 标准能力，ROM 占用 &lt;10 KB，RAM 占用可低至 2 KB。它与 STM32F407 的 Cortex-M4 内核深度适配，是 OpenHarmony 在轻量设备上的标准内核。</p>
     <p>本项目通过 CMSIS-OS2（Cortex Microcontroller Software Interface Standard - OS API v2）标准接口调用 LiteOS-M 内核服务。CMSIS-OS2 是 ARM 制定的 RTOS 抽象层，同一份应用代码可移植到 FreeRTOS、RT-Thread、LiteOS-M 等不同内核，是 OpenHarmony 推荐的 RTOS API。</p>
 
-    <h3>§42.2.2 CMSIS-OS2 任务状态机</h3>
+    <h3>42.2.2 CMSIS-OS2 任务状态机</h3>
     <p>CMSIS-OS2 任务有 4 个基本状态：运行、就绪、阻塞、挂起。任务在不同事件（信号量、消息、延时）触发下进行状态迁移：</p>
 
     <div class="plantuml-figure">
@@ -189,7 +189,7 @@ S --&gt; B : osThreadResume
 </div>
     <div class="figure-caption">图 42-2 CMSIS-OS2 任务状态迁移图</div>
 
-    <h3>§42.2.3 CMSIS-OS2 常用 API 速查</h3>
+    <h3>42.2.3 CMSIS-OS2 常用 API 速查</h3>
     <table>
       <thead><tr><th>类别</th><th>API</th><th>说明</th></tr></thead>
       <tbody>
@@ -205,12 +205,12 @@ S --&gt; B : osThreadResume
     </table>
     <div class="figure-caption">图 42-3 CMSIS-OS2 核心 API 速查表</div>
 
-    <h3>§42.2.4 消息队列与互斥锁的协作</h3>
+    <h3>42.2.4 消息队列与互斥锁的协作</h3>
     <p>本项目中传感器采集任务每 1 s 产生一帧数据，控制任务每 5 s 消费一次。若直接共享全局变量，可能出现"控制任务读到一半时被采集任务覆盖"的竞态。解决方案是用 <code>osMessageQueueNew</code> 创建一个深度为 8 的环形队列，采集任务入队、控制任务出队；同时为 OLED、ESP8266 这类"非线程安全"的外设用 <code>osMutex</code> 串行化访问。</p>
 
-    <h2>§42.3 系统架构设计</h2>
+    <h2>42.3 系统架构设计</h2>
 
-    <h3>§42.3.1 多任务划分</h3>
+    <h3>42.3.1 多任务划分</h3>
     <p>系统按"采集—控制—显示—通信"四类职责划分为 4 个独立任务，任务之间通过消息队列解耦：</p>
 
     <div class="plantuml-figure">
@@ -263,9 +263,9 @@ ESP8266 --&gt; Cloud
 </div>
     <div class="figure-caption">图 42-4 智慧农业大棚多任务架构图</div>
 
-    <h3>§42.3.2 任务参数设计</h3>
+    <h3>42.3.2 任务参数设计</h3>
 
-    <h4>§42.3.2.1 任务参数分配</h4>
+    <h4>42.3.2.1 任务参数分配</h4>
     <table>
       <thead><tr><th>任务名</th><th>优先级</th><th>栈大小</th><th>周期</th><th>核心职责</th></tr></thead>
       <tbody>
@@ -278,12 +278,12 @@ ESP8266 --&gt; Cloud
     </table>
     <div class="figure-caption">图 42-5 任务参数与优先级分配表</div>
 
-    <h4>§42.3.2.2 优先级设计原则</h4>
+    <h4>42.3.2.2 优先级设计原则</h4>
     <p>优先级设计原则：<strong>采集 &gt; 控制 &gt; 显示 &gt; 通信</strong>。采集任务优先级最高以保证数据实时性；通信任务优先级最低，避免网络重传阻塞影响实时控制。栈大小根据任务内局部变量与函数调用深度估算，ESP8266 AT 解析需较大缓冲区，故 CommTask 栈最大。</p>
 
-    <h2>§42.4 硬件设计</h2>
+    <h2>42.4 硬件设计</h2>
 
-    <h3>§42.4.1 物料清单（BOM）</h3>
+    <h3>42.4.1 物料清单（BOM）</h3>
     <table>
       <thead><tr><th>编号</th><th>器件</th><th>型号/规格</th><th>数量</th><th>说明</th></tr></thead>
       <tbody>
@@ -303,7 +303,7 @@ ESP8266 --&gt; Cloud
     </table>
     <div class="figure-caption">图 42-6 智慧农业大棚物料清单</div>
 
-    <h3>§42.4.2 接线表</h3>
+    <h3>42.4.2 接线表</h3>
     <table>
       <thead><tr><th>外设</th><th>STM32F407 引脚</th><th>外设引脚</th><th>接口类型</th></tr></thead>
       <tbody>
@@ -324,9 +324,9 @@ ESP8266 --&gt; Cloud
       <strong>提示：</strong>继电器为 5 V 供电，STM32F407 IO 为 3.3 V 电平。务必选用带光耦隔离且支持 3.3 V 触发的继电器模块（如 SRD-5VDC-SL-C 加光耦 PC817），否则可能因触发电平不足导致继电器不吸合。强电部分（220 V 补光灯）接线应由电工操作，并加漏电保护。
     </div>
 
-    <h2>§42.5 软件架构与关键代码</h2>
+    <h2>42.5 软件架构与关键代码</h2>
 
-    <h3>§42.5.1 任务通信时序</h3>
+    <h3>42.5.1 任务通信时序</h3>
     <div class="plantuml-figure">
   <img src="../../assets/diagrams/ch42-oh-agriculture-stm32f4-fig3.svg" alt="PlantUML 图 3" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
@@ -362,7 +362,7 @@ end
 </div>
     <div class="figure-caption">图 42-8 任务通信时序图</div>
 
-    <h3>§42.5.2 数据结构与全局对象</h3>
+    <h3>42.5.2 数据结构与全局对象</h3>
     <p>定义统一的传感器数据结构体 <code>SensorData_t</code>，作为消息队列的消息单元。所有任务通过它传递数据，避免类型不一致问题。</p>
 
     <pre><code class="language-c">/* sensor_data.h */
@@ -399,7 +399,7 @@ extern ActuatorState_t    g_actuator;      /* 执行器状态 */
 #endif
 </code></pre>
 
-    <h3>§42.5.3 主程序与任务创建</h3>
+    <h3>42.5.3 主程序与任务创建</h3>
     <p>主程序完成 HDF 驱动初始化、互斥锁/消息队列创建、4 个任务创建，然后进入调度器。注意 OpenHarmony LiteOS-M 入口为 <code>app_main</code>，由系统启动流程调用。</p>
 
     <pre><code class="language-c">/* main.c —— OpenHarmony LiteOS-M 应用入口 */
@@ -506,7 +506,7 @@ static void AppMain(void)
 APP_FEATURE_INIT(AppMain);
 </code></pre>
 
-    <h3>§42.5.4 传感器采集任务</h3>
+    <h3>42.5.4 传感器采集任务</h3>
     <p>采集任务每 1 s 唤醒一次，依次读取 DHT11、ADC 土壤、ADC 光敏，组帧后入队。若 DHT11 校验失败则丢弃本次数据并重试 2 次。</p>
 
     <pre><code class="language-c">/* sensor_task.c */
@@ -584,7 +584,7 @@ void SensorTask(void *arg)
 }
 </code></pre>
 
-    <h3>§42.5.5 控制任务（滞后控制）</h3>
+    <h3>42.5.5 控制任务（滞后控制）</h3>
     <p>控制任务每 5 s 出队一帧数据，根据阈值表执行滞后控制。滞后带（Hysteresis Band）的含义：上限触发开启，下限触发关闭，区间内保持原状态。</p>
 
     <pre><code class="language-c">/* control_task.c */
@@ -669,7 +669,7 @@ void ControlTask(void *arg)
 }
 </code></pre>
 
-    <h3>§42.5.6 显示任务</h3>
+    <h3>42.5.6 显示任务</h3>
     <p>显示任务每 500 ms 刷新 OLED。访问 I2C 总线前必须获取 <code>g_oledMutex</code>，避免与可能的远程命令解析任务竞争。</p>
 
     <pre><code class="language-c">/* display_task.c */
@@ -728,7 +728,7 @@ void DisplayTask(void *arg)
 }
 </code></pre>
 
-    <h3>§42.5.7 通信任务</h3>
+    <h3>42.5.7 通信任务</h3>
     <p>通信任务每 10 s 组一帧 JSON 数据并通过 ESP8266 AT 指令 MQTT 发布到云端。组帧时使用 <code>snprintf</code> 避免缓冲区溢出。</p>
 
     <pre><code class="language-c">/* comm_task.c */
@@ -784,7 +784,7 @@ void CommTask(void *arg)
 }
 </code></pre>
 
-    <h3>§42.5.8 DHT11 单总线驱动</h3>
+    <h3>42.5.8 DHT11 单总线驱动</h3>
     <p>DHT11 使用单总线协议，主机拉低 18 ms 后释放，传感器响应 80 us 低 + 80 us 高，随后按位发送 40 bit 数据。以下驱动基于 HDF GPIO 实现：</p>
 
     <pre><code class="language-c">/* dht11.c */
@@ -849,9 +849,9 @@ int Dht11_Read(uint8_t gpio, Dht11Result *out)
 }
 </code></pre>
 
-    <h2>§42.6 工程构建与调试</h2>
+    <h2>42.6 工程构建与调试</h2>
 
-    <h3>§42.6.1 工程目录结构</h3>
+    <h3>42.6.1 工程目录结构</h3>
     <p>本工程基于 OpenHarmony 4.0 Release + 拓维 Niobe407 适配层，目录组织遵循 OpenHarmony 应用模型：</p>
 
     <pre><code>applications/sample/wifi-iot/app/
@@ -874,9 +874,9 @@ int Dht11_Read(uint8_t gpio, Dht11Result *out)
         └── hdf_uart.c            # HDF UART 适配
 </code></pre>
 
-    <h3>§42.6.2 hb build 编译流程</h3>
+    <h3>42.6.2 hb build 编译流程</h3>
 
-    <h4>§42.6.2.1 编译步骤</h4>
+    <h4>42.6.2.1 编译步骤</h4>
     <p>OpenHarmony 使用 GN + Ninja 构建系统。在 Linux 开发机（Ubuntu 20.04+）执行：</p>
 
     <pre><code># 1. 进入源码根目录
@@ -899,10 +899,10 @@ hb build -f
 # out/niobe407/OHOS_Image.bin.signed —— 签名固件
 </code></pre>
 
-    <h4>§42.6.2.2 固件烧录</h4>
+    <h4>42.6.2.2 固件烧录</h4>
     <p>烧录使用 STM32CubeProgrammer 或 Niobe407 自带 USB DFU：上电时按住 KEY1 进入 DFU 模式，执行 <code>dfu-util -a 0 -D OHOS_Image.bin -s 0x08000000</code>。</p>
 
-    <h3>§42.6.3 任务调试技巧</h3>
+    <h3>42.6.3 任务调试技巧</h3>
     <ul>
       <li><strong>任务状态查看</strong>：通过 LiteOS-M 提供的 <code>osKernelGetThreadList</code> 或加打印输出每个任务的 state、priority、stack_space。栈剩余空间 &lt; 20% 时应增大栈。</li>
       <li><strong>栈溢出检查</strong>：LiteOS-M 默认开启栈水位线（Stack Watermark）填充 0xC2C2C2C2。任务切换时检查栈底 magic word，若被覆盖则触发 <code>LOS_TaskSwitchHook</code> 钩子，可在钩子中打印任务名并重启。</li>
@@ -914,7 +914,7 @@ hb build -f
       <strong>提示：</strong>OLED 显示任务占 5% CPU 主要因 SSD1306 I2C 100 kHz 速率下整屏刷新耗时 ~30 ms。优化方案：(1) 改用 I2C 400 kHz Fast Mode；(2) 只刷新变化行（脏页机制）；(3) 把整屏刷新放到 DMA I2C 传输，主任务不阻塞。
     </div>
 
-    <h3>§42.6.4 常见调试问题</h3>
+    <h3>42.6.4 常见调试问题</h3>
     <table>
       <thead><tr><th>现象</th><th>可能原因</th><th>排查方法</th></tr></thead>
       <tbody>
@@ -927,23 +927,23 @@ hb build -f
     </table>
     <div class="figure-caption">图 42-9 常见调试问题速查表</div>
 
-    <h2>§42.7 扩展方向</h2>
+    <h2>42.7 扩展方向</h2>
 
-    <h3>§42.7.1 PID 精确控制</h3>
+    <h3>42.7.1 PID 精确控制</h3>
     <p>本项目采用简单滞后控制，适用于执行器为"开关量"的场景。若改用 PWM 调速风扇、PWM 调光补光灯，可实现连续 PID 控制。温度控制离散 PID 公式：</p>
     <p style="text-align:center;"><code>u(k) = Kp·e(k) + Ki·Σe(i) + Kd·(e(k) − e(k−1))</code></p>
     <p>其中 <code>e(k) = T_set − T(k)</code>。PID 参数可用 Ziegler-Nichols 法整定，本项目实测 Kp=2.0、Ki=0.1、Kd=0.5 可使温度稳定在 ±0.5 ℃ 区间。</p>
 
-    <h3>§42.7.2 边缘机器学习</h3>
+    <h3>42.7.2 边缘机器学习</h3>
     <p>利用 STM32F407 的 Cortex-M4F 浮点单元和 CMSIS-NN 库，可在本地部署轻量级神经网络。例如基于历史温湿度序列预测未来 1 小时温度趋势，提前启动通风；或基于摄像头（OV2640）+ 轻量 CNN 识别叶片病虫害。OpenHarmony 提供 AI 子系统 <code>mindspore-lite</code>，支持 INT8 量化模型推理。</p>
 
-    <h3>§42.7.3 多大棚联动</h3>
+    <h3>42.7.3 多大棚联动</h3>
     <p>OpenHarmony 分布式软总线（SoftBus）可使多个大棚节点自组网。主节点聚合各分棚数据，统一上报云端，并支持跨棚联动（如 1 号棚温度过高时借用 2 号棚通风能力）。分布式软总线基于 WiFi 或 BLE，使用 CoAP 协议发现设备、TCP 传输数据。</p>
 
-    <h3>§42.7.4 云端数据可视化与告警</h3>
+    <h3>42.7.4 云端数据可视化与告警</h3>
     <p>云端可采用 EMQX + InfluxDB + Grafana 经典物联网栈：EMQX 作为 MQTT Broker，InfluxDB 时序存储，Grafana 可视化。配合钉钉/微信机器人推送告警，实现"采集—控制—可视化—告警"全链路。</p>
 
-    <h3>§42.7.5 节能与低功耗</h3>
+    <h3>42.7.5 节能与低功耗</h3>
     <p>若改用电池供电，可利用 LiteOS-M 的 Tickless 模式：在所有任务阻塞时停止系统 tick，由低功耗定时器唤醒。STM32F407 进入 Stop 模式功耗可降至 ~0.5 mA，配合传感器间歇采样（如 1 min 一次），单节 18650 电池可工作数月。</p>
 
     <div class="summary">

@@ -114,10 +114,10 @@
       </ul>
     </div>
 
-    <h2>§41.1 项目需求分析</h2>
+    <h2>41.1 项目需求分析</h2>
     <p>随着智慧城市与物联网技术的发展，环境监测从单点采集逐步走向多节点协同的分布式架构。传统单节点监测系统存在覆盖范围有限、单点故障、数据孤岛等问题。本项目基于 OpenHarmony LiteOS-M 与 STM32F407（拓维 Niobe407 开发板）构建一个多节点分布式环境监测系统，节点之间通过 OpenHarmony 软总线自动发现并组成网络，实现温湿度、光照数据的分布式采集与汇聚上报。</p>
 
-    <h3>§41.1.1 功能需求</h3>
+    <h3>41.1.1 功能需求</h3>
     <ul>
       <li><strong>多节点采集</strong>：至少 3 个监测节点，每节点配备 DHT11 温湿度传感器、光敏电阻（如 GL5528）、0.96″ OLED 显示屏。</li>
       <li><strong>自动发现组网</strong>：节点上电后通过 OpenHarmony 软总线自动发现同网段的其他节点，无需人工配置 IP。</li>
@@ -128,7 +128,7 @@
       <li><strong>节点动态加入/退出</strong>：新节点上电后自动加入网络；节点掉电或断网后，主节点在心跳超时后更新节点列表。</li>
     </ul>
 
-    <h3>§41.1.2 分布式系统指标</h3>
+    <h3>41.1.2 分布式系统指标</h3>
     <table>
       <thead><tr><th>指标</th><th>要求</th><th>说明</th></tr></thead>
       <tbody>
@@ -142,7 +142,7 @@
       </tbody>
     </table>
 
-    <h3>§41.1.3 应用场景</h3>
+    <h3>41.1.3 应用场景</h3>
     <ul>
       <li><strong>智慧农业温室</strong>：在多座温室部署节点，统一汇聚到主节点上传云平台，实现温湿度联动控制。</li>
       <li><strong>机房环境监控</strong>：在机房不同机柜部署节点，监测局部热点与湿度异常。</li>
@@ -150,12 +150,12 @@
       <li><strong>工业厂区</strong>：在车间多点部署节点，监测生产环境是否符合工艺要求。</li>
     </ul>
 
-    <h2>§41.2 OpenHarmony 软总线原理</h2>
+    <h2>41.2 OpenHarmony 软总线原理</h2>
     <p>OpenHarmony 软总线（softbus）是 OpenHarmony 分布式能力的核心组件，屏蔽了底层网络的异构性（WiFi、以太网、BLE 等），为上层提供统一的设备发现、服务发布与消息传输接口。LiteOS-M 内核下，软总线通过 UDP 广播实现节点发现，TCP 短连接实现消息传输。</p>
 
-    <h3>§41.2.1 软总线架构</h3>
+    <h3>41.2.1 软总线架构</h3>
 
-    <h4>§41.2.1.1 分层架构</h4>
+    <h4>41.2.1.1 分层架构</h4>
     <div class="plantuml-figure">
   <img src="../../assets/diagrams/ch41-oh-distributed-env-stm32f4-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
@@ -192,7 +192,7 @@ SESS --&gt; TRAN
 </div>
     <div class="figure-caption">图 41-1 OpenHarmony 软总线分层架构</div>
 
-    <h4>§41.2.1.2 核心模块</h4>
+    <h4>41.2.1.2 核心模块</h4>
     <p>软总线核心包含三个模块：</p>
     <ul>
       <li><strong>发现模块（Discovery）</strong>：提供 <code>PublishService</code> 发布本地服务、<code>LookupService</code> 发现远端服务的能力，基于 UDP 广播/组播在局域网内同步设备信息。</li>
@@ -200,9 +200,9 @@ SESS --&gt; TRAN
       <li><strong>认证模块（Authentication）</strong>：负责设备绑定与可信组网，LiteOS-M 简化版可使用 PIN 码或预置共享密钥。</li>
     </ul>
 
-    <h3>§41.2.2 节点发现机制</h3>
+    <h3>41.2.2 节点发现机制</h3>
 
-    <h4>§41.2.2.1 发布订阅模型</h4>
+    <h4>41.2.2.1 发布订阅模型</h4>
     <p>节点发现采用"发布—订阅"模型：服务端调用 <code>PublishService</code> 发布一个具备特定 <code>packageName</code> 与 <code>capacity</code> 的服务，客户端调用 <code>LookupService</code> 订阅同 packageName 的服务，发现成功后通过回调返回对端设备 ID 与 IP。流程如下：</p>
 
     <div class="plantuml-figure">
@@ -227,10 +227,10 @@ A --&gt; B : SendBytes 回复
 </div>
     <div class="figure-caption">图 41-2 节点发现与通信流程</div>
 
-    <h4>§41.2.2.2 发现报文格式</h4>
+    <h4>41.2.2.2 发现报文格式</h4>
     <p>发现报文（简化版）携带字段包括：设备 ID（deviceId）、设备名称（deviceName）、服务包名（packageName）、能力位（capacity）、TCP 监听端口（port）、协议版本（protoVersion）。报文采用 protobuf 或紧凑 TLV 编码，单个报文不超过 512 字节，适配 UDP MTU。</p>
 
-    <h3>§41.2.3 消息传输流程</h3>
+    <h3>41.2.3 消息传输流程</h3>
     <p>节点发现成功后，业务数据通过 Session 通道传输。典型流程：</p>
     <ol>
       <li>调用 <code>OpenSession</code> 在本地与对端 deviceId 之间建立会话，返回 sessionId。</li>
@@ -244,7 +244,7 @@ A --&gt; B : SendBytes 回复
       <strong>提示：</strong>LiteOS-M 下的软总线基于 <code>discovery_service</code> 与 <code>trans_service</code> 两个静态库编译，需要在 <code>BUILD.gn</code> 中显式声明依赖。STM32F407 资源有限，建议关闭 BLE 发现旁路，仅保留 WiFi/以太网路径，可节省约 30 KB RAM。
     </div>
 
-    <h2>§41.3 系统架构设计</h2>
+    <h2>41.3 系统架构设计</h2>
     <p>系统采用"主从 + 自组网"架构：所有节点地位对等，通过软总线互相发现；运行时通过节点 ID 最小值算法选举一个主节点（Master），负责汇聚数据并上云；其余节点为子节点（Slave），负责本地采集与数据广播。主节点故障后，剩余子节点重新选举，保证系统持续运行。</p>
 
     <div class="plantuml-figure">
@@ -300,10 +300,10 @@ M_WIFI --&gt; CLOUD : MQTT/HTTP
 
     <p>系统软件层次自下而上分为：硬件驱动层（HAL）、内核层（LiteOS-M）、软总线层（softbus）、业务层（环境监测任务）。各层之间通过明确的接口解耦，便于移植与扩展。</p>
 
-    <h2>§41.4 硬件设计</h2>
+    <h2>41.4 硬件设计</h2>
     <p>每个节点的硬件配置完全一致，便于角色切换（主/子节点）。主节点额外具备上云通道（ESP8266 或 W5500）。</p>
 
-    <h3>§41.4.1 BOM 清单</h3>
+    <h3>41.4.1 BOM 清单</h3>
     <table>
       <thead><tr><th>序号</th><th>元件</th><th>型号</th><th>数量</th><th>用途</th></tr></thead>
       <tbody>
@@ -320,7 +320,7 @@ M_WIFI --&gt; CLOUD : MQTT/HTTP
       </tbody>
     </table>
 
-    <h3>§41.4.2 接线表</h3>
+    <h3>41.4.2 接线表</h3>
     <p>STM32F407 各引脚分配如下表（以 Niobe407 为例，引脚名称采用 STM32F4 数据手册标注）：</p>
     <table>
       <thead><tr><th>模块</th><th>模块引脚</th><th>STM32F407 引脚</th><th>外设/总线</th><th>说明</th></tr></thead>
@@ -338,10 +338,10 @@ M_WIFI --&gt; CLOUD : MQTT/HTTP
 
     <div class="figure-caption">图 41-4 节点硬件接线示意图（三个节点接线一致，主节点额外接入 ESP8266 或 W5500）</div>
 
-    <h2>§41.5 软件架构与关键代码</h2>
+    <h2>41.5 软件架构与关键代码</h2>
     <p>软件采用分层设计：底层 HAL 驱动负责传感器与外设读写；中间层 LiteOS-M 提供任务调度与软总线支撑；上层业务任务负责采集、组网、显示与上云。整个系统由 6 个核心任务组成，由 LiteOS-M 调度器并发执行。</p>
 
-    <h3>§41.5.1 任务划分</h3>
+    <h3>41.5.1 任务划分</h3>
     <table>
       <thead><tr><th>任务名</th><th>优先级</th><th>栈大小</th><th>职责</th></tr></thead>
       <tbody>
@@ -354,7 +354,7 @@ M_WIFI --&gt; CLOUD : MQTT/HTTP
       </tbody>
     </table>
 
-    <h3>§41.5.2 软总线通信时序</h3>
+    <h3>41.5.2 软总线通信时序</h3>
     <div class="plantuml-figure">
   <img src="../../assets/diagrams/ch41-oh-distributed-env-stm32f4-fig4.svg" alt="PlantUML 图 4" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
@@ -386,7 +386,7 @@ M -&gt; M : 心跳检测，超时标记离线
 </div>
     <div class="figure-caption">图 41-5 软总线通信时序图</div>
 
-    <h3>§41.5.3 节点初始化与服务发布</h3>
+    <h3>41.5.3 节点初始化与服务发布</h3>
     <p>节点上电后首先完成硬件初始化、LiteOS-M 内核启动、网络接口（WiFi 或以太网）配置，然后调用软总线 API 发布本地服务并启动发现流程。完整代码位于 <code>/code/stm32f407/oh-distributed-env/softbus_node.c</code>。</p>
 
     <pre><code class="language-c">/* softbus_node.c - OpenHarmony 软总线节点核心实现 */
@@ -601,9 +601,9 @@ void HeartbeatTask(void const *arg)
 }
 </code></pre>
 
-    <h3>§41.5.4 传感器数据序列化与采集</h3>
+    <h3>41.5.4 传感器数据序列化与采集</h3>
 
-    <h4>§41.5.4.1 数据序列化与采集任务</h4>
+    <h4>41.5.4.1 数据序列化与采集任务</h4>
     <p>传感器数据采用紧凑 JSON 文本格式序列化，便于人类可读与跨平台解析。每帧消息包含设备 ID、温度（×10 整数，避免浮点）、湿度（×10）、光照 ADC 原始值四个字段，整体不超过 80 字节，适合软总线单包传输。</p>
 
     <pre><code class="language-c">/* sensor_task.c - 传感器采集与本地数据更新 */
@@ -637,7 +637,7 @@ void SensorTask(void const *arg)
 }
 </code></pre>
 
-    <h4>§41.5.4.2 DHT11 单总线驱动</h4>
+    <h4>41.5.4.2 DHT11 单总线驱动</h4>
     <p>DHT11 单总线驱动采用 GPIO 模拟时序，关键点在于微秒级时序控制。STM32F407 主频 168 MHz 下，使用 DWT（Data Watchpoint and Trace）周期计数器实现精确延时。</p>
 
     <pre><code class="language-c">/* dht11.c - DHT11 驱动（基于 STM32 HAL + DWT 微秒延时）*/
@@ -715,7 +715,7 @@ int DHT11_Read(int *temp_x10, int *humid_x10)
 }
 </code></pre>
 
-    <h3>§41.5.5 OLED 显示任务</h3>
+    <h3>41.5.5 OLED 显示任务</h3>
     <p>OLED 采用 SSD1306 驱动芯片，通过 I2C1 总线与 STM32F407 通信。显示任务每秒刷新一次，分三行显示：本地传感器数据、网络中节点列表摘要、主节点标识与时间戳。</p>
 
     <pre><code class="language-c">/* display_task.c - OLED 显示 */
@@ -764,7 +764,7 @@ void DisplayTask(void const *arg)
 }
 </code></pre>
 
-    <h3>§41.5.6 LiteOS-M 任务调度入口</h3>
+    <h3>41.5.6 LiteOS-M 任务调度入口</h3>
     <p>主程序在 <code>main()</code> 中完成 HAL 初始化、系统时钟配置，然后调用 <code>osKernelInitialize()</code> 创建任务并启动调度器。LiteOS-M 的 CMSIS-RTOS 适配层让代码可移植到 FreeRTOS 等其他 RTOS。</p>
 
     <pre><code class="language-c">/* main.c - LiteOS-M 任务调度入口 */
@@ -810,9 +810,9 @@ int main(void)
       <strong>提示：</strong>STM32F407 总 RAM 为 192 KB（128 KB 主 SRAM + 64 KB CCM）。LiteOS-M 内核占用约 8 KB，软总线占用约 30 KB，应用任务栈合计约 7 KB，剩余约 140 KB 可用于业务缓冲。CCM 区域不可被 DMA 访问，因此 ESP8266/W5500 的 DMA 缓冲必须放在主 SRAM 中。
     </div>
 
-    <h2>§41.6 工程构建与调试</h2>
+    <h2>41.6 工程构建与调试</h2>
 
-    <h3>§41.6.1 工程结构</h3>
+    <h3>41.6.1 工程结构</h3>
     <pre><code>oh-distributed-env/
 ├── application/
 │   └── env_monitor/
@@ -834,7 +834,7 @@ int main(void)
 └── README.md                      # 复现指南
 </code></pre>
 
-    <h3>§41.6.2 多节点编译</h3>
+    <h3>41.6.2 多节点编译</h3>
     <p>OpenHarmony LiteOS-M 工程使用 <code>hb</code>（HarmonyOS Build）命令行工具构建。每个节点通过不同的 <code>vendor/niobe407/config.json</code> 中的 <code>device_id</code> 字段区分身份。编译流程：</p>
     <pre><code># 1. 设置编译环境
 cd oh-distributed-env
@@ -853,7 +853,7 @@ openocd -f interface/stlink.cfg -f target/stm32f4x.cfg \
         -c "program out/niobe407/Hi3861_demo.bin verify reset exit 0x08000000"
 </code></pre>
 
-    <h3>§41.6.3 软总线抓包</h3>
+    <h3>41.6.3 软总线抓包</h3>
     <p>调试软总线问题时，可通过以下方式定位：</p>
     <ul>
       <li><strong>UART 日志</strong>：节点调试串口输出 <code>[SOFTBUS]</code> 前缀日志，关注 <code>OnDeviceFound</code>、<code>OnSessionOpened</code>、<code>OnBytesReceived</code> 回调是否触发。</li>
@@ -864,7 +864,7 @@ openocd -f interface/stlink.cfg -f target/stm32f4x.cfg \
 
     <div class="figure-caption">图 41-6 Wireshark 抓包软总线发现报文（UDP 5683，CoAP Option 含 deviceId 与 capacity）</div>
 
-    <h3>§41.6.4 常见问题排查</h3>
+    <h3>41.6.4 常见问题排查</h3>
     <table>
       <thead><tr><th>现象</th><th>可能原因</th><th>解决方案</th></tr></thead>
       <tbody>
@@ -877,21 +877,21 @@ openocd -f interface/stlink.cfg -f target/stm32f4x.cfg \
       </tbody>
     </table>
 
-    <h2>§41.7 扩展方向</h2>
+    <h2>41.7 扩展方向</h2>
 
-    <h3>§41.7.1 节点动态加入与退出</h3>
+    <h3>41.7.1 节点动态加入与退出</h3>
     <p>当前实现支持节点掉电后由主节点心跳超时检测并标记离线，但若网络短暂抖动导致会话中断，可增加"会话重连机制"：在 <code>OnSessionClosed</code> 回调中启动重连定时器，指数退避重试（初始 1 s，最大 30 s），重试成功后恢复数据传输。</p>
 
-    <h3>§41.7.2 Mesh 网络拓扑</h3>
+    <h3>41.7.2 Mesh 网络拓扑</h3>
     <p>软总线默认采用星型拓扑（主节点中心化），在大规模部署时主节点会成为瓶颈。可引入 Mesh 拓扑：节点之间两两建立会话，采用洪泛或路由表方式转发消息。OpenHarmony 3.1+ 提供 <code>TransProxyChannel</code> 代理通道支持多跳转发，但 LiteOS-M 适配仍在社区推进中。</p>
 
-    <h3>§41.7.3 低功耗休眠</h3>
+    <h3>41.7.3 低功耗休眠</h3>
     <p>对于电池供电的远端节点，可在采集间隔期进入 STOP 模式，由 RTC 唤醒。STM32F407 STOP 模式功耗约 0.5 mA，唤醒后恢复运行约 10 μs。需注意 WiFi/以太网模块需独立控制电源或进入 sleep 模式，否则整体功耗难以降低。</p>
 
-    <h3>§41.7.4 边缘 AI 推理</h3>
+    <h3>41.7.4 边缘 AI 推理</h3>
     <p>在主节点部署轻量级异常检测模型，对汇聚的多节点数据流做实时异常检测（如温度突升、光照异常）。STM32F407 算力有限（无 NPU），可使用 CMSIS-NN 部署量化后的 TinyML 模型（&lt;100 KB），推理时延 &lt;100 ms。检测到异常后通过 MQTT 上报告警事件。</p>
 
-    <h3>§41.7.5 时间同步</h3>
+    <h3>41.7.5 时间同步</h3>
     <p>分布式系统需统一时间基准以便数据对齐。可在主节点通过 NTP 同步云端时间，再通过软总线广播时间戳给子节点；或采用 PTP（IEEE 1588）协议实现微秒级同步，但 STM32F407 需硬件支持 IEEE 1588，本型号不支持，建议软件 NTP 方案。</p>
 
     <div class="summary">

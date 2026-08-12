@@ -114,13 +114,13 @@
       </ul>
     </div>
 
-    <h2>§36.1 项目需求分析</h2>
+    <h2>36.1 项目需求分析</h2>
 
-    <h3>§36.1.1 项目背景</h3>
+    <h3>36.1.1 项目背景</h3>
     <p>智慧医疗是物联网技术最重要的应用领域之一。随着人口老龄化加剧和慢病管理需求上升，可穿戴式生理参数监测设备成为家庭健康管理的核心终端。其中，心率（Heart Rate, HR）和血氧饱和度（Peripheral Capillary Oxygen Saturation, SpO<sub>2</sub>）是反映心血管与呼吸系统状态的两项关键指标。</p>
     <p>本项目基于乐鑫 ESP32 双核 MCU 与美信（Maxim Integrated，现属 ADI）MAX30102 集成光学传感器，构建一个完整的腕式/指夹式健康监测终端，可实时显示 PPG 波形并计算 HR、SpO<sub>2</sub>，同时通过低功耗蓝牙（BLE）将数据上传到手机 APP，实现家庭场景下的连续健康监测。</p>
 
-    <h3>§36.1.2 功能需求</h3>
+    <h3>36.1.2 功能需求</h3>
     <ul>
       <li><strong>生理参数采集</strong>：通过 MAX30102 红光（RED, 660 nm）+ 红外光（IR, 880 nm）双 LED 采集 PPG 信号，采样率 100 Hz，ADC 18 位。</li>
       <li><strong>心率计算</strong>：使用自相关法从 IR 信号的交流分量中提取基频，计算心率，量程 30~250 BPM，分辨率 1 BPM。</li>
@@ -131,7 +131,7 @@
       <li><strong>异常报警</strong>：HR &lt; 50 或 &gt; 120、SpO<sub>2</sub> &lt; 90% 时 OLED 反色闪烁并在 BLE 通道推送告警标志位。</li>
     </ul>
 
-    <h3>§36.1.3 性能指标</h3>
+    <h3>36.1.3 性能指标</h3>
     <table>
       <thead><tr><th>参数</th><th>指标</th><th>说明</th></tr></thead>
       <tbody>
@@ -147,8 +147,8 @@
       </tbody>
     </table>
 
-    <h3>§36.1.4 医疗应用场景与伦理</h3>
-    <h4>§36.1.4.1 合规注意事项</h4>
+    <h3>36.1.4 医疗应用场景与伦理</h3>
+    <h4>36.1.4.1 合规注意事项</h4>
     <p>本项目属于"消费级健康监测设备"，与"医疗器械"之间存在明确界限。实际开发中需注意以下几点：</p>
     <ul>
       <li><strong>设备定位</strong>：消费级设备用于日常健康参考，不可用于临床诊断。若需进入医疗器械注册流程，须满足 IEC 60601-1 电气安全、ISO 80601-2-61 脉搏血氧设备专用要求等标准。</li>
@@ -158,12 +158,12 @@
       <li><strong>误用风险</strong>：在低灌注、深色皮肤、运动伪影场景下 SpO<sub>2</sub> 误差增大，设备须明确提示"测量可能不准确"，避免延误就医。</li>
     </ul>
 
-    <h4>§36.1.4.2 教学使用提示</h4>
+    <h4>36.1.4.2 教学使用提示</h4>
     <div class="tip">
       <strong>提示</strong>：MAX30102 是消费级传感器，并非医用级（如 Nonin、Masimo）。教学项目不可作为医疗诊断依据，但可用于学习 PPG 信号处理与可穿戴系统设计方法。
     </div>
 
-    <h2>§36.2 系统架构设计</h2>
+    <h2>36.2 系统架构设计</h2>
 
     <p>系统采用 ESP32 作为主控，通过 I2C 总线同时挂载 MAX30102 与 SSD1306 OLED（共享同一总线，地址不同：MAX30102 = 0x57，OLED = 0x3C）。MAX30102 的中断引脚 INT 连接到 ESP32 GPIO19，FIFO 满或转换完成后触发中断，避免轮询开销。BLE 协议栈由 ESP-IDF 内置的 Bluedroid 提供，Arduino 框架封装为 <code>BLEDevice</code> API。</p>
 
@@ -206,9 +206,9 @@ FINGER --&gt; SNS : 反射/透射光
 
     <p>架构上分为四层：<strong>传感层</strong>（MAX30102 完成光电转换）、<strong>处理层</strong>（ESP32 完成 FIFO 读取、滤波、HR/SpO<sub>2</sub> 计算）、<strong>呈现层</strong>（OLED 数值与波形显示）、<strong>通信层</strong>（BLE 上传到手机）。四层之间通过共享缓冲区与标志位解耦，便于后续替换或扩展。</p>
 
-    <h2>§36.3 硬件设计</h2>
+    <h2>36.3 硬件设计</h2>
 
-    <h3>§36.3.1 物料清单（BOM）</h3>
+    <h3>36.3.1 物料清单（BOM）</h3>
     <table>
       <thead><tr><th>序号</th><th>元件</th><th>型号/规格</th><th>数量</th><th>单价参考/元</th><th>说明</th></tr></thead>
       <tbody>
@@ -226,7 +226,7 @@ FINGER --&gt; SNS : 反射/透射光
     </table>
     <div class="figure-caption">表 36-1 系统 BOM 清单（总成本约 72 元）</div>
 
-    <h3>§36.3.2 接线表</h3>
+    <h3>36.3.2 接线表</h3>
     <table>
       <thead><tr><th>从（模块）</th><th>引脚</th><th>到（ESP32）</th><th>到（其他）</th><th>备注</th></tr></thead>
       <tbody>
@@ -250,10 +250,10 @@ FINGER --&gt; SNS : 反射/透射光
       <strong>提示</strong>：MAX30102 模块板上 INT 引脚为开漏输出，ESP32 GPIO19 需配置 <code>INPUT_PULLUP</code>。多个 I2C 设备共享总线时，上拉电阻只需挂一组（4.7kΩ），切勿每个模块都加。
     </div>
 
-    <h2>§36.4 MAX30102 工作原理与 I2C 协议</h2>
+    <h2>36.4 MAX30102 工作原理与 I2C 协议</h2>
 
-    <h3>§36.4.1 PPG 光体积描记法原理</h3>
-    <h4>§36.4.1.1 PPG 信号生成机制</h4>
+    <h3>36.4.1 PPG 光体积描记法原理</h3>
+    <h4>36.4.1.1 PPG 信号生成机制</h4>
     <p>PPG（Photoplethysmography）是一种基于光电技术的容积描记方法。其物理本质是：心脏每次收缩时动脉血液灌注量瞬时增大，血液对光的吸收也瞬时增强，因此光电探测器接收到的反射（或透射）光强度呈现周期性波动。</p>
 
     <div class="plantuml-figure">
@@ -289,7 +289,7 @@ CARDIAC ..&gt; TISSUE : 调制
 </div>
     <div class="figure-caption">图 36-2 PPG 信号生成原理示意图</div>
 
-    <h4>§36.4.1.2 信号分量与血氧原理</h4>
+    <h4>36.4.1.2 信号分量与血氧原理</h4>
     <p>PPG 信号可分解为两个分量：</p>
     <ul>
       <li><strong>直流分量 DC</strong>：由骨骼、肌肉、静脉血、皮下组织等"非搏动性"吸收决定，幅度大、变化缓慢。</li>
@@ -297,7 +297,7 @@ CARDIAC ..&gt; TISSUE : 调制
     </ul>
     <p>红光（660 nm）与红外光（880 nm）的吸光特性对氧合血红蛋白（HbO<sub>2</sub>）和脱氧血红蛋白（Hb）的吸收差异不同：HbO<sub>2</sub> 对红外光吸收更多，Hb 对红光吸收更多。两路 AC/DC 比值的比值 R 即可反映血氧饱和度。</p>
 
-    <h3>§36.4.2 MAX30102 内部结构与寄存器</h3>
+    <h3>36.4.2 MAX30102 内部结构与寄存器</h3>
     <p>MAX30102 集成了红光 LED、红外 LED、光电二极管、低噪声模拟前端（AFE）、18 位 ADC、32 深度 FIFO 与 I2C 从接口。I2C 设备地址固定为 <strong>0x57</strong>（7 位地址），写操作使用 0xAE，读操作使用 0xAF。</p>
 
     <table>
@@ -327,8 +327,8 @@ CARDIAC ..&gt; TISSUE : 调制
     </table>
     <div class="figure-caption">表 36-3 MAX30102 寄存器映射表</div>
 
-    <h3>§36.4.3 采样配置详解</h3>
-    <h4>§36.4.3.1 采样参数选择</h4>
+    <h3>36.4.3 采样配置详解</h3>
+    <h4>36.4.3.1 采样参数选择</h4>
     <p>本项目的关键采样参数由 SPO2_CONFIG（0x0A）与 MODE_CONFIG（0x09）共同决定，需根据应用场景折中。</p>
 
     <table>
@@ -345,10 +345,10 @@ CARDIAC ..&gt; TISSUE : 调制
     </table>
     <div class="figure-caption">表 36-4 MAX30102 采样配置参数表</div>
 
-    <h4>§36.4.3.2 寄存器位域配置</h4>
+    <h4>36.4.3.2 寄存器位域配置</h4>
     <p>SPO2_CONFIG 寄存器位域结构为：<code>[6:5] ADC_range | [4:2] SR | [1:0] LED_PW</code>。本项目取 ADC_range=01（4096 nA）、SR=011（100 Hz）、PW=11（215 µs, 17 bit），即 <code>0x27</code>。FIFO_CONFIG（0x08）取 SMP_AVE=010（4 平均）、FIFO_ROLLOVER_ON=1、FIFO_A_FULL=10001（17），即 <code>0x5F</code>。</p>
 
-    <h3>§36.4.4 FIFO 读取协议</h3>
+    <h3>36.4.4 FIFO 读取协议</h3>
     <p>MAX30102 的 FIFO 深度为 32，每个样本占 6 字节（SpO2 模式下：红光 3 字节 + 红外 3 字节，MSB 优先）。读取流程为：</p>
     <ol>
       <li>读取 INTR_STATUS_1（0x00）清除中断标志。</li>
@@ -357,9 +357,9 @@ CARDIAC ..&gt; TISSUE : 调制
       <li>每 3 字节拼成 18 位（高 2 位补 0，左移后取低 18 位）。</li>
     </ol>
 
-    <h2>§36.5 软件架构与关键代码</h2>
+    <h2>36.5 软件架构与关键代码</h2>
 
-    <h3>§36.5.1 软件流程</h3>
+    <h3>36.5.1 软件流程</h3>
     <div class="plantuml-figure">
   <img src="../../assets/diagrams/ch36-health-monitor-esp32-fig3.svg" alt="PlantUML 图 3" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
@@ -402,7 +402,7 @@ DRAW --&gt; LOOP
 </div>
     <div class="figure-caption">图 36-3 主程序流程图</div>
 
-    <h3>§36.5.2 关键算法原理</h3>
+    <h3>36.5.2 关键算法原理</h3>
 
     <h4>直流/交流分离</h4>
     <p>使用滑动平均滤波提取直流分量：</p>
@@ -423,8 +423,8 @@ DRAW --&gt; LOOP
     <p style="text-align:center"><code>SpO<sub>2</sub> = 104 - 17 × R  (%)</code></p>
     <p>R 值通常在 0.4~1.0 之间，对应 SpO<sub>2</sub> 在 87%~97%。该公式因传感器批次、贴片方式不同需要标定，工程上常以指夹式医用血氧仪为参考做线性回归修正。</p>
 
-    <h3>§36.5.3 完整 Arduino C++ 代码</h3>
-    <h4>§36.5.3.1 程序结构与依赖</h4>
+    <h3>36.5.3 完整 Arduino C++ 代码</h3>
+    <h4>36.5.3.1 程序结构与依赖</h4>
     <p>下面给出可编译运行的完整工程主文件 <code>health_monitor.ino</code>。依赖库：<code>SparkFun MAX3010x</code>、<code>Adafruit SSD1306</code>、<code>Adafruit GFX</code>、<code>BLEDevice</code>（ESP32 Arduino 内置）。</p>
 
     <pre><code class="language-cpp">/*
@@ -730,7 +730,7 @@ void loop() {
 }
 </code></pre>
 
-    <h4>§36.5.3.2 代码设计要点</h4>
+    <h4>36.5.3.2 代码设计要点</h4>
     <p>上述代码体现了几个工程化要点：</p>
     <ul>
       <li><strong>缓冲满才计算</strong>：每凑满 4 秒数据做一次完整 HR/SpO<sub>2</sub> 计算，避免单点噪声影响。</li>
@@ -740,9 +740,9 @@ void loop() {
       <li><strong>异常告警</strong>：HR &lt; 50 / &gt; 120、SpO<sub>2</sub> &lt; 90% 时通过 alert 位告知 APP，APP 可触发震动或语音提示。</li>
     </ul>
 
-    <h2>§36.6 完整工程结构与调试</h2>
+    <h2>36.6 完整工程结构与调试</h2>
 
-    <h3>§36.6.1 工程目录结构</h3>
+    <h3>36.6.1 工程目录结构</h3>
     <pre><code>health-monitor/
 ├── health_monitor.ino        # 主程序（上文完整代码）
 ├── config.h                  # 引脚、采样率、UUID 等宏
@@ -765,7 +765,7 @@ void loop() {
 └── README.md                 # 编译烧录说明
 </code></pre>
 
-    <h3>§36.6.2 信号调试方法</h3>
+    <h3>36.6.2 信号调试方法</h3>
     <p>MAX30102 的实际信号调试是本项目最难的部分。常见现象与排查思路如下：</p>
 
     <table>
@@ -783,8 +783,8 @@ void loop() {
     </table>
     <div class="figure-caption">表 36-5 常见调试问题与解决方法</div>
 
-    <h3>§36.6.3 运动伪影处理</h3>
-    <h4>§36.6.3.1 处理方法</h4>
+    <h3>36.6.3 运动伪影处理</h3>
+    <h4>36.6.3.1 处理方法</h4>
     <p>运动伪影（Motion Artifact）是 PPG 信号的最大干扰源，主要由手腕或手指运动引起皮肤与传感器相对位移。常用处理方法：</p>
     <ul>
       <li><strong>硬件层面</strong>：增加传感器与皮肤的接触压力（腕带紧固），使用柔性 FPC 减小机械共振。</li>
@@ -794,15 +794,15 @@ void loop() {
       <li><strong>时域插值</strong>：对短暂丢点用前一次有效值填充，避免数值跳变引起 APP 报警误触发。</li>
     </ul>
 
-    <h4>§36.6.3.2 调试建议</h4>
+    <h4>36.6.3.2 调试建议</h4>
     <div class="tip">
       <strong>提示</strong>：调试 PPG 信号时，强烈建议先用串口把原始 IR 值打印到 Serial Plotter，观察波形是否呈典型"双峰"形态（主峰 + 重搏切迹）。波形正常后再做算法验证，可大幅缩短调试时间。
     </div>
 
-    <h2>§36.7 扩展方向</h2>
+    <h2>36.7 扩展方向</h2>
 
-    <h3>§36.7.1 多参数融合</h3>
-    <h4>§36.7.1.1 扩展传感器方案</h4>
+    <h3>36.7.1 多参数融合</h3>
+    <h4>36.7.1.1 扩展传感器方案</h4>
     <p>在 MAX30102 基础上叠加更多生理传感器，可显著提升监测价值：</p>
     <ul>
       <li><strong>加速度计 + 陀螺仪</strong>（MPU6050/ICM-42670）：活动量统计、运动伪影抑制、跌倒检测。</li>
@@ -810,10 +810,10 @@ void loop() {
       <li><strong>体温传感器</strong>（MLX90614 非接触）：连续体温监测。</li>
       <li><strong>心电前端</strong>（ADS1292 / MAX30003）：ECG 与 PPG 联合测量，可实现脉搏波传导时间（PTT）法无创血压估算。</li>
     </ul>
-    <h4>§36.7.1.2 融合设计考量</h4>
+    <h4>36.7.1.2 融合设计考量</h4>
     <p>多参数融合需考虑传感器间时序对齐与功耗预算，建议使用 FreeRTOS 多任务调度。</p>
 
-    <h3>§36.7.2 云端长期记录与分析</h3>
+    <h3>36.7.2 云端长期记录与分析</h3>
     <p>本项目 BLE 仅完成短距离上传，长期记录需结合 Wi-Fi 与云平台：</p>
     <ul>
       <li>ESP32 启用 Wi-Fi，通过 MQTT 上报数据到 EMQX/阿里云 IoT 平台。</li>
@@ -822,19 +822,19 @@ void loop() {
       <li>可训练轻量 LSTM 模型做心律失常初筛（房颤、早搏），但模型推理建议放在云端，避免设备端算力瓶颈。</li>
     </ul>
 
-    <h3>§36.7.3 跌倒检测</h3>
-    <h4>§36.7.3.1 检测流程</h4>
+    <h3>36.7.3 跌倒检测</h3>
+    <h4>36.7.3.1 检测流程</h4>
     <p>跌倒是老年人意外伤害的首要原因。融合加速度计后可实现跌倒检测：</p>
     <ol>
       <li>检测三轴加速度合矢量是否超过 2.5 g（撞击瞬间）。</li>
       <li>检测跌倒后 5 秒内姿态是否水平且无显著运动（无法起身）。</li>
       <li>触发条件满足后通过 BLE/Wi-Fi 向监护人手机发送 SOS 推送。</li>
     </ol>
-    <h4>§36.7.3.2 误报抑制</h4>
+    <h4>36.7.3.2 误报抑制</h4>
     <p>注意误报率控制：通过 SVM 或随机森林分类器对加速度模式做模式识别，区分跌倒与坐下、跳跃等动作。</p>
 
-    <h3>§36.7.4 医疗合规性</h3>
-    <h4>§36.7.4.1 合规标准清单</h4>
+    <h3>36.7.4 医疗合规性</h3>
+    <h4>36.7.4.1 合规标准清单</h4>
     <p>若要将设备推向医疗器械市场，需满足以下标准与流程：</p>
     <ul>
       <li><strong>IEC 60601-1</strong>：医用电气设备基本安全和基本性能。</li>
@@ -844,7 +844,7 @@ void loop() {
       <li><strong>GDPR / HIPAA / 个保法</strong>：患者数据隐私与跨境传输。</li>
       <li><strong>NMPA / FDA / CE</strong>：根据销售地区选择注册路径，二类医疗器械通常需要 6~12 个月临床评价。</li>
     </ul>
-    <h4>§36.7.4.2 工程实践建议</h4>
+    <h4>36.7.4.2 工程实践建议</h4>
     <p>教学项目通常不进入医疗器械注册流程，但了解这些标准有助于在工程早期规避后续合规风险（如电源隔离、生物相容性、电磁兼容）。</p>
 
     <div class="summary">

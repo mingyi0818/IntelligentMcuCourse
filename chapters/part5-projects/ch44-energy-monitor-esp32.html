@@ -118,10 +118,10 @@
       <strong>⚠ 强电安全提示（务必遵守）：</strong>本项目涉及 220V 交流市电，<strong>任何接线、改装、互感器安装操作必须在断电情况下进行</strong>，严禁带电作业。PZEM-004T 的电压输入端（L/N）与市电直连，调试时建议使用隔离变压器或漏电保护断路器；电流互感器 CT 安装时先短接二次侧再穿过火线，避免开路高压。学生必须在指导教师监督下完成强电部分接线，实验全程保持干燥环境，禁止单独操作。
     </div>
 
-    <h2>§44.1 项目需求分析</h2>
+    <h2>44.1 项目需求分析</h2>
     <p>本项目面向<strong>智慧能源</strong>行业，设计一款基于 ESP32 与 PZEM-004T v3.0 交流电能测量模块的智能电能监测终端，通过 Wi-Fi 实现 Web 仪表盘访问、OTA 远程升级、历史数据存储与统计分析，可作为家庭能耗监测、小型配电柜监测、教学实验装置的原型。</p>
 
-    <h3>§44.1.1 功能需求</h3>
+    <h3>44.1.1 功能需求</h3>
     <ul>
       <li><strong>电能参数采集</strong>：实时测量交流电压、电流、有功功率、电能累计、频率、功率因数共 6 项参数，采样周期 ≤ 1s。</li>
       <li><strong>本地显示</strong>：通过 ESP32 内置 Web 服务器提供 HTML 仪表盘，浏览器访问即可查看实时数据与历史曲线。</li>
@@ -132,7 +132,7 @@
       <li><strong>时间同步</strong>：通过 NTP 自动同步 UTC+8 时间，历史数据带时间戳。</li>
     </ul>
 
-    <h3>§44.1.2 智慧能源指标</h3>
+    <h3>44.1.2 智慧能源指标</h3>
     <p>参考国家电网智能用电采集系统与 IEEE 1459 电能计量标准，本项目应满足以下指标：</p>
     <table>
       <thead><tr><th>指标项</th><th>设计目标</th><th>说明</th></tr></thead>
@@ -150,7 +150,7 @@
     </table>
     <div class="figure-caption">图 44-1 智能电能监测终端关键性能指标</div>
 
-    <h3>§44.1.3 应用场景</h3>
+    <h3>44.1.3 应用场景</h3>
     <ul>
       <li><strong>家庭能耗监测</strong>：安装在配电箱总开关处，实时统计家庭总用电量、识别大功率电器启动事件。</li>
       <li><strong>教学实验装置</strong>：作为电工电子课程负载监测模块，可视化展示功率因数补偿、谐波影响等概念。</li>
@@ -159,7 +159,7 @@
       <li><strong>智慧校园</strong>：教室、实验室分路监测，支撑校园能源管理系统（EMS）。</li>
     </ul>
 
-    <h2>§44.2 系统架构设计</h2>
+    <h2>44.2 系统架构设计</h2>
     <p>系统采用<strong>"感知—通信—存储—展示—升级"</strong>五层架构，ESP32 作为核心控制器，统一调度各模块。感知层由 PZEM-004T 通过 Modbus-RTU 提供原始电能数据；通信层由 ESP32 Wi-Fi 承担，向上提供 HTTP 服务、向下提供串口通信；存储层使用 SPIFFS 文件系统持久化历史数据；展示层由内置 WebServer 提供 HTML+Chart.js 仪表盘；升级层基于 Arduino Update 库支持 OTA。</p>
 
     <div class="plantuml-figure">
@@ -206,8 +206,8 @@ ESP32 --&gt; ALERT
       <li><strong>安全隔离</strong>：PZEM-004T 内置光耦与互感器实现强弱电隔离，ESP32 侧全部为低压 TTL 电平。</li>
     </ul>
 
-    <h2>§44.3 硬件设计</h2>
-    <h3>§44.3.1 BOM 物料清单</h3>
+    <h2>44.3 硬件设计</h2>
+    <h3>44.3.1 BOM 物料清单</h3>
     <table>
       <thead><tr><th>序号</th><th>元件名称</th><th>规格</th><th>数量</th><th>用途</th><th>参考单价/元</th></tr></thead>
       <tbody>
@@ -225,7 +225,7 @@ ESP32 --&gt; ALERT
     </table>
     <div class="figure-caption">图 44-3 智能电能监测终端 BOM 物料清单</div>
 
-    <h3>§44.3.2 接线表</h3>
+    <h3>44.3.2 接线表</h3>
     <table>
       <thead><tr><th>PZEM-004T 端</th><th>ESP32 端</th><th>功能</th><th>备注</th></tr></thead>
       <tbody>
@@ -240,12 +240,12 @@ ESP32 --&gt; ALERT
     </table>
     <div class="figure-caption">图 44-4 ESP32 与 PZEM-004T v3.0 接线表</div>
 
-    <h3>§44.3.3 供电设计</h3>
+    <h3>44.3.3 供电设计</h3>
     <p>整体供电由 220V 市电经 AC-DC 隔离电源模块（5V/2A）输出，同时为 PZEM-004T 与 ESP32 供电。ESP32 工作电流峰值约 240mA（Wi-Fi 发射时），PZEM-004T 工作电流 &lt; 30mA，5V/2A 电源余量充足。需要注意：PZEM-004T v3.0 的 GND 与市电 N 不共地（内置隔离），ESP32 侧 GND 全部为低压侧 GND，避免短路。</p>
 
-    <h2>§44.4 PZEM-004T 通信协议与电能测量原理</h2>
-    <h3>§44.4.1 Modbus-RTU 帧格式</h3>
-    <h4>§44.4.1.1 协议概述与请求帧</h4>
+    <h2>44.4 PZEM-004T 通信协议与电能测量原理</h2>
+    <h3>44.4.1 Modbus-RTU 帧格式</h3>
+    <h4>44.4.1.1 协议概述与请求帧</h4>
     <p>PZEM-004T v3.0 使用 Modbus-RTU 协议通过 TTL 串口通信，参数为 9600bps、8 数据位、无校验、1 停止位（8N1），默认从机地址 0x01。所有寄存器均为 16 位，部分参数（电压、电流、功率、电能）占用 2 个寄存器。Modbus-RTU 帧结构如下表：</p>
 
     <table>
@@ -260,7 +260,7 @@ ESP32 --&gt; ALERT
     </table>
     <div class="figure-caption">图 44-5 Modbus-RTU 请求帧格式</div>
 
-    <h4>§44.4.1.2 响应帧格式</h4>
+    <h4>44.4.1.2 响应帧格式</h4>
     <p>响应帧格式：</p>
     <table>
       <thead><tr><th>字段</th><th>长度</th><th>说明</th></tr></thead>
@@ -274,7 +274,7 @@ ESP32 --&gt; ALERT
     </table>
     <div class="figure-caption">图 44-6 Modbus-RTU 响应帧格式</div>
 
-    <h4>§44.4.1.3 寄存器映射</h4>
+    <h4>44.4.1.3 寄存器映射</h4>
     <p>PZEM-004T v3.0 寄存器映射表（关键寄存器）：</p>
     <table>
       <thead><tr><th>地址</th><th>参数</th><th>单位</th><th>数据类型</th><th>分辨率</th></tr></thead>
@@ -290,20 +290,20 @@ ESP32 --&gt; ALERT
     </table>
     <div class="figure-caption">图 44-7 PZEM-004T v3.0 寄存器映射表</div>
 
-    <h3>§44.4.2 电压电流互感原理</h3>
-    <h4>§44.4.2.1 互感器原理</h4>
+    <h3>44.4.2 电压电流互感原理</h3>
+    <h4>44.4.2.1 互感器原理</h4>
     <p>PZEM-004T 内部采用两种互感方式实现强弱电隔离：</p>
     <ul>
       <li><strong>电压互感</strong>：通过高阻值电阻分压网络将 220V 交流电压衰减至毫伏级，经运算放大器输入 ADC 采样。电压采样精度 0.5%。</li>
       <li><strong>电流互感器（CT）</strong>：外接 100A/50mA 比例互感器，火线穿过 CT 中心孔，根据电磁感应原理在二次侧产生比例电流，经采样电阻转换为电压信号。变比 = 100A / 0.05A = 2000:1。</li>
     </ul>
-    <h4>§44.4.2.2 RMS 计算与功率因数</h4>
+    <h4>44.4.2.2 RMS 计算与功率因数</h4>
     <p>电压、电流同步采样后，通过 RMS（均方根）计算获得有效值：$V_{rms} = \sqrt{\frac{1}{N}\sum_{i=1}^{N}v_i^2}$，同理 $I_{rms}$。有功功率 $P = \frac{1}{N}\sum_{i=1}^{N}v_i \cdot i_i$，功率因数 $PF = P / (V_{rms} \cdot I_{rms})$。电能通过对有功功率时间积分获得：$W = \int_0^T P\, dt$，单位 kWh。</p>
 
-    <h3>§44.4.3 电能累加算法</h3>
+    <h3>44.4.3 电能累加算法</h3>
     <p>PZEM-004T 内部维护电能累计寄存器（0x0005–0x0006），每次采样后自动累加：$\Delta W = P \cdot \Delta t / 3600$（kWh）。当寄存器溢出（达到 9999.99kWh）后会自动归零，需要在软件层实现"溢出回绕检测"：当本次读数小于上次读数时，认为发生了一次溢出，应将累计电费加上"满量程 − 上次读数 + 本次读数"的差值。</p>
 
-    <h3>§44.4.4 校准方法</h3>
+    <h3>44.4.4 校准方法</h3>
     <p>PZEM-004T v3.0 出厂已校准，但若发现读数偏差较大可手动校准：</p>
     <ol>
       <li>准备标准源：调压器输出 220V、负载 1kW 标准电阻。</li>
@@ -313,8 +313,8 @@ ESP32 --&gt; ALERT
     </ol>
     <p>校准操作需谨慎，错误的校准数据会导致测量失效，建议先记录原始校准值。</p>
 
-    <h2>§44.5 软件架构与关键代码</h2>
-    <h3>§44.5.1 任务流程图</h3>
+    <h2>44.5 软件架构与关键代码</h2>
+    <h3>44.5.1 任务流程图</h3>
     <p>软件采用"主循环 + 定时回调"模式，避免阻塞式延时。任务调度通过 <code>millis()</code> 时间片轮询实现：</p>
 
     <div class="plantuml-figure">
@@ -364,8 +364,8 @@ WEB --&gt; LOOP
 </div>
     <div class="figure-caption">图 44-8 主程序任务流程图</div>
 
-    <h3>§44.5.2 完整 Arduino 代码</h3>
-    <h4>§44.5.2.1 代码框架说明</h4>
+    <h3>44.5.2 完整 Arduino 代码</h3>
+    <h4>44.5.2.1 代码框架说明</h4>
     <p>以下为完整可运行的 Arduino 工程，基于 ESP32 Arduino Core 2.0.x，依赖库：<code>ESPmDNS</code>、<code>WebServer</code>、<code>Update</code>、<code>FS</code>、<code>SPIFFS</code>、<code>WiFi</code>。完整工程位于 <code>/code/esp32/energy-monitor/</code>。</p>
 
     <pre><code class="language-cpp">#include &lt;Arduino.h&gt;
@@ -746,7 +746,7 @@ void loop() {
 }
 </code></pre>
 
-    <h4>§44.5.2.2 关键设计要点</h4>
+    <h4>44.5.2.2 关键设计要点</h4>
     <p>本代码的关键设计点：</p>
     <ul>
       <li><strong>双串口隔离</strong>：UART0（GPIO1/3）保留给 USB 调试，UART2（GPIO16/17）专用于 PZEM-004T，避免日志输出干扰 Modbus 通信。</li>
@@ -757,7 +757,7 @@ void loop() {
       <li><strong>mDNS 服务发现</strong>：注册 <code>esp32-energy.local</code>，局域网用户无需记忆 IP 地址。</li>
     </ul>
 
-    <h3>§44.5.3 Web 仪表盘路由说明</h3>
+    <h3>44.5.3 Web 仪表盘路由说明</h3>
     <table>
       <thead><tr><th>路径</th><th>方法</th><th>功能</th><th>返回类型</th></tr></thead>
       <tbody>
@@ -770,9 +770,9 @@ void loop() {
     </table>
     <div class="figure-caption">图 44-9 WebServer 路由表</div>
 
-    <h2>§44.6 完整工程结构与调试</h2>
-    <h3>§44.6.1 工程目录结构</h3>
-    <h4>§44.6.1.1 目录结构</h4>
+    <h2>44.6 完整工程结构与调试</h2>
+    <h3>44.6.1 工程目录结构</h3>
+    <h4>44.6.1.1 目录结构</h4>
     <pre><code>energy-monitor/
 ├── energy-monitor.ino       # 主程序（含 setup/loop/readPZEM/handleRoot/handleApi/handleOta/saveHistory/loadHistory）
 ├── README.md                # 编译烧录说明
@@ -780,7 +780,7 @@ void loop() {
 └── data/                    # SPIFFS 上传目录（可选）
     └── (空)
 </code></pre>
-    <h4>§44.6.1.2 分区表配置</h4>
+    <h4>44.6.1.2 分区表配置</h4>
     <p>分区表 <code>partitions.csv</code> 需要为 SPIFFS 预留至少 1MB 空间，参考配置：</p>
     <pre><code># Name,   Type, SubType, Offset,  Size, Flags
 nvs,      data, nvs,     0x9000,   0x5000,
@@ -790,7 +790,7 @@ app1,     app,  ota_1,   0x150000, 0x140000,
 spiffs,   data, spiffs,  0x290000, 0x170000,
 </code></pre>
 
-    <h3>§44.6.2 OTA 调试步骤</h3>
+    <h3>44.6.2 OTA 调试步骤</h3>
     <ol>
       <li>首次通过 USB 烧录初始固件（含 OTA 功能）。</li>
       <li>浏览器访问 <code>http://esp32-energy.local</code> 或 ESP32 IP 地址。</li>
@@ -800,7 +800,7 @@ spiffs,   data, spiffs,  0x290000, 0x170000,
       <li>若 OTA 失败，可查看浏览器响应（FAIL）或串口错误码（如 0xERROR_...）。</li>
     </ol>
 
-    <h3>§44.6.3 Web 仪表盘截图说明</h3>
+    <h3>44.6.3 Web 仪表盘截图说明</h3>
     <p>仪表盘首页包含 3 个核心区域：</p>
     <ul>
       <li><strong>顶部信息栏</strong>：显示项目标题与最后更新时间戳。</li>
@@ -809,7 +809,7 @@ spiffs,   data, spiffs,  0x290000, 0x170000,
       <li><strong>OTA 上传区</strong>：文件选择 + 上传按钮，提交后固件写入 Flash。</li>
     </ul>
 
-    <h3>§44.6.4 常见故障与排查</h3>
+    <h3>44.6.4 常见故障与排查</h3>
     <table>
       <thead><tr><th>故障现象</th><th>可能原因</th><th>排查方法</th></tr></thead>
       <tbody>
@@ -827,23 +827,23 @@ spiffs,   data, spiffs,  0x290000, 0x170000,
     </table>
     <div class="figure-caption">图 44-10 智能电能监测终端常见故障排查表</div>
 
-    <h2>§44.7 扩展方向</h2>
-    <h3>§44.7.1 多路监测</h3>
+    <h2>44.7 扩展方向</h2>
+    <h3>44.7.1 多路监测</h3>
     <p>通过为每路 PZEM-004T 设置不同 Modbus 从机地址（0x01–0xF7），可在一根 RS-485 总线上挂载多台 PZEM-004T（需通过 MAX485 转 RS-485），实现多路监测。ESP32 轮询各从机地址即可获取每一路的电能数据。本设计可扩展至 16 路（推荐轮询周期 ≥ 2s）。</p>
 
-    <h3>§44.7.2 Modbus TCP 上传</h3>
+    <h3>44.7.2 Modbus TCP 上传</h3>
     <p>利用 ESP32 Wi-Fi 优势，将采集到的 Modbus-RTU 数据封装为 Modbus TCP 上传至 SCADA 系统或工业网关。可使用开源 <code>esp-modbus</code> 组件实现 Modbus TCP Slave，对接上位机软件（如 Modbus Poll、组态王、KingView）。</p>
 
-    <h3>§44.7.3 电费峰谷计算</h3>
+    <h3>44.7.3 电费峰谷计算</h3>
     <p>接入峰谷电价策略（如：峰段 8:00–22:00 @ 0.6 元/kWh，谷段 22:00–8:00 @ 0.3 元/kWh），按时间分段累计电费，提供月度账单预测。可结合 NTP 时间与 SPIFFS 历史数据自动计算。</p>
 
-    <h3>§44.7.4 负载识别（NILM）</h3>
+    <h3>44.7.4 负载识别（NILM）</h3>
     <p>非侵入式负荷监测（Non-Intrusive Load Monitoring, NILM）通过分析总电流的暂态波形特征识别启动的电器种类。可在 ESP32 上采集高频功率数据（100ms 间隔），提取功率阶跃特征，使用决策树或轻量级神经网络推断电器类型（如空调、热水器、电饭煲）。</p>
 
-    <h3>§44.7.5 AI 异常检测</h3>
+    <h3>44.7.5 AI 异常检测</h3>
     <p>基于历史数据训练功率基线模型，当实时功率偏离基线超过 3σ 时触发异常告警。可使用 TensorFlow Lite for Microcontrollers 在 ESP32 上部署轻量级 LSTM 模型，实现端侧异常检测，无需上传原始数据到云端，保护用户隐私。</p>
 
-    <h3>§44.7.6 集成 MQTT 上云</h3>
+    <h3>44.7.6 集成 MQTT 上云</h3>
     <p>引入 <code>PubSubClient</code> 库将数据发布到 EMQX/ Mosquitto MQTT Broker，订阅端可对接 Home Assistant、Grafana、Node-RED 等平台，构建完整的物联网能源管理系统。</p>
 
     <div class="summary">

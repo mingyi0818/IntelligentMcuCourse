@@ -114,13 +114,13 @@
       </ul>
     </div>
 
-    <h2>§40.1 项目需求分析</h2>
+    <h2>40.1 项目需求分析</h2>
 
-    <h3>§40.1.1 行业背景</h3>
+    <h3>40.1.1 行业背景</h3>
     <p>智慧建筑是物联网应用的重要落地场景，其中智能照明系统是智慧建筑能耗管理与用户体验提升的关键环节。传统照明系统存在以下问题：调光方式单一（仅支持开关或固定档位）、无法远程控制、色温不可调、能耗管理粗放。基于 OpenHarmony 的智能照明系统借助鸿蒙分布式软总线能力，可实现多设备协同、跨设备控制与场景联动，是当前智慧照明领域的研究热点。</p>
     <p>本项目以 STM32F407（拓维 Niobe407 开发板）作为主控芯片，运行 OpenHarmony LiteOS-M 内核，通过 HDF 驱动框架将 PWM 外设抽象为标准设备节点，向上层应用提供统一的调光接口，并通过 WiFi 模组接入 OpenHarmony 软总线，接收手机 APP 或其他鸿蒙设备的控制指令，实现色温调节、亮度调节、场景模式切换等功能。</p>
 
-    <h3>§40.1.2 功能需求</h3>
+    <h3>40.1.2 功能需求</h3>
     <p>智能照明节点需满足以下功能需求：</p>
     <ul>
       <li><strong>PWM 调光</strong>：使用 TIM1 的 CH1/CH2/CH3 三路 PWM 输出，分别驱动冷白、暖白、（可选）彩光 LED，PWM 频率 ≥ 1 kHz 以避免可视闪烁，分辨率 ≥ 10 bit（0~1023）。</li>
@@ -132,7 +132,7 @@
       <li><strong>本地按键</strong>：保留一个物理按键，支持短按切换场景、长按开关灯，作为网络异常时的兜底控制手段。</li>
     </ul>
 
-    <h3>§40.1.3 性能指标</h3>
+    <h3>40.1.3 性能指标</h3>
     <table>
       <thead><tr><th>指标项</th><th>目标值</th><th>说明</th></tr></thead>
       <tbody>
@@ -147,7 +147,7 @@
       </tbody>
     </table>
 
-    <h3>§40.1.4 应用场景</h3>
+    <h3>40.1.4 应用场景</h3>
     <p>本项目的智能照明节点可应用于以下典型场景：</p>
     <ul>
       <li><strong>家庭客厅</strong>：通过手机 APP 或语音助手调节客厅主灯的色温与亮度，配合电视观看、阅读、聚会等不同场景。</li>
@@ -160,11 +160,11 @@
       <strong>提示：</strong>在设计智能照明系统时，应优先考虑人眼的视觉特性。人眼对亮度的感知近似对数关系，因此线性增加 PWM 占空比时，会感觉低亮度区分辨过细、高亮度区分辨不足。采用 gamma=2.2 的校正曲线（即 <code>brightness_pwm = pow(target, 2.2) * 1023</code>）可获得更均匀的视觉体验。
     </div>
 
-    <h2>§40.2 OpenHarmony LiteOS-M 与 HDF 框架介绍</h2>
+    <h2>40.2 OpenHarmony LiteOS-M 与 HDF 框架介绍</h2>
 
-    <h3>§40.2.1 LiteOS-M 内核架构</h3>
+    <h3>40.2.1 LiteOS-M 内核架构</h3>
 
-    <h4>§40.2.1.1 内核选型与特点</h4>
+    <h4>40.2.1.1 内核选型与特点</h4>
     <p>OpenHarmony 针对不同设备算力提供了三种内核：Linux Kernel（标准系统，ARM Cortex-A）、LiteOS-A（小型系统，带 MMU 的 Cortex-A）、LiteOS-M（Mini 系统，MCU 级 Cortex-M）。本项目使用的 STM32F407 为 Cortex-M4 内核，无 MMU，因此选用 LiteOS-M 内核。</p>
     <p>LiteOS-M 是华为开源的轻量级实时操作系统内核，专为 MCU 级设备设计，具有以下特点：</p>
     <ul>
@@ -175,7 +175,7 @@
       <li><strong>CMSIS-RTOS2 兼容</strong>：提供标准 CMSIS-RTOS2 API 接口，便于移植现有 ARM 生态代码。</li>
     </ul>
 
-    <h4>§40.2.1.2 架构组成</h4>
+    <h4>40.2.1.2 架构组成</h4>
     <div class="plantuml-figure">
   <img src="../../assets/diagrams/ch40-oh-lighting-stm32f4-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
@@ -218,9 +218,9 @@ SAMGR --&gt; DT
 </div>
     <div class="figure-caption">图 40-1 OpenHarmony LiteOS-M 内核架构示意图</div>
 
-    <h3>§40.2.2 HDF 驱动框架</h3>
+    <h3>40.2.2 HDF 驱动框架</h3>
 
-    <h4>§40.2.2.1 框架概述与核心概念</h4>
+    <h4>40.2.2.1 框架概述与核心概念</h4>
     <p>HDF（Hardware Driver Foundation）是 OpenHarmony 提供的统一驱动框架，目标是"一次开发，多端部署"。HDF 通过设备配置描述（HCS，HDF Configuration Source）将硬件参数与驱动代码解耦，通过驱动模型（Driver Model）规范驱动接口，使同一份驱动代码可在不同芯片上复用。</p>
     <p>HDF 的核心概念包括：</p>
     <ul>
@@ -231,7 +231,7 @@ SAMGR --&gt; DT
       <li><strong>HCS 配置</strong>：使用类 JSON 语法的配置文件描述硬件拓扑与参数，编译时由 hc-gen 工具转为 C 数组编入固件。</li>
     </ul>
 
-    <h4>§40.2.2.2 驱动加载与访问流程</h4>
+    <h4>40.2.2.2 驱动加载与访问流程</h4>
     <div class="plantuml-figure">
   <img src="../../assets/diagrams/ch40-oh-lighting-stm32f4-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
@@ -260,7 +260,7 @@ SVC --&gt; APP
 </div>
     <div class="figure-caption">图 40-2 HDF 驱动加载与访问流程</div>
 
-    <h3>§40.2.3 与 Linux 鸿蒙的差异</h3>
+    <h3>40.2.3 与 Linux 鸿蒙的差异</h3>
     <p>OpenHarmony 标准系统（基于 Linux Kernel）与 Mini 系统（基于 LiteOS-M）在驱动模型上存在显著差异，理解这些差异有助于在 MCU 平台上正确开发驱动：</p>
     <table>
       <thead><tr><th>对比项</th><th>标准系统（Linux）</th><th>Mini 系统（LiteOS-M）</th></tr></thead>
@@ -275,7 +275,7 @@ SVC --&gt; APP
       </tbody>
     </table>
 
-    <h2>§40.3 系统架构设计</h2>
+    <h2>40.3 系统架构设计</h2>
 
     <p>本项目采用分层架构，从下到上依次为硬件层、内核层、HDF 驱动层、系统服务层、应用业务层。各层职责清晰，通过标准接口解耦，便于后续扩展与移植。</p>
 
@@ -342,9 +342,9 @@ LOS --&gt; MCU
       <li><strong>上行状态链路</strong>：照明业务任务周期采集当前色温/亮度 → 通过软总线发布状态消息 → WiFi 模组转发至路由器 → 手机 APP 显示。</li>
     </ul>
 
-    <h2>§40.4 硬件设计</h2>
+    <h2>40.4 硬件设计</h2>
 
-    <h3>§40.4.1 元器件清单（BOM）</h3>
+    <h3>40.4.1 元器件清单（BOM）</h3>
     <table>
       <thead><tr><th>编号</th><th>元器件</th><th>型号/规格</th><th>数量</th><th>说明</th></tr></thead>
       <tbody>
@@ -363,7 +363,7 @@ LOS --&gt; MCU
       </tbody>
     </table>
 
-    <h3>§40.4.2 接线表</h3>
+    <h3>40.4.2 接线表</h3>
     <table>
       <thead><tr><th>MCU 引脚</th><th>外设</th><th>连接说明</th></tr></thead>
       <tbody>
@@ -384,9 +384,9 @@ LOS --&gt; MCU
       <strong>提示：</strong>STM32F407 的 TIM1 为高级定时器，其 PWM 输出通道需通过 MOE（Main Output Enable）位使能。在 HAL 库中调用 <code>HAL_TIM_PWM_Start()</code> 时需使用 <code>TIM_CHANNEL_x</code> 参数；若使用裸寄存器编程，需在配置 CCER 寄存器时同时置位 CCxE 与 CCxNE（如需互补输出），并置位 BDTR 的 MOE 位。
     </div>
 
-    <h2>§40.5 软件架构与关键代码</h2>
+    <h2>40.5 软件架构与关键代码</h2>
 
-    <h3>§40.5.1 HDF 驱动模型实现</h3>
+    <h3>40.5.1 HDF 驱动模型实现</h3>
     <p>本项目为 STM32F407 的 TIM1 PWM 外设编写一个 HDF 驱动，遵循 OpenHarmony HDF 规范。驱动文件位于 <code>drivers/adapter/platform/pwm/pwm_stm32f4.c</code>，配置文件位于 <code>drivers/adapter/platform/pwm/pwm_config.hcs</code>。</p>
 
     <div class="plantuml-figure">
@@ -419,7 +419,7 @@ IFACE --&gt; APP2
 </div>
     <div class="figure-caption">图 40-4 HDF PWM 驱动模型类图</div>
 
-    <h3>§40.5.2 HCS 配置文件</h3>
+    <h3>40.5.2 HCS 配置文件</h3>
     <p>首先编写 HCS 配置文件，描述 PWM 设备的硬件参数。HCS 使用类 JSON 语法，但去掉了引号，便于 hc-gen 工具解析。</p>
 
     <pre><code class="language-c">// file: drivers/adapter/platform/pwm/pwm_config.hcs
@@ -449,7 +449,7 @@ root {
 }
 </code></pre>
 
-    <h3>§40.5.3 HDF PWM 驱动核心代码</h3>
+    <h3>40.5.3 HDF PWM 驱动核心代码</h3>
     <p>下面给出完整的 HDF PWM 驱动实现。驱动通过 <code>HdfDriverEntry</code> 注册，<code>Init</code> 回调中读取 HCS 配置并初始化 STM32F407 的 TIM1 外设，<code>Dispatch</code> 回调中处理来自应用层的命令。</p>
 
     <pre><code class="language-c">// file: drivers/adapter/platform/pwm/pwm_stm32f4.c
@@ -628,7 +628,7 @@ struct HdfDriverEntry g_pwmStm32f4Entry = {
 HDF_INIT(g_pwmStm32f4Entry);
 </code></pre>
 
-    <h3>§40.5.4 应用层调光接口</h3>
+    <h3>40.5.4 应用层调光接口</h3>
     <p>应用层通过 HDF 提供的 <code>PwmOpen</code>、<code>PwmSetDuty</code> 等标准接口访问 PWM 设备。下面给出照明业务的核心代码，包含色温调节、亮度调节、场景管理三个模块。</p>
 
     <pre><code class="language-c">// file: applications/sample/wifi-iot/app/lighting_app.c
@@ -769,9 +769,9 @@ static void LightingAppInit(void)
 SYS_RUN(LightingAppInit);
 </code></pre>
 
-    <h3>§40.5.5 LiteOS-M 任务调度设计</h3>
+    <h3>40.5.5 LiteOS-M 任务调度设计</h3>
 
-    <h4>§40.5.5.1 任务划分</h4>
+    <h4>40.5.5.1 任务划分</h4>
     <p>本系统共创建 4 个任务，优先级从高到低依次为：</p>
     <table>
       <thead><tr><th>任务名</th><th>优先级</th><th>栈大小</th><th>功能</th></tr></thead>
@@ -783,12 +783,12 @@ SYS_RUN(LightingAppInit);
       </tbody>
     </table>
 
-    <h4>§40.5.5.2 任务间通信</h4>
+    <h4>40.5.5.2 任务间通信</h4>
     <p>任务间通过消息队列（<code>LOS_QueueCreate</code>）传递控制指令，按键任务与软总线任务向照明任务发送消息，照明任务处理后通过事件标志（<code>LOS_EventWrite</code>）通知上报任务。这种设计避免了共享变量的竞态条件，符合 RTOS 编程的最佳实践。</p>
 
-    <h2>§40.6 工程构建与烧录</h2>
+    <h2>40.6 工程构建与烧录</h2>
 
-    <h3>§40.6.1 工具链准备</h3>
+    <h3>40.6.1 工具链准备</h3>
     <p>本项目使用以下工具链：</p>
     <ul>
       <li><strong>编译器</strong>：arm-none-eabi-gcc 10.3 或更高版本</li>
@@ -798,9 +798,9 @@ SYS_RUN(LightingAppInit);
       <li><strong>开发板 SDK</strong>：拓维 Niobe407 适配包，位于 <code>vendor/niobe/</code></li>
     </ul>
 
-    <h3>§40.6.2 编译流程</h3>
+    <h3>40.6.2 编译流程</h3>
 
-    <h4>§40.6.2.1 编译步骤</h4>
+    <h4>40.6.2.1 编译步骤</h4>
     <p>OpenHarmony 工程使用 hb 命令进行编译，典型流程如下：</p>
 
     <pre><code class="language-c"># 1. 进入 OpenHarmony 源码根目录
@@ -825,7 +825,7 @@ hb build -f
 #    - rootfs            文件系统镜像（Mini 系统通常为空）
 </code></pre>
 
-    <h4>§40.6.2.2 编译输出</h4>
+    <h4>40.6.2.2 编译输出</h4>
     <p>编译成功后，控制台会输出类似以下信息：</p>
     <pre><code>[OHOS INFO] pwm_stm32f4.o
 [OHOS INFO] lighting_app.o
@@ -834,7 +834,7 @@ hb build -f
 [OHOS INFO] Cost time:  0:00:42
 </code></pre>
 
-    <h3>§40.6.3 烧录步骤</h3>
+    <h3>40.6.3 烧录步骤</h3>
     <p>使用 ST-Link V2 烧录，步骤如下：</p>
     <ul>
       <li>将 ST-Link 通过 SWD 接口连接到 Niobe407 开发板（SWDIO、SWCLK、GND、3.3V）。</li>
@@ -847,7 +847,7 @@ hb build -f
       <strong>提示：</strong>若使用 Keil MDK 开发，可将 OpenHarmony 工程导出为 Keil 工程（通过 <code>hb build --gn-args=use_mdk=true</code>），但官方推荐使用 hb + Ninja 命令行编译以获得最佳兼容性。
     </div>
 
-    <h3>§40.6.4 调试技巧</h3>
+    <h3>40.6.4 调试技巧</h3>
     <p>开发过程中的常用调试手段：</p>
     <ul>
       <li><strong>串口日志</strong>：通过 <code>HDF_LOGI</code>、<code>printf</code> 输出调试信息，在 USART1 观察。注意 LiteOS-M 默认日志级别为 INFO，可通过 <code>hilog_tool</code> 命令动态调整。</li>
@@ -857,9 +857,9 @@ hb build -f
       <li><strong>常见错误</strong>：若 <code>PwmOpen</code> 返回 NULL，通常是 HCS 配置未正确编译进固件，检查 <code>hb build</code> 是否包含 <code>pwm_config.hcs</code>。</li>
     </ul>
 
-    <h2>§40.7 扩展方向</h2>
+    <h2>40.7 扩展方向</h2>
 
-    <h3>§40.7.1 多灯组网与软总线联动</h3>
+    <h3>40.7.1 多灯组网与软总线联动</h3>
     <p>本项目可扩展为多灯组网场景，通过 OpenHarmony 软总线实现多盏灯具的协同控制。每盏灯具作为软总线上的一个节点，发布自己的设备信息（设备名、能力、当前状态），订阅其他灯具的状态变化。典型应用包括：</p>
     <ul>
       <li><strong>情景同步</strong>：客厅主灯调节色温时，餐厅、玄关灯自动同步到相同色温，保持整屋光环境一致。</li>
@@ -867,10 +867,10 @@ hb build -f
       <li><strong>分区控制</strong>：将灯具划分为不同分区，每分区独立控制，适合大型办公空间的灵活管理。</li>
     </ul>
 
-    <h3>§40.7.2 人体感应与自适应调光</h3>
+    <h3>40.7.2 人体感应与自适应调光</h3>
     <p>通过 PIR（被动红外）或 mmWave 毫米波雷达传感器检测人体存在，实现"人来灯亮、人走灯灭"的节能控制。相比传统 PIR，毫米波雷达可检测静止人体（如坐下阅读、睡眠），避免"人在但灯灭"的尴尬。结合环境光传感器（如 BH1750），可在自然光充足时自动降低 LED 亮度，实现恒照度控制。</p>
 
-    <h3>§40.7.3 自然节律调光</h3>
+    <h3>40.7.3 自然节律调光</h3>
     <p>根据时间自动模拟自然光的色温变化，符合人体生物钟节律（Circadian Rhythm）。典型调光曲线如下：</p>
     <ul>
       <li>06:00—08:00：色温从 2700 K 渐升至 4000 K，亮度从 30% 升至 80%，模拟日出唤醒。</li>
@@ -879,10 +879,10 @@ hb build -f
       <li>21:00—06:00：色温 2700 K，亮度 10% 以下，避免抑制褪黑素分泌。</li>
     </ul>
 
-    <h3>§40.7.4 语音与多模态交互</h3>
+    <h3>40.7.4 语音与多模态交互</h3>
     <p>通过接入 OpenHarmony AI 框架或外接离线语音识别模块（如 SU-03T），可实现"开灯"、"调亮一点"、"切到观影模式"等语音指令的本地识别，无需依赖云端，保护用户隐私。结合手势识别传感器（如 PAJ7620），还可实现挥手调亮、握拳关灯等手势交互。</p>
 
-    <h3>§40.7.5 能耗监测与数据上云</h3>
+    <h3>40.7.5 能耗监测与数据上云</h3>
     <p>通过 INA219 电流传感器采集 LED 实际工作电流，结合 PWM 占空比计算瞬时功率，累计得到能耗数据。通过 MQTT 协议将能耗数据上报至云端服务器，进行长期统计分析与可视化展示，帮助用户优化用电行为。</p>
 
     <div class="summary">

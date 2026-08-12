@@ -125,14 +125,14 @@ skinparam backgroundColor #ffffff
 left to right direction
 
 rectangle "Altium Designer\n设计流程" as A
-rectangle "§25.2 安装配置" as B
-rectangle "§25.3 原理图设计" as C
-rectangle "§25.4 元件库管理" as D
-rectangle "§25.5 PCB 设计" as E
-rectangle "§25.6 DRC 检查" as F
-rectangle "§25.7 Gerber 输出" as G
-rectangle "§25.8 实战项目\nSTC89C52RC 最小系统板" as H
-rectangle "§25.9 常见问题与技巧" as I
+rectangle "25.2 安装配置" as B
+rectangle "25.3 原理图设计" as C
+rectangle "25.4 元件库管理" as D
+rectangle "25.5 PCB 设计" as E
+rectangle "25.6 DRC 检查" as F
+rectangle "25.7 Gerber 输出" as G
+rectangle "25.8 实战项目\nSTC89C52RC 最小系统板" as H
+rectangle "25.9 常见问题与技巧" as I
 A --&gt; B
 B --&gt; C
 C --&gt; D
@@ -467,7 +467,7 @@ H --&gt; I
     <h2>25.6 DRC 设计规则检查</h2>
 
     <h3>25.6.1 DRC 规则配置</h3>
-    <p>DRC（Design Rule Check）是 PCB 投产前的<strong>最后一道质量关卡</strong>，确保设计满足工艺能力与电气规则。除 §25.5.3 提到的常规规则外，还需检查：</p>
+    <p>DRC（Design Rule Check）是 PCB 投产前的<strong>最后一道质量关卡</strong>，确保设计满足工艺能力与电气规则。除 25.5.3 提到的常规规则外，还需检查：</p>
     <ul>
       <li><strong>Un-Routed Net</strong>：未布线网络，必须为 0。</li>
       <li><strong>Short-Circuit Constraint</strong>：不同网络短路，必须为 0。</li>
@@ -577,7 +577,7 @@ H --&gt; I
     <h3>25.8.2 原理图设计</h3>
     <p>新建工程 <code>STC89_MinSys.PrjPcb</code> 与原理图 <code>STC89_MinSys.SchDoc</code>。按以下顺序放置元件并连线：</p>
     <ol>
-      <li>放置 STC89C52RC（自定义符号库，见 §25.4.3）于画布中央。</li>
+      <li>放置 STC89C52RC（自定义符号库，见 25.4.3）于画布中央。</li>
       <li>晶振 Y1（12MHz）+ 30pF 电容 C1、C2，连接到 MCU 的 XTAL1（引脚 19）与 XTAL2（引脚 18）。</li>
       <li>复位电路：10µF 电容 C3 + 10K 电阻 R1，连接到 MCU 的 RST 引脚（引脚 9）。</li>
       <li>电源指示 LED（D1）+ 1K 限流电阻 R2，连接到 VCC 与 GND。</li>
@@ -636,7 +636,7 @@ H --&gt; I
     <p>清零 DRC 错误后，PCB 设计完成。</p>
 
     <h3>25.8.6 Gerber 输出与打样</h3>
-    <p>按 §25.7.3 步骤输出 Gerber 与钻孔文件，打包为 <code>STC89_MinSys_Gerber.zip</code>。访问嘉立创下单页（<a href="https://www.jlcpcb.com/">jlcpcb.com</a>），上传 ZIP，参数选择：</p>
+    <p>按 25.7.3 步骤输出 Gerber 与钻孔文件，打包为 <code>STC89_MinSys_Gerber.zip</code>。访问嘉立创下单页（<a href="https://www.jlcpcb.com/">jlcpcb.com</a>），上传 ZIP，参数选择：</p>
     <pre><code class="language-xml">板厚: 1.6mm
 层数: 2
 阻焊颜色: 绿色

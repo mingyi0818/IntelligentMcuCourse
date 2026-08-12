@@ -113,10 +113,10 @@
       </ul>
     </div>
 
-    <h2>§38.1 项目需求分析</h2>
+    <h2>38.1 项目需求分析</h2>
     <p>随着城市汽车保有量持续增长，"停车难"已成为智慧交通领域的核心痛点之一。传统停车场依赖人工引导或刷卡进出，无法实时向驾驶员推送空车位分布，导致场内循环找车位、油耗增加、拥堵加剧。本项目面向中小型露天停车场（如写字楼配套、商超外围），设计一套基于 STM32F407VGT6 的智能停车位检测与上报系统，每个车位顶部安装一只 HC-SR04 超声波传感器检测车辆占用状态，并通过 ESP8266 Wi-Fi 模块将空位数据实时上传到云端服务器，驾驶员可通过手机查询实时空位数。</p>
 
-    <h3>§38.1.1 功能需求</h3>
+    <h3>38.1.1 功能需求</h3>
     <ul>
       <li><strong>多车位检测</strong>：支持 4 个车位的占用状态检测，每个车位配置一只 HC-SR04 超声波传感器，安装于车位正上方 1.5 m 高度。</li>
       <li><strong>占用判定</strong>：根据回波距离判定车位状态，距离 &gt;30 cm 判定为"空闲"，距离 &lt;20 cm 判定为"占用"，20~30 cm 之间保持上一状态（滞后判定），避免边界抖动。</li>
@@ -126,7 +126,7 @@
       <li><strong>温度补偿</strong>：可选配 DS18B20 测量环境温度，对超声波声速进行补偿，提升冬季/夏季测距精度。</li>
     </ul>
 
-    <h3>§38.1.2 性能指标</h3>
+    <h3>38.1.2 性能指标</h3>
     <table>
       <thead><tr><th>指标项</th><th>设计目标</th><th>说明</th></tr></thead>
       <tbody>
@@ -140,10 +140,10 @@
       </tbody>
     </table>
 
-    <h3>§38.1.3 停车场场景假设</h3>
+    <h3>38.1.3 停车场场景假设</h3>
     <p>本项目假设停车场为地面露天 4 车位并排布局，车位长 5 m、宽 2.5 m，每个车位顶部正中安装一只 HC-SR04，安装高度 1.5 m（车辆顶棚距传感器约 30~50 cm）。无车时超声波直接打地面，回波距离约为 150 cm；有车时车顶反射，回波距离约为 30~50 cm。传感器之间间隔 2.5 m，避免相邻车位超声波串扰；同时软件采用分时触发方式，进一步杜绝串扰。</p>
 
-    <h2>§38.2 系统架构设计</h2>
+    <h2>38.2 系统架构设计</h2>
     <p>系统采用"主控 + 传感器阵列 + 通信 + 显示"四层架构，主控 STM32F407VGT6 负责 4 路超声波分时触发与回波脉宽测量、车位状态判定、LED 驱动、OLED 刷新、ESP8266 通信全流程控制。</p>
 
     <div class="plantuml-figure">
@@ -189,9 +189,9 @@ MCU ..&gt; DS : 可选 1-Wire
       <li><strong>电源设计</strong>：HC-SR04 工作电流约 15 mA，4 路并发约 60 mA；ESP8266 发射峰值 300 mA；STM32 + OLED 约 50 mA。整机峰值 &lt;500 mA，5V/2A 电源 + AMS1117-3.3 供 STM32 与 ESP8266 逻辑侧。</li>
     </ul>
 
-    <h2>§38.3 硬件设计</h2>
+    <h2>38.3 硬件设计</h2>
 
-    <h3>§38.3.1 BOM 物料清单</h3>
+    <h3>38.3.1 BOM 物料清单</h3>
     <table>
       <thead><tr><th>序号</th><th>元器件</th><th>型号/规格</th><th>数量</th><th>说明</th></tr></thead>
       <tbody>
@@ -212,7 +212,7 @@ MCU ..&gt; DS : 可选 1-Wire
     </table>
     <div class="figure-caption">图 38-2 系统 BOM 物料清单</div>
 
-    <h3>§38.3.2 接线表</h3>
+    <h3>38.3.2 接线表</h3>
     <table>
       <thead><tr><th>STM32 引脚</th><th>外设</th><th>外设引脚</th><th>功能</th></tr></thead>
       <tbody>
@@ -241,9 +241,9 @@ MCU ..&gt; DS : 可选 1-Wire
       <strong>提示：</strong>ESP8266-01S 的 EN/CH_PD 引脚必须通过 10kΩ 电阻上拉到 3.3V，否则模块无法启动。RST 引脚建议也接 10kΩ 上拉，便于 STM32 GPIO 复位。GPIO0 留空（默认烧录模式上电后自动进入工作模式）。ESP8266 的 TXD/RXD 是 3.3V 逻辑电平，可直接与 STM32 相连，但建议串入 100Ω 电阻做限流保护。
     </div>
 
-    <h2>§38.4 超声波测距原理与 STM32 实现原理</h2>
+    <h2>38.4 超声波测距原理与 STM32 实现原理</h2>
 
-    <h3>§38.4.1 HC-SR04 时序与距离公式</h3>
+    <h3>38.4.1 HC-SR04 时序与距离公式</h3>
     <p>HC-SR04 是一款基于 40 kHz 超声波的廉价测距模块，工作电压 5V，包含发射探头、接收探头和信号处理电路。其工作时序如下：</p>
     <ol>
       <li>MCU 给 TRIG 引脚发送至少 10 µs 的高电平脉冲，触发一次测距。</li>
@@ -275,23 +275,23 @@ note over MCU : 距离 d = v·t/2\nv=声速, t=ECHO 高电平脉宽
 </div>
     <div class="figure-caption">图 38-3 HC-SR04 超声波测距时序图</div>
 
-    <h3>§38.4.2 声速温度补偿公式</h3>
-    <h4>§38.4.2.1 声速公式推导</h4>
+    <h3>38.4.2 声速温度补偿公式</h3>
+    <h4>38.4.2.1 声速公式推导</h4>
     <p>声速并非定值，随温度变化显著。0 ℃ 时空气中声速约 331.4 m/s，每升高 1 ℃ 声速增加约 0.6 m/s。工程上常用的温度补偿公式为：</p>
 
     <p>$$v = 331.4 + 0.6 \times T$$</p>
 
-    <h4>§38.4.2.2 距离计算公式</h4>
+    <h4>38.4.2.2 距离计算公式</h4>
     <p>其中 T 为环境温度（℃），v 为声速（m/s）。距离公式为：</p>
 
     <p>$$d = \frac{v \times t}{2} = \frac{(331.4 + 0.6 T) \times t}{2}$$</p>
 
-    <h4>§38.4.2.3 误差分析与 STM32 实现</h4>
+    <h4>38.4.2.3 误差分析与 STM32 实现</h4>
     <p>若未做温度补偿（默认 T=20℃），声速取 343.4 m/s。在 -10℃ 冬季，声速仅 325.4 m/s，误差达 5.2%，因此露天停车场项目强烈建议加温度补偿。STM32 端用定时器输入捕获测得 t（单位 µs），距离（cm）计算公式为：</p>
 
     <p>$$d_{\text{cm}} = \frac{(331.4 + 0.6 T) \times t_{\mu s}}{20000}$$</p>
 
-    <h3>§38.4.3 STM32 定时器输入捕获原理</h3>
+    <h3>38.4.3 STM32 定时器输入捕获原理</h3>
     <p>STM32F407 的通用定时器 TIM2 为 32 位，可挂载 APB1 总线（84 MHz）。配置 TIM2 CH1~CH4 为输入捕获模式，捕获 ECHO 引脚的上升沿和下降沿，两次捕获的时间差即为高电平脉宽 t。具体步骤：</p>
     <ul>
       <li>TIM2 时钟 84 MHz，预分频 83，计数频率 1 MHz，计数周期 1 µs，最大量程 4294 秒（远超 HC-SR04 的 38 ms 量程）。</li>
@@ -302,9 +302,9 @@ note over MCU : 距离 d = v·t/2\nv=声速, t=ECHO 高电平脉宽
 
     <p>本项目为简化实现，采用"主从模式 + 单一通道轮询"方案：每次只触发 1 路 TRIG，等待该路 ECHO 上升沿和下降沿中断，得到脉宽后切换下一路。代码中通过 <code>HAL_TIM_IC_CaptureCallback</code> 回调实现。</p>
 
-    <h2>§38.5 软件架构与关键代码</h2>
+    <h2>38.5 软件架构与关键代码</h2>
 
-    <h3>§38.5.1 任务流程图</h3>
+    <h3>38.5.1 任务流程图</h3>
     <div class="plantuml-figure">
   <img src="../../assets/diagrams/ch38-smart-parking-stm32-fig3.svg" alt="PlantUML 图 3" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
@@ -348,8 +348,8 @@ UPLOAD --&gt; LOOP
 </div>
     <div class="figure-caption">图 38-4 主程序任务流程图</div>
 
-    <h3>§38.5.2 完整 STM32 HAL 库 C 代码</h3>
-    <h4>§38.5.2.1 主程序代码实现</h4>
+    <h3>38.5.2 完整 STM32 HAL 库 C 代码</h3>
+    <h4>38.5.2.1 主程序代码实现</h4>
     <p>下面给出基于 STM32CubeMX 生成的 HAL 库工程的关键源文件 <code>main.c</code>，包含 4 路超声波分时测距、占用判定、LED 控制、OLED 显示、ESP8266 HTTP GET 上传的完整实现。代码可直接在 STM32CubeIDE 编译烧录运行。</p>
 
     <pre><code class="language-c">/* main.c - 智能停车管理系统主程序
@@ -847,7 +847,7 @@ void USART2_IRQHandler(void) {
 }
 </code></pre>
 
-    <h4>§38.5.2.2 工程要点说明</h4>
+    <h4>38.5.2.2 工程要点说明</h4>
     <p>上述代码体现了几个工程要点：</p>
     <ul>
       <li><strong>分时复用避免串扰</strong>：每次只触发 1 路 TRIG，等待该路回波完成后再切换下一路，4 路采样周期 500 ms（单路 60 ms 含超时余量），完全杜绝相邻车位超声波串扰。</li>
@@ -858,9 +858,9 @@ void USART2_IRQHandler(void) {
       <li><strong>printf 调试</strong>：通过 USART1 输出日志，方便开发期通过 USB-TTL 查看运行状态。</li>
     </ul>
 
-    <h2>§38.6 完整工程结构与调试</h2>
+    <h2>38.6 完整工程结构与调试</h2>
 
-    <h3>§38.6.1 CubeMX 配置要点</h3>
+    <h3>38.6.1 CubeMX 配置要点</h3>
     <ul>
       <li><strong>RCC</strong>：HSE 选择 Crystal/Ceramic Resonator（8 MHz 外部晶振），系统时钟配置为 168 MHz（PLL: M=8, N=336, P=2, Q=7），APB1=42 MHz, APB2=84 MHz。</li>
       <li><strong>TIM2</strong>：Clock Source = Internal Clock，Channel1~4 = Input Capture direct mode，Prescaler=83（84 MHz/84=1 MHz，1 µs 分辨率），Counter Period=0xFFFFFFFF（32 位满量程），IC Polarity=Rising Edge，IC Selection=Direct，IC Prescaler=No Division，IC Filter=0。NVIC 中开启 TIM2 global interrupt。</li>
@@ -870,7 +870,7 @@ void USART2_IRQHandler(void) {
       <li><strong>NVIC</strong>：优先级分组 4，TIM2 抢占优先级 1，USART2 抢占优先级 0（确保 AT 响应及时处理）。</li>
     </ul>
 
-    <h3>§38.6.2 工程目录结构</h3>
+    <h3>38.6.2 工程目录结构</h3>
     <pre><code>38-smart-parking/
 ├── Core/
 │   ├── Inc/
@@ -893,7 +893,7 @@ void USART2_IRQHandler(void) {
 └── README.md
 </code></pre>
 
-    <h3>§38.6.3 调试技巧与抗干扰</h3>
+    <h3>38.6.3 调试技巧与抗干扰</h3>
     <ul>
       <li><strong>ECHO 一直为高</strong>：通常是 TRIG 脉冲宽度不足 10 µs，或 74HC138 反相电路未接好，用示波器确认 TRIG 引脚上有完整 10 µs 高电平。</li>
       <li><strong>测距数值跳变</strong>：HC-SR04 接收探头可能受风噪或声学干扰，软件层做 5 次采样取中值滤波；硬件层给探头加海绵罩减小风噪。</li>
@@ -903,7 +903,7 @@ void USART2_IRQHandler(void) {
       <li><strong>多车同时入场漏检</strong>：将采样周期从 500 ms 减为 200 ms，但注意单路触发间隔不能 &lt;60 ms（HC-SR04 内部需要冷却时间）。</li>
     </ul>
 
-    <h2>§38.7 扩展方向</h2>
+    <h2>38.7 扩展方向</h2>
     <ul>
       <li><strong>多楼层联动</strong>：通过 CAN 总线或 RS-485 将多个 STM32 节点（每节点 4~8 车位）连接到主控网关，主控汇总后统一上传，支持大型停车场分层显示。</li>
       <li><strong>车牌识别</strong>：在入口处增加 ESP32-CAM 摄像头模块，识别车牌号并与车位绑定，实现"车辆-车位"映射，便于反向寻车。</li>

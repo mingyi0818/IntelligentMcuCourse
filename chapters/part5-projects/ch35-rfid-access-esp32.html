@@ -113,10 +113,10 @@
       </ul>
     </div>
 
-    <h2>§35.1 项目需求分析</h2>
+    <h2>35.1 项目需求分析</h2>
     <p>门禁系统是智慧安防领域中最基础也是应用最广泛的一类嵌入式终端。本项目基于 ESP32 单片机与 MFRC522 RFID 读卡模块，构建一套具有完整功能的 RFID 智能门禁系统，覆盖从刷卡识别到开门控制、从本地显示到记录存储的完整链路。</p>
 
-    <h3>§35.1.1 功能需求</h3>
+    <h3>35.1.1 功能需求</h3>
     <p>本系统面向小型办公区、实验室、宿舍楼等典型场景，需实现以下功能：</p>
     <ul>
       <li><strong>刷卡识别</strong>：通过 RC522 读卡模块读取 MIFARE Classic 1K 卡的 UID（唯一标识符），与白名单中预存的 UID 进行比对。</li>
@@ -128,7 +128,7 @@
       <li><strong>刷卡记录</strong>：在 ESP32 内存中维护一个环形缓冲区，记录最近 20 条刷卡事件（UID、时间、结果），便于现场排查。</li>
     </ul>
 
-    <h3>§35.1.2 性能指标</h3>
+    <h3>35.1.2 性能指标</h3>
     <table>
       <thead><tr><th>指标项</th><th>目标值</th><th>说明</th></tr></thead>
       <tbody>
@@ -143,10 +143,10 @@
       </tbody>
     </table>
 
-    <h3>§35.1.3 应用场景</h3>
+    <h3>35.1.3 应用场景</h3>
     <p>本系统适用于以下场景：实验室门禁（仅授权人员可进入贵重设备区）、办公室考勤（刷卡记录可作为考勤依据）、宿舍楼门禁（学生卡 UID 录入即可通行）、小区单元门（住户卡授权管理）、机房管理（刷卡进出并形成日志）。在智慧安防体系中，本系统是物联网接入层的典型终端，可与上层管理平台联动形成"云-边-端"三级架构。</p>
 
-    <h2>§35.2 系统架构设计</h2>
+    <h2>35.2 系统架构设计</h2>
     <p>系统采用 ESP32 作为主控，通过 SPI 总线挂载 MFRC522 读卡模块，通过 I²C 总线挂载 OLED 显示屏，通过 GPIO 直接驱动继电器、蜂鸣器与 LED，通过 8 个 GPIO 组成 4×4 矩阵键盘扫描阵列。整体架构如下图所示：</p>
 
     <div class="plantuml-figure">
@@ -194,10 +194,10 @@ RELAY ..&gt; LOCK : 控制
       <li><strong>交互层</strong>：4×4 矩阵键盘作为人机交互入口，提供管理模式切换、新卡录入、密码开门等功能。</li>
     </ul>
 
-    <h2>§35.3 硬件设计</h2>
+    <h2>35.3 硬件设计</h2>
     <p>本系统硬件包括主控板、读卡模块、显示模块、驱动模块、输入模块五大部分。下面分别给出 BOM 清单与接线表。</p>
 
-    <h3>§35.3.1 BOM 清单</h3>
+    <h3>35.3.1 BOM 清单</h3>
     <table>
       <thead><tr><th>序号</th><th>元器件</th><th>型号/规格</th><th>数量</th><th>参考单价/元</th><th>说明</th></tr></thead>
       <tbody>
@@ -215,7 +215,7 @@ RELAY ..&gt; LOCK : 控制
       </tbody>
     </table>
 
-    <h3>§35.3.2 接线表</h3>
+    <h3>35.3.2 接线表</h3>
     <p>RC522 模块通过 SPI 与 ESP32 连接，引脚按任务约定分配如下：</p>
     <table>
       <thead><tr><th>模块</th><th>模块引脚</th><th>ESP32 引脚</th><th>说明</th></tr></thead>
@@ -246,20 +246,20 @@ RELAY ..&gt; LOCK : 控制
       <strong>提示：</strong>ESP32 的 GPIO6~GPIO11 默认连接 Flash，不可作为通用 IO 使用；GPIO0、GPIO2、GPIO12 在上电时会影响启动模式，接线时尽量避免。本设计中所有外设均避开这些引脚。另外 RC522 的 RST 引脚与 OLED 的 SCL 不要复用同一 GPIO，否则会出现复位冲突。
     </div>
 
-    <h3>§35.3.3 电源设计</h3>
+    <h3>35.3.3 电源设计</h3>
     <p>系统需要 12V 与 5V 两路电源：12V 用于驱动电磁锁（0.8A），5V 用于 ESP32 与外设。采用 12V/2A 适配器作为输入，经 LM2596 降压模块输出 5V/3A 给 ESP32 与所有 5V 外设。注意：电磁锁反向并联续流二极管（1N4007），防止继电器断开瞬间反向电动势击穿驱动管。</p>
 
-    <h2>§35.4 RC522 通信协议与卡片原理</h2>
+    <h2>35.4 RC522 通信协议与卡片原理</h2>
     <p>MFRC522 是 NXP（原 Philips）公司推出的高度集成 13.56 MHz 非接触式读写卡芯片，支持 ISO/IEC 14443 Type A 协议，内部集成了模拟调制解调电路、ISO14443 帧处理电路、SPI/I²C/UART 主机接口。理解其通信协议与卡片结构是开发 RFID 应用的基础。</p>
 
-    <h3>§35.4.1 SPI 通信时序</h3>
-    <h4>§35.4.1.1 SPI 传输格式</h4>
+    <h3>35.4.1 SPI 通信时序</h3>
+    <h4>35.4.1.1 SPI 传输格式</h4>
     <p>ESP32 与 RC522 之间通过 SPI 总线通信，工作模式为 SPI Mode 0（CPOL=0, CPHA=0），最大时钟 10 MHz（推荐 2~5 MHz 稳定运行）。每次传输格式如下：</p>
     <ul>
       <li><strong>地址字节</strong>：bit7=0 表示写，bit7=1 表示读；bit6~bit1 为寄存器地址；bit0 固定为 0。</li>
       <li><strong>数据字节</strong>：写操作时跟随待写入数据；读操作时从机回传寄存器当前值。</li>
     </ul>
-    <h4>§35.4.1.2 读写时序示例</h4>
+    <h4>35.4.1.2 读写时序示例</h4>
     <p>典型读寄存器时序：CS 拉低 → 主机发送 0x80|addr → 从机回传数据 → CS 拉高。多字节连续读可用 FIFO 模式：发送首地址后连续读取，地址自动递增。</p>
 
     <div class="plantuml-figure">
@@ -284,8 +284,8 @@ MCU -&gt; RC522 : CS=1
 </div>
     <div class="figure-caption">图 35-2 ESP32 与 MFRC522 的 SPI 读写时序</div>
 
-    <h3>§35.4.2 MIFARE Classic 1K 卡结构</h3>
-    <h4>§35.4.2.1 存储结构总览</h4>
+    <h3>35.4.2 MIFARE Classic 1K 卡结构</h3>
+    <h4>35.4.2.1 存储结构总览</h4>
     <p>本系统使用最通用的 MIFARE Classic 1K 卡，其存储容量为 1024 字节，分为 16 个扇区（Sector 0~15），每个扇区 4 个块（Block 0~3），每块 16 字节。结构如下表：</p>
     <table>
       <thead><tr><th>扇区</th><th>块号</th><th>地址</th><th>用途</th></tr></thead>
@@ -299,7 +299,7 @@ MCU -&gt; RC522 : CS=1
       </tbody>
     </table>
 
-    <h4>§35.4.2.2 关键字段说明</h4>
+    <h4>35.4.2.2 关键字段说明</h4>
     <p>关键字段说明：</p>
     <ul>
       <li><strong>UID（Unique Identifier）</strong>：4 字节唯一标识符，存放在 Sector 0 / Block 0 的前 4 字节，本系统主要使用该字段做白名单比对。注意：MIFARE Classic 1K 卡的 UID 是 4 字节（部分新卡为 7 或 10 字节），可被复制卡克隆，安全等级较低。</li>
@@ -308,8 +308,8 @@ MCU -&gt; RC522 : CS=1
       <li><strong>控制位（Access Bits）</strong>：4 字节，定义该扇区各块的读写权限与密钥 A/B 的访问条件。</li>
     </ul>
 
-    <h3>§35.4.3 UID 读取流程</h3>
-    <h4>§35.4.3.1 寻卡与防冲突流程</h4>
+    <h3>35.4.3 UID 读取流程</h3>
+    <h4>35.4.3.1 寻卡与防冲突流程</h4>
     <p>从卡片靠近到读到 UID 的完整流程，是 ISO/IEC 14443 Type A 协议的典型应用：</p>
     <div class="plantuml-figure">
   <img src="../../assets/diagrams/ch35-rfid-access-esp32-fig3.svg" alt="PlantUML 图 3" class="plantuml-img" loading="lazy" />
@@ -347,10 +347,10 @@ I --&gt; J
 </div>
     <div class="figure-caption">图 35-3 MIFARE Classic 卡 UID 读取流程</div>
 
-    <h4>§35.4.3.2 Arduino API 封装</h4>
+    <h4>35.4.3.2 Arduino API 封装</h4>
     <p>在实际 Arduino 代码中，上述流程被 MFRC522 库封装为 <code>PICC_IsNewCardPresent()</code> 与 <code>PICC_ReadCardSerial()</code> 两个 API，开发者无需关心底层时序。</p>
 
-    <h2>§35.5 软件架构与关键代码</h2>
+    <h2>35.5 软件架构与关键代码</h2>
     <p>软件采用"任务循环 + 状态机"架构：主循环每 50 ms 调用一次 <code>checkCard()</code> 检测新卡，同时调用 <code>scanKeypad()</code> 扫描按键，根据当前模式（待机/管理）分发到不同处理分支。整体流程如下图：</p>
 
     <div class="plantuml-figure">
@@ -395,8 +395,8 @@ DISP --&gt; LOOP
 </div>
     <div class="figure-caption">图 35-4 门禁系统主循环任务流程图</div>
 
-    <h3>§35.5.1 完整 Arduino 代码</h3>
-    <h4>§35.5.1.1 程序结构与依赖</h4>
+    <h3>35.5.1 完整 Arduino 代码</h3>
+    <h4>35.5.1.1 程序结构与依赖</h4>
     <p>下面给出本项目的完整 Arduino C++ 代码，依赖 <code>MFRC522</code>、<code>Wire</code>、<code>Adafruit_SSD1306</code>、<code>Keypad</code>、<code>EEPROM</code> 五个库。代码已通过 Arduino IDE 1.8.19 + ESP32 板卡 2.0.14 编译验证。</p>
 
     <pre><code class="language-cpp">/* ============================================================
@@ -733,7 +733,7 @@ void loop() {
 }
     </code></pre>
 
-    <h4>§35.5.1.2 代码设计要点</h4>
+    <h4>35.5.1.2 代码设计要点</h4>
     <p>上述代码体现了几个工程化设计要点：</p>
     <ul>
       <li><strong>持久化白名单</strong>：使用 <code>EEPROM.read/write/commit</code> 三段式 API，写入后必须 <code>commit()</code> 才能落盘到 Flash；ESP32 的 EEPROM 是用 Flash 模拟的，每次 commit 触发一次 Flash 擦写，应避免高频调用。</li>
@@ -743,7 +743,7 @@ void loop() {
       <li><strong>非阻塞蜂鸣器</strong>：示例中使用 <code>delay()</code> 简化教学，实际工程可用 <code>millis()</code> + 状态机实现非阻塞蜂鸣，避免阻塞主循环。</li>
     </ul>
 
-    <h2>§35.6 完整工程结构与调试</h2>
+    <h2>35.6 完整工程结构与调试</h2>
     <p>完整工程位于 <code>/code/esp32/04-rfid-access/</code>，目录结构如下：</p>
     <pre><code>04-rfid-access/
 ├── rfid_access.ino         # 主程序（本章代码）
@@ -755,7 +755,7 @@ void loop() {
 └── wiring.jpg              # 接线示意图
 </code></pre>
 
-    <h3>§35.6.1 开发环境配置</h3>
+    <h3>35.6.1 开发环境配置</h3>
     <ol>
       <li>安装 Arduino IDE 1.8.19 或更高版本。</li>
       <li>在"首选项→附加开发板管理器网址"中添加 <code>https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json</code>。</li>
@@ -764,7 +764,7 @@ void loop() {
       <li>选择正确的 COM 端口，点击上传即可烧录。</li>
     </ol>
 
-    <h3>§35.6.2 调试技巧</h3>
+    <h3>35.6.2 调试技巧</h3>
     <ul>
       <li><strong>RC522 无响应</strong>：先用万用表测量 3.3V 供电是否正常；再用串口打印 <code>rfid.PCD_DumpVersionToSerial()</code>，若输出 "Version 2.0" 则说明 SPI 通信正常，否则检查 SCK/MISO/MOSI/CS 接线。注意 RC522 必须用 3.3V 供电，5V 可能烧毁。</li>
       <li><strong>读卡不稳定</strong>：降低 SPI 时钟到 2 MHz（<code>SPISettings s(2000000, MSBFIRST, SPI_MODE0)</code>）；缩短 SCK/MISO/MOSI 走线长度；在 SCK 与 GND 之间并联 10 pF 电容抑制高频反射。</li>
@@ -774,36 +774,36 @@ void loop() {
       <li><strong>键盘误触发</strong>：矩阵键盘扫描间隔不应小于 20 ms；薄膜键盘的按键抖动较大，建议在 <code>Keypad</code> 库初始化时设置 <code>setDebounceTime(50)</code>。</li>
     </ul>
 
-    <h3>§35.6.3 串口调试输出</h3>
-    <h4>§35.6.3.1 调试代码添加</h4>
+    <h3>35.6.3 串口调试输出</h3>
+    <h4>35.6.3.1 调试代码添加</h4>
     <p>开发阶段建议在 <code>checkCard()</code> 中加入串口打印，便于定位问题：</p>
     <pre><code class="language-cpp">Serial.printf("[RFID] UID len=%d: ", len);
 for (uint8_t i = 0; i &lt; len; i++)
   Serial.printf("%02X ", uid[i]);
 Serial.printf(" =&gt; %s\n", found ? "ALLOW" : "DENY");
     </code></pre>
-    <h4>§35.6.3.2 典型输出示例</h4>
+    <h4>35.6.3.2 典型输出示例</h4>
     <p>典型输出示例：</p>
     <pre><code>[RFID] UID len=4: DE AD BE EF  =&gt; ALLOW
 [RFID] UID len=4: 12 34 56 78  =&gt; DENY
     </code></pre>
 
-    <h2>§35.7 扩展方向</h2>
+    <h2>35.7 扩展方向</h2>
     <p>本项目作为教学示例，仅实现了门禁系统的核心功能。在实际工程中，可沿以下方向扩展：</p>
 
-    <h3>§35.7.1 联网门禁与云端管理</h3>
+    <h3>35.7.1 联网门禁与云端管理</h3>
     <p>利用 ESP32 内置 WiFi 接入局域网，通过 MQTT 协议将刷卡事件实时上报到 Home Assistant、ThingsBoard 或自建后端服务器，实现远程白名单下发、刷卡记录查询、远程开门等管理功能。这种"端-边-云"架构是智慧安防的主流方案，可用 <code>PubSubClient</code> 库实现 MQTT 客户端。</p>
 
-    <h3>§35.7.2 人脸识别联动</h3>
+    <h3>35.7.2 人脸识别联动</h3>
     <p>ESP32 的算力有限，可外接 ESP32-CAM 模块进行人脸检测，或采用"刷卡+人脸"双重认证机制：先刷卡激活人脸识别流程，识别通过后再开门。这种"卡片+生物特征"的多因子认证可大幅提升安全性，是高安全等级场景的标配。</p>
 
-    <h3>§35.7.3 防复制卡</h3>
+    <h3>35.7.3 防复制卡</h3>
     <p>MIFARE Classic 1K 的 UID 可被 UID 复制卡克隆，安全性较低。可升级到 MIFARE DESFire EV1/EV2 卡，其支持 AES-128 加密与动态密钥协商，UID 无法被简单克隆；或在软件层做"卡片+密码"双因子认证（读 UID 同时读扇区数据，并比对预存密文）。</p>
 
-    <h3>§35.7.4 考勤系统</h3>
+    <h3>35.7.4 考勤系统</h3>
     <p>在刷卡记录基础上加入 NTP 时间同步，每条记录带绝对时间戳；通过 WiFi 上传到云端数据库，配合后端报表系统即可形成完整考勤管理平台。可参考 GB/T 21739—2008《电梯曳引机》等国家标准中的安防数据保留要求，记录至少保留 180 天。</p>
 
-    <h3>§35.7.5 低功耗优化</h3>
+    <h3>35.7.5 低功耗优化</h3>
     <p>对于电池供电场景，可让 ESP32 进入 Deep Sleep 模式，由 RC522 的 IRQ 引脚唤醒（卡片靠近时 RC522 拉低 IRQ）。实测待机电流可从 80 mA 降至 5 mA 以下，配合 2000 mAh 锂电池可续航一周以上。</p>
 
     <div class="summary">
