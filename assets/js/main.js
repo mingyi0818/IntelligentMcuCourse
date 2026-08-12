@@ -449,6 +449,76 @@
     updateActive();
   }
 
+  // ---------- 章节详情页滚动揭示动画 ----------
+  // 为 .content 内的主要块级元素自动添加 .reveal 类，滚动到视口时加 .revealed
+  function initRevealOnScroll() {
+    // 仅在非主页生效
+    if (document.body.classList.contains('home')) return;
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // 选取需要揭示动画的元素：h2、h3、p、pre、table、图块、提示框、章节盒子
+    var selectors = [
+      '.content > h2',
+      '.content > h3',
+      '.content > p',
+      '.content > pre',
+      '.content > .code-block-wrapper',
+      '.content > table',
+      '.content > .tip',
+      '.content > .note',
+      '.content > .warning',
+      '.content > .objectives',
+      '.content > .summary',
+      '.content > .exercises',
+      '.content > .references',
+      '.content > blockquote',
+      '.content > ul',
+      '.content > ol',
+      '.content > .mermaid'
+    ];
+    var elements = [];
+    selectors.forEach(function (sel) {
+      document.querySelectorAll(sel).forEach(function (el) {
+        // 跳过已经在视口顶部的首屏元素（h1 + 第一个 h2/p）避免首屏空白
+        elements.push(el);
+      });
+    });
+
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      elements.forEach(function (el) { el.classList.add('reveal', 'revealed'); });
+      return;
+    }
+
+    // 首屏可见的元素直接显示（避免页面顶部空白）
+    var viewportH = window.innerHeight;
+    elements.forEach(function (el) {
+      var rect = el.getBoundingClientRect();
+      el.classList.add('reveal');
+      if (rect.top < viewportH * 0.6) {
+        // 首屏元素延迟一点点显示，避免突兀
+        el.classList.add('revealed');
+      }
+    });
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e, idx) {
+        if (e.isIntersecting) {
+          // 微小错峰延迟，让相邻元素依次出现
+          setTimeout(function () {
+            e.target.classList.add('revealed');
+          }, idx * 40);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+    elements.forEach(function (el) {
+      if (!el.classList.contains('revealed')) {
+        io.observe(el);
+      }
+    });
+  }
+
   // ---------- 初始化 ----------
   document.addEventListener('DOMContentLoaded', function () {
     initNavToggle();
@@ -459,5 +529,6 @@
     highlightCurrentLink();
     scrollSidebarToActive();
     initScrollSpy();       // 滚动监听，动态切换 active
+    initRevealOnScroll();  // 章节详情页滚动揭示动画
   });
 })();

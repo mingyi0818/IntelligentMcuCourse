@@ -813,3 +813,231 @@ table {
   pre, table, .mermaid { page-break-inside: avoid; }
   a { color: #000; text-decoration: underline; }
 }
+
+/* ==========================================================================
+   章节详情页视觉增强（仅作用于非主页 body:not(.home)）
+   - h1 渐变下划线 + 副标题装饰
+   - h2/h3 左侧色条 + 入场强调
+   - 代码块悬浮抬升 + 顶部彩条
+   - 表格行交错色 + hover 高亮
+   - 提示框左侧动画条
+   - 学习目标 / 小结 / 习题 / 参考文献盒子顶部彩条
+   - 章节导航按钮化
+   - 元素滚动揭示（配合 main.js 中 .reveal 类）
+   ========================================================================== */
+body:not(.home) .content {
+  position: relative;
+}
+
+/* h1 渐变下划线 + 淡入 */
+body:not(.home) .content > h1 {
+  border-bottom: 3px solid transparent;
+  border-image: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-light) 50%, transparent 100%) 1;
+  background-image: linear-gradient(90deg, var(--color-primary-dark), var(--color-primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding-bottom: 0.35em;
+}
+
+/* h2 左侧渐变色条 + hover 微动 */
+body:not(.home) .content h2 {
+  position: relative;
+  padding-left: 0.8em;
+  border-bottom: 1px solid var(--color-border);
+}
+body:not(.home) .content h2::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.1em;
+  width: 5px; height: 1.1em;
+  background: linear-gradient(180deg, var(--color-primary-light), var(--color-primary));
+  border-radius: 3px;
+  transition: height 0.25s ease, transform 0.25s ease;
+}
+body:not(.home) .content h2:hover::before {
+  height: 1.4em;
+  transform: scaleY(1.05);
+}
+
+/* h3 左侧小色点 */
+body:not(.home) .content h3 {
+  position: relative;
+  padding-left: 0.7em;
+}
+body:not(.home) .content h3::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 50%;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--color-primary-light);
+  transform: translateY(-50%);
+  box-shadow: 0 0 0 3px rgba(82, 183, 136, 0.18);
+}
+
+/* 代码块：顶部彩条 + hover 抬升 */
+body:not(.home) pre[class*="language-"] {
+  border-top: 3px solid var(--color-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+body:not(.home) pre[class*="language-"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+body:not(.home) pre[class*="language-"]:hover .copy-btn {
+  opacity: 1;
+}
+
+/* 表格行交错色 + hover 高亮 */
+body:not(.home) table tbody tr:nth-child(even) {
+  background: rgba(45, 106, 79, 0.03);
+}
+body:not(.home) table tbody tr {
+  transition: background 0.15s ease;
+}
+body:not(.home) table tbody tr:hover {
+  background: rgba(82, 183, 136, 0.12);
+}
+
+/* 提示框：左侧动画条 + 图标点缀 */
+body:not(.home) .tip,
+body:not(.home) .note,
+body:not(.home) .warning {
+  position: relative;
+  overflow: hidden;
+}
+body:not(.home) .tip::before,
+body:not(.home) .note::before,
+body:not(.home) .warning::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, currentColor 0%, transparent 100%);
+  opacity: 0.6;
+}
+body:not(.home) .tip::before { color: var(--color-primary-light); }
+body:not(.home) .note::before { color: var(--color-tip); }
+body:not(.home) .warning::before { color: var(--color-warning); }
+
+/* 学习目标 / 小结 / 习题 / 参考文献盒子：顶部彩条 */
+body:not(.home) .objectives,
+body:not(.home) .summary,
+body:not(.home) .exercises,
+body:not(.home) .references {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+body:not(.home) .objectives::after,
+body:not(.home) .summary::after,
+body:not(.home) .exercises::after,
+body:not(.home) .references::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-light) 50%, transparent 100%);
+}
+body:not(.home) .objectives:hover,
+body:not(.home) .summary:hover,
+body:not(.home) .exercises:hover,
+body:not(.home) .references:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* 章节导航按钮化 */
+body:not(.home) .chapter-nav {
+  margin-top: 2.5em;
+  padding-top: 1.5em;
+  border-top: 1px dashed var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+  flex-wrap: wrap;
+}
+body:not(.home) .chapter-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.6em 1.2em;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+body:not(.home) .chapter-nav a:hover {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(45, 106, 79, 0.2);
+  text-decoration: none;
+}
+body:not(.home) .chapter-nav a.home {
+  background: var(--color-bg);
+  color: var(--color-primary-dark);
+}
+
+/* 滚动揭示动画：配合 main.js 中 .reveal 类 */
+body:not(.home) .reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+body:not(.home) .reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 面包屑：当前页加粗 + 分隔符样式 */
+body:not(.home) .breadcrumb {
+  padding: 0.6em 1em;
+  background: var(--color-surface);
+  border-radius: 6px;
+  border-left: 3px solid var(--color-primary-light);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 链接 hover 加下划线动画 */
+body:not(.home) .content p a,
+body:not(.home) .content li a {
+  position: relative;
+  text-decoration: none;
+}
+body:not(.home) .content p a::after,
+body:not(.home) .content li a::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -2px;
+  width: 0; height: 1px;
+  background: var(--color-primary);
+  transition: width 0.25s ease;
+}
+body:not(.home) .content p a:hover::after,
+body:not(.home) .content li a:hover::after {
+  width: 100%;
+}
+
+/* 减少动画偏好：禁用所有增强动画 */
+@media (prefers-reduced-motion: reduce) {
+  body:not(.home) .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  body:not(.home) pre[class*="language-"]:hover,
+  body:not(.home) .objectives:hover,
+  body:not(.home) .summary:hover,
+  body:not(.home) .exercises:hover,
+  body:not(.home) .references:hover,
+  body:not(.home) .chapter-nav a:hover {
+    transform: none !important;
+  }
+}

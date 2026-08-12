@@ -206,6 +206,12 @@
     body.home .toc-card-body a:hover .ch-num { color: #166534; }
 
     /* 6. 快速入口卡片美化 */
+    /* 固定每行 3 块，宽度随分辨率自适应（覆盖 style.css 的 auto-fit 设置） */
+    body.home .quick-links {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1em;
+    }
     body.home .quick-link {
       position: relative;
       overflow: hidden;
@@ -311,6 +317,11 @@
       body.home .stat-item { border-right: none; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.6em; }
       body.home .toc-grid { grid-template-columns: 1fr; }
       body.home .team-card { flex-direction: column; text-align: center; }
+      /* 窄屏快速入口改为 2 列，避免每块过窄 */
+      body.home .quick-links { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      body.home .quick-links { grid-template-columns: 1fr; }
     }
 
     /* 11. 动态欢迎动画效果 */
@@ -351,6 +362,8 @@
       vertical-align: text-bottom;
       animation: blink 0.8s steps(2) infinite;
     }
+    /* 打字结束后隐藏光标 */
+    body.home .subtitle.typing-done .cursor { display: none; }
     @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
 
     /* 11.4 入场动画 */
@@ -361,7 +374,6 @@
     body.home .section-title,
     body.home .intro-text,
     body.home .quick-links,
-    body.home .toc-grid,
     body.home .info-grid,
     body.home .team-card {
       opacity: 0;
@@ -426,8 +438,12 @@
       body.home .hero h1,
       body.home .hero,
       body.home .hero .badge,
-      body.home .subtitle .cursor {
+      body.home .subtitle .cursor,
+      body.home .toc-card,
+      body.home .toc-card-header,
+      body.home .toc-card-body a {
         animation: none !important;
+        transition: none !important;
       }
       body.home .hero h1,
       body.home .hero .meta,
@@ -436,12 +452,97 @@
       body.home .section-title,
       body.home .intro-text,
       body.home .quick-links,
-      body.home .toc-grid,
       body.home .info-grid,
-      body.home .team-card {
+      body.home .team-card,
+      body.home .toc-card {
         opacity: 1 !important;
         transform: none !important;
       }
+    }
+
+    /* 11.10 课程目录动画：卡片错峰淡入 + 3D 悬停 + 头部流光 + 链接指示条 */
+    /* 卡片初始隐藏，滚动到视口时添加 .visible 触发动画 */
+    body.home .toc-grid { perspective: 1200px; }
+    body.home .toc-card {
+      opacity: 0;
+      transform: translateY(36px) rotateX(-8deg);
+      transform-origin: center top;
+      transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.25s ease, translate 0.25s ease;
+      will-change: transform, opacity;
+    }
+    body.home .toc-card.visible {
+      opacity: 1;
+      transform: translateY(0) rotateX(0);
+    }
+    /* 同行卡片错峰延迟（每行最多 3 列） */
+    body.home .toc-card.visible:nth-child(3n+2) { transition-delay: 0.12s; }
+    body.home .toc-card.visible:nth-child(3n+3) { transition-delay: 0.24s; }
+    body.home .toc-card.visible:nth-child(3n+1):not(:nth-child(1)) { transition-delay: 0.06s; }
+
+    /* hover 增强：轻微抬起 + 阴影加深 + 头部光泽 */
+    body.home .toc-card:hover {
+      transform: translateY(-6px) rotateX(2deg);
+      box-shadow: 0 18px 40px rgba(15, 81, 50, 0.18);
+    }
+    body.home .toc-card:hover .toc-card-header {
+      filter: brightness(1.08);
+    }
+    body.home .toc-card:hover .toc-card-body a {
+      /* hover 卡片时链接颜色略微加深 */
+      color: #1f2937;
+    }
+
+    /* 头部流光：从左到右扫过的高光带 */
+    body.home .toc-card-header {
+      position: relative;
+      overflow: hidden;
+    }
+    body.home .toc-card-header::before {
+      content: "";
+      position: absolute;
+      top: 0; left: -120%;
+      width: 60%; height: 100%;
+      background: linear-gradient(
+        100deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0) 40%,
+        rgba(255, 255, 255, 0.35) 50%,
+        rgba(255, 255, 255, 0) 60%,
+        transparent 100%
+      );
+      transform: skewX(-20deg);
+      transition: left 0.7s ease;
+      pointer-events: none;
+    }
+    body.home .toc-card:hover .toc-card-header::before {
+      left: 130%;
+    }
+
+    /* 章节链接：左侧指示条由上向下展开 + 文字轻微右移 */
+    body.home .toc-card-body a {
+      position: relative;
+      overflow: hidden;
+    }
+    body.home .toc-card-body a::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 50%;
+      width: 3px; height: 0;
+      background: linear-gradient(180deg, #22c55e, #166534);
+      border-radius: 0 3px 3px 0;
+      transform: translateY(-50%);
+      transition: height 0.25s ease;
+    }
+    body.home .toc-card-body a:hover::before {
+      height: 70%;
+    }
+    body.home .toc-card-body a:hover {
+      background: #f0fdf4;
+      color: #14532d;
+      text-decoration: none;
+      transform: translateX(4px);
+      border-left-color: transparent; /* 用 ::before 替代原 border-left 指示条 */
     }
   </style>
 </head>
@@ -468,7 +569,7 @@
   <div class="particles" id="hero-particles" aria-hidden="true"></div>
   <h1>单片机原理及应用</h1>
   <div class="subtitle"><span id="typewriter">从 8 位到 32 位 · 从裸机到 RTOS · 从工具链到 AI 辅助开发</span><span class="cursor" aria-hidden="true"></span></div>
-  <div class="meta">嘉应学院 计算机学院 · 智慧课程在线教程</div>
+  <div class="meta">嘉应学院 计算机学院 物联网工程系 · 智慧课程在线教程</div>
   <div class="badges">
     <span class="badge">MCS-51 基础</span>
     <span class="badge">STC 实战</span>
@@ -685,7 +786,7 @@
     </div>
     <div class="info-card">
       <div class="ic-label">开课单位</div>
-      <div class="ic-value">嘉应学院计算机学院</div>
+      <div class="ic-value">嘉应学院 计算机学院 物联网工程系</div>
     </div>
     <div class="info-card">
       <div class="ic-label">学时安排</div>
@@ -768,6 +869,7 @@
     var full = el.textContent;
     if (reduceMotion) { return; } // 保留原文
     el.textContent = '';
+    var subtitle = el.parentElement;
     // 等 h1 入场动画基本结束后开始
     setTimeout(function () {
       var i = 0;
@@ -775,7 +877,12 @@
         if (i <= full.length) {
           el.textContent = full.slice(0, i);
           i++;
-          setTimeout(type, 55);
+          if (i > full.length) {
+            // 打字结束，隐藏光标
+            subtitle.classList.add('typing-done');
+          } else {
+            setTimeout(type, 55);
+          }
         }
       })();
     }, 500);
@@ -825,10 +932,30 @@
     requestAnimationFrame(step);
   }
 
+  /* ---------- 4. 课程目录卡片：滚动到视口时错峰淡入 ---------- */
+  function initTocCards() {
+    var cards = document.querySelectorAll('.toc-card');
+    if (!cards.length) return;
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      cards.forEach(function (c) { c.classList.add('visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    cards.forEach(function (c) { io.observe(c); });
+  }
+
   function init() {
     initParticles();
     initTypewriter();
     initCountUp();
+    initTocCards();
   }
 
   if (document.readyState === 'loading') {
