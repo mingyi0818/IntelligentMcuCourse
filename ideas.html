@@ -269,7 +269,7 @@
       <h1>应用创意</h1>
       <p>基于单片机与嵌入式技术的大学生创新创业项目实现思路</p>
       <div>
-        <span class="tag">213+ 项目灵感</span>
+        <span class="tag">78+ 项目灵感</span>
         <span class="tag">11 个分类</span>
         <span class="tag">含 LoRa / NB-IoT 项目</span>
         <span class="tag">梅州本地特色</span>
@@ -305,7 +305,7 @@
         <!-- ===================== 1. 智能家居类 ===================== -->
         <section id="sec-1" class="idea-cat">
           <button class="cat-header open">
-            <span>一、智能家居类 <span class="cat-count">（精选 5 项）</span></span>
+            <span>一、智能家居类 <span class="cat-count">（10 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
@@ -567,12 +567,211 @@ stm --&gt; cam : UART
             </div>
 
           </div>
-        </section>
+        
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">AI暖巢——独居老人智能生活助手</span>
+              <span class="ph-meta"><span>主控：STM32F407 + ESP32</span><span>通信：WiFi + 蓝牙BLE</span><span>难度：★★★★☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card blue">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32F407主控 + MPU6050六轴加速度/陀螺仪 + MAX30102血氧心率 + LD3320语音 + 蜂鸣器/继电器 + ESP32(WiFi)<br>
+                  <strong>实现方案</strong>：方案A：STM32通过MPU6050采集三轴加速度+角速度，基于阈值/姿态角判定跌倒（阈值法+短时能量窗），触发后MAX30102同时采集心率。ESP32上传到OneNET并通过MQTT推送到家属微信小程序。方案B：语音交互使用LD3320识别“求助”“吃药提醒”指令；增加BH1750自动控制灯光，DHT22控制风扇/加湿器。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32</span><span class="ic-tag">ESP32</span><span class="ic-tag">MQTT</span><span class="ic-tag">语音</span><span class="ic-tag">跌倒检测</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig1.svg" alt="PlantUML 图 1" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "主控MCU\nSTM32F407" as n0
+rectangle "IMU姿态\nMPU6050" as n1
+rectangle "血氧心率\nMAX30102" as n2
+rectangle "语音识别\nLD3320" as n3
+rectangle "WiFi模块\nESP32" as n4
+rectangle "环境传感\nBH1750+DHT22" as n5
+rectangle "执行器\n灯光/风扇/报警" as n6
+rectangle "云+端\nOneNET/MQTT" as n7
+rectangle "家属端\n微信小程序" as n8
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+n5 --&gt; n6
+n6 --&gt; n7
+n7 --&gt; n8
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">浴室安全监测与知识娱乐镜</span>
+              <span class="ph-meta"><span>主控：ESP32-S3</span><span>通信：WiFi + 蓝牙BLE</span><span>难度：★★★★☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card green">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：ESP32-S3 + OV2640摄像头 + HC-SR501人体红外 + DS18B20水温 + 水位传感器 + 半透镜子显示屏 + 蜂鸣器<br>
+                  <strong>实现方案</strong>：方案A：ESP32-S3运行TinyML的人体姿态识别模型，检测到浴室跌倒时通过WiFi推送家人。DS18B20监测水温异常，HC-SR501夜间感应自动补光。方案B：增加镜面LCD显示天气/新闻，按键切换“娱乐”“新闻”“养生知识”三档内容，BLE连接手机听音乐。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">ESP32-S3</span><span class="ic-tag">摄像头</span><span class="ic-tag">跌倒检测</span><span class="ic-tag">人体感应</span><span class="ic-tag">魔镜</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig2.svg" alt="PlantUML 图 2" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "主控\nESP32-S3" as n0
+rectangle "摄像头\nOV2640" as n1
+rectangle "人体感应\nHC-SR501" as n2
+rectangle "水温/水位\nDS18B20+液位" as n3
+rectangle "执行器\n灯光/报警" as n4
+rectangle "显示\n镜面LCD" as n5
+rectangle "通信\nWiFi/BLE" as n6
+rectangle "家人推送\nMQTT/微信" as n7
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+n5 --&gt; n6
+n6 --&gt; n7
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">智能语音浴室系统</span>
+              <span class="ph-meta"><span>主控：STM32F103 + ESP32</span><span>通信：WiFi + 语音</span><span>难度：★★★☆☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card orange">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32F103 + LD3320语音 + DS18B20水温 + 继电器控制浴霸/热水器/排气扇 + ESP32(WiFi)+0.96"OLED<br>
+                  <strong>实现方案</strong>：方案A：LD3320离线识别“开浴霸/调温/关热水器/换气”指令，STM32驱动继电器；DS18B20做水温阈值保护超温。方案B：ESP32接入小爱同学/天猫精灵API，手机语音远场控制浴室设备。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32</span><span class="ic-tag">LD3320</span><span class="ic-tag">ESP32</span><span class="ic-tag">热水器</span><span class="ic-tag">浴霸控制</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig3.svg" alt="PlantUML 图 3" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "语音\nLD3320" as n0
+rectangle "MCU\nSTM32F103" as n1
+rectangle "继电器组\n浴霸/热水器/排气" as n2
+rectangle "传感\nDS18B20" as n3
+rectangle "显示\nOLED" as n4
+rectangle "WiFi\nESP32" as n5
+rectangle "音箱\n小爱/天猫精灵" as n6
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+n5 --&gt; n6
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">指掌乾坤——多功能集成小键盘</span>
+              <span class="ph-meta"><span>主控：STM32F103/RP2040</span><span>通信：USB + 蓝牙/2.4G</span><span>难度：★★★☆☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card purple">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32F103 / RP2040 + CH9350/KC868 USB HID芯片 + NRF24L01无线 + 旋转编码器EC11 + WS2812 RGB轴灯 + OLED<br>
+                  <strong>实现方案</strong>：方案A：STM32F103扫描键盘矩阵（N-key rollover），通过CH9350或USB HID枚举发送按键码；EC11做音量/图层，WS2812做RGB光效。方案B：RP2040 + QMK固件实现全键可编程，NRF24L01实现2.4G无线模式，蓝牙可切换有线/无线双模。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32F103</span><span class="ic-tag">RP2040</span><span class="ic-tag">机械键盘</span><span class="ic-tag">USB HID</span><span class="ic-tag">旋钮</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig4.svg" alt="PlantUML 图 4" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "主控\nSTM32/RP2040" as n0
+rectangle "轴体\n机械键轴" as n1
+rectangle "RGB\nWS2812" as n2
+rectangle "旋钮\nEC11" as n3
+rectangle "USB\nCH9350或原生USB" as n4
+rectangle "无线\nNRF24+蓝牙" as n5
+rectangle "显示\nOLED" as n6
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+n5 --&gt; n6
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">E-dog伴侣者——基于AI大模型的仿生交互桌宠</span>
+              <span class="ph-meta"><span>主控：ESP32-S3 + N100小主机</span><span>通信：WiFi + 语音 + 舵机</span><span>难度：★★★★☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card red">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：ESP32-S3 + MG90S舵机x3（摇头/耳朵/尾巴） + 扬声器+MAX98357 + INMP441麦克风 + 1.54"LCD + 小主机（本地LLM）<br>
+                  <strong>实现方案</strong>：方案A：ESP32-S3采集INMP441音频I2S发送给小主机，小主机调用Qwen/LLaMA大模型，TTS后通过MAX98357播放；同时控制3个舵机表演表情。方案B：接入云端GPT API，简化本地硬件，ESP32-S3独立驱动LCD显示桌宠静态表情+WiFi请求。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">ESP32-S3</span><span class="ic-tag">大模型API</span><span class="ic-tag">语音交互</span><span class="ic-tag">舵机表演</span><span class="ic-tag">桌宠</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig5.svg" alt="PlantUML 图 5" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "主控\nESP32-S3" as n0
+rectangle "微型主机\n本地LLM" as n1
+rectangle "音频IO\nINMP441+MAX98357" as n2
+rectangle "舵机\nx3摇头/耳朵/尾巴" as n3
+rectangle "显示\n1.54"LCD" as n4
+rectangle "对话\n大模型API/TTS" as n5
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+</section>
 
         <!-- ===================== 2. 智慧农业类 ===================== -->
         <section id="sec-2" class="idea-cat">
           <button class="cat-header open">
-            <span>二、智慧农业类 <span class="cat-count">（精选 6 项，含梅州金柚特色）</span></span>
+            <span>二、智慧农业类 <span class="cat-count">（11 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
@@ -885,12 +1084,207 @@ stm --&gt; radio : 数传
             </div>
 
           </div>
-        </section>
+        
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">农瞳——基于红外边缘计算的农田病害智能预警系统</span>
+              <span class="ph-meta"><span>主控：STM32MP157 + H7</span><span>通信：LoRa + WiFi4G</span><span>难度：★★★★☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card teal">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32MP157A开发板 + OV5640摄像头 + MLX90614红外测温 + SX1262 LoRa + EC20 4G模块 + 太阳能板+锂电池<br>
+                  <strong>实现方案</strong>：方案A：STM32MP157部署量化MobileNetV2病害识别（9类柚子/水稻病害），A7跑TFLite推理，M4内核负责MLX90614采集叶温并上传；LoRa汇聚多点节点，4G推到云。方案B：用云端GPU模型替代边缘推理，仅STM32H7采集图像上传MLX90614叶温做比对。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32MP1</span><span class="ic-tag">边缘推理</span><span class="ic-tag">LoRa</span><span class="ic-tag">摄像头</span><span class="ic-tag">病害识别</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig6.svg" alt="PlantUML 图 6" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "MPU\nSTM32MP157" as n0
+rectangle "相机\nOV5640" as n1
+rectangle "测温\nMLX90614" as n2
+rectangle "远距LoRa\nSX1262" as n3
+rectangle "广域网\n4G EC20" as n4
+rectangle "供电\n太阳能+锂电" as n5
+rectangle "病害识别\nTFLite推理" as n6
+rectangle "云端\n告警推送" as n7
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+n5 --&gt; n6
+n6 --&gt; n7
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">基于边缘计算的柚园关键信息提取与应用</span>
+              <span class="ph-meta"><span>主控：STM32H743 + ESP32</span><span>通信：LoRa + WiFi</span><span>难度：★★★★☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card blue">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32H743 + CAM摄像头模块 + 土壤温湿度/EC + 光照BH1750 + SX1278(SPI) + ESP32(上传云) + 太阳能<br>
+                  <strong>实现方案</strong>：方案A：H7捕获柚树NDVI双波段图像，运行Sobel+OTSU边缘计算定位缺素/裂果，LoRa把柚园每个节点数据汇聚网关。方案B：用气象站SHT30+风速+雨量综合，建立柚子含糖量预测模型。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32H7</span><span class="ic-tag">边缘计算</span><span class="ic-tag">LoRa</span><span class="ic-tag">金柚</span><span class="ic-tag">★梅州特色</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig7.svg" alt="PlantUML 图 7" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "节点MCU\nSTM32H743" as n0
+rectangle "图像\nCAM" as n1
+rectangle "土壤\nEC/温湿" as n2
+rectangle "气象站\nSHT30/BH1750" as n3
+rectangle "LoRa\nSX1278" as n4
+rectangle "网关\nESP32" as n5
+rectangle "云\nOneNET/阿里云" as n6
+rectangle "供电\n太阳能" as n7
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+n5 --&gt; n6
+n6 --&gt; n7
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">基于物联网的智能蔬菜大棚</span>
+              <span class="ph-meta"><span>主控：STM32F103 + ESP32</span><span>通信：WiFi + RS485</span><span>难度：★★★☆☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card green">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32F103 + SHT30 + BH1750 + 土壤EC + DS18B20 + RS485主从 + 继电器(卷帘电机/水泵/通风) + ESP32<br>
+                  <strong>实现方案</strong>：方案A：单棚内RS485布4~8个STM32F103从机采集，1个ESP32主机Modbus轮询并上传阿里云；设定阈值自动卷膜/灌溉/补光。方案B：用NB-IoT BC95替代ESP32，适合无WiFi的乡村大棚。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32F103</span><span class="ic-tag">ESP32</span><span class="ic-tag">温湿度</span><span class="ic-tag">卷帘</span><span class="ic-tag">灌溉</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig8.svg" alt="PlantUML 图 8" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "从机MCU\nSTM32F103(xN)" as n0
+rectangle "主机网关\nESP32/BC95" as n1
+rectangle "通信\nRS485+WiFi/NB" as n2
+rectangle "传感\nSHT30/BH1750/EC/DS18B20" as n3
+rectangle "执行\n卷帘/灌溉/通风/补光" as n4
+rectangle "云\n阿里云/OneNET" as n5
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">面向小型农户的农作业模块与系统</span>
+              <span class="ph-meta"><span>主控：STC89C52 / STM32</span><span>通信：LoRa + OLED</span><span>难度：★★★☆☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card orange">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STC89C52核心板 + 土壤湿度 + 继电器(电磁阀) + NRF24L01/SX1278 LoRa可选 + OLED显示 + 4*4矩阵键<br>
+                  <strong>实现方案</strong>：方案A：入门版用STC89C52+LCD1602，按键设置浇灌时长，适合教学。方案B：STM32+LoRa构建模块化“传感/控制/电源/通信”4块标准板，农户按地块选择组合。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STC89</span><span class="ic-tag">STM32</span><span class="ic-tag">模块化</span><span class="ic-tag">LoRa</span><span class="ic-tag">低功耗</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig9.svg" alt="PlantUML 图 9" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "传感模块\n土壤/温湿" as n0
+rectangle "控制模块\n电磁阀" as n1
+rectangle "通信模块\nLoRa/NRF24L01" as n2
+rectangle "主控\nSTC89/STM32" as n3
+rectangle "显示\nLCD1602/OLED" as n4
+rectangle "交互\n矩阵键盘" as n5
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">自适应巡航鱼饲料投料船</span>
+              <span class="ph-meta"><span>主控：STM32F407</span><span>通信：LoRa + GPS</span><span>难度：★★★★☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card purple">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32F407 + ATGM336H(GPS/北斗) + NEO-6M备用 + 双电机L298N推进 + 舵机方向 + 下料步进电机28BYJ48 + SX1278 LoRa遥控<br>
+                  <strong>实现方案</strong>：方案A：GPS航点巡航模式——上位机在地图上设定5~8个投料点，LoRa下发，船按顺序巡航到点下料并回航。方案B：遥控模式用LoRa手持终端手动操作，适合鱼塘死角应急。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32F407</span><span class="ic-tag">GPS</span><span class="ic-tag">遥控船</span><span class="ic-tag">下料机构</span><span class="ic-tag">巡航</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig10.svg" alt="PlantUML 图 10" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "主控\nSTM32F407" as n0
+rectangle "GPS/BD\nATGM336H" as n1
+rectangle "推进\nL298N+电机" as n2
+rectangle "转向\n舵机" as n3
+rectangle "下料\n28BYJ48+料斗" as n4
+rectangle "通信\nLoRa SX1278" as n5
+rectangle "手持终端\nSTM32+摇杆/SX1278" as n6
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+n5 --&gt; n6
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+</section>
 
         <!-- ===================== 3. 环境监测类 ===================== -->
         <section id="sec-3" class="idea-cat">
           <button class="cat-header open">
-            <span>三、环境监测类 <span class="cat-count">（精选 4 项）</span></span>
+            <span>三、环境监测类 <span class="cat-count">（7 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
@@ -1094,12 +1488,129 @@ radio --&gt; ground : 水质反演
             </div>
 
           </div>
-        </section>
+        
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">高速公路坍塌检测与预警系统</span>
+              <span class="ph-meta"><span>主控：STM32H7 + LoRa/NB-IoT</span><span>通信：LoRa + NB-IoT</span><span>难度：★★★★★</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card red">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32H743 + MPU6050六轴 + ADXL355高精度加速度 + SX1262 LoRa + BC95 NB-IoT + 压电薄膜振动传感 + 太阳能<br>
+                  <strong>实现方案</strong>：方案A：每30米1节点，H7采集加速度FFT分析振动特征，斜率超限或角度突变时通过LoRa汇聚，并由NB-IoT直接上云推送到路政系统。方案B：仅NB-IoT独立节点部署（不做LoRa汇聚），适合预算有限的短路段。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32H7</span><span class="ic-tag">加速度</span><span class="ic-tag">倾角</span><span class="ic-tag">振动</span><span class="ic-tag">NB-IoT</span><span class="ic-tag">Lora</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig11.svg" alt="PlantUML 图 11" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "主控\nSTM32H7" as n0
+rectangle "IMU\nMPU6050" as n1
+rectangle "高灵敏振动\nADXL355" as n2
+rectangle "压电薄膜\n冲击传感" as n3
+rectangle "远距\nLoRa SX1262" as n4
+rectangle "广域\nNB-IoT BC95" as n5
+rectangle "供电\n太阳能" as n6
+rectangle "平台\n路政预警系统" as n7
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+n5 --&gt; n6
+n6 --&gt; n7
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">中学化学实验数据采集与分析平台</span>
+              <span class="ph-meta"><span>主控：STM32F407 + USB</span><span>通信：USB/UART</span><span>难度：★★★☆☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card teal">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32F407 + PH传感器模块SEN0161 + DS18B20温度 + BMP280气压 + ADC电流采集 + USB VCP虚拟串口 + PYQT上位机<br>
+                  <strong>实现方案</strong>：方案A：多通道同步采集（PH/温度/气压/电流），10Hz采样率，F4做数字滤波（滑动平均/中值），USB VCP上传到上位机绘制滴定曲线。方案B：WiFi版加ESP-01上传数据大屏展示，适合公开课展示。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32F4</span><span class="ic-tag">PH</span><span class="ic-tag">温度</span><span class="ic-tag">滴定实验</span><span class="ic-tag">数据采集</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig12.svg" alt="PlantUML 图 12" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "主控\nSTM32F407" as n0
+rectangle "PH\nSEN0161" as n1
+rectangle "温度\nDS18B20" as n2
+rectangle "气压\nBMP280" as n3
+rectangle "ADC\n多通道电流" as n4
+rectangle "通信\nUSB VCP/ESP-01" as n5
+rectangle "上位机\nPYQT/数据大屏" as n6
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+n5 --&gt; n6
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">校园体能训练监测设备</span>
+              <span class="ph-meta"><span>主控：ESP32</span><span>通信：WiFi + 蓝牙</span><span>难度：★★★☆☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card blue">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：ESP32 + MAX30102血氧心率 + MPU6050 + DS1307RTC计时 + 红外对管计时门 + LCD + 语音播报模块<br>
+                  <strong>实现方案</strong>：方案A：跑操计时——红外对管检测过线，MAX30102测心率，上传到班级Web。方案B：跳绳计次——MPU6050识别摆动，BLE同步手机APP。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">ESP32</span><span class="ic-tag">IMU</span><span class="ic-tag">心率</span><span class="ic-tag">体育训练</span><span class="ic-tag">计时</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig13.svg" alt="PlantUML 图 13" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "主控\nESP32" as n0
+rectangle "心率\nMAX30102" as n1
+rectangle "IMU\nMPU6050" as n2
+rectangle "计时\n红外+DS1307" as n3
+rectangle "通信\nWiFi+BLE" as n4
+rectangle "显示\nLCD1602" as n5
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+</section>
 
         <!-- ===================== 4. 健康医疗类 ===================== -->
         <section id="sec-4" class="idea-cat">
           <button class="cat-header open">
-            <span>四、健康医疗类 <span class="cat-count">（精选 5 项）</span></span>
+            <span>四、健康医疗类 <span class="cat-count">（7 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
@@ -1350,12 +1861,86 @@ wifi --&gt; app : 跌倒+位置
             </div>
 
           </div>
-        </section>
+        
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">“灵犀手护”—AI驱动的神经康复手套</span>
+              <span class="ph-meta"><span>主控：STM32F4 + 力传感 + 舵机阵列</span><span>通信：蓝牙BLE + WiFi</span><span>难度：★★★★★</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card green">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32F407 + FSR-402柔性力阻x5 + 弯曲传感器x5 + MG996R舵机x5肌腱驱动 + HC-08 BLE + ESP32<br>
+                  <strong>实现方案</strong>：方案A：被动训练——ESP32调用AI生成的训练计划，舵机按角度曲线拉动手指肌腱。方案B：主动训练——FSR力阻检测患者主动握力，反馈至游戏端进行握力对抗训练。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32F4</span><span class="ic-tag">柔性力阻FSR</span><span class="ic-tag">舵机驱动</span><span class="ic-tag">医疗康复</span><span class="ic-tag">AI反馈</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig14.svg" alt="PlantUML 图 14" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "MCU\nSTM32F407" as n0
+rectangle "力传感\nFSR-402 x5" as n1
+rectangle "弯曲传感\nx5" as n2
+rectangle "驱动\nMG996R x5" as n3
+rectangle "通信\nBLE HC-08 + ESP32" as n4
+rectangle "AI/游戏\n康复训练端" as n5
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">迅光反应——反应灯体育训练系统</span>
+              <span class="ph-meta"><span>主控：STM32F103</span><span>通信：WiFi</span><span>难度：★★★☆☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card orange">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32F103xN + WS2812B灯珠 x8（多个独立灯柱） + 按键 + 无线NRF24L01 + 中心节点ESP32<br>
+                  <strong>实现方案</strong>：方案A：分散式灯柱——反应灯随机点亮，运动员按下后灯熄灭，ESP32统计反应时/命中率。方案B：灯光方向提示训练，教练APP选择训练科目模式。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32F103</span><span class="ic-tag">LED反应灯</span><span class="ic-tag">体育训练</span><span class="ic-tag">计时</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig15.svg" alt="PlantUML 图 15" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "主控\nSTM32F103" as n0
+rectangle "灯珠\nWS2812B" as n1
+rectangle "按键\n触摸/轻触" as n2
+rectangle "无线\nNRF24L01" as n3
+rectangle "中心\nESP32" as n4
+rectangle "教练APP\nAndroid/iOS" as n5
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+</section>
 
         <!-- ===================== 5. 智能交通类 ===================== -->
         <section id="sec-5" class="idea-cat">
           <button class="cat-header open">
-            <span>五、智能交通类 <span class="cat-count">（精选 4 项）</span></span>
+            <span>五、智能交通类 <span class="cat-count">（5 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
@@ -1561,12 +2146,47 @@ nb --&gt; cloud : NB-IoT
             </div>
 
           </div>
-        </section>
+        
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">基于数字孪生的智慧停车系统</span>
+              <span class="ph-meta"><span>主控：STM32F407 + ESP32</span><span>通信：WiFi + NB-IoT</span><span>难度：★★★★☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card purple">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32F407 + QMC5883地磁传感器 + HC-SR04超声 + ESP32/NB-IoT BC95 + 摄像头 + LED地灯指示<br>
+                  <strong>实现方案</strong>：方案A：每个车位地磁+超声双模态检测占用，ESP32汇聚WiFi上传。方案B：NB-IoT独立节点上传，3D引擎渲染停车场数字孪生大屏。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32F4</span><span class="ic-tag">地磁</span><span class="ic-tag">车位检测</span><span class="ic-tag">数字孪生</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig16.svg" alt="PlantUML 图 16" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "车位节点\nSTM32F407+地磁+超声" as n0
+rectangle "通信\nESP32/NB-IoT" as n1
+rectangle "指示\nLED地灯" as n2
+rectangle "大屏\n3D数字孪生" as n3
+rectangle "用户端\n小程序找车位" as n4
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+</section>
 
         <!-- ===================== 6. 工业控制类 ===================== -->
         <section id="sec-6" class="idea-cat">
           <button class="cat-header open">
-            <span>六、工业控制类 <span class="cat-count">（精选 3 项）</span></span>
+            <span>六、工业控制类 <span class="cat-count">（6 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
@@ -1711,12 +2331,123 @@ stm --&gt; suck : 电磁阀
             </div>
 
           </div>
-        </section>
+        
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">建筑工地特殊工种安全管理系统</span>
+              <span class="ph-meta"><span>主控：STM32F407 + ESP32 + RFID</span><span>通信：WiFi + LoRa + RFID</span><span>难度：★★★★☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card red">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32F407 + MFRC522 RFID + HC-02蓝牙 + MQ-2气体 + 蜂鸣器 + LED警示 + SX1278 LoRa定位网关 + ESP32云同步<br>
+                  <strong>实现方案</strong>：方案A：安全帽内嵌RFID卡，入口MFRC522打卡+工种权限校验；MQ-2气体超标时声光报警，施工区域LoRa RSSI+三点定位。方案B：增加OV2640视觉安全帽佩戴检测，接入边缘盒子。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32F4</span><span class="ic-tag">RFID</span><span class="ic-tag">安全帽检测</span><span class="ic-tag">LoRa</span><span class="ic-tag">定位</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig17.svg" alt="PlantUML 图 17" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "入口门禁\nMFRC522 RFID" as n0
+rectangle "安全帽\nRFID标签+LED" as n1
+rectangle "气体\nMQ-2" as n2
+rectangle "报警\n蜂鸣器LED" as n3
+rectangle "定位\nLoRa RSSI三点" as n4
+rectangle "云端\nESP32/人员台账" as n5
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">中小企业MES系统推广（边缘采集版）</span>
+              <span class="ph-meta"><span>主控：STM32F103 + ESP32</span><span>通信：RS485 Modbus + WiFi</span><span>难度：★★★☆☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card teal">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32F103 + 3路RS485 + 8路DI/4DO继电器 + ESP32 WiFi + 以太网W5500 + SD卡离线缓存<br>
+                  <strong>实现方案</strong>：方案A：STM32F103做Modbus RTU主站轮询CNC/注塑机/冲压机RS485数据，以太网/W5500或ESP32推送MES。方案B：SD卡记录断网缓存，网络恢复续传。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32F103</span><span class="ic-tag">Modbus</span><span class="ic-tag">MES</span><span class="ic-tag">数据采集</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig18.svg" alt="PlantUML 图 18" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "边缘网关\nSTM32F103" as n0
+rectangle "现场总线\nRS485 Modbus" as n1
+rectangle "DI/DO\n8入4出" as n2
+rectangle "通信\nW5500/ESP32" as n3
+rectangle "存储\nSD卡离线缓存" as n4
+rectangle "平台\n工厂MES" as n5
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">V2X场景下基于信息融合的自动驾驶智能策略研究</span>
+              <span class="ph-meta"><span>主控：STM32H7 + Jetson Nano联动</span><span>通信：CAN + NRF24L01 + WiFi</span><span>难度：★★★★☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card blue">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32H7 + MPU6050 + HCSR04超声x8 + OV5640 + TB6612电机驱动 + NRF24L01车车通信 + CAN总线 + Jetson Nano<br>
+                  <strong>实现方案</strong>：方案A：多车NRF24L01广播位置，H7融合IMU/超声+V2X位置，A*算法避障路径规划。方案B：Jetson Nano图像识别行人/信号灯，H7执行CAN总线底盘控制。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32H7</span><span class="ic-tag">V2X</span><span class="ic-tag">信息融合</span><span class="ic-tag">小车实验平台</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig19.svg" alt="PlantUML 图 19" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "底盘MCU\nSTM32H7" as n0
+rectangle "传感\nIMU+超声x8" as n1
+rectangle "视觉\nOV5640+Nano" as n2
+rectangle "驱动\nTB6612" as n3
+rectangle "V2X\nNRF24L01" as n4
+rectangle "总线\nCAN" as n5
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+</section>
 
         <!-- ===================== 7. 消费电子类 ===================== -->
         <section id="sec-7" class="idea-cat">
           <button class="cat-header open">
-            <span>七、消费电子类 <span class="cat-count">（精选 3 项）</span></span>
+            <span>七、消费电子类 <span class="cat-count">（5 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
@@ -1869,12 +2600,86 @@ esp --&gt; app : WiFi/4G
             </div>
 
           </div>
-        </section>
+        
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">基于STM32多功能的智能PID焊台系统</span>
+              <span class="ph-meta"><span>主控：STM32F103</span><span>通信：USB-C / OLED</span><span>难度：★★★★☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card green">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32F103C8 + T12/K头烙铁发热芯 + K热电偶MAX6675 + EC11编码器 + 1.3"OLED SH1106 + N-MOS IRF540 + USB-C供电<br>
+                  <strong>实现方案</strong>：方案A：增量式PID控温（PWM+周期采样），温度采样10Hz；支持3组温度预设+休眠模式+唤醒。方案B：MAX6675改PT100+MAX31865精度更高，增加掉电EEPROM保存曲线。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32F103</span><span class="ic-tag">PID控温</span><span class="ic-tag">T12</span><span class="ic-tag">OLED</span><span class="ic-tag">编码器</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig20.svg" alt="PlantUML 图 20" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "MCU\nSTM32F103C8" as n0
+rectangle "发热芯\nT12" as n1
+rectangle "测温\nMAX6675 K热电偶" as n2
+rectangle "控制\nIRF540 PWM" as n3
+rectangle "交互\nEC11+OLED" as n4
+rectangle "电源\nUSB-C/PD" as n5
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">智能监测污水无人小船</span>
+              <span class="ph-meta"><span>主控：STM32F407</span><span>通信：LoRa + 4G</span><span>难度：★★★★☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card orange">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32F407 + DS18B20水温 + PH0-14 + TDS电导率 + 浊度 + 溶解氧DO + 双推进L298N + GPS + EC20 4G + SX1262 LoRa<br>
+                  <strong>实现方案</strong>：方案A：预设GPS航点巡航，定时采样水质数据，EC20 MQTT上传云平台显示浓度热力图。方案B：LoRa手控模式，近距操作。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32F407</span><span class="ic-tag">无人船</span><span class="ic-tag">水质传感</span><span class="ic-tag">4G</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig21.svg" alt="PlantUML 图 21" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "MCU\nSTM32F407" as n0
+rectangle "水质\nPH/TDS/浊度/DO/水温" as n1
+rectangle "推进\nL298N+电机" as n2
+rectangle "定位\nGPS" as n3
+rectangle "上传\n4G/LoRa" as n4
+rectangle "平台\n水质地图" as n5
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+</section>
 
         <!-- ===================== 8. 机器人与无人机类 ===================== -->
         <section id="sec-8" class="idea-cat">
           <button class="cat-header open">
-            <span>八、机器人与无人机类 <span class="cat-count">（精选 5 项）</span></span>
+            <span>八、机器人与无人机类 <span class="cat-count">（8 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
@@ -2117,12 +2922,123 @@ stm --&gt; chass : 运动控制
             </div>
 
           </div>
-        </section>
+        
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">社区智能垃圾收集机器人</span>
+              <span class="ph-meta"><span>主控：STM32F407 + ROS底盘</span><span>通信：WiFi + 视觉</span><span>难度：★★★★☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card purple">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32F407底盘 + 编码器驱动 + RPLIDAR A1 + OV5640 + 4G/EC20 + 语音模块WT2003M02 + 垃圾分类机械盖<br>
+                  <strong>实现方案</strong>：方案A：RPLIDAR构建栅格地图，GMapping SLAM自主巡逻；居民呼叫语音或APP调度，机器人到点开盖收集。方案B：摄像头视觉识别干/湿垃圾自动分仓。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32F4</span><span class="ic-tag">ROS</span><span class="ic-tag">SLAM</span><span class="ic-tag">垃圾分类</span><span class="ic-tag">语音</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig22.svg" alt="PlantUML 图 22" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "底盘MCU\nSTM32F407" as n0
+rectangle "电机驱动\n编码器+PID" as n1
+rectangle "激光雷达\nRPLIDAR A1" as n2
+rectangle "视觉\nOV5640分类" as n3
+rectangle "通信\n4G/WiFi" as n4
+rectangle "交互\n语音/APP" as n5
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">智能无序混合码垛机器臂系统研发及应用</span>
+              <span class="ph-meta"><span>主控：STM32H7 + Python上位机</span><span>通信：EtherCAT-like串口/RS485</span><span>难度：★★★★☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card red">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32H743 + 6轴舵机/伺服 + PCA9685驱动 + 拉力传感 + OV2640 + Python上位机OpenCV识别<br>
+                  <strong>实现方案</strong>：方案A：D-H参数法建立六轴模型，STM32H7实现逆运动学计算；视觉抓取无序件并码垛。方案B：用MoveIt!+ROS2上位机规划，H7做关节伺服。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32H7</span><span class="ic-tag">六轴机械臂</span><span class="ic-tag">逆运动学</span><span class="ic-tag">视觉识别</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig23.svg" alt="PlantUML 图 23" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "主控\nSTM32H743" as n0
+rectangle "6轴\n伺服/舵机" as n1
+rectangle "驱动\nPCA9685" as n2
+rectangle "视觉\nOpenCV/OV2640" as n3
+rectangle "控制\n逆运动学" as n4
+rectangle "上位机\nPython" as n5
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">边缘翼——驱动三农发展新动能的无人机系统</span>
+              <span class="ph-meta"><span>主控：STM32F407四轴飞控</span><span>通信：LoRa + GPS + 图像</span><span>难度：★★★★☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card teal">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32F407飞控（MPU6050+气压MS5611+地磁HMC5883L）+ GPS + 四轴无刷电调 + 摄像头+图传 + SX1278遥控 + 喷药泵<br>
+                  <strong>实现方案</strong>：方案A：飞控PID+GPS航点，自动航线喷药。方案B：LoRa长距离（3km）手动控制，一键返航。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32F407</span><span class="ic-tag">四轴</span><span class="ic-tag">农业</span><span class="ic-tag">LoRa遥控</span><span class="ic-tag">GPS返航</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig24.svg" alt="PlantUML 图 24" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "飞控MCU\nSTM32F407" as n0
+rectangle "IMU+气压+地磁\n组合导航" as n1
+rectangle "定位\nGPS+气压定高" as n2
+rectangle "动力\n无刷电机+电调" as n3
+rectangle "图传/负载\n摄像头/药泵" as n4
+rectangle "遥控\nLoRa SX1278" as n5
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+</section>
 
         <!-- ===================== 9. 物联网通信类 ===================== -->
         <section id="sec-9" class="idea-cat">
           <button class="cat-header open">
-            <span>九、物联网通信类 <span class="cat-count">（精选 5 项，含 LoRa / NB-IoT）</span></span>
+            <span>九、物联网通信类 <span class="cat-count">（7 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
@@ -2363,12 +3279,84 @@ stm --&gt; cloud : NB-IoT
             </div>
 
           </div>
-        </section>
+        
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">物联网数据传输与加密</span>
+              <span class="ph-meta"><span>主控：STM32F407 + ESP32 + ATECC608</span><span>通信：WiFi + LoRa + 加密</span><span>难度：★★★★☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card blue">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32F407 + ATECC608A硬件加密芯片 + ESP32 + SX1262 LoRa + SD卡 + W5500以太网<br>
+                  <strong>实现方案</strong>：方案A：LoRa应用层AES-128加密，密钥存储在ATECC608A不可读安全区；ESP32端TLS1.3+证书双向认证。方案B：增加国密SM4/SM2软件实现。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32F4</span><span class="ic-tag">ATECC608</span><span class="ic-tag">AES</span><span class="ic-tag">ECC</span><span class="ic-tag">加密传输</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig25.svg" alt="PlantUML 图 25" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "主控\nSTM32F407" as n0
+rectangle "硬件加密\nATECC608A" as n1
+rectangle "无线\nSX1262+ESP32" as n2
+rectangle "有线\nW5500" as n3
+rectangle "密钥\nATECC安全存根" as n4
+rectangle "协议\nAES/TLS/国密" as n5
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">澜峙农业数字工厂</span>
+              <span class="ph-meta"><span>主控：多MCU组网</span><span>通信：LoRa + MQTT + 4G</span><span>难度：★★★★★</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card green">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：多个STM32F1/LoRa节点 + ESP32边缘网关 + EMQX MQTT + 4G + 数据大屏 + 后端Spring Boot<br>
+                  <strong>实现方案</strong>：方案A：LoRaWAN Class A节点采集，网关转发EMQX，后端可视化展示“农业工厂”指标——播种/生长/收成全链路。方案B：增加现场HMI屏触控。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">数字工厂</span><span class="ic-tag">LoRa</span><span class="ic-tag">多节点</span><span class="ic-tag">数据大屏</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig26.svg" alt="PlantUML 图 26" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "传感节点\nSTM32+LoRa" as n0
+rectangle "网关\nESP32/4G" as n1
+rectangle "云中间件\nEMQX MQTT" as n2
+rectangle "后端\nSpring Boot" as n3
+rectangle "展示\n数据大屏/HMI" as n4
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+</section>
 
         <!-- ===================== 10. 数据采集与测控类 ===================== -->
         <section id="sec-10" class="idea-cat">
           <button class="cat-header open">
-            <span>十、数据采集与测控类 <span class="cat-count">（精选 3 项）</span></span>
+            <span>十、数据采集与测控类 <span class="cat-count">（7 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
@@ -2517,12 +3505,158 @@ esp --&gt; cloud : WiFi/4G
             </div>
 
           </div>
-        </section>
+        
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">自动翻页扫描机器</span>
+              <span class="ph-meta"><span>主控：STM32F407 + 步进电机</span><span>通信：USB + WiFi</span><span>难度：★★★★☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card orange">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32F407 + A4988步进x2(翻页辊+走纸) + 微型气泵(吸纸) + 舵机压纸 + USB摄像头 + 上位机OCR + ESP32远程<br>
+                  <strong>实现方案</strong>：方案A：F4驱动气泵吸起单页→A4988辊翻→舵机压平→USB拍照→OCR。方案B：ESP32远程启动，适合无人档案扫描。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32F4</span><span class="ic-tag">气泵+翻页</span><span class="ic-tag">图像扫描</span><span class="ic-tag">OCR</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig27.svg" alt="PlantUML 图 27" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "MCU\nSTM32F407" as n0
+rectangle "真空吸纸\n气泵+电磁阀" as n1
+rectangle "翻页\nA4988步进" as n2
+rectangle "压平\n舵机" as n3
+rectangle "成像\nUSB相机" as n4
+rectangle "OCR\nTesseract/PaddleOCR" as n5
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">易养鸽肉鸽生产管理系统</span>
+              <span class="ph-meta"><span>主控：STM32F103 + 4G</span><span>通信：LoRa + 4G</span><span>难度：★★★☆☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card purple">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32F103 + DS18B20 + SHT30 + 重量传感器HX711 + 步进下料 + SX1278 LoRa + EC20 4G上传<br>
+                  <strong>实现方案</strong>：方案A：每笼重量判断进食情况；温度异常报警。方案B：LoRa汇聚网关，30栋鸽舍统一平台。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32F103</span><span class="ic-tag">料槽</span><span class="ic-tag">温湿</span><span class="ic-tag">种鸽管理</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig28.svg" alt="PlantUML 图 28" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "笼内节点\nSTM32F103" as n0
+rectangle "传感\nDS18B20+SHT30+HX711" as n1
+rectangle "执行\n步进下料" as n2
+rectangle "网络\nLoRa+4G" as n3
+rectangle "平台\n种鸽/生产管理" as n4
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">中小企业物流机器人的技术研究与应用</span>
+              <span class="ph-meta"><span>主控：STM32F407底盘</span><span>通信：WiFi + SLAM + 二维码</span><span>难度：★★★★☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card red">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32F407 + 编码器驱动轮 + 二维码摄像头 + 碰撞开关 + 红外避障 + ESP32 WiFi + 呼叫按钮<br>
+                  <strong>实现方案</strong>：方案A：二维码贴地导航，机器人扫码前进；呼叫按钮下发任务。方案B：激光+SLAM替代二维码。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32F4</span><span class="ic-tag">AGV</span><span class="ic-tag">二维码</span><span class="ic-tag">物流</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig29.svg" alt="PlantUML 图 29" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "MCU\nSTM32F407" as n0
+rectangle "驱动\n编码器轮PID" as n1
+rectangle "导航\n二维码/激光" as n2
+rectangle "避障\n红外+碰撞" as n3
+rectangle "通信\nESP32" as n4
+rectangle "任务\n呼叫按钮" as n5
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">自动化种植花园机器</span>
+              <span class="ph-meta"><span>主控：STM32H743</span><span>通信：LoRa + WiFi</span><span>难度：★★★★☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card teal">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32H743 + 土壤湿度/PH + 水泵 + 播种漏斗+舵机 + 3轴丝杆移动 + 摄像头识别 + ESP32 + LoRa<br>
+                  <strong>实现方案</strong>：方案A：设定网格种植，3轴丝杆步进定位，舵机漏斗播种→后续浇水+监测。方案B：云图像识别虫害/缺素。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32H7</span><span class="ic-tag">种植</span><span class="ic-tag">自动播种/浇水</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig30.svg" alt="PlantUML 图 30" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "MCU\nSTM32H743" as n0
+rectangle "3轴丝杆\nA4988x3" as n1
+rectangle "播种\n漏斗+舵机" as n2
+rectangle "灌溉\n水泵+电磁阀" as n3
+rectangle "图像\n摄像头+云端" as n4
+rectangle "通信\nLoRa+WiFi" as n5
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+n4 --&gt; n5
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+</section>
 
         <!-- ===================== 11. 其他类 ===================== -->
         <section id="sec-11" class="idea-cat">
           <button class="cat-header open">
-            <span>十一、其他类 <span class="cat-count">（精选 3 项）</span></span>
+            <span>十一、其他类 <span class="cat-count">（5 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
@@ -2673,7 +3807,77 @@ tmp --&gt; stm : I2C
             </div>
 
           </div>
-        </section>
+        
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">嵌入式人工智能技术应用的智能会议系统</span>
+              <span class="ph-meta"><span>主控：STM32MP157 + ESP32</span><span>通信：WiFi + 麦克风阵列</span><span>难度：★★★★☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card blue">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：STM32MP157 + 3麦阵列INMP441 + OV5640 + WS2812B指示 + ESP32 + 3.5"LCD + 大模型纪要API<br>
+                  <strong>实现方案</strong>：方案A：3麦波束形成降噪 + A7核KWS唤醒词，记录音频上传云端大模型自动写纪要。方案B：MP1仅采集，纪要全部云端API。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32MP1</span><span class="ic-tag">TinyML</span><span class="ic-tag">会议纪要</span><span class="ic-tag">降噪</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig31.svg" alt="PlantUML 图 31" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "MPU\nSTM32MP157" as n0
+rectangle "麦克风\nINMP441 x3" as n1
+rectangle "视觉\nOV5640参会人脸识别" as n2
+rectangle "UI\n3.5"LCD" as n3
+rectangle "AI\nTinyML KWS/云端大模型" as n4
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+
+          <div class="proj-item">
+            <button class="proj-header">
+              <span class="ph-title">智学萌宠养成记：智能硬件与编程启蒙课堂</span>
+              <span class="ph-meta"><span>主控：Arduino UNO / ESP32</span><span>通信：蓝牙BLE</span><span>难度：★★★☆☆</span></span>
+              <span class="ph-arrow">▼</span>
+            </button>
+            <div class="proj-details">
+              <div class="idea-card green">
+                <div class="ic-impl">
+                  <strong>硬件组成</strong>：Arduino UNO + 面包板实验套件（LED/蜂鸣器/按键/电位器/LCD） + ESP32 + 萌宠外壳 + Blynk APP<br>
+                  <strong>实现方案</strong>：方案A：课时1-6基于Arduino C逐级搭建萌宠表情、喂食、步数等功能。方案B：ESP32+Scratch图形化Blockly，低年级适配。
+                </div>
+                <div class="ic-tags"><span class="ic-tag">Arduino</span><span class="ic-tag">教育启蒙</span><span class="ic-tag">编程教具</span><span class="ic-tag">创客</span></div>
+              </div>
+              <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig32.svg" alt="PlantUML 图 32" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+rectangle "初级硬件\nArduino UNO+面包板" as n0
+rectangle "进阶\nESP32" as n1
+rectangle "交互\nLED/LCD/按键/蜂鸣器" as n2
+rectangle "软件\nArduino C/Blockly" as n3
+rectangle "手机\nBlynk" as n4
+n0 --&gt; n1
+n1 --&gt; n2
+n2 --&gt; n3
+n3 --&gt; n4
+@enduml</code></pre>
+  </details>
+</div>
+            </div>
+          </div>
+</section>
 
       </div>
     </div>
