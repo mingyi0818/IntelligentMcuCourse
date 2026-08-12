@@ -110,12 +110,13 @@ hr { border: none; border-top: 1px solid var(--color-border); margin: 2em 0; }
   letter-spacing: 0.5px;
 }
 .nav-logo:hover { color: var(--color-accent); text-decoration: none; }
-.nav-menu { display: flex; gap: 0.4em; }
+.nav-menu { display: flex; gap: 0.3em; flex-wrap: wrap; justify-content: flex-end; }
 .nav-menu a {
   color: #d1fae5;
-  padding: 0.4em 0.9em;
+  padding: 0.35em 0.65em;
   border-radius: 4px;
-  font-size: 0.95em;
+  font-size: 0.9em;
+  white-space: nowrap;
 }
 .nav-menu a:hover,
 .nav-menu a.active {

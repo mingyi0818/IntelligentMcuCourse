@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>应用创意 - 单片机原理及应用</title>
-  <link rel="stylesheet" href="assets/css/style.css?v=10">
+  <link rel="stylesheet" href="assets/css/style.css?v=11">
   <style>
     /* 应用创意专页样式 */
     .idea-hero {
@@ -574,7 +574,7 @@ stm --&gt; cam : UART
               <span class="ph-meta"><span>主控：STM32F407 + ESP32</span><span>通信：WiFi + 蓝牙BLE</span><span>难度：★★★★☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card blue">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32F407主控 + MPU6050六轴加速度/陀螺仪 + MAX30102血氧心率 + LD3320语音 + 蜂鸣器/继电器 + ESP32(WiFi)<br>
@@ -617,7 +617,7 @@ n7 --&gt; n8
               <span class="ph-meta"><span>主控：ESP32-S3</span><span>通信：WiFi + 蓝牙BLE</span><span>难度：★★★★☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card green">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：ESP32-S3 + OV2640摄像头 + HC-SR501人体红外 + DS18B20水温 + 水位传感器 + 半透镜子显示屏 + 蜂鸣器<br>
@@ -658,7 +658,7 @@ n6 --&gt; n7
               <span class="ph-meta"><span>主控：STM32F103 + ESP32</span><span>通信：WiFi + 语音</span><span>难度：★★★☆☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card orange">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32F103 + LD3320语音 + DS18B20水温 + 继电器控制浴霸/热水器/排气扇 + ESP32(WiFi)+0.96"OLED<br>
@@ -697,7 +697,7 @@ n5 --&gt; n6
               <span class="ph-meta"><span>主控：STM32F103/RP2040</span><span>通信：USB + 蓝牙/2.4G</span><span>难度：★★★☆☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card purple">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32F103 / RP2040 + CH9350/KC868 USB HID芯片 + NRF24L01无线 + 旋转编码器EC11 + WS2812 RGB轴灯 + OLED<br>
@@ -736,7 +736,7 @@ n5 --&gt; n6
               <span class="ph-meta"><span>主控：ESP32-S3 + N100小主机</span><span>通信：WiFi + 语音 + 舵机</span><span>难度：★★★★☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card red">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：ESP32-S3 + MG90S舵机x3（摇头/耳朵/尾巴） + 扬声器+MAX98357 + INMP441麦克风 + 1.54"LCD + 小主机（本地LLM）<br>
@@ -1091,7 +1091,7 @@ stm --&gt; radio : 数传
               <span class="ph-meta"><span>主控：STM32MP157 + H7</span><span>通信：LoRa + WiFi4G</span><span>难度：★★★★☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card teal">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32MP157A开发板 + OV5640摄像头 + MLX90614红外测温 + SX1262 LoRa + EC20 4G模块 + 太阳能板+锂电池<br>
@@ -1132,7 +1132,7 @@ n6 --&gt; n7
               <span class="ph-meta"><span>主控：STM32H743 + ESP32</span><span>通信：LoRa + WiFi</span><span>难度：★★★★☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card blue">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32H743 + CAM摄像头模块 + 土壤温湿度/EC + 光照BH1750 + SX1278(SPI) + ESP32(上传云) + 太阳能<br>
@@ -1173,7 +1173,7 @@ n6 --&gt; n7
               <span class="ph-meta"><span>主控：STM32F103 + ESP32</span><span>通信：WiFi + RS485</span><span>难度：★★★☆☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card green">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32F103 + SHT30 + BH1750 + 土壤EC + DS18B20 + RS485主从 + 继电器(卷帘电机/水泵/通风) + ESP32<br>
@@ -1210,7 +1210,7 @@ n4 --&gt; n5
               <span class="ph-meta"><span>主控：STC89C52 / STM32</span><span>通信：LoRa + OLED</span><span>难度：★★★☆☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card orange">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STC89C52核心板 + 土壤湿度 + 继电器(电磁阀) + NRF24L01/SX1278 LoRa可选 + OLED显示 + 4*4矩阵键<br>
@@ -1247,7 +1247,7 @@ n4 --&gt; n5
               <span class="ph-meta"><span>主控：STM32F407</span><span>通信：LoRa + GPS</span><span>难度：★★★★☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card purple">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32F407 + ATGM336H(GPS/北斗) + NEO-6M备用 + 双电机L298N推进 + 舵机方向 + 下料步进电机28BYJ48 + SX1278 LoRa遥控<br>
@@ -1495,7 +1495,7 @@ radio --&gt; ground : 水质反演
               <span class="ph-meta"><span>主控：STM32H7 + LoRa/NB-IoT</span><span>通信：LoRa + NB-IoT</span><span>难度：★★★★★</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card red">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32H743 + MPU6050六轴 + ADXL355高精度加速度 + SX1262 LoRa + BC95 NB-IoT + 压电薄膜振动传感 + 太阳能<br>
@@ -1536,7 +1536,7 @@ n6 --&gt; n7
               <span class="ph-meta"><span>主控：STM32F407 + USB</span><span>通信：USB/UART</span><span>难度：★★★☆☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card teal">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32F407 + PH传感器模块SEN0161 + DS18B20温度 + BMP280气压 + ADC电流采集 + USB VCP虚拟串口 + PYQT上位机<br>
@@ -1575,7 +1575,7 @@ n5 --&gt; n6
               <span class="ph-meta"><span>主控：ESP32</span><span>通信：WiFi + 蓝牙</span><span>难度：★★★☆☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card blue">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：ESP32 + MAX30102血氧心率 + MPU6050 + DS1307RTC计时 + 红外对管计时门 + LCD + 语音播报模块<br>
@@ -1868,7 +1868,7 @@ wifi --&gt; app : 跌倒+位置
               <span class="ph-meta"><span>主控：STM32F4 + 力传感 + 舵机阵列</span><span>通信：蓝牙BLE + WiFi</span><span>难度：★★★★★</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card green">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32F407 + FSR-402柔性力阻x5 + 弯曲传感器x5 + MG996R舵机x5肌腱驱动 + HC-08 BLE + ESP32<br>
@@ -1905,7 +1905,7 @@ n4 --&gt; n5
               <span class="ph-meta"><span>主控：STM32F103</span><span>通信：WiFi</span><span>难度：★★★☆☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card orange">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32F103xN + WS2812B灯珠 x8（多个独立灯柱） + 按键 + 无线NRF24L01 + 中心节点ESP32<br>
@@ -2153,7 +2153,7 @@ nb --&gt; cloud : NB-IoT
               <span class="ph-meta"><span>主控：STM32F407 + ESP32</span><span>通信：WiFi + NB-IoT</span><span>难度：★★★★☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card purple">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32F407 + QMC5883地磁传感器 + HC-SR04超声 + ESP32/NB-IoT BC95 + 摄像头 + LED地灯指示<br>
@@ -2338,7 +2338,7 @@ stm --&gt; suck : 电磁阀
               <span class="ph-meta"><span>主控：STM32F407 + ESP32 + RFID</span><span>通信：WiFi + LoRa + RFID</span><span>难度：★★★★☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card red">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32F407 + MFRC522 RFID + HC-02蓝牙 + MQ-2气体 + 蜂鸣器 + LED警示 + SX1278 LoRa定位网关 + ESP32云同步<br>
@@ -2375,7 +2375,7 @@ n4 --&gt; n5
               <span class="ph-meta"><span>主控：STM32F103 + ESP32</span><span>通信：RS485 Modbus + WiFi</span><span>难度：★★★☆☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card teal">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32F103 + 3路RS485 + 8路DI/4DO继电器 + ESP32 WiFi + 以太网W5500 + SD卡离线缓存<br>
@@ -2412,7 +2412,7 @@ n4 --&gt; n5
               <span class="ph-meta"><span>主控：STM32H7 + Jetson Nano联动</span><span>通信：CAN + NRF24L01 + WiFi</span><span>难度：★★★★☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card blue">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32H7 + MPU6050 + HCSR04超声x8 + OV5640 + TB6612电机驱动 + NRF24L01车车通信 + CAN总线 + Jetson Nano<br>
@@ -2607,7 +2607,7 @@ esp --&gt; app : WiFi/4G
               <span class="ph-meta"><span>主控：STM32F103</span><span>通信：USB-C / OLED</span><span>难度：★★★★☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card green">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32F103C8 + T12/K头烙铁发热芯 + K热电偶MAX6675 + EC11编码器 + 1.3"OLED SH1106 + N-MOS IRF540 + USB-C供电<br>
@@ -2644,7 +2644,7 @@ n4 --&gt; n5
               <span class="ph-meta"><span>主控：STM32F407</span><span>通信：LoRa + 4G</span><span>难度：★★★★☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card orange">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32F407 + DS18B20水温 + PH0-14 + TDS电导率 + 浊度 + 溶解氧DO + 双推进L298N + GPS + EC20 4G + SX1262 LoRa<br>
@@ -2929,7 +2929,7 @@ stm --&gt; chass : 运动控制
               <span class="ph-meta"><span>主控：STM32F407 + ROS底盘</span><span>通信：WiFi + 视觉</span><span>难度：★★★★☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card purple">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32F407底盘 + 编码器驱动 + RPLIDAR A1 + OV5640 + 4G/EC20 + 语音模块WT2003M02 + 垃圾分类机械盖<br>
@@ -2966,7 +2966,7 @@ n4 --&gt; n5
               <span class="ph-meta"><span>主控：STM32H7 + Python上位机</span><span>通信：EtherCAT-like串口/RS485</span><span>难度：★★★★☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card red">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32H743 + 6轴舵机/伺服 + PCA9685驱动 + 拉力传感 + OV2640 + Python上位机OpenCV识别<br>
@@ -3003,7 +3003,7 @@ n4 --&gt; n5
               <span class="ph-meta"><span>主控：STM32F407四轴飞控</span><span>通信：LoRa + GPS + 图像</span><span>难度：★★★★☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card teal">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32F407飞控（MPU6050+气压MS5611+地磁HMC5883L）+ GPS + 四轴无刷电调 + 摄像头+图传 + SX1278遥控 + 喷药泵<br>
@@ -3286,7 +3286,7 @@ stm --&gt; cloud : NB-IoT
               <span class="ph-meta"><span>主控：STM32F407 + ESP32 + ATECC608</span><span>通信：WiFi + LoRa + 加密</span><span>难度：★★★★☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card blue">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32F407 + ATECC608A硬件加密芯片 + ESP32 + SX1262 LoRa + SD卡 + W5500以太网<br>
@@ -3323,7 +3323,7 @@ n4 --&gt; n5
               <span class="ph-meta"><span>主控：多MCU组网</span><span>通信：LoRa + MQTT + 4G</span><span>难度：★★★★★</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card green">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：多个STM32F1/LoRa节点 + ESP32边缘网关 + EMQX MQTT + 4G + 数据大屏 + 后端Spring Boot<br>
@@ -3512,7 +3512,7 @@ esp --&gt; cloud : WiFi/4G
               <span class="ph-meta"><span>主控：STM32F407 + 步进电机</span><span>通信：USB + WiFi</span><span>难度：★★★★☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card orange">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32F407 + A4988步进x2(翻页辊+走纸) + 微型气泵(吸纸) + 舵机压纸 + USB摄像头 + 上位机OCR + ESP32远程<br>
@@ -3549,7 +3549,7 @@ n4 --&gt; n5
               <span class="ph-meta"><span>主控：STM32F103 + 4G</span><span>通信：LoRa + 4G</span><span>难度：★★★☆☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card purple">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32F103 + DS18B20 + SHT30 + 重量传感器HX711 + 步进下料 + SX1278 LoRa + EC20 4G上传<br>
@@ -3584,7 +3584,7 @@ n3 --&gt; n4
               <span class="ph-meta"><span>主控：STM32F407底盘</span><span>通信：WiFi + SLAM + 二维码</span><span>难度：★★★★☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card red">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32F407 + 编码器驱动轮 + 二维码摄像头 + 碰撞开关 + 红外避障 + ESP32 WiFi + 呼叫按钮<br>
@@ -3621,7 +3621,7 @@ n4 --&gt; n5
               <span class="ph-meta"><span>主控：STM32H743</span><span>通信：LoRa + WiFi</span><span>难度：★★★★☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card teal">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32H743 + 土壤湿度/PH + 水泵 + 播种漏斗+舵机 + 3轴丝杆移动 + 摄像头识别 + ESP32 + LoRa<br>
@@ -3814,7 +3814,7 @@ tmp --&gt; stm : I2C
               <span class="ph-meta"><span>主控：STM32MP157 + ESP32</span><span>通信：WiFi + 麦克风阵列</span><span>难度：★★★★☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card blue">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：STM32MP157 + 3麦阵列INMP441 + OV5640 + WS2812B指示 + ESP32 + 3.5"LCD + 大模型纪要API<br>
@@ -3849,7 +3849,7 @@ n3 --&gt; n4
               <span class="ph-meta"><span>主控：Arduino UNO / ESP32</span><span>通信：蓝牙BLE</span><span>难度：★★★☆☆</span></span>
               <span class="ph-arrow">▼</span>
             </button>
-            <div class="proj-details">
+            <div class="proj-body">
               <div class="idea-card green">
                 <div class="ic-impl">
                   <strong>硬件组成</strong>：Arduino UNO + 面包板实验套件（LED/蜂鸣器/按键/电位器/LCD） + ESP32 + 萌宠外壳 + Blynk APP<br>
@@ -3912,6 +3912,6 @@ document.querySelectorAll('.proj-header').forEach(function (h) {
   });
 });
 </script>
-<script src="assets/js/main.js?v=8"></script>
+<script src="assets/js/main.js?v=11"></script>
 </body>
 </html>

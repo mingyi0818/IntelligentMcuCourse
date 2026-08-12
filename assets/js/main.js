@@ -37,15 +37,7 @@
       overlay.classList.remove('show');
     }
 
-    // 顶部导航汉堡按钮（移动端）也可触发侧边栏
-    var navToggle = document.querySelector('.nav-toggle');
-    if (navToggle && window.innerWidth <= 900) {
-      navToggle.addEventListener('click', function () {
-        if (!sidebar.classList.contains('show')) {
-          openSidebar();
-        }
-      });
-    }
+    // 顶部导航汉堡按钮仅控制导航菜单，不触发侧边栏
 
     overlay.addEventListener('click', closeSidebar);
 

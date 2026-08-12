@@ -1,4 +1,0 @@
-fix: 彻底修复导航栏缺失链接+课程目录卡片等宽
-
-1. 用正则模式（匹配FAQ行、忽略active类）修复8个页面仍缺失的课程思政/应用创意链接
-2. 移除toc-card上的align-self:start（flex列下导致水平不拉伸），显式设置toc-col和toc-card width:100%
