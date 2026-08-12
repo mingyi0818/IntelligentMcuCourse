@@ -5,9 +5,447 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>《单片机原理及应用》智慧课程在线教程</title>
   <meta name="description" content="嘉应学院计算机学院《单片机原理及应用》智慧课程在线教程，涵盖 MCS-51、STC 8位单片机、STM32、MSP430、ESP32、Arduino、开源鸿蒙等多种单片机开发方式。">
-  <link rel="stylesheet" href="assets/css/style.css?v=9">
+  <link rel="stylesheet" href="assets/css/style.css?v=10">
+  <style>
+    /* ========================================================================
+       主页专属样式（仅作用于 index.html，不影响其他页面）
+       ======================================================================== */
+
+    /* 1. 主页容器放宽，与导航栏同宽 */
+    body.home .container {
+      max-width: 1320px;
+      padding: 0 2em 3em;
+    }
+
+    /* 2. Hero 区加强视觉冲击 */
+    body.home .hero {
+      background:
+        radial-gradient(circle at 20% 30%, rgba(96, 165, 250, 0.35) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(167, 243, 208, 0.28) 0%, transparent 50%),
+        linear-gradient(135deg, #0f5132 0%, #166534 50%, #15803d 100%);
+      padding: 5em 2em 4.5em;
+      position: relative;
+      overflow: hidden;
+    }
+    body.home .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent 0,
+        transparent 40px,
+        rgba(255, 255, 255, 0.02) 40px,
+        rgba(255, 255, 255, 0.02) 80px
+      );
+      pointer-events: none;
+    }
+    body.home .hero h1 {
+      font-size: 3.2em;
+      letter-spacing: 2px;
+      text-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+      margin-bottom: 0.4em;
+    }
+    body.home .hero .subtitle {
+      font-size: 1.3em;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+    body.home .hero .badge {
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(4px);
+      font-weight: 500;
+      padding: 0.4em 1.1em;
+      transition: transform 0.2s;
+    }
+    body.home .hero .badge:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.28);
+    }
+
+    /* 3. 数字亮点带：紧贴 Hero 下方 */
+    body.home .stats-bar {
+      max-width: 1320px;
+      margin: -2.5em auto 2em;
+      padding: 1.5em 2em;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 10px 40px rgba(15, 81, 50, 0.18);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1em;
+      position: relative;
+      z-index: 5;
+    }
+    body.home .stat-item {
+      text-align: center;
+      padding: 0.4em 0.6em;
+      border-right: 1px solid #e5e7eb;
+    }
+    body.home .stat-item:last-child { border-right: none; }
+    body.home .stat-num {
+      font-size: 2.1em;
+      font-weight: 800;
+      color: #166534;
+      font-family: "JetBrains Mono", "Consolas", monospace;
+      line-height: 1;
+      background: linear-gradient(135deg, #166534, #22c55e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    body.home .stat-label {
+      font-size: 0.85em;
+      color: #4b5563;
+      margin-top: 0.4em;
+      letter-spacing: 0.5px;
+    }
+
+    /* 4. 区块标题加装饰 */
+    body.home .section-title {
+      font-size: 1.8em;
+      position: relative;
+      padding-left: 1.2em;
+      border-bottom: 3px solid #166534;
+      padding-bottom: 0.4em;
+    }
+    body.home .section-title::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.15em;
+      width: 6px;
+      height: 1em;
+      background: linear-gradient(180deg, #22c55e, #166534);
+      border-radius: 3px;
+    }
+
+    /* 5. 课程目录：卡片网格布局 */
+    body.home .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 1.4em;
+      margin: 1.5em 0;
+    }
+    body.home .toc-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    body.home .toc-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(15, 81, 50, 0.12);
+    }
+    body.home .toc-card-header {
+      padding: 0.9em 1.2em;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1.05em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      letter-spacing: 0.5px;
+    }
+    body.home .toc-card-header .part-count {
+      background: rgba(255, 255, 255, 0.25);
+      padding: 0.15em 0.7em;
+      border-radius: 12px;
+      font-size: 0.8em;
+      font-weight: 500;
+    }
+    body.home .toc-card.p0 .toc-card-header { background: linear-gradient(135deg, #475569, #334155); }
+    body.home .toc-card.p1 .toc-card-header { background: linear-gradient(135deg, #0369a1, #075985); }
+    body.home .toc-card.p2 .toc-card-header { background: linear-gradient(135deg, #166534, #14532d); }
+    body.home .toc-card.p3 .toc-card-header { background: linear-gradient(135deg, #b45309, #92400e); }
+    body.home .toc-card.p4 .toc-card-header { background: linear-gradient(135deg, #7c3aed, #5b21b6); }
+    body.home .toc-card.p5 .toc-card-header { background: linear-gradient(135deg, #be123c, #881337); }
+
+    body.home .toc-card-body {
+      padding: 0.6em 0.8em 1em;
+      flex: 1;
+    }
+    body.home .toc-card-body ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    body.home .toc-card-body li { margin: 0; }
+    body.home .toc-card-body a {
+      display: flex;
+      align-items: baseline;
+      gap: 0.8em;
+      padding: 0.55em 0.7em;
+      color: #1f2937;
+      border-radius: 6px;
+      border-left: 3px solid transparent;
+      transition: all 0.15s;
+      font-size: 0.97em;
+      line-height: 1.4;
+    }
+    body.home .toc-card-body a:hover {
+      background: #f0fdf4;
+      border-left-color: #22c55e;
+      color: #14532d;
+      text-decoration: none;
+      transform: translateX(2px);
+    }
+    body.home .toc-card-body a .ch-num {
+      display: inline-block;
+      min-width: 4.5em;
+      white-space: nowrap;
+      flex-shrink: 0;
+      color: #6b7280;
+      font-family: "JetBrains Mono", "Consolas", monospace;
+      font-size: 0.88em;
+      font-weight: 600;
+    }
+    body.home .toc-card-body a:hover .ch-num { color: #166534; }
+
+    /* 6. 快速入口卡片美化 */
+    body.home .quick-link {
+      position: relative;
+      overflow: hidden;
+      padding: 1.4em 1.6em;
+    }
+    body.home .quick-link::after {
+      content: "→";
+      position: absolute;
+      right: 1.2em;
+      top: 50%;
+      transform: translateY(-50%) translateX(20px);
+      font-size: 1.5em;
+      color: #22c55e;
+      opacity: 0;
+      transition: all 0.2s;
+    }
+    body.home .quick-link:hover::after {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0);
+    }
+    body.home .quick-link .ql-title { font-size: 1.15em; }
+
+    /* 7. 课程信息：双列网格卡片 */
+    body.home .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1em;
+      margin: 1.4em 0;
+    }
+    body.home .info-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-left: 4px solid #22c55e;
+      border-radius: 8px;
+      padding: 1em 1.3em;
+      transition: all 0.15s;
+    }
+    body.home .info-card:hover {
+      box-shadow: 0 6px 18px rgba(15, 81, 50, 0.1);
+      transform: translateY(-1px);
+    }
+    body.home .info-card .ic-label {
+      color: #6b7280;
+      font-size: 0.85em;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.3em;
+    }
+    body.home .info-card .ic-value {
+      color: #1f2937;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    /* 8. 教学团队卡片 */
+    body.home .team-card {
+      background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 1.6em 2em;
+      margin-top: 1.2em;
+      display: flex;
+      gap: 1.4em;
+      align-items: center;
+    }
+    body.home .team-avatar {
+      flex-shrink: 0;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #166534, #22c55e);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8em;
+      font-weight: 700;
+    }
+    body.home .team-info { flex: 1; }
+    body.home .team-info p { margin: 0.4em 0; line-height: 1.7; }
+
+    /* 9. 课程简介：双色卡片 */
+    body.home .intro-text {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 1.8em 2.2em;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+      margin-top: 1em;
+    }
+    body.home .intro-text p { margin: 0.8em 0; }
+    body.home .intro-text strong { color: #166534; }
+
+    /* 10. 响应式：窄屏单列 */
+    @media (max-width: 768px) {
+      body.home .container { padding: 0 1em 2em; }
+      body.home .hero { padding: 3em 1em; }
+      body.home .hero h1 { font-size: 2em; }
+      body.home .stats-bar {
+        margin: -1.5em 1em 1.5em;
+        padding: 1em 0.6em;
+        grid-template-columns: repeat(2, 1fr);
+      }
+      body.home .stat-item { border-right: none; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.6em; }
+      body.home .toc-grid { grid-template-columns: 1fr; }
+      body.home .team-card { flex-direction: column; text-align: center; }
+    }
+
+    /* 11. 动态欢迎动画效果 */
+    /* 11.1 粒子背景层 */
+    body.home .particles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+    body.home .particle {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.22);
+      font-family: "JetBrains Mono", "Consolas", monospace;
+      font-weight: 600;
+      user-select: none;
+      animation: floatUp linear infinite;
+      text-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(110%) translateX(0) rotate(0deg); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { transform: translateY(-120%) translateX(40px) rotate(360deg); opacity: 0; }
+    }
+
+    /* 11.2 Hero 内容层级在粒子之上 */
+    body.home .hero > :not(.particles) { position: relative; z-index: 2; }
+
+    /* 11.3 打字机光标 */
+    body.home .subtitle .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: #fff;
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: blink 0.8s steps(2) infinite;
+    }
+    @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+    /* 11.4 入场动画 */
+    body.home .hero h1,
+    body.home .hero .meta,
+    body.home .hero .badges,
+    body.home .stats-bar,
+    body.home .section-title,
+    body.home .intro-text,
+    body.home .quick-links,
+    body.home .toc-grid,
+    body.home .info-grid,
+    body.home .team-card {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp 0.7s ease forwards;
+    }
+    body.home .hero h1 { animation-delay: 0.1s; }
+    body.home .hero .meta { animation-delay: 0.3s; }
+    body.home .hero .badges { animation-delay: 0.5s; }
+    body.home .stats-bar { animation-delay: 0.7s; }
+    body.home .section-title { animation-delay: 0.2s; }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 11.5 Hero 标题渐变流光（与入场动画合并到同一 animation 属性） */
+    body.home .hero h1 {
+      background: linear-gradient(90deg, #ffffff 0%, #bbf7d0 25%, #86efac 50%, #bbf7d0 75%, #ffffff 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: fadeUp 0.7s ease 0.1s forwards, shimmer 6s linear 0.8s infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    /* 11.6 徽章依次淡入 */
+    body.home .hero .badge {
+      opacity: 0;
+      animation: badgeIn 0.5s ease forwards;
+    }
+    body.home .hero .badge:nth-child(1) { animation-delay: 0.6s; }
+    body.home .hero .badge:nth-child(2) { animation-delay: 0.7s; }
+    body.home .hero .badge:nth-child(3) { animation-delay: 0.8s; }
+    body.home .hero .badge:nth-child(4) { animation-delay: 0.9s; }
+    body.home .hero .badge:nth-child(5) { animation-delay: 1.0s; }
+    body.home .hero .badge:nth-child(6) { animation-delay: 1.1s; }
+    @keyframes badgeIn {
+      from { opacity: 0; transform: translateY(10px) scale(0.9); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* 11.7 渐变光晕缓慢移动 */
+    body.home .hero {
+      background-size: 200% 200%;
+      animation: gradientShift 15s ease infinite;
+    }
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50%      { background-position: 100% 50%; }
+    }
+
+    /* 11.8 统计数字滚动容器 */
+    body.home .stat-num { display: inline-block; }
+
+    /* 11.9 减少动画偏好 */
+    @media (prefers-reduced-motion: reduce) {
+      body.home .particle,
+      body.home .hero h1,
+      body.home .hero,
+      body.home .hero .badge,
+      body.home .subtitle .cursor {
+        animation: none !important;
+      }
+      body.home .hero h1,
+      body.home .hero .meta,
+      body.home .hero .badges,
+      body.home .stats-bar,
+      body.home .section-title,
+      body.home .intro-text,
+      body.home .quick-links,
+      body.home .toc-grid,
+      body.home .info-grid,
+      body.home .team-card {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+  </style>
 </head>
-<body>
+<body class="home">
 
 <!-- ============ 顶部导航栏 ============ -->
 <header class="navbar">
@@ -27,8 +465,9 @@
 
 <!-- ============ Hero 封面区 ============ -->
 <section class="hero">
+  <div class="particles" id="hero-particles" aria-hidden="true"></div>
   <h1>单片机原理及应用</h1>
-  <div class="subtitle">从 8 位到 32 位 · 从裸机到 RTOS · 从工具链到 AI 辅助开发</div>
+  <div class="subtitle"><span id="typewriter">从 8 位到 32 位 · 从裸机到 RTOS · 从工具链到 AI 辅助开发</span><span class="cursor" aria-hidden="true"></span></div>
   <div class="meta">嘉应学院 计算机学院 · 智慧课程在线教程</div>
   <div class="badges">
     <span class="badge">MCS-51 基础</span>
@@ -36,19 +475,39 @@
     <span class="badge">STM32 进阶</span>
     <span class="badge">附加开发内容</span>
     <span class="badge">Keil / CubeMX / PlatformIO</span>
-    <span class="badge">TRAE / Copilot / Cursor /WorkBuddy AI 辅助</span>
+    <span class="badge">TRAE / Copilot / Cursor / WorkBuddy AI 辅助</span>
   </div>
 </section>
 
-<div class="container">
-
-  <!-- ============ 课程简介 ============ -->
-  <h2 class="section-title">课程简介</h2>
-  <div class="intro-text">
-    <p>本课程是计算机类、电子信息类、自动化类专业的专业核心课程，面向<strong>应用型人才培养</strong>定位，以"理论够用、实践为重、工程导向"为原则，系统讲解单片机原理与开发技术。课程采用<strong>"按平台分篇递进"</strong>的编排方式：先建立计算机与单片机硬件基础理论，再以 STC 8位单片机（兼容 MCS-51）为入门平台掌握 8 位单片机开发全流程，进而在 STM32 上学习 32 位 Cortex-M4 开发与 FreeRTOS 实时操作系统，最后简介多种单片机开发方式（传统烧录器、ESP32+Arduino、开源鸿蒙、MSP430 低功耗单片机）拓宽视野，并通过综合项目融会贯通。</p>
-    <p>课程贯穿<strong>现代工程实践</strong>主线：STC 篇使用 STC-ISP + Keil C51 + VS Code + PlatformIO；STM32 篇使用 STM32CubeMX + STM32CubeIDE + Keil MDK + VS Code；并在 VS Code 中引入 TRAE/Copilot/Cursor/WorkBuddy 等 AI 辅助开发工具，让学生掌握行业前沿的高效开发方法。课程共安排32次课(64课时)，覆盖理论讲授、实验操练与项目实战。</p>
-    <p>本在线教程为静态网页形式，托管于 GitHub，可在线浏览也可下载离线使用，配套提供教学大纲、实验指导书、可下载代码工程与课件资源。</p>
+<!-- ============ 数字亮点带 ============ -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num" data-target="45">45</div>
+    <div class="stat-label">章节内容</div>
   </div>
+  <div class="stat-item">
+    <div class="stat-num" data-target="12">12</div>
+    <div class="stat-label">动手实验</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num" data-target="1079">1079</div>
+    <div class="stat-label">练习题</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num" data-target="15" data-suffix="+">15+</div>
+    <div class="stat-label">综合项目</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num" data-target="6">6</div>
+    <div class="stat-label">开发平台</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num" data-target="68">68</div>
+    <div class="stat-label">课程学时</div>
+  </div>
+</div>
+
+<div class="container">
 
   <!-- ============ 快速入口 ============ -->
   <h2 class="section-title">快速入口</h2>
@@ -59,7 +518,11 @@
     </a>
     <a class="quick-link" href="lab/index.html">
       <div class="ql-title">实验指导书</div>
-      <div class="ql-desc">10 个基础实验，STC 与 STM32 双平台对照</div>
+      <div class="ql-desc">12 个实验，STC 与 STM32 双平台对照</div>
+    </a>
+    <a class="quick-link" href="exercises.html">
+      <div class="ql-title">在线练习题</div>
+      <div class="ql-desc">1079 道题，单选/多选/判断/简答四类</div>
     </a>
     <a class="quick-link" href="resources.html">
       <div class="ql-title">资源下载</div>
@@ -69,108 +532,191 @@
       <div class="ql-title">常见问题 FAQ</div>
       <div class="ql-desc">环境搭建、烧录调试、代码报错等高频问题</div>
     </a>
+    <a class="quick-link" href="https://github.com/mingyi0818/IntelligentMcuCourse">
+      <div class="ql-title">GitHub 仓库</div>
+      <div class="ql-desc">源码与教程托管，欢迎 Star / Fork / Issue</div>
+    </a>
   </div>
 
-  <!-- ============ 课程目录 ============ -->
+  <!-- ============ 课程目录（卡片网格） ============ -->
   <h2 class="section-title">课程目录</h2>
-  <div class="toc">
+  <div class="toc-grid">
 
-    <div class="toc-part">第 0 篇　前导课程</div>
-    <ul class="toc-chapter">
-      <li><a href="chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1">1　模拟电路常识</a></li>
-      <li><a href="chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2">2　电源电路常识</a></li>
-      <li><a href="chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3">3　数字电路常识</a></li>
-      <li><a href="chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4">4　ANSI C 语言基础</a></li>
-      <li><a href="chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5">5　C51 概览</a></li>
-    </ul>
+    <div class="toc-card p0">
+      <div class="toc-card-header">
+        <span>第 0 篇　前导课程</span>
+        <span class="part-count">5 节</span>
+      </div>
+      <div class="toc-card-body">
+        <ul>
+          <li><a href="chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-1"><span class="ch-num">§0.1</span>模拟电路常识</a></li>
+          <li><a href="chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-2"><span class="ch-num">§0.2</span>电源电路常识</a></li>
+          <li><a href="chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-3"><span class="ch-num">§0.3</span>数字电路常识</a></li>
+          <li><a href="chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-4"><span class="ch-num">§0.4</span>ANSI C 语言基础</a></li>
+          <li><a href="chapters/part0-prerequisite/ch00-prerequisite-basics.html#sec-5"><span class="ch-num">§0.5</span>C51 概览</a></li>
+        </ul>
+      </div>
+    </div>
 
-    <div class="toc-part">第 1 篇　基础理论</div>
-    <ul class="toc-chapter">
-      <li><a href="chapters/part1-basics/ch01-mcu-overview.html"><span class="ch-num">第 1 章</span>单片机概述</a></li>
-      <li><a href="chapters/part1-basics/ch02-computer-fundamentals.html"><span class="ch-num">第 2 章</span>计算机基础与数制</a></li>
-      <li><a href="chapters/part1-basics/ch03-hardware-fundamentals.html"><span class="ch-num">第 3 章</span>单片机硬件基础</a></li>
-    </ul>
+    <div class="toc-card p1">
+      <div class="toc-card-header">
+        <span>第 1 篇　基础理论</span>
+        <span class="part-count">3 章</span>
+      </div>
+      <div class="toc-card-body">
+        <ul>
+          <li><a href="chapters/part1-basics/ch01-mcu-overview.html"><span class="ch-num">第 1 章</span>单片机概述</a></li>
+          <li><a href="chapters/part1-basics/ch02-computer-fundamentals.html"><span class="ch-num">第 2 章</span>计算机基础与数制</a></li>
+          <li><a href="chapters/part1-basics/ch03-hardware-fundamentals.html"><span class="ch-num">第 3 章</span>单片机硬件基础</a></li>
+        </ul>
+      </div>
+    </div>
 
-    <div class="toc-part">第 2 篇　MCS-51 原理与 STC 开发</div>
-    <ul class="toc-chapter">
-      <li><a href="chapters/part2-stc89c52rc/ch04-mcs51-architecture.html"><span class="ch-num">第 4 章</span>MCS-51 单片机体系结构</a></li>
-      <li><a href="chapters/part2-stc89c52rc/ch05-stc-dev-environment.html"><span class="ch-num">第 5 章</span>STC 开发环境搭建</a></li>
-      <li><a href="chapters/part2-stc89c52rc/ch06-c51-programming.html"><span class="ch-num">第 6 章</span>C51 程序设计基础</a></li>
-      <li><a href="chapters/part2-stc89c52rc/ch07-gpio-led-key.html"><span class="ch-num">第 7 章</span>并行 I/O 端口与 LED/按键</a></li>
-      <li><a href="chapters/part2-stc89c52rc/ch08-interrupt-system.html"><span class="ch-num">第 8 章</span>中断系统</a></li>
-      <li><a href="chapters/part2-stc89c52rc/ch09-timer-counter.html"><span class="ch-num">第 9 章</span>定时器/计数器</a></li>
-      <li><a href="chapters/part2-stc89c52rc/ch10-serial-communication.html"><span class="ch-num">第 10 章</span>串行通信</a></li>
-      <li><a href="chapters/part2-stc89c52rc/ch11-display-interface.html"><span class="ch-num">第 11 章</span>显示与接口技术</a></li>
-      <li><a href="chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html"><span class="ch-num">第 12 章</span>STC89C52RC 综合实验</a></li>
-    </ul>
+    <div class="toc-card p2">
+      <div class="toc-card-header">
+        <span>第 2 篇　MCS-51 与 STC 开发</span>
+        <span class="part-count">9 章</span>
+      </div>
+      <div class="toc-card-body">
+        <ul>
+          <li><a href="chapters/part2-stc89c52rc/ch04-mcs51-architecture.html"><span class="ch-num">第 4 章</span>MCS-51 体系结构</a></li>
+          <li><a href="chapters/part2-stc89c52rc/ch05-stc-dev-environment.html"><span class="ch-num">第 5 章</span>STC 开发环境搭建</a></li>
+          <li><a href="chapters/part2-stc89c52rc/ch06-c51-programming.html"><span class="ch-num">第 6 章</span>C51 程序设计基础</a></li>
+          <li><a href="chapters/part2-stc89c52rc/ch07-gpio-led-key.html"><span class="ch-num">第 7 章</span>并行 I/O 端口与 LED/按键</a></li>
+          <li><a href="chapters/part2-stc89c52rc/ch08-interrupt-system.html"><span class="ch-num">第 8 章</span>中断系统</a></li>
+          <li><a href="chapters/part2-stc89c52rc/ch09-timer-counter.html"><span class="ch-num">第 9 章</span>定时器/计数器</a></li>
+          <li><a href="chapters/part2-stc89c52rc/ch10-serial-communication.html"><span class="ch-num">第 10 章</span>串行通信</a></li>
+          <li><a href="chapters/part2-stc89c52rc/ch11-display-interface.html"><span class="ch-num">第 11 章</span>显示与接口技术</a></li>
+          <li><a href="chapters/part2-stc89c52rc/ch12-stc-comprehensive-lab.html"><span class="ch-num">第 12 章</span>STC89C52RC 综合实验</a></li>
+        </ul>
+      </div>
+    </div>
 
-    <div class="toc-part">第 3 篇　STM32 开发</div>
-    <ul class="toc-chapter">
-      <li><a href="chapters/part3-stm32f407/ch13-stm32-overview.html"><span class="ch-num">第 13 章</span>STM32 与 Cortex-M4 概述</a></li>
-      <li><a href="chapters/part3-stm32f407/ch14-stm32-dev-environment.html"><span class="ch-num">第 14 章</span>STM32 开发环境搭建</a></li>
-      <li><a href="chapters/part3-stm32f407/ch15-hal-library.html"><span class="ch-num">第 15 章</span>STM32 HAL 库与工程结构</a></li>
-      <li><a href="chapters/part3-stm32f407/ch16-gpio-exti.html"><span class="ch-num">第 16 章</span>GPIO 与外部中断</a></li>
-      <li><a href="chapters/part3-stm32f407/ch17-timer-pwm.html"><span class="ch-num">第 17 章</span>定时器与 PWM</a></li>
-      <li><a href="chapters/part3-stm32f407/ch18-usart.html"><span class="ch-num">第 18 章</span>串口通信 USART</a></li>
-      <li><a href="chapters/part3-stm32f407/ch19-adc-dac.html"><span class="ch-num">第 19 章</span>ADC 与 DAC</a></li>
-      <li><a href="chapters/part3-stm32f407/ch20-spi-i2c.html"><span class="ch-num">第 20 章</span>SPI 与 I2C 总线</a></li>
-      <li><a href="chapters/part3-stm32f407/ch21-dma-rtc.html"><span class="ch-num">第 21 章</span>DMA 与 RTC</a></li>
-      <li><a href="chapters/part3-stm32f407/ch22-freertos.html"><span class="ch-num">第 22 章</span>FreeRTOS 基础</a></li>
-      <li><a href="chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html"><span class="ch-num">第 23 章</span>STM32 综合实验</a></li>
-    </ul>
+    <div class="toc-card p3">
+      <div class="toc-card-header">
+        <span>第 3 篇　STM32 开发</span>
+        <span class="part-count">11 章</span>
+      </div>
+      <div class="toc-card-body">
+        <ul>
+          <li><a href="chapters/part3-stm32f407/ch13-stm32-overview.html"><span class="ch-num">第 13 章</span>STM32 与 Cortex-M4 概述</a></li>
+          <li><a href="chapters/part3-stm32f407/ch14-stm32-dev-environment.html"><span class="ch-num">第 14 章</span>STM32 开发环境搭建</a></li>
+          <li><a href="chapters/part3-stm32f407/ch15-hal-library.html"><span class="ch-num">第 15 章</span>STM32 HAL 库与工程结构</a></li>
+          <li><a href="chapters/part3-stm32f407/ch16-gpio-exti.html"><span class="ch-num">第 16 章</span>GPIO 与外部中断</a></li>
+          <li><a href="chapters/part3-stm32f407/ch17-timer-pwm.html"><span class="ch-num">第 17 章</span>定时器与 PWM</a></li>
+          <li><a href="chapters/part3-stm32f407/ch18-usart.html"><span class="ch-num">第 18 章</span>串口通信 USART</a></li>
+          <li><a href="chapters/part3-stm32f407/ch19-adc-dac.html"><span class="ch-num">第 19 章</span>ADC 与 DAC</a></li>
+          <li><a href="chapters/part3-stm32f407/ch20-spi-i2c.html"><span class="ch-num">第 20 章</span>SPI 与 I2C 总线</a></li>
+          <li><a href="chapters/part3-stm32f407/ch21-dma-rtc.html"><span class="ch-num">第 21 章</span>DMA 与 RTC</a></li>
+          <li><a href="chapters/part3-stm32f407/ch22-freertos.html"><span class="ch-num">第 22 章</span>FreeRTOS 基础</a></li>
+          <li><a href="chapters/part3-stm32f407/ch23-stm32-comprehensive-lab.html"><span class="ch-num">第 23 章</span>STM32 综合实验</a></li>
+        </ul>
+      </div>
+    </div>
 
-    <div class="toc-part">第 4 篇　单片机开发附加内容</div>
-    <ul class="toc-chapter">
-      <li><a href="chapters/part4-additional/ch24-overview.html"><span class="ch-num">第 24 章</span>概述与学习方法</a></li>
-      <li><a href="chapters/part4-additional/ch25-altium-designer.html"><span class="ch-num">第 25 章</span>Altium Designer PCB 设计</a></li>
-      <li><a href="chapters/part4-additional/ch26-jlceda.html"><span class="ch-num">第 26 章</span>嘉立创 EDA PCB 设计</a></li>
-      <li><a href="chapters/part4-additional/ch27-esp32-arduino.html"><span class="ch-num">第 27 章</span>ESP32+Arduino 开发</a></li>
-      <li><a href="chapters/part4-additional/ch28-openharmony.html"><span class="ch-num">第 28 章</span>开源鸿蒙 OpenHarmony</a></li>
-      <li><a href="chapters/part4-additional/ch29-msp430.html"><span class="ch-num">第 29 章</span>MSP430 低功耗单片机</a></li>
-    </ul>
+    <div class="toc-card p4">
+      <div class="toc-card-header">
+        <span>第 4 篇　附加开发内容</span>
+        <span class="part-count">6 章</span>
+      </div>
+      <div class="toc-card-body">
+        <ul>
+          <li><a href="chapters/part4-additional/ch24-overview.html"><span class="ch-num">第 24 章</span>概述与学习方法</a></li>
+          <li><a href="chapters/part4-additional/ch25-altium-designer.html"><span class="ch-num">第 25 章</span>Altium Designer PCB 设计</a></li>
+          <li><a href="chapters/part4-additional/ch26-jlceda.html"><span class="ch-num">第 26 章</span>嘉立创 EDA PCB 设计</a></li>
+          <li><a href="chapters/part4-additional/ch27-esp32-arduino.html"><span class="ch-num">第 27 章</span>ESP32+Arduino 开发</a></li>
+          <li><a href="chapters/part4-additional/ch28-openharmony.html"><span class="ch-num">第 28 章</span>开源鸿蒙 OpenHarmony</a></li>
+          <li><a href="chapters/part4-additional/ch29-msp430.html"><span class="ch-num">第 29 章</span>MSP430 低功耗单片机</a></li>
+        </ul>
+      </div>
+    </div>
 
-    <div class="toc-part">第 5 篇　综合项目</div>
-    <ul class="toc-chapter">
-      <li><a href="chapters/part5-projects/ch30-traffic-light-stc.html"><span class="ch-num">第 30 章</span>智能交通灯系统（STC89C52RC）</a></li>
-      <li><a href="chapters/part5-projects/ch31-smart-clock-stm32.html"><span class="ch-num">第 31 章</span>STM32 智能电子钟</a></li>
-      <li><a href="chapters/part5-projects/ch32-temperature-fan-stm32.html"><span class="ch-num">第 32 章</span>智能温控风扇（STM32F407）</a></li>
-      <li><a href="chapters/part5-projects/ch33-password-lock-stc.html"><span class="ch-num">第 33 章</span>电子密码锁（STC89C52RC）</a></li>
-      <li><a href="chapters/part5-projects/ch34-air-quality-esp32.html"><span class="ch-num">第 34 章</span>空气质量监测站（M701A+ESP32）</a></li>
-      <li><a href="chapters/part5-projects/ch35-rfid-access-esp32.html"><span class="ch-num">第 35 章</span>RFID 智能门禁系统（ESP32）</a></li>
-      <li><a href="chapters/part5-projects/ch36-health-monitor-esp32.html"><span class="ch-num">第 36 章</span>智能健康监测（ESP32+MAX30102）</a></li>
-      <li><a href="chapters/part5-projects/ch37-smart-irrigation-esp32.html"><span class="ch-num">第 37 章</span>智慧农业灌溉系统（ESP32）</a></li>
-      <li><a href="chapters/part5-projects/ch38-smart-parking-stm32.html"><span class="ch-num">第 38 章</span>智能停车管理（STM32）</a></li>
-      <li><a href="chapters/part5-projects/ch39-industrial-gateway-stm32.html"><span class="ch-num">第 39 章</span>工业数据采集网关（STM32）</a></li>
-      <li><a href="chapters/part5-projects/ch40-oh-lighting-stm32f4.html"><span class="ch-num">第 40 章</span>OpenHarmony 智能照明（STM32F407）</a></li>
-      <li><a href="chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html"><span class="ch-num">第 41 章</span>OpenHarmony 分布式环境监测（STM32F407）</a></li>
-      <li><a href="chapters/part5-projects/ch42-oh-agriculture-stm32f4.html"><span class="ch-num">第 42 章</span>OpenHarmony 智慧农业大棚（STM32F407）</a></li>
-      <li><a href="chapters/part5-projects/ch43-smart-locker-stm32.html"><span class="ch-num">第 43 章</span>智能快递柜（STM32）</a></li>
-      <li><a href="chapters/part5-projects/ch44-energy-monitor-esp32.html"><span class="ch-num">第 44 章</span>智能电能监测（ESP32）</a></li>
-      <li><a href="chapters/part5-projects/ch45-quadcopter.html"><span class="ch-num">第 45 章</span>四旋翼无人机（STM32F407 飞控）</a></li>
-    </ul>
+    <div class="toc-card p5">
+      <div class="toc-card-header">
+        <span>第 5 篇　综合项目</span>
+        <span class="part-count">16 章</span>
+      </div>
+      <div class="toc-card-body">
+        <ul>
+          <li><a href="chapters/part5-projects/ch30-traffic-light-stc.html"><span class="ch-num">第 30 章</span>智能交通灯系统（STC89C52RC）</a></li>
+          <li><a href="chapters/part5-projects/ch31-smart-clock-stm32.html"><span class="ch-num">第 31 章</span>STM32 智能电子钟</a></li>
+          <li><a href="chapters/part5-projects/ch32-temperature-fan-stm32.html"><span class="ch-num">第 32 章</span>智能温控风扇（STM32F407）</a></li>
+          <li><a href="chapters/part5-projects/ch33-password-lock-stc.html"><span class="ch-num">第 33 章</span>电子密码锁（STC89C52RC）</a></li>
+          <li><a href="chapters/part5-projects/ch34-air-quality-esp32.html"><span class="ch-num">第 34 章</span>空气质量监测站（M701A+ESP32）</a></li>
+          <li><a href="chapters/part5-projects/ch35-rfid-access-esp32.html"><span class="ch-num">第 35 章</span>RFID 智能门禁系统（ESP32）</a></li>
+          <li><a href="chapters/part5-projects/ch36-health-monitor-esp32.html"><span class="ch-num">第 36 章</span>智能健康监测（ESP32+MAX30102）</a></li>
+          <li><a href="chapters/part5-projects/ch37-smart-irrigation-esp32.html"><span class="ch-num">第 37 章</span>智慧农业灌溉系统（ESP32）</a></li>
+          <li><a href="chapters/part5-projects/ch38-smart-parking-stm32.html"><span class="ch-num">第 38 章</span>智能停车管理（STM32）</a></li>
+          <li><a href="chapters/part5-projects/ch39-industrial-gateway-stm32.html"><span class="ch-num">第 39 章</span>工业数据采集网关（STM32）</a></li>
+          <li><a href="chapters/part5-projects/ch40-oh-lighting-stm32f4.html"><span class="ch-num">第 40 章</span>OpenHarmony 智能照明（STM32F407）</a></li>
+          <li><a href="chapters/part5-projects/ch41-oh-distributed-env-stm32f4.html"><span class="ch-num">第 41 章</span>OpenHarmony 分布式环境监测（STM32F407）</a></li>
+          <li><a href="chapters/part5-projects/ch42-oh-agriculture-stm32f4.html"><span class="ch-num">第 42 章</span>OpenHarmony 智慧农业大棚（STM32F407）</a></li>
+          <li><a href="chapters/part5-projects/ch43-smart-locker-stm32.html"><span class="ch-num">第 43 章</span>智能快递柜（STM32）</a></li>
+          <li><a href="chapters/part5-projects/ch44-energy-monitor-esp32.html"><span class="ch-num">第 44 章</span>智能电能监测（ESP32）</a></li>
+          <li><a href="chapters/part5-projects/ch45-quadcopter.html"><span class="ch-num">第 45 章</span>四旋翼无人机（STM32F407 飞控）</a></li>
+        </ul>
+      </div>
+    </div>
 
   </div>
 
-  <!-- ============ 课程基本信息 ============ -->
+  <!-- ============ 课程简介（精简叙述，结构化字段见下方基本信息卡片） ============ -->
+  <h2 class="section-title">课程简介</h2>
+  <div class="intro-text">
+    <p>本课程面向<strong>应用型人才培养</strong>定位，以"理论够用、实践为重、工程导向"为原则，系统讲解单片机原理与开发技术。课程采用<strong>"按平台分篇递进"</strong>的编排方式：先建立计算机与单片机硬件基础理论，再以 STC 8 位单片机（兼容 MCS-51）为入门平台掌握 8 位开发全流程，进而在 STM32 上学习 32 位 Cortex-M4 开发与 FreeRTOS 实时操作系统，最后简介 ESP32+Arduino、开源鸿蒙、MSP430 低功耗单片机等多种平台拓宽视野，并通过综合项目融会贯通。</p>
+    <p>课程贯穿<strong>现代工程实践</strong>主线，STC 与 STM32 双平台对照教学，并在 VS Code 中引入 TRAE / Copilot / Cursor / WorkBuddy 等 AI 辅助开发工具，让学生掌握行业前沿的高效开发方法。覆盖理论讲授、实验操练与项目实战，配套提供教学大纲、实验指导书、可下载代码工程与课件资源。</p>
+    <p>本在线教程为静态网页形式，托管于 GitHub，可在线浏览也可下载离线使用。下方的"课程基本信息"卡片汇总了学时、先修课程、开发工具等结构化字段，便于快速查阅。</p>
+  </div>
+
+  <!-- ============ 课程基本信息（网格卡片） ============ -->
   <h2 class="section-title">课程基本信息</h2>
-  <table class="info-table">
-    <tbody>
-      <tr><td>课程名称</td><td>单片机原理及应用</td></tr>
-      <tr><td>课程性质</td><td>专业限选</td></tr>
-      <tr><td>适用专业</td><td>物联网工程、计算机科学与技术、电子信息工程等</td></tr>
-      <tr><td>开课单位</td><td>嘉应学院计算机学院</td></tr>
-      <tr><td>学时安排</td><td>共 34 次课共计 68 学时（理论 + 实践）</td></tr>
-      <tr><td>先修课程</td><td>数字电路、模拟电路、C语言程序设计</td></tr>
-      <tr><td>后续课程</td><td>嵌入式系统、物联网应用、毕业设计</td></tr>
-      <tr><td>教学平台</td><td>STC89C52RC开发板 + STM32F407VET6开发板</td></tr>
-      <tr><td>开发工具</td><td>STC-ISP、Keil C51 / MDK、STM32CubeMX、STM32CubeIDE、VS Code + PlatformIO、TRAE / Copilot</td></tr>
-    </tbody>
-  </table>
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="ic-label">课程名称</div>
+      <div class="ic-value">单片机原理及应用</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-label">课程性质</div>
+      <div class="ic-value">专业限选</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-label">适用专业</div>
+      <div class="ic-value">物联网工程、计算机科学与技术、电子信息工程等</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-label">开课单位</div>
+      <div class="ic-value">嘉应学院计算机学院</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-label">学时安排</div>
+      <div class="ic-value">共 34 次课共计 68 学时（理论 + 实践）</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-label">先修课程</div>
+      <div class="ic-value">数字电路、模拟电路、C语言程序设计</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-label">后续课程</div>
+      <div class="ic-value">嵌入式系统、物联网应用、毕业设计</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-label">教学平台</div>
+      <div class="ic-value">STC89C52RC 开发板 + STM32F407VET6 开发板</div>
+    </div>
+    <div class="info-card">
+      <div class="ic-label">开发工具</div>
+      <div class="ic-value">STC-ISP、Keil C51 / MDK、STM32CubeMX、STM32CubeIDE、VS Code + PlatformIO、TRAE / Copilot</div>
+    </div>
+  </div>
 
   <!-- ============ 教学团队 ============ -->
   <h2 class="section-title">教学团队</h2>
-  <div class="intro-text">
-    <p>本课程由嘉应学院计算机学院曾镜源教学团队开发与维护，结合一线教学经验与产业工程实践，持续迭代内容以匹配应用型人才培养需求。如对本教程有任何建议，欢迎在 GitHub 仓库提交 Issue。</p>
+  <div class="team-card">
+    <div class="team-avatar">曾</div>
+    <div class="team-info">
+      <p><strong>嘉应学院计算机学院 曾镜源教学团队</strong></p>
+      <p>本课程由嘉应学院计算机学院曾镜源教学团队开发与维护，结合一线教学经验与产业工程实践，持续迭代内容以匹配应用型人才培养需求。如对本教程有任何建议，欢迎在 GitHub 仓库提交 Issue。</p>
+    </div>
   </div>
 
 </div>
@@ -178,7 +724,7 @@
 <!-- ============ 页脚 ============ -->
 <footer class="footer">
   <p>嘉应学院计算机学院 · 《单片机原理及应用》智慧课程</p>
-  <p>本教程托管于 GitHub，欢迎 Star / Fork / Issue 反馈 · <a href="https://github.com/">GitHub 仓库</a></p>
+  <p>本教程托管于 GitHub，欢迎 Star / Fork / Issue 反馈 · <a href="https://github.com/mingyi0818/IntelligentMcuCourse">GitHub 仓库</a></p>
   <p>本课程由曾镜源开发与维护　教学内容欢迎使用与转载，转载请注明出处，E-Mail:15140706@qq.com</p>
 </footer>
 
@@ -186,7 +732,112 @@
 <button class="back-to-top" aria-label="返回顶部">↑</button>
 
 <!-- 脚本 -->
-<script src="assets/js/main.js?v=7"></script>
+<script src="assets/js/main.js?v=8"></script>
+<script>
+/* ============================================================
+   主页欢迎动画：粒子背景 + 打字机 + 数字滚动
+   尊重 prefers-reduced-motion，禁用动画时保留静态内容
+   ============================================================ */
+(function () {
+  'use strict';
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- 1. 粒子背景：单片机相关代码符号飘动 ---------- */
+  function initParticles() {
+    var container = document.getElementById('hero-particles');
+    if (!container || reduceMotion) return;
+    var symbols = ['0', '1', '0x', '{', '}', ';', '++', '&&', '>>', '<<', '0xFF', '|', '~', '^', 'GPIO', 'HAL', 'REG'];
+    var count = window.innerWidth < 768 ? 10 : 20;
+    for (var i = 0; i < count; i++) {
+      var p = document.createElement('span');
+      p.className = 'particle';
+      p.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      p.style.left = Math.random() * 100 + '%';
+      p.style.fontSize = (Math.random() * 1.2 + 0.7) + 'em';
+      var dur = Math.random() * 12 + 10; // 10-22 秒
+      p.style.animationDuration = dur + 's';
+      p.style.animationDelay = (Math.random() * -dur) + 's';
+      container.appendChild(p);
+    }
+  }
+
+  /* ---------- 2. 打字机效果：副标题逐字显示 ---------- */
+  function initTypewriter() {
+    var el = document.getElementById('typewriter');
+    if (!el) return;
+    var full = el.textContent;
+    if (reduceMotion) { return; } // 保留原文
+    el.textContent = '';
+    // 等 h1 入场动画基本结束后开始
+    setTimeout(function () {
+      var i = 0;
+      (function type() {
+        if (i <= full.length) {
+          el.textContent = full.slice(0, i);
+          i++;
+          setTimeout(type, 55);
+        }
+      })();
+    }, 500);
+  }
+
+  /* ---------- 3. 数字滚动：stats-bar 可见时从 0 滚到目标值 ---------- */
+  function initCountUp() {
+    var nums = document.querySelectorAll('.stat-num[data-target]');
+    if (!nums.length) return;
+    if (reduceMotion) {
+      // 直接显示目标值
+      nums.forEach(function (n) {
+        n.textContent = n.getAttribute('data-target') + (n.getAttribute('data-suffix') || '');
+      });
+      return;
+    }
+    if (!('IntersectionObserver' in window)) {
+      nums.forEach(function (n) { animateNum(n); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          animateNum(e.target);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    nums.forEach(function (n) { io.observe(n); });
+  }
+
+  function animateNum(el) {
+    var target = parseInt(el.getAttribute('data-target'), 10) || 0;
+    var suffix = el.getAttribute('data-suffix') || '';
+    el.textContent = '0' + suffix; // 同步清零，避免闪烁
+    var duration = 1400;
+    var start = null;
+    function step(ts) {
+      if (!start) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      // easeOutCubic
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var val = Math.round(target * eased);
+      el.textContent = val + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function init() {
+    initParticles();
+    initTypewriter();
+    initCountUp();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
 
 </body>
 </html>
