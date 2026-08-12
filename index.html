@@ -121,24 +121,20 @@
     }
 
     /* 5. 课程目录：三列固定排布
-       第 1 列 → 第 0/1/2 篇；第 2 列 → 第 3/4 篇；第 3 列 → 第 5 篇 */
+       第 1 列 → 第 0/1/2 篇；第 2 列 → 第 3/4 篇；第 3 列 → 第 5 篇
+       用 flex 列容器实现，各列独立流动、不跨列水平对齐 */
     body.home .toc-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-auto-flow: row;
-      align-items: start;
       gap: 1.4em;
       margin: 1.5em 0;
+      align-items: start;
     }
-    /* 第 1 列：第 0/1/2 篇 */
-    body.home .toc-card.p0 { grid-column: 1; grid-row: 1; }
-    body.home .toc-card.p1 { grid-column: 1; grid-row: 2; }
-    body.home .toc-card.p2 { grid-column: 1; grid-row: 3; }
-    /* 第 2 列：第 3/4 篇 */
-    body.home .toc-card.p3 { grid-column: 2; grid-row: 1; }
-    body.home .toc-card.p4 { grid-column: 2; grid-row: 2; }
-    /* 第 3 列：第 5 篇（单列） */
-    body.home .toc-card.p5 { grid-column: 3; grid-row: 1; }
+    body.home .toc-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1.4em;
+    }
     body.home .toc-card {
       background: #fff;
       border: 1px solid #e5e7eb;
@@ -330,9 +326,7 @@
       body.home .stat-item { border-right: none; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.6em; }
       body.home .toc-grid {
         grid-template-columns: 1fr;
-        grid-auto-flow: row;
       }
-      body.home .toc-card { grid-column: 1 !important; grid-row: auto !important; }
       body.home .team-card { flex-direction: column; text-align: center; }
       /* 窄屏"从这里开始"改为 2 列，避免每块过窄 */
       body.home .start-here { grid-template-columns: repeat(2, 1fr); }
@@ -760,6 +754,9 @@
   <h2 class="section-title">课程目录</h2>
   <div class="toc-grid">
 
+    <!-- 第 1 列：第 0/1/2 篇 -->
+    <div class="toc-col">
+
     <div class="toc-card p0">
       <div class="toc-card-header">
         <span>第 0 篇　前导课程</span>
@@ -811,6 +808,11 @@
       </div>
     </div>
 
+    </div><!-- /toc-col 第 1 列 -->
+
+    <!-- 第 2 列：第 3/4 篇 -->
+    <div class="toc-col">
+
     <div class="toc-card p3">
       <div class="toc-card-header">
         <span>第 3 篇　STM32 开发</span>
@@ -850,6 +852,11 @@
       </div>
     </div>
 
+    </div><!-- /toc-col 第 2 列 -->
+
+    <!-- 第 3 列：第 5 篇 -->
+    <div class="toc-col">
+
     <div class="toc-card p5">
       <div class="toc-card-header">
         <span>第 5 篇　综合项目</span>
@@ -877,7 +884,9 @@
       </div>
     </div>
 
-  </div>
+    </div><!-- /toc-col 第 3 列 -->
+
+  </div><!-- /toc-grid -->
 
   <!-- ============ 课程简介（精简叙述，结构化字段见下方基本信息卡片） ============ -->
   <h2 class="section-title">课程简介</h2>
