@@ -238,6 +238,61 @@
       .idea-layout { grid-template-columns: 1fr; }
       .idea-toc { position: static; max-height: none; }
     }
+    /* 密码验证模态框 */
+    .auth-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.6);
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+    .auth-overlay.hidden { display: none; }
+    .auth-box {
+      background: #fff; border-radius: 12px; padding: 2em 2.5em;
+      max-width: 400px; width: 90%; text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .auth-box h3 { color: var(--color-primary-dark); margin: 0 0 0.3em; font-size: 1.3em; }
+    .auth-box p { color: var(--color-text-light); font-size: 0.85em; margin: 0 0 1.2em; }
+    .auth-box input {
+      width: 100%; padding: 0.7em 1em; border: 2px solid var(--color-border);
+      border-radius: 8px; font-size: 1em; text-align: center; letter-spacing: 2px;
+      margin-bottom: 0.8em; transition: border-color 0.2s;
+    }
+    .auth-box input:focus { border-color: var(--color-primary); outline: none; }
+    .auth-box button {
+      width: 100%; padding: 0.7em; border: none; border-radius: 8px;
+      background: var(--color-primary); color: #fff; font-size: 1em;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .auth-box button:hover { background: var(--color-primary-dark); }
+    .auth-error { color: #dc2626; font-size: 0.85em; margin: 0.5em 0; min-height: 1.2em; }
+    .auth-hint { font-size: 0.75em; color: var(--color-text-light); margin-top: 1em; }
+
+    /* 普通用户隐藏内容 */
+    body.user-role .plantuml-figure,
+    body.user-role .plantuml-source,
+    body.user-role .figure-caption {
+      display: none !important;
+    }
+    body.user-role .arch { min-height: 0; margin: 0; }
+    /* 未验证时隐藏内容 */
+    body:not(.authed) .idea-layout,
+    body:not(.authed) .tip + .tip {
+      filter: blur(6px); pointer-events: none; user-select: none;
+    }
+
+    /* 用户角色标识 */
+    .role-badge {
+      display: inline-block; padding: 0.2em 0.6em; border-radius: 4px;
+      font-size: 0.75em; margin-left: 0.6em; font-weight: 500;
+    }
+    .role-badge.admin { background: #fef3c7; color: #92400e; }
+    .role-badge.user { background: #dbeafe; color: #1e40af; }
+    .auth-logout {
+      cursor: pointer; color: #6b7280; font-size: 0.8em;
+      margin-left: 0.6em; border: none; background: none; text-decoration: underline;
+    }
+    .auth-logout:hover { color: #dc2626; }
   </style>
 </head>
 <body>
@@ -266,7 +321,7 @@
     </div>
 
     <section class="idea-hero">
-      <h1>应用创意</h1>
+      <h1>应用创意<span id="role-display"></span></h1>
       <p>基于单片机与嵌入式技术的大学生创新创业项目实现思路</p>
       <div>
         <span class="tag">78+ 项目灵感</span>
@@ -604,9 +659,18 @@ n7 --&gt; n8
 </div>
                   <div class="figure-caption">图 AI暖巢——独居老人智能生活助手架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32F407主控 + MPU6050六轴加速度/陀螺仪 + MAX30102血氧心率 + LD3320语音 + 蜂鸣器/继电器 + ESP32(WiFi)</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：STM32通过MPU6050采集三轴加速度+角速度，基于阈值/姿态角判定跌倒（阈值法+短时能量窗），触发后MAX30102同时采集心率。ESP32上传到OneNET并通过MQTT推送到家属微信小程序。</li>
+                    <li><strong>方案 B</strong>：语音交互使用LD3320识别“求助”“吃药提醒”指令；增加BH1750自动控制灯光，DHT22控制风扇/加湿器。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32F407主控 + MPU6050六轴加速度/陀螺仪 + MAX30102血氧心率 + LD3320语音 + 蜂鸣器/继电器 + ESP32(WiFi)<br>
-                  <strong>实现方案</strong>：方案A：STM32通过MPU6050采集三轴加速度+角速度，基于阈值/姿态角判定跌倒（阈值法+短时能量窗），触发后MAX30102同时采集心率。ESP32上传到OneNET并通过MQTT推送到家属微信小程序。方案B：语音交互使用LD3320识别“求助”“吃药提醒”指令；增加BH1750自动控制灯光，DHT22控制风扇/加湿器。
+                  <strong>实现思路</strong>：STM32F407主控 + MPU6050六轴加速度/陀螺仪 + MAX30102血氧心率 + LD3320语音 + 蜂鸣器/继电器 + ESP32(WiFi)<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32</span><span class="ic-tag">ESP32</span><span class="ic-tag">MQTT</span><span class="ic-tag">语音</span><span class="ic-tag">跌倒检测</span></div>
               </div>
@@ -646,9 +710,18 @@ n6 --&gt; n7
 </div>
                   <div class="figure-caption">图 浴室安全监测与知识娱乐镜架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>ESP32-S3 + OV2640摄像头 + HC-SR501人体红外 + DS18B20水温 + 水位传感器 + 半透镜子显示屏 + 蜂鸣器</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：ESP32-S3运行TinyML的人体姿态识别模型，检测到浴室跌倒时通过WiFi推送家人。DS18B20监测水温异常，HC-SR501夜间感应自动补光。</li>
+                    <li><strong>方案 B</strong>：增加镜面LCD显示天气/新闻，按键切换“娱乐”“新闻”“养生知识”三档内容，BLE连接手机听音乐。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：ESP32-S3 + OV2640摄像头 + HC-SR501人体红外 + DS18B20水温 + 水位传感器 + 半透镜子显示屏 + 蜂鸣器<br>
-                  <strong>实现方案</strong>：方案A：ESP32-S3运行TinyML的人体姿态识别模型，检测到浴室跌倒时通过WiFi推送家人。DS18B20监测水温异常，HC-SR501夜间感应自动补光。方案B：增加镜面LCD显示天气/新闻，按键切换“娱乐”“新闻”“养生知识”三档内容，BLE连接手机听音乐。
+                  <strong>实现思路</strong>：ESP32-S3 + OV2640摄像头 + HC-SR501人体红外 + DS18B20水温 + 水位传感器 + 半透镜子显示屏 + 蜂鸣器<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">ESP32-S3</span><span class="ic-tag">摄像头</span><span class="ic-tag">跌倒检测</span><span class="ic-tag">人体感应</span><span class="ic-tag">魔镜</span></div>
               </div>
@@ -686,9 +759,18 @@ n5 --&gt; n6
 </div>
                   <div class="figure-caption">图 智能语音浴室系统架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32F103 + LD3320语音 + DS18B20水温 + 继电器控制浴霸/热水器/排气扇 + ESP32(WiFi)+0.96"OLED</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：LD3320离线识别“开浴霸/调温/关热水器/换气”指令，STM32驱动继电器；DS18B20做水温阈值保护超温。</li>
+                    <li><strong>方案 B</strong>：ESP32接入小爱同学/天猫精灵API，手机语音远场控制浴室设备。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32F103 + LD3320语音 + DS18B20水温 + 继电器控制浴霸/热水器/排气扇 + ESP32(WiFi)+0.96"OLED<br>
-                  <strong>实现方案</strong>：方案A：LD3320离线识别“开浴霸/调温/关热水器/换气”指令，STM32驱动继电器；DS18B20做水温阈值保护超温。方案B：ESP32接入小爱同学/天猫精灵API，手机语音远场控制浴室设备。
+                  <strong>实现思路</strong>：STM32F103 + LD3320语音 + DS18B20水温 + 继电器控制浴霸/热水器/排气扇 + ESP32(WiFi)+0.96"OLED<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32</span><span class="ic-tag">LD3320</span><span class="ic-tag">ESP32</span><span class="ic-tag">热水器</span><span class="ic-tag">浴霸控制</span></div>
               </div>
@@ -726,9 +808,18 @@ n5 --&gt; n6
 </div>
                   <div class="figure-caption">图 指掌乾坤——多功能集成小键盘架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32F103 / RP2040 + CH9350/KC868 USB HID芯片 + NRF24L01无线 + 旋转编码器EC11 + WS2812 RGB轴灯 + OLED</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：STM32F103扫描键盘矩阵（N-key rollover），通过CH9350或USB HID枚举发送按键码；EC11做音量/图层，WS2812做RGB光效。</li>
+                    <li><strong>方案 B</strong>：RP2040 + QMK固件实现全键可编程，NRF24L01实现2.4G无线模式，蓝牙可切换有线/无线双模。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32F103 / RP2040 + CH9350/KC868 USB HID芯片 + NRF24L01无线 + 旋转编码器EC11 + WS2812 RGB轴灯 + OLED<br>
-                  <strong>实现方案</strong>：方案A：STM32F103扫描键盘矩阵（N-key rollover），通过CH9350或USB HID枚举发送按键码；EC11做音量/图层，WS2812做RGB光效。方案B：RP2040 + QMK固件实现全键可编程，NRF24L01实现2.4G无线模式，蓝牙可切换有线/无线双模。
+                  <strong>实现思路</strong>：STM32F103 / RP2040 + CH9350/KC868 USB HID芯片 + NRF24L01无线 + 旋转编码器EC11 + WS2812 RG...<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32F103</span><span class="ic-tag">RP2040</span><span class="ic-tag">机械键盘</span><span class="ic-tag">USB HID</span><span class="ic-tag">旋钮</span></div>
               </div>
@@ -764,9 +855,18 @@ n4 --&gt; n5
 </div>
                   <div class="figure-caption">图 E-dog伴侣者——基于AI大模型的仿生交互桌宠架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>ESP32-S3 + MG90S舵机x3（摇头/耳朵/尾巴） + 扬声器+MAX98357 + INMP441麦克风 + 1.54"LCD + 小主机（本地LLM）</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：ESP32-S3采集INMP441音频I2S发送给小主机，小主机调用Qwen/LLaMA大模型，TTS后通过MAX98357播放；同时控制3个舵机表演表情。</li>
+                    <li><strong>方案 B</strong>：接入云端GPT API，简化本地硬件，ESP32-S3独立驱动LCD显示桌宠静态表情+WiFi请求。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：ESP32-S3 + MG90S舵机x3（摇头/耳朵/尾巴） + 扬声器+MAX98357 + INMP441麦克风 + 1.54"LCD + 小主机（本地LLM）<br>
-                  <strong>实现方案</strong>：方案A：ESP32-S3采集INMP441音频I2S发送给小主机，小主机调用Qwen/LLaMA大模型，TTS后通过MAX98357播放；同时控制3个舵机表演表情。方案B：接入云端GPT API，简化本地硬件，ESP32-S3独立驱动LCD显示桌宠静态表情+WiFi请求。
+                  <strong>实现思路</strong>：ESP32-S3 + MG90S舵机x3（摇头/耳朵/尾巴） + 扬声器+MAX98357 + INMP441麦克风 + 1.54"LCD + 小主机（本地LL...<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">ESP32-S3</span><span class="ic-tag">大模型API</span><span class="ic-tag">语音交互</span><span class="ic-tag">舵机表演</span><span class="ic-tag">桌宠</span></div>
               </div>
@@ -1124,9 +1224,18 @@ n6 --&gt; n7
 </div>
                   <div class="figure-caption">图 农瞳——基于红外边缘计算的农田病害智能预警系统架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32MP157A开发板 + OV5640摄像头 + MLX90614红外测温 + SX1262 LoRa + EC20 4G模块 + 太阳能板+锂电池</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：STM32MP157部署量化MobileNetV2病害识别（9类柚子/水稻病害），A7跑TFLite推理，M4内核负责MLX90614采集叶温并上传；LoRa汇聚多点节点，4G推到云。</li>
+                    <li><strong>方案 B</strong>：用云端GPU模型替代边缘推理，仅STM32H7采集图像上传MLX90614叶温做比对。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32MP157A开发板 + OV5640摄像头 + MLX90614红外测温 + SX1262 LoRa + EC20 4G模块 + 太阳能板+锂电池<br>
-                  <strong>实现方案</strong>：方案A：STM32MP157部署量化MobileNetV2病害识别（9类柚子/水稻病害），A7跑TFLite推理，M4内核负责MLX90614采集叶温并上传；LoRa汇聚多点节点，4G推到云。方案B：用云端GPU模型替代边缘推理，仅STM32H7采集图像上传MLX90614叶温做比对。
+                  <strong>实现思路</strong>：STM32MP157A开发板 + OV5640摄像头 + MLX90614红外测温 + SX1262 LoRa + EC20 4G模块 + 太阳能板+锂电池<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32MP1</span><span class="ic-tag">边缘推理</span><span class="ic-tag">LoRa</span><span class="ic-tag">摄像头</span><span class="ic-tag">病害识别</span></div>
               </div>
@@ -1166,9 +1275,18 @@ n6 --&gt; n7
 </div>
                   <div class="figure-caption">图 基于边缘计算的柚园关键信息提取与应用架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32H743 + CAM摄像头模块 + 土壤温湿度/EC + 光照BH1750 + SX1278(SPI) + ESP32(上传云) + 太阳能</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：H7捕获柚树NDVI双波段图像，运行Sobel+OTSU边缘计算定位缺素/裂果，LoRa把柚园每个节点数据汇聚网关。</li>
+                    <li><strong>方案 B</strong>：用气象站SHT30+风速+雨量综合，建立柚子含糖量预测模型。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32H743 + CAM摄像头模块 + 土壤温湿度/EC + 光照BH1750 + SX1278(SPI) + ESP32(上传云) + 太阳能<br>
-                  <strong>实现方案</strong>：方案A：H7捕获柚树NDVI双波段图像，运行Sobel+OTSU边缘计算定位缺素/裂果，LoRa把柚园每个节点数据汇聚网关。方案B：用气象站SHT30+风速+雨量综合，建立柚子含糖量预测模型。
+                  <strong>实现思路</strong>：STM32H743 + CAM摄像头模块 + 土壤温湿度/EC + 光照BH1750 + SX1278(SPI) + ESP32(上传云) + 太阳能<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32H7</span><span class="ic-tag">边缘计算</span><span class="ic-tag">LoRa</span><span class="ic-tag">金柚</span><span class="ic-tag">★梅州特色</span></div>
               </div>
@@ -1204,9 +1322,18 @@ n4 --&gt; n5
 </div>
                   <div class="figure-caption">图 基于物联网的智能蔬菜大棚架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32F103 + SHT30 + BH1750 + 土壤EC + DS18B20 + RS485主从 + 继电器(卷帘电机/水泵/通风) + ESP32</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：单棚内RS485布4~8个STM32F103从机采集，1个ESP32主机Modbus轮询并上传阿里云；设定阈值自动卷膜/灌溉/补光。</li>
+                    <li><strong>方案 B</strong>：用NB-IoT BC95替代ESP32，适合无WiFi的乡村大棚。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32F103 + SHT30 + BH1750 + 土壤EC + DS18B20 + RS485主从 + 继电器(卷帘电机/水泵/通风) + ESP32<br>
-                  <strong>实现方案</strong>：方案A：单棚内RS485布4~8个STM32F103从机采集，1个ESP32主机Modbus轮询并上传阿里云；设定阈值自动卷膜/灌溉/补光。方案B：用NB-IoT BC95替代ESP32，适合无WiFi的乡村大棚。
+                  <strong>实现思路</strong>：STM32F103 + SHT30 + BH1750 + 土壤EC + DS18B20 + RS485主从 + 继电器(卷帘电机/水泵/通风) + ESP32<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32F103</span><span class="ic-tag">ESP32</span><span class="ic-tag">温湿度</span><span class="ic-tag">卷帘</span><span class="ic-tag">灌溉</span></div>
               </div>
@@ -1242,9 +1369,18 @@ n4 --&gt; n5
 </div>
                   <div class="figure-caption">图 面向小型农户的农作业模块与系统架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STC89C52核心板 + 土壤湿度 + 继电器(电磁阀) + NRF24L01/SX1278 LoRa可选 + OLED显示 + 4*4矩阵键</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：入门版用STC89C52+LCD1602，按键设置浇灌时长，适合教学。</li>
+                    <li><strong>方案 B</strong>：STM32+LoRa构建模块化“传感/控制/电源/通信”4块标准板，农户按地块选择组合。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STC89C52核心板 + 土壤湿度 + 继电器(电磁阀) + NRF24L01/SX1278 LoRa可选 + OLED显示 + 4*4矩阵键<br>
-                  <strong>实现方案</strong>：方案A：入门版用STC89C52+LCD1602，按键设置浇灌时长，适合教学。方案B：STM32+LoRa构建模块化“传感/控制/电源/通信”4块标准板，农户按地块选择组合。
+                  <strong>实现思路</strong>：STC89C52核心板 + 土壤湿度 + 继电器(电磁阀) + NRF24L01/SX1278 LoRa可选 + OLED显示 + 4*4矩阵键<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STC89</span><span class="ic-tag">STM32</span><span class="ic-tag">模块化</span><span class="ic-tag">LoRa</span><span class="ic-tag">低功耗</span></div>
               </div>
@@ -1282,9 +1418,18 @@ n5 --&gt; n6
 </div>
                   <div class="figure-caption">图 自适应巡航鱼饲料投料船架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32F407 + ATGM336H(GPS/北斗) + NEO-6M备用 + 双电机L298N推进 + 舵机方向 + 下料步进电机28BYJ48 + SX1278 LoRa遥控</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：GPS航点巡航模式——上位机在地图上设定5~8个投料点，LoRa下发，船按顺序巡航到点下料并回航。</li>
+                    <li><strong>方案 B</strong>：遥控模式用LoRa手持终端手动操作，适合鱼塘死角应急。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32F407 + ATGM336H(GPS/北斗) + NEO-6M备用 + 双电机L298N推进 + 舵机方向 + 下料步进电机28BYJ48 + SX1278 LoRa遥控<br>
-                  <strong>实现方案</strong>：方案A：GPS航点巡航模式——上位机在地图上设定5~8个投料点，LoRa下发，船按顺序巡航到点下料并回航。方案B：遥控模式用LoRa手持终端手动操作，适合鱼塘死角应急。
+                  <strong>实现思路</strong>：STM32F407 + ATGM336H(GPS/北斗) + NEO-6M备用 + 双电机L298N推进 + 舵机方向 + 下料步进电机28BYJ48 + SX...<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32F407</span><span class="ic-tag">GPS</span><span class="ic-tag">遥控船</span><span class="ic-tag">下料机构</span><span class="ic-tag">巡航</span></div>
               </div>
@@ -1533,9 +1678,18 @@ n6 --&gt; n7
 </div>
                   <div class="figure-caption">图 高速公路坍塌检测与预警系统架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32H743 + MPU6050六轴 + ADXL355高精度加速度 + SX1262 LoRa + BC95 NB-IoT + 压电薄膜振动传感 + 太阳能</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：每30米1节点，H7采集加速度FFT分析振动特征，斜率超限或角度突变时通过LoRa汇聚，并由NB-IoT直接上云推送到路政系统。</li>
+                    <li><strong>方案 B</strong>：仅NB-IoT独立节点部署（不做LoRa汇聚），适合预算有限的短路段。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32H743 + MPU6050六轴 + ADXL355高精度加速度 + SX1262 LoRa + BC95 NB-IoT + 压电薄膜振动传感 + 太阳能<br>
-                  <strong>实现方案</strong>：方案A：每30米1节点，H7采集加速度FFT分析振动特征，斜率超限或角度突变时通过LoRa汇聚，并由NB-IoT直接上云推送到路政系统。方案B：仅NB-IoT独立节点部署（不做LoRa汇聚），适合预算有限的短路段。
+                  <strong>实现思路</strong>：STM32H743 + MPU6050六轴 + ADXL355高精度加速度 + SX1262 LoRa + BC95 NB-IoT + 压电薄膜振动传感 + 太...<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32H7</span><span class="ic-tag">加速度</span><span class="ic-tag">倾角</span><span class="ic-tag">振动</span><span class="ic-tag">NB-IoT</span><span class="ic-tag">Lora</span></div>
               </div>
@@ -1573,9 +1727,18 @@ n5 --&gt; n6
 </div>
                   <div class="figure-caption">图 中学化学实验数据采集与分析平台架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32F407 + PH传感器模块SEN0161 + DS18B20温度 + BMP280气压 + ADC电流采集 + USB VCP虚拟串口 + PYQT上位机</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：多通道同步采集（PH/温度/气压/电流），10Hz采样率，F4做数字滤波（滑动平均/中值），USB VCP上传到上位机绘制滴定曲线。</li>
+                    <li><strong>方案 B</strong>：WiFi版加ESP-01上传数据大屏展示，适合公开课展示。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32F407 + PH传感器模块SEN0161 + DS18B20温度 + BMP280气压 + ADC电流采集 + USB VCP虚拟串口 + PYQT上位机<br>
-                  <strong>实现方案</strong>：方案A：多通道同步采集（PH/温度/气压/电流），10Hz采样率，F4做数字滤波（滑动平均/中值），USB VCP上传到上位机绘制滴定曲线。方案B：WiFi版加ESP-01上传数据大屏展示，适合公开课展示。
+                  <strong>实现思路</strong>：STM32F407 + PH传感器模块SEN0161 + DS18B20温度 + BMP280气压 + ADC电流采集 + USB VCP虚拟串口 + PYQT...<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32F4</span><span class="ic-tag">PH</span><span class="ic-tag">温度</span><span class="ic-tag">滴定实验</span><span class="ic-tag">数据采集</span></div>
               </div>
@@ -1611,9 +1774,18 @@ n4 --&gt; n5
 </div>
                   <div class="figure-caption">图 校园体能训练监测设备架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>ESP32 + MAX30102血氧心率 + MPU6050 + DS1307RTC计时 + 红外对管计时门 + LCD + 语音播报模块</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：跑操计时——红外对管检测过线，MAX30102测心率，上传到班级Web。</li>
+                    <li><strong>方案 B</strong>：跳绳计次——MPU6050识别摆动，BLE同步手机APP。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：ESP32 + MAX30102血氧心率 + MPU6050 + DS1307RTC计时 + 红外对管计时门 + LCD + 语音播报模块<br>
-                  <strong>实现方案</strong>：方案A：跑操计时——红外对管检测过线，MAX30102测心率，上传到班级Web。方案B：跳绳计次——MPU6050识别摆动，BLE同步手机APP。
+                  <strong>实现思路</strong>：ESP32 + MAX30102血氧心率 + MPU6050 + DS1307RTC计时 + 红外对管计时门 + LCD + 语音播报模块<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">ESP32</span><span class="ic-tag">IMU</span><span class="ic-tag">心率</span><span class="ic-tag">体育训练</span><span class="ic-tag">计时</span></div>
               </div>
@@ -1905,9 +2077,18 @@ n4 --&gt; n5
 </div>
                   <div class="figure-caption">图 “灵犀手护”—AI驱动的神经康复手套架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32F407 + FSR-402柔性力阻x5 + 弯曲传感器x5 + MG996R舵机x5肌腱驱动 + HC-08 BLE + ESP32</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：被动训练——ESP32调用AI生成的训练计划，舵机按角度曲线拉动手指肌腱。</li>
+                    <li><strong>方案 B</strong>：主动训练——FSR力阻检测患者主动握力，反馈至游戏端进行握力对抗训练。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32F407 + FSR-402柔性力阻x5 + 弯曲传感器x5 + MG996R舵机x5肌腱驱动 + HC-08 BLE + ESP32<br>
-                  <strong>实现方案</strong>：方案A：被动训练——ESP32调用AI生成的训练计划，舵机按角度曲线拉动手指肌腱。方案B：主动训练——FSR力阻检测患者主动握力，反馈至游戏端进行握力对抗训练。
+                  <strong>实现思路</strong>：STM32F407 + FSR-402柔性力阻x5 + 弯曲传感器x5 + MG996R舵机x5肌腱驱动 + HC-08 BLE + ESP32<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32F4</span><span class="ic-tag">柔性力阻FSR</span><span class="ic-tag">舵机驱动</span><span class="ic-tag">医疗康复</span><span class="ic-tag">AI反馈</span></div>
               </div>
@@ -1943,9 +2124,18 @@ n4 --&gt; n5
 </div>
                   <div class="figure-caption">图 迅光反应——反应灯体育训练系统架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32F103xN + WS2812B灯珠 x8（多个独立灯柱） + 按键 + 无线NRF24L01 + 中心节点ESP32</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：分散式灯柱——反应灯随机点亮，运动员按下后灯熄灭，ESP32统计反应时/命中率。</li>
+                    <li><strong>方案 B</strong>：灯光方向提示训练，教练APP选择训练科目模式。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32F103xN + WS2812B灯珠 x8（多个独立灯柱） + 按键 + 无线NRF24L01 + 中心节点ESP32<br>
-                  <strong>实现方案</strong>：方案A：分散式灯柱——反应灯随机点亮，运动员按下后灯熄灭，ESP32统计反应时/命中率。方案B：灯光方向提示训练，教练APP选择训练科目模式。
+                  <strong>实现思路</strong>：STM32F103xN + WS2812B灯珠 x8（多个独立灯柱） + 按键 + 无线NRF24L01 + 中心节点ESP32<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32F103</span><span class="ic-tag">LED反应灯</span><span class="ic-tag">体育训练</span><span class="ic-tag">计时</span></div>
               </div>
@@ -2190,9 +2380,18 @@ n3 --&gt; n4
 </div>
                   <div class="figure-caption">图 基于数字孪生的智慧停车系统架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32F407 + QMC5883地磁传感器 + HC-SR04超声 + ESP32/NB-IoT BC95 + 摄像头 + LED地灯指示</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：每个车位地磁+超声双模态检测占用，ESP32汇聚WiFi上传。</li>
+                    <li><strong>方案 B</strong>：NB-IoT独立节点上传，3D引擎渲染停车场数字孪生大屏。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32F407 + QMC5883地磁传感器 + HC-SR04超声 + ESP32/NB-IoT BC95 + 摄像头 + LED地灯指示<br>
-                  <strong>实现方案</strong>：方案A：每个车位地磁+超声双模态检测占用，ESP32汇聚WiFi上传。方案B：NB-IoT独立节点上传，3D引擎渲染停车场数字孪生大屏。
+                  <strong>实现思路</strong>：STM32F407 + QMC5883地磁传感器 + HC-SR04超声 + ESP32/NB-IoT BC95 + 摄像头 + LED地灯指示<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32F4</span><span class="ic-tag">地磁</span><span class="ic-tag">车位检测</span><span class="ic-tag">数字孪生</span></div>
               </div>
@@ -2378,9 +2577,18 @@ n4 --&gt; n5
 </div>
                   <div class="figure-caption">图 建筑工地特殊工种安全管理系统架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32F407 + MFRC522 RFID + HC-02蓝牙 + MQ-2气体 + 蜂鸣器 + LED警示 + SX1278 LoRa定位网关 + ESP32云同步</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：安全帽内嵌RFID卡，入口MFRC522打卡+工种权限校验；MQ-2气体超标时声光报警，施工区域LoRa RSSI+三点定位。</li>
+                    <li><strong>方案 B</strong>：增加OV2640视觉安全帽佩戴检测，接入边缘盒子。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32F407 + MFRC522 RFID + HC-02蓝牙 + MQ-2气体 + 蜂鸣器 + LED警示 + SX1278 LoRa定位网关 + ESP32云同步<br>
-                  <strong>实现方案</strong>：方案A：安全帽内嵌RFID卡，入口MFRC522打卡+工种权限校验；MQ-2气体超标时声光报警，施工区域LoRa RSSI+三点定位。方案B：增加OV2640视觉安全帽佩戴检测，接入边缘盒子。
+                  <strong>实现思路</strong>：STM32F407 + MFRC522 RFID + HC-02蓝牙 + MQ-2气体 + 蜂鸣器 + LED警示 + SX1278 LoRa定位网关 + ES...<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32F4</span><span class="ic-tag">RFID</span><span class="ic-tag">安全帽检测</span><span class="ic-tag">LoRa</span><span class="ic-tag">定位</span></div>
               </div>
@@ -2416,9 +2624,18 @@ n4 --&gt; n5
 </div>
                   <div class="figure-caption">图 中小企业MES系统推广（边缘采集版）架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32F103 + 3路RS485 + 8路DI/4DO继电器 + ESP32 WiFi + 以太网W5500 + SD卡离线缓存</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：STM32F103做Modbus RTU主站轮询CNC/注塑机/冲压机RS485数据，以太网/W5500或ESP32推送MES。</li>
+                    <li><strong>方案 B</strong>：SD卡记录断网缓存，网络恢复续传。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32F103 + 3路RS485 + 8路DI/4DO继电器 + ESP32 WiFi + 以太网W5500 + SD卡离线缓存<br>
-                  <strong>实现方案</strong>：方案A：STM32F103做Modbus RTU主站轮询CNC/注塑机/冲压机RS485数据，以太网/W5500或ESP32推送MES。方案B：SD卡记录断网缓存，网络恢复续传。
+                  <strong>实现思路</strong>：STM32F103 + 3路RS485 + 8路DI/4DO继电器 + ESP32 WiFi + 以太网W5500 + SD卡离线缓存<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32F103</span><span class="ic-tag">Modbus</span><span class="ic-tag">MES</span><span class="ic-tag">数据采集</span></div>
               </div>
@@ -2454,9 +2671,18 @@ n4 --&gt; n5
 </div>
                   <div class="figure-caption">图 V2X场景下基于信息融合的自动驾驶智能策略研究架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32H7 + MPU6050 + HCSR04超声x8 + OV5640 + TB6612电机驱动 + NRF24L01车车通信 + CAN总线 + Jetson Nano</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：多车NRF24L01广播位置，H7融合IMU/超声+V2X位置，A*算法避障路径规划。</li>
+                    <li><strong>方案 B</strong>：Jetson Nano图像识别行人/信号灯，H7执行CAN总线底盘控制。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32H7 + MPU6050 + HCSR04超声x8 + OV5640 + TB6612电机驱动 + NRF24L01车车通信 + CAN总线 + Jetson Nano<br>
-                  <strong>实现方案</strong>：方案A：多车NRF24L01广播位置，H7融合IMU/超声+V2X位置，A*算法避障路径规划。方案B：Jetson Nano图像识别行人/信号灯，H7执行CAN总线底盘控制。
+                  <strong>实现思路</strong>：STM32H7 + MPU6050 + HCSR04超声x8 + OV5640 + TB6612电机驱动 + NRF24L01车车通信 + CAN总线 + Je...<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32H7</span><span class="ic-tag">V2X</span><span class="ic-tag">信息融合</span><span class="ic-tag">小车实验平台</span></div>
               </div>
@@ -2650,9 +2876,18 @@ n4 --&gt; n5
 </div>
                   <div class="figure-caption">图 基于STM32多功能的智能PID焊台系统架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32F103C8 + T12/K头烙铁发热芯 + K热电偶MAX6675 + EC11编码器 + 1.3"OLED SH1106 + N-MOS IRF540 + USB-C供电</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：增量式PID控温（PWM+周期采样），温度采样10Hz；支持3组温度预设+休眠模式+唤醒。</li>
+                    <li><strong>方案 B</strong>：MAX6675改PT100+MAX31865精度更高，增加掉电EEPROM保存曲线。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32F103C8 + T12/K头烙铁发热芯 + K热电偶MAX6675 + EC11编码器 + 1.3"OLED SH1106 + N-MOS IRF540 + USB-C供电<br>
-                  <strong>实现方案</strong>：方案A：增量式PID控温（PWM+周期采样），温度采样10Hz；支持3组温度预设+休眠模式+唤醒。方案B：MAX6675改PT100+MAX31865精度更高，增加掉电EEPROM保存曲线。
+                  <strong>实现思路</strong>：STM32F103C8 + T12/K头烙铁发热芯 + K热电偶MAX6675 + EC11编码器 + 1.3"OLED SH1106 + N-MOS IRF5...<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32F103</span><span class="ic-tag">PID控温</span><span class="ic-tag">T12</span><span class="ic-tag">OLED</span><span class="ic-tag">编码器</span></div>
               </div>
@@ -2688,9 +2923,18 @@ n4 --&gt; n5
 </div>
                   <div class="figure-caption">图 智能监测污水无人小船架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32F407 + DS18B20水温 + PH0-14 + TDS电导率 + 浊度 + 溶解氧DO + 双推进L298N + GPS + EC20 4G + SX1262 LoRa</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：预设GPS航点巡航，定时采样水质数据，EC20 MQTT上传云平台显示浓度热力图。</li>
+                    <li><strong>方案 B</strong>：LoRa手控模式，近距操作。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32F407 + DS18B20水温 + PH0-14 + TDS电导率 + 浊度 + 溶解氧DO + 双推进L298N + GPS + EC20 4G + SX1262 LoRa<br>
-                  <strong>实现方案</strong>：方案A：预设GPS航点巡航，定时采样水质数据，EC20 MQTT上传云平台显示浓度热力图。方案B：LoRa手控模式，近距操作。
+                  <strong>实现思路</strong>：STM32F407 + DS18B20水温 + PH0-14 + TDS电导率 + 浊度 + 溶解氧DO + 双推进L298N + GPS + EC20 4G ...<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32F407</span><span class="ic-tag">无人船</span><span class="ic-tag">水质传感</span><span class="ic-tag">4G</span></div>
               </div>
@@ -2974,9 +3218,18 @@ n4 --&gt; n5
 </div>
                   <div class="figure-caption">图 社区智能垃圾收集机器人架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32F407底盘 + 编码器驱动 + RPLIDAR A1 + OV5640 + 4G/EC20 + 语音模块WT2003M02 + 垃圾分类机械盖</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：RPLIDAR构建栅格地图，GMapping SLAM自主巡逻；居民呼叫语音或APP调度，机器人到点开盖收集。</li>
+                    <li><strong>方案 B</strong>：摄像头视觉识别干/湿垃圾自动分仓。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32F407底盘 + 编码器驱动 + RPLIDAR A1 + OV5640 + 4G/EC20 + 语音模块WT2003M02 + 垃圾分类机械盖<br>
-                  <strong>实现方案</strong>：方案A：RPLIDAR构建栅格地图，GMapping SLAM自主巡逻；居民呼叫语音或APP调度，机器人到点开盖收集。方案B：摄像头视觉识别干/湿垃圾自动分仓。
+                  <strong>实现思路</strong>：STM32F407底盘 + 编码器驱动 + RPLIDAR A1 + OV5640 + 4G/EC20 + 语音模块WT2003M02 + 垃圾分类机械盖<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32F4</span><span class="ic-tag">ROS</span><span class="ic-tag">SLAM</span><span class="ic-tag">垃圾分类</span><span class="ic-tag">语音</span></div>
               </div>
@@ -3012,9 +3265,18 @@ n4 --&gt; n5
 </div>
                   <div class="figure-caption">图 智能无序混合码垛机器臂系统研发及应用架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32H743 + 6轴舵机/伺服 + PCA9685驱动 + 拉力传感 + OV2640 + Python上位机OpenCV识别</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：D-H参数法建立六轴模型，STM32H7实现逆运动学计算；视觉抓取无序件并码垛。</li>
+                    <li><strong>方案 B</strong>：用MoveIt!+ROS2上位机规划，H7做关节伺服。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32H743 + 6轴舵机/伺服 + PCA9685驱动 + 拉力传感 + OV2640 + Python上位机OpenCV识别<br>
-                  <strong>实现方案</strong>：方案A：D-H参数法建立六轴模型，STM32H7实现逆运动学计算；视觉抓取无序件并码垛。方案B：用MoveIt!+ROS2上位机规划，H7做关节伺服。
+                  <strong>实现思路</strong>：STM32H743 + 6轴舵机/伺服 + PCA9685驱动 + 拉力传感 + OV2640 + Python上位机OpenCV识别<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32H7</span><span class="ic-tag">六轴机械臂</span><span class="ic-tag">逆运动学</span><span class="ic-tag">视觉识别</span></div>
               </div>
@@ -3050,9 +3312,18 @@ n4 --&gt; n5
 </div>
                   <div class="figure-caption">图 边缘翼——驱动三农发展新动能的无人机系统架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32F407飞控（MPU6050+气压MS5611+地磁HMC5883L）+ GPS + 四轴无刷电调 + 摄像头+图传 + SX1278遥控 + 喷药泵</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：飞控PID+GPS航点，自动航线喷药。</li>
+                    <li><strong>方案 B</strong>：LoRa长距离（3km）手动控制，一键返航。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32F407飞控（MPU6050+气压MS5611+地磁HMC5883L）+ GPS + 四轴无刷电调 + 摄像头+图传 + SX1278遥控 + 喷药泵<br>
-                  <strong>实现方案</strong>：方案A：飞控PID+GPS航点，自动航线喷药。方案B：LoRa长距离（3km）手动控制，一键返航。
+                  <strong>实现思路</strong>：STM32F407飞控（MPU6050+气压MS5611+地磁HMC5883L）+ GPS + 四轴无刷电调 + 摄像头+图传 + SX1278遥控 + 喷药泵<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32F407</span><span class="ic-tag">四轴</span><span class="ic-tag">农业</span><span class="ic-tag">LoRa遥控</span><span class="ic-tag">GPS返航</span></div>
               </div>
@@ -3334,9 +3605,18 @@ n4 --&gt; n5
 </div>
                   <div class="figure-caption">图 物联网数据传输与加密架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32F407 + ATECC608A硬件加密芯片 + ESP32 + SX1262 LoRa + SD卡 + W5500以太网</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：LoRa应用层AES-128加密，密钥存储在ATECC608A不可读安全区；ESP32端TLS1.3+证书双向认证。</li>
+                    <li><strong>方案 B</strong>：增加国密SM4/SM2软件实现。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32F407 + ATECC608A硬件加密芯片 + ESP32 + SX1262 LoRa + SD卡 + W5500以太网<br>
-                  <strong>实现方案</strong>：方案A：LoRa应用层AES-128加密，密钥存储在ATECC608A不可读安全区；ESP32端TLS1.3+证书双向认证。方案B：增加国密SM4/SM2软件实现。
+                  <strong>实现思路</strong>：STM32F407 + ATECC608A硬件加密芯片 + ESP32 + SX1262 LoRa + SD卡 + W5500以太网<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32F4</span><span class="ic-tag">ATECC608</span><span class="ic-tag">AES</span><span class="ic-tag">ECC</span><span class="ic-tag">加密传输</span></div>
               </div>
@@ -3370,9 +3650,18 @@ n3 --&gt; n4
 </div>
                   <div class="figure-caption">图 澜峙农业数字工厂架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>多个STM32F1/LoRa节点 + ESP32边缘网关 + EMQX MQTT + 4G + 数据大屏 + 后端Spring Boot</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：LoRaWAN Class A节点采集，网关转发EMQX，后端可视化展示“农业工厂”指标——播种/生长/收成全链路。</li>
+                    <li><strong>方案 B</strong>：增加现场HMI屏触控。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：多个STM32F1/LoRa节点 + ESP32边缘网关 + EMQX MQTT + 4G + 数据大屏 + 后端Spring Boot<br>
-                  <strong>实现方案</strong>：方案A：LoRaWAN Class A节点采集，网关转发EMQX，后端可视化展示“农业工厂”指标——播种/生长/收成全链路。方案B：增加现场HMI屏触控。
+                  <strong>实现思路</strong>：多个STM32F1/LoRa节点 + ESP32边缘网关 + EMQX MQTT + 4G + 数据大屏 + 后端Spring Boot<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">数字工厂</span><span class="ic-tag">LoRa</span><span class="ic-tag">多节点</span><span class="ic-tag">数据大屏</span></div>
               </div>
@@ -3562,9 +3851,18 @@ n4 --&gt; n5
 </div>
                   <div class="figure-caption">图 自动翻页扫描机器架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32F407 + A4988步进x2(翻页辊+走纸) + 微型气泵(吸纸) + 舵机压纸 + USB摄像头 + 上位机OCR + ESP32远程</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：F4驱动气泵吸起单页→A4988辊翻→舵机压平→USB拍照→OCR。</li>
+                    <li><strong>方案 B</strong>：ESP32远程启动，适合无人档案扫描。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32F407 + A4988步进x2(翻页辊+走纸) + 微型气泵(吸纸) + 舵机压纸 + USB摄像头 + 上位机OCR + ESP32远程<br>
-                  <strong>实现方案</strong>：方案A：F4驱动气泵吸起单页→A4988辊翻→舵机压平→USB拍照→OCR。方案B：ESP32远程启动，适合无人档案扫描。
+                  <strong>实现思路</strong>：STM32F407 + A4988步进x2(翻页辊+走纸) + 微型气泵(吸纸) + 舵机压纸 + USB摄像头 + 上位机OCR + ESP32远程<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32F4</span><span class="ic-tag">气泵+翻页</span><span class="ic-tag">图像扫描</span><span class="ic-tag">OCR</span></div>
               </div>
@@ -3598,9 +3896,18 @@ n3 --&gt; n4
 </div>
                   <div class="figure-caption">图 易养鸽肉鸽生产管理系统架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32F103 + DS18B20 + SHT30 + 重量传感器HX711 + 步进下料 + SX1278 LoRa + EC20 4G上传</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：每笼重量判断进食情况；温度异常报警。</li>
+                    <li><strong>方案 B</strong>：LoRa汇聚网关，30栋鸽舍统一平台。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32F103 + DS18B20 + SHT30 + 重量传感器HX711 + 步进下料 + SX1278 LoRa + EC20 4G上传<br>
-                  <strong>实现方案</strong>：方案A：每笼重量判断进食情况；温度异常报警。方案B：LoRa汇聚网关，30栋鸽舍统一平台。
+                  <strong>实现思路</strong>：STM32F103 + DS18B20 + SHT30 + 重量传感器HX711 + 步进下料 + SX1278 LoRa + EC20 4G上传<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32F103</span><span class="ic-tag">料槽</span><span class="ic-tag">温湿</span><span class="ic-tag">种鸽管理</span></div>
               </div>
@@ -3636,9 +3943,18 @@ n4 --&gt; n5
 </div>
                   <div class="figure-caption">图 中小企业物流机器人的技术研究与应用架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32F407 + 编码器驱动轮 + 二维码摄像头 + 碰撞开关 + 红外避障 + ESP32 WiFi + 呼叫按钮</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：二维码贴地导航，机器人扫码前进；呼叫按钮下发任务。</li>
+                    <li><strong>方案 B</strong>：激光+SLAM替代二维码。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32F407 + 编码器驱动轮 + 二维码摄像头 + 碰撞开关 + 红外避障 + ESP32 WiFi + 呼叫按钮<br>
-                  <strong>实现方案</strong>：方案A：二维码贴地导航，机器人扫码前进；呼叫按钮下发任务。方案B：激光+SLAM替代二维码。
+                  <strong>实现思路</strong>：STM32F407 + 编码器驱动轮 + 二维码摄像头 + 碰撞开关 + 红外避障 + ESP32 WiFi + 呼叫按钮<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32F4</span><span class="ic-tag">AGV</span><span class="ic-tag">二维码</span><span class="ic-tag">物流</span></div>
               </div>
@@ -3674,9 +3990,18 @@ n4 --&gt; n5
 </div>
                   <div class="figure-caption">图 自动化种植花园机器架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32H743 + 土壤湿度/PH + 水泵 + 播种漏斗+舵机 + 3轴丝杆移动 + 摄像头识别 + ESP32 + LoRa</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：设定网格种植，3轴丝杆步进定位，舵机漏斗播种→后续浇水+监测。</li>
+                    <li><strong>方案 B</strong>：云图像识别虫害/缺素。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32H743 + 土壤湿度/PH + 水泵 + 播种漏斗+舵机 + 3轴丝杆移动 + 摄像头识别 + ESP32 + LoRa<br>
-                  <strong>实现方案</strong>：方案A：设定网格种植，3轴丝杆步进定位，舵机漏斗播种→后续浇水+监测。方案B：云图像识别虫害/缺素。
+                  <strong>实现思路</strong>：STM32H743 + 土壤湿度/PH + 水泵 + 播种漏斗+舵机 + 3轴丝杆移动 + 摄像头识别 + ESP32 + LoRa<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32H7</span><span class="ic-tag">种植</span><span class="ic-tag">自动播种/浇水</span></div>
               </div>
@@ -3866,9 +4191,18 @@ n3 --&gt; n4
 </div>
                   <div class="figure-caption">图 嵌入式人工智能技术应用的智能会议系统架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32MP157 + 3麦阵列INMP441 + OV5640 + WS2812B指示 + ESP32 + 3.5"LCD + 大模型纪要API</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：3麦波束形成降噪 + A7核KWS唤醒词，记录音频上传云端大模型自动写纪要。</li>
+                    <li><strong>方案 B</strong>：MP1仅采集，纪要全部云端API。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：STM32MP157 + 3麦阵列INMP441 + OV5640 + WS2812B指示 + ESP32 + 3.5"LCD + 大模型纪要API<br>
-                  <strong>实现方案</strong>：方案A：3麦波束形成降噪 + A7核KWS唤醒词，记录音频上传云端大模型自动写纪要。方案B：MP1仅采集，纪要全部云端API。
+                  <strong>实现思路</strong>：STM32MP157 + 3麦阵列INMP441 + OV5640 + WS2812B指示 + ESP32 + 3.5"LCD + 大模型纪要API<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">STM32MP1</span><span class="ic-tag">TinyML</span><span class="ic-tag">会议纪要</span><span class="ic-tag">降噪</span></div>
               </div>
@@ -3902,9 +4236,18 @@ n3 --&gt; n4
 </div>
                   <div class="figure-caption">图 智学萌宠养成记：智能硬件与编程启蒙课堂架构图</div>
                 </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>Arduino UNO + 面包板实验套件（LED/蜂鸣器/按键/电位器/LCD） + ESP32 + 萌宠外壳 + Blynk APP</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A</strong>：课时1-6基于Arduino C逐级搭建萌宠表情、喂食、步数等功能。</li>
+                    <li><strong>方案 B</strong>：ESP32+Scratch图形化Blockly，低年级适配。</li>
+                  </ul>
+                </div>
                 <div class="ic-impl">
-                  <strong>硬件组成</strong>：Arduino UNO + 面包板实验套件（LED/蜂鸣器/按键/电位器/LCD） + ESP32 + 萌宠外壳 + Blynk APP<br>
-                  <strong>实现方案</strong>：方案A：课时1-6基于Arduino C逐级搭建萌宠表情、喂食、步数等功能。方案B：ESP32+Scratch图形化Blockly，低年级适配。
+                  <strong>实现思路</strong>：Arduino UNO + 面包板实验套件（LED/蜂鸣器/按键/电位器/LCD） + ESP32 + 萌宠外壳 + Blynk APP<br>
+                  <strong>课程对接</strong>：综合应用单片机相关章节内容。
                 </div>
                 <div class="ic-tags"><span class="ic-tag">Arduino</span><span class="ic-tag">教育启蒙</span><span class="ic-tag">编程教具</span><span class="ic-tag">创客</span></div>
               </div>
@@ -3943,6 +4286,90 @@ document.querySelectorAll('.proj-header').forEach(function (h) {
     h.classList.toggle('open', open);
   });
 });
+</script>
+<!-- 密码验证模态框 -->
+<div class="auth-overlay" id="auth-overlay">
+  <div class="auth-box">
+    <h3>应用创意 - 访问验证</h3>
+    <p>本页面内容需要密码才能查看，请输入访问密码</p>
+    <input type="password" id="auth-input" placeholder="请输入密码" autocomplete="off" />
+    <div class="auth-error" id="auth-error"></div>
+    <button id="auth-submit">确 认</button>
+    <div class="auth-hint">管理员可查看完整架构图与源码；普通用户仅可查看文字描述</div>
+  </div>
+</div>
+
+<script>
+/* 密码验证（仅应用创意页面） - 使用 SHA-256 哈希比对，源码中不含明文密码 */
+(function () {
+  'use strict';
+
+  // 存储哈希值，非明文
+  var HASH_ADMIN = 'b172c101120afdb51942c124b7817b1c14cdc4f2088963321b5e72e23891f810';
+  var HASH_USER = 'd52ae2c298ebcf2b9bc945b081a84627855eeeb0ce8e24186fa235b53f63bc79';
+
+  var overlay = document.getElementById('auth-overlay');
+  var input = document.getElementById('auth-input');
+  var btn = document.getElementById('auth-submit');
+  var err = document.getElementById('auth-error');
+  var roleDisplay = document.getElementById('role-display');
+
+  // SHA-256 helper（使用浏览器原生 SubtleCrypto）
+  function sha256(text) {
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(text))
+      .then(function (buf) {
+        return Array.from(new Uint8Array(buf)).map(function (b) {
+          return b.toString(16).padStart(2, '0');
+        }).join('');
+      });
+  }
+
+  function setRole(role) {
+    document.body.classList.add('authed');
+    if (role === 'admin') {
+      document.body.classList.remove('user-role');
+      if (roleDisplay) roleDisplay.innerHTML = '<span class="role-badge admin">管理员</span><button class="auth-logout" id="auth-logout">退出</button>';
+    } else {
+      document.body.classList.add('user-role');
+      if (roleDisplay) roleDisplay.innerHTML = '<span class="role-badge user">普通用户</span><button class="auth-logout" id="auth-logout">退出</button>';
+    }
+    overlay.classList.add('hidden');
+    sessionStorage.setItem('ideas_auth', role);
+
+    var logout = document.getElementById('auth-logout');
+    if (logout) logout.addEventListener('click', function () {
+      sessionStorage.removeItem('ideas_auth');
+      location.reload();
+    });
+  }
+
+  function tryAuth(password) {
+    sha256(password).then(function (hash) {
+      if (hash === HASH_ADMIN) {
+        setRole('admin');
+      } else if (hash === HASH_USER) {
+        setRole('user');
+      } else {
+        err.textContent = '密码错误，请重试';
+        input.value = '';
+        input.focus();
+      }
+    }).catch(function () {
+      err.textContent = '验证失败，请刷新重试';
+    });
+  }
+
+  btn.addEventListener('click', function () { tryAuth(input.value); });
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') tryAuth(input.value);
+  });
+
+  // 检查 session 状态
+  var saved = sessionStorage.getItem('ideas_auth');
+  if (saved === 'admin' || saved === 'user') {
+    setRole(saved);
+  }
+})();
 </script>
 <script src="assets/js/main.js?v=11"></script>
 </body>
