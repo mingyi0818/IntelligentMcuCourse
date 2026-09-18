@@ -48,6 +48,11 @@
       color:#1b4332; font-weight:700; cursor:pointer; font-size:1em; transition:background .15s; }
     #gate button:hover { background:#ffe066; }
     #gate .err { color:#ff8787; font-size:0.85em; min-height:1.2em; margin-top:8px; }
+    .auth-logout-float { position:fixed; right:1.2em; bottom:4.5em; z-index:9000;
+      background:rgba(255,255,255,0.92); border:1px solid #ced4da; color:#495057;
+      font-size:0.8em; padding:0.4em 0.9em; border-radius:20px; cursor:pointer;
+      box-shadow:0 2px 8px rgba(0,0,0,0.12); display:none; }
+    .auth-logout-float:hover { color:#dc2626; border-color:#dc2626; }
   </style>
 </head>
 <body>
@@ -154,6 +159,7 @@
 </div>
 
 <button class="back-to-top" aria-label="返回顶部">↑</button>
+<button class="auth-logout-float" id="auth-logout-float">退出登录</button>
 </div><!-- /#protected -->
 
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
@@ -169,12 +175,19 @@
   var pwd = document.getElementById('gate-pwd');
   var btn = document.getElementById('gate-btn');
   var err = document.getElementById('gate-err');
+  var logoutBtn = document.getElementById('auth-logout-float');
   var PWD = 'jyuiot';
+  var KEY = 'mcu_auth';
+  function open() {
+    gate.style.display = 'none';
+    document.getElementById('protected').style.display = '';
+    window.scrollTo(0, 0);
+    if (logoutBtn) logoutBtn.style.display = 'block';
+  }
   function tryOpen() {
     if (pwd.value.trim() === PWD) {
-      gate.style.display = 'none';
-      document.getElementById('protected').style.display = '';
-      window.scrollTo(0, 0);
+      try { localStorage.setItem(KEY, '1'); } catch (e) {}
+      open();
     } else {
       err.textContent = '口令错误，请重试';
       pwd.value = '';
@@ -183,7 +196,16 @@
   }
   btn.addEventListener('click', tryOpen);
   pwd.addEventListener('keydown', function (e) { if (e.key === 'Enter') tryOpen(); });
-  pwd.focus();
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', function () {
+      try { localStorage.removeItem(KEY); } catch (e) {}
+      location.reload();
+    });
+  }
+  // 单点登录：已在其它页面登录过则直接放行
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved === '1') { open(); } else { pwd.focus(); }
 })();
 </script>
 </body>

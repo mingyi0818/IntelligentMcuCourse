@@ -268,31 +268,21 @@
     .auth-error { color: #dc2626; font-size: 0.85em; margin: 0.5em 0; min-height: 1.2em; }
     .auth-hint { font-size: 0.75em; color: var(--color-text-light); margin-top: 1em; }
 
-    /* 普通用户隐藏内容 */
-    body.user-role .plantuml-figure,
-    body.user-role .plantuml-source,
-    body.user-role .figure-caption {
-      display: none !important;
-    }
-    body.user-role .arch { min-height: 0; margin: 0; }
-    /* 未验证时隐藏内容 */
+    /* 未验证时模糊内容 */
     body:not(.authed) .idea-layout,
     body:not(.authed) .tip + .tip {
       filter: blur(6px); pointer-events: none; user-select: none;
     }
 
-    /* 用户角色标识 */
-    .role-badge {
-      display: inline-block; padding: 0.2em 0.6em; border-radius: 4px;
-      font-size: 0.75em; margin-left: 0.6em; font-weight: 500;
+    /* 已登录后浮动的"退出登录"按钮（不再区分角色，不污染标题） */
+    .auth-logout-float {
+      position: fixed; right: 1.2em; bottom: 4.5em; z-index: 9000;
+      background: rgba(255,255,255,0.92); border: 1px solid var(--color-border);
+      color: var(--color-text-light); font-size: 0.8em; padding: 0.4em 0.9em;
+      border-radius: 20px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      display: none;
     }
-    .role-badge.admin { background: #fef3c7; color: #92400e; }
-    .role-badge.user { background: #dbeafe; color: #1e40af; }
-    .auth-logout {
-      cursor: pointer; color: #6b7280; font-size: 0.8em;
-      margin-left: 0.6em; border: none; background: none; text-decoration: underline;
-    }
-    .auth-logout:hover { color: #dc2626; }
+    .auth-logout-float:hover { color: #dc2626; border-color: #dc2626; }
   </style>
 </head>
 <body>
@@ -322,10 +312,10 @@
     </div>
 
     <section class="idea-hero">
-      <h1>应用创意<span id="role-display"></span></h1>
+      <h1>应用创意</h1>
       <p>面向物联网工程专业的跨学科创新项目实现思路（覆盖感知 · 网络 · 嵌入式 · 云平台 · 移动端）</p>
       <div>
-        <span class="tag">78+ 项目灵感</span>
+        <span class="tag">120+ 项目灵感</span>
         <span class="tag">11 个分类</span>
         <span class="tag">覆盖物联网工程全课程</span>
         <span class="tag">含 LoRa / NB-IoT 项目</span>
@@ -7145,76 +7135,44 @@ document.querySelectorAll('.proj-header').forEach(function (h) {
   });
 });
 </script>
-<!-- 密码验证模态框 -->
+<!-- 访问验证（单点登录：口令通过一次即在本机所有页面生效，不再区分角色） -->
 <div class="auth-overlay" id="auth-overlay">
   <div class="auth-box">
     <h3>应用创意 - 访问验证</h3>
-    <p>本页面内容需要密码才能查看，请输入访问密码</p>
-    <input type="password" id="auth-input" placeholder="请输入密码" autocomplete="off" />
+    <p>本页内容仅向物联网工程专业师生开放，请输入访问口令</p>
+    <input type="password" id="auth-input" placeholder="请输入访问口令" autocomplete="off" />
     <div class="auth-error" id="auth-error"></div>
-    <button id="auth-submit">确 认</button>
-    <div class="auth-hint">管理员可查看完整架构图与源码；普通用户仅可查看文字描述</div>
+    <button id="auth-submit">进 入</button>
   </div>
 </div>
 
 <script>
-/* 密码验证（仅应用创意页面） - 使用 SHA-256 哈希比对，源码中不含明文密码 */
+/* 访问验证（应用创意页）：单密码 jyuiot，单点登录（localStorage 共享，全站互通，不再区分角色） */
 (function () {
   'use strict';
-
-  // 存储哈希值，非明文
-  var HASH_ADMIN = 'b172c101120afdb51942c124b7817b1c14cdc4f2088963321b5e72e23891f810';
-  var HASH_USER = 'd52ae2c298ebcf2b9bc945b081a84627855eeeb0ce8e24186fa235b53f63bc79';
-
+  var PWD = 'jyuiot';
+  var KEY = 'mcu_auth';
   var overlay = document.getElementById('auth-overlay');
   var input = document.getElementById('auth-input');
   var btn = document.getElementById('auth-submit');
   var err = document.getElementById('auth-error');
-  var roleDisplay = document.getElementById('role-display');
+  var logoutBtn = document.getElementById('auth-logout-float');
 
-  // SHA-256 helper（使用浏览器原生 SubtleCrypto）
-  function sha256(text) {
-    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(text))
-      .then(function (buf) {
-        return Array.from(new Uint8Array(buf)).map(function (b) {
-          return b.toString(16).padStart(2, '0');
-        }).join('');
-      });
-  }
-
-  function setRole(role) {
+  function unlock() {
     document.body.classList.add('authed');
-    if (role === 'admin') {
-      document.body.classList.remove('user-role');
-      if (roleDisplay) roleDisplay.innerHTML = '<span class="role-badge admin">管理员</span><button class="auth-logout" id="auth-logout">退出</button>';
-    } else {
-      document.body.classList.add('user-role');
-      if (roleDisplay) roleDisplay.innerHTML = '<span class="role-badge user">普通用户</span><button class="auth-logout" id="auth-logout">退出</button>';
-    }
     overlay.classList.add('hidden');
-    sessionStorage.setItem('ideas_auth', role);
-
-    var logout = document.getElementById('auth-logout');
-    if (logout) logout.addEventListener('click', function () {
-      sessionStorage.removeItem('ideas_auth');
-      location.reload();
-    });
+    if (logoutBtn) logoutBtn.style.display = 'block';
+    try { localStorage.setItem(KEY, '1'); } catch (e) {}
   }
 
-  function tryAuth(password) {
-    sha256(password).then(function (hash) {
-      if (hash === HASH_ADMIN) {
-        setRole('admin');
-      } else if (hash === HASH_USER) {
-        setRole('user');
-      } else {
-        err.textContent = '密码错误，请重试';
-        input.value = '';
-        input.focus();
-      }
-    }).catch(function () {
-      err.textContent = '验证失败，请刷新重试';
-    });
+  function tryAuth(pw) {
+    if (pw.trim() === PWD) {
+      unlock();
+    } else {
+      err.textContent = '口令错误，请重试';
+      input.value = '';
+      input.focus();
+    }
   }
 
   btn.addEventListener('click', function () { tryAuth(input.value); });
@@ -7222,13 +7180,24 @@ document.querySelectorAll('.proj-header').forEach(function (h) {
     if (e.key === 'Enter') tryAuth(input.value);
   });
 
-  // 检查 session 状态
-  var saved = sessionStorage.getItem('ideas_auth');
-  if (saved === 'admin' || saved === 'user') {
-    setRole(saved);
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', function () {
+      try { localStorage.removeItem(KEY); } catch (e) {}
+      location.reload();
+    });
+  }
+
+  // 单点登录：已在其它页面登录过则直接放行
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved === '1') {
+    unlock();
+  } else {
+    input.focus();
   }
 })();
 </script>
+<button class="auth-logout-float" id="auth-logout-float">退出登录</button>
 <script src="assets/js/main.js?v=11"></script>
 </body>
 </html>
