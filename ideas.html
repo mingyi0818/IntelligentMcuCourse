@@ -364,6 +364,10 @@
         <!-- ===================== 一、智能家居类 ===================== -->
         
         <!-- ===================== 一、智能家居类 ===================== -->
+        
+        <!-- ===================== 一、智能家居类 ===================== -->
+        
+        <!-- ===================== 一、智能家居类 ===================== -->
         <section id="sec-1" class="idea-cat">
           <button class="cat-header open">
             <span>一、智能家居类 <span class="cat-count">（15 项）</span></span>
@@ -384,21 +388,19 @@
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "市电 220V" as mains #f5f5f5
-rectangle "继电器
-通断控制" as relay #ffe6cc
-rectangle "PZEM-004T
-电能计量" as pzem #d5e8d4
+rectangle "继电器\n通断控制" as relay #ffe6cc
+rectangle "PZEM-004T\n电能计量" as pzem #d5e8d4
 rectangle "ESP32 主控" as esp #dae8fc
-rectangle "OLED/按键
-本地交互" as oled #f8cecc
-rectangle "MQTT/云
-(EMQX/OneNET)" as mqtt #e1d5e8
-rectangle "手机 APP
-微信小程序" as app #f8cecc
+rectangle "OLED/按键\n本地交互" as oled #f8cecc
+rectangle "MQTT/云\n(EMQX/OneNET)" as mqtt #e1d5e8
+rectangle "手机 APP\n微信小程序" as app #f8cecc
 mains --&gt; relay
 mains --&gt; pzem
 relay --&gt; esp
@@ -444,17 +446,18 @@ mqtt --&gt; app
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "麦克风" as mic #d5e8d4
-rectangle "LD3320
-语音识别" as ld #d3e0ea
+rectangle "LD3320\n语音识别" as ld #d3e0ea
 rectangle "STM32F407" as stm #dae8fc
 rectangle "PWM 调光 LED" as led #ffe6cc
 rectangle "OLED 显示" as oled #f8cecc
-rectangle "BH1750
-环境光" as bh #d5e8d4
+rectangle "BH1750\n环境光" as bh #d5e8d4
 mic --&gt; ld
 ld --&gt; stm : :SPI
 stm --&gt; led : :PWM
@@ -498,14 +501,15 @@ bh --&gt; stm : :I2C
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
-rectangle "雨滴/光照
-传感器" as rain #d5e8d4
+rectangle "雨滴/光照\n传感器" as rain #d5e8d4
 rectangle "STM32F103" as stm #dae8fc
-rectangle "直流/步进
-电机" as motor #ffe6cc
+rectangle "直流/步进\n电机" as motor #ffe6cc
 rectangle "ESP8266" as esp #fff2cc
 rectangle "云平台" as cloud #e1d5e8
 rectangle "手机 APP" as app #f8cecc
@@ -552,14 +556,15 @@ cloud --&gt; app
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
-rectangle "灯/插座/锁
-温湿度" as dev #d5e8d4
+rectangle "灯/插座/锁\n温湿度" as dev #d5e8d4
 rectangle "ZigBee 协调器" as z #fff2cc
-rectangle "网关
-(树莓派)" as gw #dae8fc
+rectangle "网关\n(树莓派)" as gw #dae8fc
 rectangle "云平台" as cloud #e1d5e8
 rectangle "APP/语音" as app #f8cecc
 rectangle "路由器" as r #fff2cc
@@ -607,8 +612,11 @@ gw --&gt; app : :局域网
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "指纹/RFID" as fp #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -659,8 +667,11 @@ esp --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "麦克风/喇叭" as mic #f8cecc
 rectangle "本地大模型" as ai #d3e0ea
@@ -711,15 +722,16 @@ esp --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
-rectangle "人体存在
-雷达" as radar #d5e8d4
+rectangle "人体存在\n雷达" as radar #d5e8d4
 rectangle "温湿/CO" as gas #d5e8d4
 rectangle "ESP32" as esp #dae8fc
-rectangle "智能镜
-显示" as mirror #f8cecc
+rectangle "智能镜\n显示" as mirror #f8cecc
 rectangle "WiFi" as wifi #fff2cc
 radar --&gt; esp
 gas --&gt; esp
@@ -763,15 +775,17 @@ esp --&gt; wifi
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "麦克风" as mic #d5e8d4
 rectangle "离线语音" as asr #d3e0ea
 rectangle "STM32" as stm #dae8fc
 rectangle "蓝牙音频" as bt #fff2cc
-rectangle "WS2812
-氛围灯" as led #ffe6cc
+rectangle "WS2812\n氛围灯" as led #ffe6cc
 rectangle "防水喇叭" as spk #ffe6cc
 mic --&gt; asr
 asr --&gt; stm
@@ -816,8 +830,11 @@ stm --&gt; spk
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "机械/触摸键" as key #d5e8d4
 rectangle "旋钮编码" as enc #d5e8d4
@@ -866,8 +883,11 @@ mcu --&gt; bt
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "麦克风/ cam" as mic #d5e8d4
 rectangle "大模型" as ai #d3e0ea
@@ -916,8 +936,11 @@ esp --&gt; scr
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "鞋位检测" as shoe #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -968,8 +991,11 @@ bt --&gt; app
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "麦克风" as mic #d5e8d4
 rectangle "LD3320" as ld #d3e0ea
@@ -1020,8 +1046,11 @@ stm --&gt; esp
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "键盘/指纹" as kp #d5e8d4
 rectangle "MCU" as mcu #dae8fc
@@ -1070,8 +1099,11 @@ batt --&gt; mcu
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "灯/帘/插" as dev #d5e8d4
 rectangle "ZigBee/WiFi" as z #fff2cc
@@ -1121,8 +1153,11 @@ gw --&gt; app
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "摄像头" as cam #d5e8d4
 rectangle "水质/温" as s #d5e8d4
@@ -1181,8 +1216,11 @@ esp --&gt; app
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "溶氧/pH/温" as s #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -1231,8 +1269,11 @@ g --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "土壤湿度" as soil #d5e8d4
 rectangle "DHT11" as dht #d5e8d4
@@ -1281,8 +1322,11 @@ mcu --&gt; lcd
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "土壤/气湿/光" as s #d5e8d4
 rectangle "ESP32" as esp #dae8fc
@@ -1333,8 +1377,11 @@ cloud --&gt; app
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "OpenMV/ cam" as cam #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -1385,8 +1432,11 @@ g --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "深度相机" as cam #d5e8d4
 rectangle "树莓派" as pi #dae8fc
@@ -1437,8 +1487,11 @@ g --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "机载摄像头" as cam #d5e8d4
 rectangle "边缘 AI" as npu #d3e0ea
@@ -1489,8 +1542,11 @@ link --&gt; gs
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "红外/视觉" as ir #d5e8d4
 rectangle "K210 边缘" as k210 #d3e0ea
@@ -1539,8 +1595,11 @@ lora --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "多光谱相机" as cam #d5e8d4
 rectangle "树莓派" as pi #dae8fc
@@ -1591,8 +1650,11 @@ cloud --&gt; scr
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "土壤/环境" as s #d5e8d4
 rectangle "ESP32" as esp #dae8fc
@@ -1641,8 +1703,11 @@ nb --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "即插传感" as mod #d5e8d4
 rectangle "ESP32" as esp #dae8fc
@@ -1691,8 +1756,11 @@ cloud --&gt; app
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "GPS/罗盘" as gps #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -1743,8 +1811,11 @@ stm --&gt; g
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "近红外" as nir #d5e8d4
 rectangle "重量" as w #d5e8d4
@@ -1793,8 +1864,11 @@ ai --&gt; pc
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "深度相机" as cam #d5e8d4
 rectangle "树莓派" as pi #dae8fc
@@ -1843,8 +1917,11 @@ stm --&gt; net
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "温湿/土壤" as s #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -1893,8 +1970,11 @@ stm --&gt; wifi
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "土壤/光/温" as s #d5e8d4
 rectangle "ESP32" as esp #dae8fc
@@ -1943,8 +2023,11 @@ esp --&gt; app
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "土壤/气象" as s #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -1993,8 +2076,11 @@ g --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "土壤/作物" as s #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -2043,8 +2129,11 @@ wifi --&gt; base
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "姿态 IMU" as imu #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -2093,8 +2182,11 @@ stm --&gt; g
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "视觉/导航" as nav #d5e8d4
 rectangle "树莓派" as pi #dae8fc
@@ -2153,8 +2245,11 @@ stm --&gt; wifi
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "噪声传感" as mic #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -2205,8 +2300,11 @@ cloud --&gt; map
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "土/光/温湿" as s #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -2255,8 +2353,11 @@ stm --&gt; pump
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "甲醛/TVOC" as gas #d5e8d4
 rectangle "PM2.5" as pm #d5e8d4
@@ -2305,8 +2406,11 @@ esp --&gt; air
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "水质探头" as probe #d5e8d4
 rectangle "多光谱" as cam #d5e8d4
@@ -2355,8 +2459,11 @@ link --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "倾角/裂缝" as s #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -2407,8 +2514,11 @@ cloud --&gt; scr
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "温度/pH/电导" as s #d5e8d4
 rectangle "ESP32" as esp #dae8fc
@@ -2457,8 +2567,11 @@ web --&gt; db
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "心率" as hr #d5e8d4
 rectangle "IMU" as imu #d5e8d4
@@ -2507,8 +2620,11 @@ bt --&gt; app
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "机载摄像头" as cam #d5e8d4
 rectangle "YOLOv8" as ai #d3e0ea
@@ -2557,8 +2673,11 @@ g --&gt; gs
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "倾角/裂缝/GNSS" as s #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -2607,8 +2726,11 @@ cloud --&gt; scr
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "烟/温/火" as s #d5e8d4
 rectangle "ESP32" as esp #dae8fc
@@ -2657,8 +2779,11 @@ wifi --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "PM2.5/气象" as s #d5e8d4
 rectangle "ESP32" as esp #dae8fc
@@ -2707,8 +2832,11 @@ ai --&gt; map
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "振动/应变" as s #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -2767,8 +2895,11 @@ ai --&gt; scr
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "RTC" as rtc #dae8fc
 rectangle "STM32" as stm #dae8fc
@@ -2819,8 +2950,11 @@ bt --&gt; app
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "超声波/毫米波" as ult #d5e8d4
 rectangle "GPS" as gps #d5e8d4
@@ -2869,8 +3003,11 @@ esp --&gt; g
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "ZigBee 节点" as z #d5e8d4
 rectangle "协调器" as coord #fff2cc
@@ -2919,8 +3056,11 @@ cloud --&gt; app
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "麦克风" as mic #d5e8d4
 rectangle "本地大模型" as ai #d3e0ea
@@ -2969,8 +3109,11 @@ esp --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "穿戴 IMU" as imu #d5e8d4
 rectangle "跌倒算法" as ai #d3e0ea
@@ -3019,8 +3162,11 @@ gps --&gt; app
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "肌电/弯曲" as emg #d5e8d4
 rectangle "ESP32" as esp #dae8fc
@@ -3069,8 +3215,11 @@ bt --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "RGB 灯阵" as led #ffe6cc
 rectangle "按键/触摸" as key #d5e8d4
@@ -3119,8 +3268,11 @@ stm --&gt; bt
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "激光/视觉" as lidar #d5e8d4
 rectangle "树莓派" as pi #dae8fc
@@ -3169,8 +3321,11 @@ stm --&gt; app
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "药品 RFID" as rfid #d5e8d4
 rectangle "ESP32" as esp #dae8fc
@@ -3219,8 +3374,11 @@ gps --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "药柜视觉" as cam #d5e8d4
 rectangle "树莓派" as pi #dae8fc
@@ -3269,8 +3427,11 @@ stm --&gt; his
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "摄像头" as cam #d5e8d4
 rectangle "超声波" as ult #d5e8d4
@@ -3329,8 +3490,11 @@ gps --&gt; app
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "车牌相机" as cam #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -3381,8 +3545,11 @@ stm --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "读卡/扫码" as auth #f8cecc
 rectangle "STM32" as stm #dae8fc
@@ -3433,8 +3600,11 @@ g --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "红外循迹" as ir #d5e8d4
 rectangle "OpenMV" as cam #d5e8d4
@@ -3485,8 +3655,11 @@ stm --&gt; net
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "光照/人感" as s #d5e8d4
 rectangle "ESP32" as esp #dae8fc
@@ -3537,8 +3710,11 @@ cloud --&gt; map
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "车位/道闸" as s #d5e8d4
 rectangle "边缘网关" as edge #dae8fc
@@ -3587,8 +3763,11 @@ cloud --&gt; plan
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "超声波阵" as ult #d5e8d4
 rectangle "摄像头" as cam #d5e8d4
@@ -3637,8 +3816,11 @@ stm --&gt; app
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "人脸/眼 cam" as cam #d5e8d4
 rectangle "方向盘" as wheel #d5e8d4
@@ -3687,8 +3869,11 @@ stm --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "震动" as vib #d5e8d4
 rectangle "电容触控" as touch #d5e8d4
@@ -3737,8 +3922,11 @@ stm --&gt; g
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "循迹/避障" as line #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -3787,8 +3975,11 @@ stm --&gt; wms
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "超声波阵" as ult #d5e8d4
 rectangle "盲区摄像头" as cam #d5e8d4
@@ -3847,8 +4038,11 @@ stm --&gt; buzz
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "MAX6675" as tc #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -3897,8 +4091,11 @@ enc --&gt; stm
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "条码相机" as cam #d5e8d4
 rectangle "树莓派" as pi #dae8fc
@@ -3949,8 +4146,11 @@ net --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "3D 相机" as cam3 #d5e8d4
 rectangle "工控机" as pc #dae8fc
@@ -3999,8 +4199,11 @@ pc --&gt; mes
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "北斗/UWB" as pos #d5e8d4
 rectangle "安全帽相机" as cam #d5e8d4
@@ -4051,8 +4254,11 @@ cloud --&gt; scr
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "设备/PLC" as plc #d5e8d4
 rectangle "边缘网关" as edge #dae8fc
@@ -4101,8 +4307,11 @@ db --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "激光/毫米波/ cam" as s #d5e8d4
 rectangle "融合决策" as fusion #d3e0ea
@@ -4151,8 +4360,11 @@ fusion --&gt; sim
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "K210 视觉" as cam #d5e8d4
 rectangle "称重" as w #d5e8d4
@@ -4201,8 +4413,11 @@ stm --&gt; net
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "视觉/力觉" as cam #d5e8d4
 rectangle "工控机" as pc #dae8fc
@@ -4251,8 +4466,11 @@ pc --&gt; mes
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "工业相机" as cam #d5e8d4
 rectangle "工控机" as pc #dae8fc
@@ -4301,8 +4519,11 @@ stm --&gt; line
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "条码/视觉" as cam #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -4361,8 +4582,11 @@ stm --&gt; wms
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "K210 视觉" as cam #d5e8d4
 rectangle "HX711 称重" as hx #d5e8d4
@@ -4411,8 +4635,11 @@ stm --&gt; net
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "GPS/气压" as gps #d5e8d4
 rectangle "跌倒 IMU" as imu #d5e8d4
@@ -4461,8 +4688,11 @@ esp --&gt; g
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "GPS/北斗" as gps #d5e8d4
 rectangle "心率" as hr #d5e8d4
@@ -4511,8 +4741,11 @@ fence --&gt; app
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "MAX6675" as tc #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -4561,8 +4794,11 @@ stm --&gt; pc
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "水质探头" as probe #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -4613,8 +4849,11 @@ g --&gt; gs
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "摄像头" as cam #d5e8d4
 rectangle "人脸比对" as face #d3e0ea
@@ -4663,8 +4902,11 @@ stm --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "K210 视觉" as cam #d5e8d4
 rectangle "语音" as mic #d5e8d4
@@ -4713,8 +4955,11 @@ stm --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "摄像头" as cam #d5e8d4
 rectangle "语音" as mic #d5e8d4
@@ -4773,8 +5018,11 @@ stm --&gt; spk
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "STM32F4 飞控" as fc #dae8fc
 rectangle "红外热像" as ir #d5e8d4
@@ -4825,8 +5073,11 @@ g --&gt; gs
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "陀螺/加速度" as imu #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -4875,8 +5126,11 @@ stm --&gt; bt
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "MPU6050" as imu #d5e8d4
 rectangle "ESP32" as esp #dae8fc
@@ -4923,8 +5177,11 @@ esp --&gt; wifi
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "气敏阵列" as nose #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -4973,8 +5230,11 @@ stm --&gt; conv
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "激光雷达" as lidar #d5e8d4
 rectangle "里程计" as odo #d5e8d4
@@ -5023,8 +5283,11 @@ pc --&gt; map
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "垃圾桶识别" as cam #d5e8d4
 rectangle "树莓派" as pi #dae8fc
@@ -5073,8 +5336,11 @@ stm --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "3D 相机" as cam3 #d5e8d4
 rectangle "运动控制" as ctrl #dae8fc
@@ -5123,8 +5389,11 @@ ctrl --&gt; mes
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "多光谱" as cam #d5e8d4
 rectangle "边缘 AI" as ai #d3e0ea
@@ -5173,8 +5442,11 @@ fc --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "摄像头" as cam #d5e8d4
 rectangle "气体/生命" as gas #d5e8d4
@@ -5223,8 +5495,11 @@ stm --&gt; g
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "负压吸附" as suck #ffe6cc
 rectangle "视觉" as cam #d5e8d4
@@ -5273,8 +5548,11 @@ stm --&gt; wifi
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "导航" as nav #d5e8d4
 rectangle "树莓派" as pi #dae8fc
@@ -5323,8 +5601,11 @@ stm --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "深度相机" as cam #d5e8d4
 rectangle "树莓派" as pi #dae8fc
@@ -5373,8 +5654,11 @@ stm --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "GPS/罗盘" as gps #d5e8d4
 rectangle "超声波" as ult #d5e8d4
@@ -5423,8 +5707,11 @@ stm --&gt; g
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "摄像头" as cam #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -5483,8 +5770,11 @@ stm --&gt; g
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "温湿/烟/火" as s #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -5533,8 +5823,11 @@ gw --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "光照/人感" as s #d5e8d4
 rectangle "ESP32" as esp #dae8fc
@@ -5583,8 +5876,11 @@ nb --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "RFID 读写" as rfid #d5e8d4
 rectangle "称重" as w #d5e8d4
@@ -5633,8 +5929,11 @@ stm --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "ESP32/派" as node #dae8fc
 rectangle "MQTT broker" as mqtt #fff2cc
@@ -5683,8 +5982,11 @@ plat --&gt; web
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "满溢/称重" as fill #d5e8d4
 rectangle "ESP32" as esp #dae8fc
@@ -5733,8 +6035,11 @@ gps --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "ESP32 节点" as node #dae8fc
 rectangle "轻量加密" as enc #d3e0ea
@@ -5783,8 +6088,11 @@ gw --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "环境/土壤/视频" as s #d5e8d4
 rectangle "边缘网关" as edge #dae8fc
@@ -5833,8 +6141,11 @@ cloud --&gt; ops
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "分布式光纤" as fiber #d5e8d4
 rectangle "振动解调" as demod #dae8fc
@@ -5883,8 +6194,11 @@ stm --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "满溢/气体" as fill #d5e8d4
 rectangle "ESP32" as esp #dae8fc
@@ -5943,8 +6257,11 @@ lora --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "气敏阵列" as nose #d5e8d4
 rectangle "信号调理" as amp #dae8fc
@@ -5993,8 +6310,11 @@ ai --&gt; pc
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "人脸/眼 cam" as cam #d5e8d4
 rectangle "车道/方盘" as lane #d5e8d4
@@ -6043,8 +6363,11 @@ stm --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "温湿/光/振" as s #d5e8d4
 rectangle "ESP32" as esp #dae8fc
@@ -6093,8 +6416,11 @@ net --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "STM32" as stm #dae8fc
 rectangle "步进/舵机" as step #ffe6cc
@@ -6143,8 +6469,11 @@ stm --&gt; pc
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "温湿/氨" as env #d5e8d4
 rectangle "称重/饲喂" as w #d5e8d4
@@ -6193,8 +6522,11 @@ esp --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "激光/视觉" as nav #d5e8d4
 rectangle "树莓派" as pi #dae8fc
@@ -6243,8 +6575,11 @@ stm --&gt; wms
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "土壤/环境" as s #d5e8d4
 rectangle "ESP32" as esp #dae8fc
@@ -6293,8 +6628,11 @@ esp --&gt; app
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "烟/温/气/门" as s #d5e8d4
 rectangle "ESP32" as esp #dae8fc
@@ -6343,8 +6681,11 @@ gis --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "温湿/水浸/烟" as s #d5e8d4
 rectangle "ESP32" as esp #dae8fc
@@ -6403,8 +6744,11 @@ gw --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "北斗/GPS" as gps #d5e8d4
 rectangle "跌倒 IMU" as imu #d5e8d4
@@ -6453,8 +6797,11 @@ esp --&gt; g
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "K210 视觉" as cam #d5e8d4
 rectangle "STM32" as stm #dae8fc
@@ -6503,8 +6850,11 @@ stm --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "摄像头" as cam #d5e8d4
 rectangle "人脸比对" as face #d3e0ea
@@ -6553,8 +6903,11 @@ stm --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "麦克风阵" as mic #d5e8d4
 rectangle "摄像头" as cam #d5e8d4
@@ -6603,8 +6956,11 @@ pi --&gt; cloud
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "教学板" as board #dae8fc
 rectangle "传感套件" as sense #d5e8d4
@@ -6653,8 +7009,11 @@ code --&gt; plat
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "多源传感" as s #d5e8d4
 rectangle "边缘网关" as edge #dae8fc
@@ -6703,8 +7062,11 @@ cloud --&gt; web
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
 skinparam defaultFontName "Microsoft YaHei"
-skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
-skinparam arrow { FontSize 11 Color #333 }
+skinparam rectangleRoundCorner 8
+skinparam rectangleBorderColor #555
+skinparam rectangleFontSize 13
+skinparam arrowFontSize 11
+skinparam arrowColor #333
 left to right direction
 rectangle "教学板" as board #dae8fc
 rectangle "传感套件" as sense #d5e8d4
@@ -6741,6 +7103,10 @@ code --&gt; plat
 
           </div>
         </section>
+
+
+
+
 
 
 
