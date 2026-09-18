@@ -362,9 +362,11 @@
         <!-- ===================== 1. 智能家居类 ===================== -->
         
         <!-- ===================== 一、智能家居类 ===================== -->
+        
+        <!-- ===================== 一、智能家居类 ===================== -->
         <section id="sec-1" class="idea-cat">
           <button class="cat-header open">
-            <span>一、智能家居类 <span class="cat-count">（10 项）</span></span>
+            <span>一、智能家居类 <span class="cat-count">（15 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
@@ -900,17 +902,272 @@ esp --&gt; scr
               </div>
             </div>
 
+            <div class="proj-item red">
+              <button class="proj-header">
+                <span class="ph-title">智能鞋柜系统</span>
+                <span class="ph-meta"><span>主控：STM32</span><span>通信：蓝牙</span><span>难度：★★★☆☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig11.svg" alt="PlantUML 图 11" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "鞋位检测" as shoe #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "烘干/杀菌" as dry #ffe6cc
+rectangle "温湿度" as th #d5e8d4
+rectangle "蓝牙" as bt #fff2cc
+rectangle "手机APP" as app #f8cecc
+shoe --&gt; stm
+stm --&gt; dry
+th --&gt; stm
+stm --&gt; bt
+bt --&gt; app
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 智能鞋柜系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 + 暖风烘干模块 + 紫外线/臭氧杀菌 + 温湿度传感器 + 蓝牙 + OLED + 鞋位检测。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（自动养护）</strong>：放入鞋子后 STM32 自动启动烘干与杀菌，温湿度闭环控制，蓝牙推送状态到手机。</li>
+                    <li><strong>方案 B（APP 管理）</strong>：在方案 A 上加手机 APP 设定模式/定时与除味提醒，并统计使用频次。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>放鞋检测 → 烘干杀菌 → 温湿闭环 → 蓝牙/APP 状态 → 完成提醒。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32 做智能鞋柜主控，烘干杀菌+传感+蓝牙，是嵌入式控制与家居健康的入门综合项目。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、传感器与检测技术实验、嵌入式Linux应用开发、移动应用开发
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32</span><span class="ic-tag">烘干</span><span class="ic-tag">杀菌</span><span class="ic-tag">蓝牙</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item teal">
+              <button class="proj-header">
+                <span class="ph-title">STM32 语音识别智能卫浴控制系统</span>
+                <span class="ph-meta"><span>主控：STM32</span><span>语音：LD3320</span><span>难度：★★★★☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig12.svg" alt="PlantUML 图 12" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "麦克风" as mic #d5e8d4
+rectangle "LD3320" as ld #d3e0ea
+rectangle "STM32" as stm #dae8fc
+rectangle "水阀/风机" as valve #ffe6cc
+rectangle "水温流量" as th #d5e8d4
+rectangle "ESP8266" as esp #fff2cc
+mic --&gt; ld
+ld --&gt; stm
+stm --&gt; valve
+th --&gt; stm
+stm --&gt; esp
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 STM32 语音识别智能卫浴控制系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 + LD3320 语音 + 水温/流量传感器 + 电磁阀 + 风机 + OLED + ESP8266。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（语音控水）</strong>：LD3320 识别"热水/冷水/风干"指令，STM32 控电磁阀与风机，本地响应不依赖网络。</li>
+                    <li><strong>方案 B（上云统计）</strong>：在方案 A 上加 ESP8266 上云记录用水量与习惯，APP 远程预热。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>语音指令 → 识别 → 控水阀/风机 → 传感反馈 → 上云统计。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32 整合语音与卫浴执行器，做本地智能卫浴控制，是消费电子与人机交互实训。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、传感器与检测技术实验、嵌入式Linux应用开发、移动应用开发
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32</span><span class="ic-tag">语音</span><span class="ic-tag">卫浴</span><span class="ic-tag">电磁阀</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item blue">
+              <button class="proj-header">
+                <span class="ph-title">低成本模块化易改造智能门锁</span>
+                <span class="ph-meta"><span>主控：CH582/STM32</span><span>通信：蓝牙</span><span>难度：★★★☆☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig13.svg" alt="PlantUML 图 13" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "键盘/指纹" as kp #d5e8d4
+rectangle "MCU" as mcu #dae8fc
+rectangle "电机锁体" as motor #ffe6cc
+rectangle "蓝牙" as bt #fff2cc
+rectangle "锂电" as batt #f5f5f5
+kp --&gt; mcu
+mcu --&gt; motor
+mcu --&gt; bt
+batt --&gt; mcu
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 低成本模块化易改造智能门锁架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>低功耗 MCU + 密码键盘/指纹模组 + 电机锁体 + 蓝牙 + 锂电池 + 模块化外壳（可后装）。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（后装改造）</strong>：不换原门锁，外加模块驱动锁舌，密码/蓝牙开锁，适合租房与旧门改造。</li>
+                    <li><strong>方案 B（临时授权）</strong>：在方案 A 上加临时密码与开锁日志上云，访客可远程授权。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>输入/蓝牙 → 校验 → 电机驱动锁舌 → 记录 → 上云日志。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：以模块化思路做可后装智能门锁，强调低成本与易改造，是嵌入式固件与机电结合的好题。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、数字逻辑、嵌入式Linux应用开发、移动应用开发
+                </div>
+                <div class="ic-tags"><span class="ic-tag">MCU</span><span class="ic-tag">门锁</span><span class="ic-tag">蓝牙</span><span class="ic-tag">模块化</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item green">
+              <button class="proj-header">
+                <span class="ph-title">基于 IOT 的全屋场景联动教学套件</span>
+                <span class="ph-meta"><span>主控：ESP32×多节点</span><span>通信：WiFi/ZigBee</span><span>难度：★★★★☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig14.svg" alt="PlantUML 图 14" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "灯/帘/插" as dev #d5e8d4
+rectangle "ZigBee/WiFi" as z #fff2cc
+rectangle "网关" as gw #dae8fc
+rectangle "云平台" as cloud #e1d5e8
+rectangle "APP/语音" as app #f8cecc
+dev --&gt; z
+z --&gt; gw
+gw --&gt; cloud
+cloud --&gt; app
+gw --&gt; app
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 基于 IOT 的全屋场景联动教学套件架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>多个 ESP32 节点（灯/插座/窗帘/传感）+ 网关 + 云平台 + APP，支持 ZigBee 或 WiFi 混联。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（场景联动）</strong>：以"回家/睡眠/离家"等场景做多设备联动，本地规则引擎，断网仍可运行。</li>
+                    <li><strong>方案 B（云边协同）</strong>：在方案 A 上接入云平台与语音助手，做多端同步与远程控制。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>传感采集 → 网关规则 → 多设备联动 → 同步云端 → APP/语音。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：面向教学的全屋联动套件，集中体现"感知-网络-应用"三层物联网架构，便于课程实验。<br>
+                  <strong>课程对接</strong>：物联网工程导论、无线传感器网络、嵌入式Linux应用开发、移动应用开发、云计算导论
+                </div>
+                <div class="ic-tags"><span class="ic-tag">ESP32</span><span class="ic-tag">联动</span><span class="ic-tag">网关</span><span class="ic-tag">教学</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item orange">
+              <button class="proj-header">
+                <span class="ph-title">基于物联网与 AI 视觉的智能鱼缸系统</span>
+                <span class="ph-meta"><span>主控：ESP32</span><span>AI：视觉</span><span>难度：★★★★☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig15.svg" alt="PlantUML 图 15" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "摄像头" as cam #d5e8d4
+rectangle "水质/温" as s #d5e8d4
+rectangle "ESP32" as esp #dae8fc
+rectangle "投喂" as feed #ffe6cc
+rectangle "APP" as app #f8cecc
+cam --&gt; esp
+s --&gt; esp
+esp --&gt; feed
+esp --&gt; app
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 基于物联网与 AI 视觉的智能鱼缸系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>ESP32 + 摄像头(鱼体识别) + 水质/水温/溶氧传感器 + 投喂机构 + WiFi + APP。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（智能投喂）</strong>：ESP32 定时/按识别投喂，监测水温溶氧，APP 查看鱼状态与喂食记录。</li>
+                    <li><strong>方案 B（异常预警）</strong>：在方案 A 上加鱼病/缺氧视觉预警与换水提醒，数据上云。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>采水质/视觉 → 识别鱼况 → 投喂 → 预警 → 上云。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：ESP32 整合视觉与水质传感做智能鱼缸，是消费级 AIoT 与宠物养护的典型应用。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、计算机视觉、传感器与检测技术实验、移动应用开发、云计算导论
+                </div>
+                <div class="ic-tags"><span class="ic-tag">ESP32</span><span class="ic-tag">视觉</span><span class="ic-tag">鱼缸</span><span class="ic-tag">投喂</span></div>
+              </div>
+            </div>
+
           </div>
         </section>
 
         <!-- ===================== 二、智慧农业类 ===================== -->
         <section id="sec-2" class="idea-cat">
           <button class="cat-header open">
-            <span>二、智慧农业类 <span class="cat-count">（11 项）</span></span>
+            <span>二、智慧农业类 <span class="cat-count">（19 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
-            <div class="proj-item red">
+            <div class="proj-item purple">
               <button class="proj-header">
                 <span class="ph-title">基于 STM32 的智能水产养殖系统</span>
                 <span class="ph-meta"><span>主控：STM32</span><span>通信：4G</span><span>难度：★★★★☆</span></span>
@@ -919,7 +1176,7 @@ esp --&gt; scr
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig11.svg" alt="PlantUML 图 11" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig16.svg" alt="PlantUML 图 16" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -960,7 +1217,7 @@ g --&gt; cloud
               </div>
             </div>
 
-            <div class="proj-item teal">
+            <div class="proj-item red">
               <button class="proj-header">
                 <span class="ph-title">基于单片机的大棚植物养护系统</span>
                 <span class="ph-meta"><span>主控：STC89C52</span><span>通信：本地</span><span>难度：★★★☆☆</span></span>
@@ -969,7 +1226,7 @@ g --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig12.svg" alt="PlantUML 图 12" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig17.svg" alt="PlantUML 图 17" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -1010,7 +1267,7 @@ mcu --&gt; lcd
               </div>
             </div>
 
-            <div class="proj-item blue">
+            <div class="proj-item teal">
               <button class="proj-header">
                 <span class="ph-title">基于云平台的智能农业大棚系统</span>
                 <span class="ph-meta"><span>主控：ESP32</span><span>通信：WiFi</span><span>难度：★★★★☆</span></span>
@@ -1019,7 +1276,7 @@ mcu --&gt; lcd
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig13.svg" alt="PlantUML 图 13" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig18.svg" alt="PlantUML 图 18" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -1062,7 +1319,7 @@ cloud --&gt; app
               </div>
             </div>
 
-            <div class="proj-item green">
+            <div class="proj-item blue">
               <button class="proj-header">
                 <span class="ph-title">梅州金柚智能监测与采摘系统 <span style="color:#dc2626;font-size:0.7em;">★ 梅州特色</span></span>
                 <span class="ph-meta"><span>主控：STM32+OpenMV</span><span>AI：视觉</span><span>难度：★★★★★</span></span>
@@ -1071,7 +1328,7 @@ cloud --&gt; app
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig14.svg" alt="PlantUML 图 14" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig19.svg" alt="PlantUML 图 19" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -1114,7 +1371,7 @@ g --&gt; cloud
               </div>
             </div>
 
-            <div class="proj-item orange">
+            <div class="proj-item green">
               <button class="proj-header">
                 <span class="ph-title">柑橘采摘机器人</span>
                 <span class="ph-meta"><span>主控：STM32+树莓派</span><span>AI：视觉定位</span><span>难度：★★★★★</span></span>
@@ -1123,7 +1380,7 @@ g --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig15.svg" alt="PlantUML 图 15" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig20.svg" alt="PlantUML 图 20" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -1166,7 +1423,7 @@ g --&gt; cloud
               </div>
             </div>
 
-            <div class="proj-item purple">
+            <div class="proj-item orange">
               <button class="proj-header">
                 <span class="ph-title">基于边缘计算的农业无人机系统</span>
                 <span class="ph-meta"><span>主控：飞控+边缘NPU</span><span>AI：边缘推理</span><span>难度：★★★★★</span></span>
@@ -1175,7 +1432,7 @@ g --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig16.svg" alt="PlantUML 图 16" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig21.svg" alt="PlantUML 图 21" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -1218,7 +1475,7 @@ link --&gt; gs
               </div>
             </div>
 
-            <div class="proj-item red">
+            <div class="proj-item purple">
               <button class="proj-header">
                 <span class="ph-title">农瞳——基于红外边缘计算的农田病害智能预警系统</span>
                 <span class="ph-meta"><span>主控：ESP32+K210</span><span>AI：红外分类</span><span>难度：★★★★★</span></span>
@@ -1227,7 +1484,7 @@ link --&gt; gs
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig17.svg" alt="PlantUML 图 17" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig22.svg" alt="PlantUML 图 22" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -1268,7 +1525,7 @@ lora --&gt; cloud
               </div>
             </div>
 
-            <div class="proj-item teal">
+            <div class="proj-item red">
               <button class="proj-header">
                 <span class="ph-title">基于边缘计算的柚园关键信息提取与应用</span>
                 <span class="ph-meta"><span>主控：树莓派+AI</span><span>AI：语义分割</span><span>难度：★★★★★</span></span>
@@ -1277,7 +1534,7 @@ lora --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig18.svg" alt="PlantUML 图 18" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig23.svg" alt="PlantUML 图 23" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -1320,7 +1577,7 @@ cloud --&gt; scr
               </div>
             </div>
 
-            <div class="proj-item blue">
+            <div class="proj-item teal">
               <button class="proj-header">
                 <span class="ph-title">基于物联网的智能蔬菜大棚</span>
                 <span class="ph-meta"><span>主控：ESP32</span><span>通信：NB-IoT</span><span>难度：★★★★☆</span></span>
@@ -1329,7 +1586,7 @@ cloud --&gt; scr
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig19.svg" alt="PlantUML 图 19" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig24.svg" alt="PlantUML 图 24" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -1370,7 +1627,7 @@ nb --&gt; cloud
               </div>
             </div>
 
-            <div class="proj-item green">
+            <div class="proj-item blue">
               <button class="proj-header">
                 <span class="ph-title">面向小型农户的农作业模块与系统</span>
                 <span class="ph-meta"><span>主控：ESP32</span><span>通信：4G</span><span>难度：★★★☆☆</span></span>
@@ -1379,7 +1636,7 @@ nb --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig20.svg" alt="PlantUML 图 20" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig25.svg" alt="PlantUML 图 25" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -1420,7 +1677,7 @@ cloud --&gt; app
               </div>
             </div>
 
-            <div class="proj-item orange">
+            <div class="proj-item green">
               <button class="proj-header">
                 <span class="ph-title">自适应巡航鱼饲料投料船</span>
                 <span class="ph-meta"><span>主控：STM32</span><span>通信：4G/数传</span><span>难度：★★★★★</span></span>
@@ -1429,7 +1686,7 @@ cloud --&gt; app
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig21.svg" alt="PlantUML 图 21" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig26.svg" alt="PlantUML 图 26" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -1472,17 +1729,417 @@ stm --&gt; g
               </div>
             </div>
 
+            <div class="proj-item orange">
+              <button class="proj-header">
+                <span class="ph-title">柚子糖度无损检测系统</span>
+                <span class="ph-meta"><span>主控：STM32</span><span>检测：近红外</span><span>难度：★★★★☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig27.svg" alt="PlantUML 图 27" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "近红外" as nir #d5e8d4
+rectangle "重量" as w #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "糖度模型" as ai #d3e0ea
+rectangle "上位机" as pc #f8cecc
+nir --&gt; stm
+w --&gt; stm
+stm --&gt; ai
+ai --&gt; pc
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 柚子糖度无损检测系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 + 近红外光谱/重量传感 + 显示 + 分类模型 + 蓝牙 + 上位机。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（无损检测）</strong>：近红外光谱+重量经 STM32 预处理，模型估糖度并分级，不损伤果实。</li>
+                    <li><strong>方案 B（在线分级）</strong>：在方案 A 上加传送带与分选机构，按糖度自动分级装箱。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>采光谱/重 → STM32 预处理 → 糖度估计 → 分级 → 分拣(可选)。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：面向梅州柚子的糖度无损检测，融合光谱传感与模式识别，是检测类与农产品加工的结合。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、传感器与检测技术实验、算法分析与设计、人工智能导论
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32</span><span class="ic-tag">近红外</span><span class="ic-tag">无损</span><span class="ic-tag">糖度</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item purple">
+              <button class="proj-header">
+                <span class="ph-title">基于 YOLOv5 的柑橘采摘机械臂</span>
+                <span class="ph-meta"><span>主控：STM32+树莓派</span><span>AI：YOLOv5</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig28.svg" alt="PlantUML 图 28" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "深度相机" as cam #d5e8d4
+rectangle "树莓派" as pi #dae8fc
+rectangle "STM32 臂" as stm #dae8fc
+rectangle "机械臂" as arm #ffe6cc
+rectangle "4G/WiFi" as net #fff2cc
+cam --&gt; pi
+pi --&gt; stm
+stm --&gt; arm
+stm --&gt; net
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 基于 YOLOv5 的柑橘采摘机械臂架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 机械臂 + 树莓派视觉 + 深度相机 + 夹爪 + 4G/WiFi。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（视觉采摘）</strong>：YOLOv5 识别柑橘位置，树莓派做定位，STM32 驱机械臂采摘。</li>
+                    <li><strong>方案 B（多机协作）</strong>：在方案 A 上做多臂分区与产量统计上云。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>视觉识别 → 定位 → 机械臂采摘 → 计数 → 上云。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：以视觉+机械臂做柑橘采摘，综合机器人、计算机视觉与嵌入式控制。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、计算机视觉、智能机器人技术实践、算法分析与设计、嵌入式Linux应用开发
+                </div>
+                <div class="ic-tags"><span class="ic-tag">机械臂</span><span class="ic-tag">YOLOv5</span><span class="ic-tag">采摘</span><span class="ic-tag">STM32</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item red">
+              <button class="proj-header">
+                <span class="ph-title">草莓大棚监测喷雾一体化小车</span>
+                <span class="ph-meta"><span>主控：STM32</span><span>通信：WiFi</span><span>难度：★★★★☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig29.svg" alt="PlantUML 图 29" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "温湿/土壤" as s #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "喷雾" as pump #ffe6cc
+rectangle "摄像头" as cam #d5e8d4
+rectangle "WiFi" as wifi #fff2cc
+s --&gt; stm
+stm --&gt; pump
+cam --&gt; stm
+stm --&gt; wifi
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 草莓大棚监测喷雾一体化小车架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 小车 + 温湿/土壤传感 + 喷雾泵 + 循迹/避障 + 摄像头 + WiFi。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（巡棚喷雾）</strong>：小车沿垄巡行，采环境并定点喷雾降温/加湿，WiFi 上报。</li>
+                    <li><strong>方案 B（自动规划）</strong>：在方案 A 上加航点规划与病害拍照，数据上云。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>循迹巡行 → 采环境 → 喷雾 → 拍照 → 上云。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32 小车做大棚监测与喷雾一体，是农业移动物联网节点。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、传感器与检测技术实验、算法分析与设计、无线传感器网络
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32</span><span class="ic-tag">小车</span><span class="ic-tag">喷雾</span><span class="ic-tag">大棚</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item teal">
+              <button class="proj-header">
+                <span class="ph-title">家庭微温室智能培育系统</span>
+                <span class="ph-meta"><span>主控：ESP32</span><span>通信：WiFi</span><span>难度：★★★☆☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig30.svg" alt="PlantUML 图 30" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "土壤/光/温" as s #d5e8d4
+rectangle "ESP32" as esp #dae8fc
+rectangle "补光/通风/滴灌" as act #ffe6cc
+rectangle "摄像头" as cam #d5e8d4
+rectangle "APP" as app #f8cecc
+s --&gt; esp
+esp --&gt; act
+cam --&gt; esp
+esp --&gt; app
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 家庭微温室智能培育系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>ESP32 + 土壤/光/温湿传感 + 补光/通风/滴灌 + 摄像头 + APP。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（自动养护）</strong>：ESP32 监测并自动补光通风滴灌，APP 查看生长。</li>
+                    <li><strong>方案 B（生长记录）</strong>：在方案 A 上加生长延时摄影与养护提醒分享。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>采土/光/温 → 联动补光/通风/滴灌 → APP。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：ESP32 做家庭微温室，传感+执行+联网，是家庭园艺物联网综合题。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、传感器与检测技术实验、移动应用开发、云计算导论
+                </div>
+                <div class="ic-tags"><span class="ic-tag">ESP32</span><span class="ic-tag">微温室</span><span class="ic-tag">滴灌</span><span class="ic-tag">园艺</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item blue">
+              <button class="proj-header">
+                <span class="ph-title">STM32 精准农业监控终端</span>
+                <span class="ph-meta"><span>主控：STM32</span><span>通信：4G</span><span>难度：★★★★☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig31.svg" alt="PlantUML 图 31" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "土壤/气象" as s #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "灌溉阀" as valve #ffe6cc
+rectangle "4G" as g #fff2cc
+rectangle "农业云" as cloud #e1d5e8
+s --&gt; stm
+stm --&gt; valve
+stm --&gt; g
+g --&gt; cloud
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 STM32 精准农业监控终端架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 + 多路土壤/气象传感 + 太阳能 + 4G + 云平台 + 显示屏。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（田间监测）</strong>：STM32 采土壤墒情与气象，4G 上云做墒情地图。</li>
+                    <li><strong>方案 B（灌溉联动）</strong>：在方案 A 上联动电磁阀做精准灌溉，节水增产。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>采墒情/气象 → STM32 → 4G 上云 → 灌溉联动。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32 做田间精准农业监控终端，低功耗广域上云，是农业物联网感知层标准范式。<br>
+                  <strong>课程对接</strong>：物联网工程导论、单片机原理及应用、传感器与检测技术实验、无线传感器网络、云计算导论
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32</span><span class="ic-tag">精准农业</span><span class="ic-tag">4G</span><span class="ic-tag">墒情</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item green">
+              <button class="proj-header">
+                <span class="ph-title">农业数据采集巡线小车</span>
+                <span class="ph-meta"><span>主控：STM32</span><span>通信：WiFi</span><span>难度：★★★☆☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig32.svg" alt="PlantUML 图 32" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "土壤/作物" as s #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "存储" as mem #dae8fc
+rectangle "WiFi" as wifi #fff2cc
+rectangle "基站" as base #e1d5e8
+s --&gt; stm
+stm --&gt; mem
+stm --&gt; wifi
+wifi --&gt; base
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 农业数据采集巡线小车架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 巡线小车 + 多路土壤/作物传感 + 存储 + WiFi + 基站。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（巡线采样）</strong>：小车沿固定路线巡行采集多点土壤/作物数据，本地存储回传。</li>
+                    <li><strong>方案 B（网格化）</strong>：在方案 A 上做多车网格采样与地图拼合。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>巡线 → 多点采样 → 存储 → 回传基站。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32 巡线小车做农田数据采集，是移动传感与农业信息化的入门题。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、传感器与检测技术实验、算法分析与设计、无线传感器网络
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32</span><span class="ic-tag">巡线</span><span class="ic-tag">采集</span><span class="ic-tag">农业</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item orange">
+              <button class="proj-header">
+                <span class="ph-title">复杂地形自适应助农机器人</span>
+                <span class="ph-meta"><span>主控：STM32</span><span>算法：PID</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig33.svg" alt="PlantUML 图 33" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "姿态 IMU" as imu #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "底盘/臂" as motor #ffe6cc
+rectangle "喷雾" as spray #ffe6cc
+rectangle "4G" as g #fff2cc
+imu --&gt; stm
+stm --&gt; motor
+stm --&gt; spray
+stm --&gt; g
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 复杂地形自适应助农机器人架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 底盘 + 六足/履带 + 姿态 IMU + 机械臂/喷雾 + 4G。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（地形适应）</strong>：IMU+PID 控姿态适应坡地，搭载喷雾或采摘末端作业。</li>
+                    <li><strong>方案 B（自主作业）</strong>：在方案 A 上做路径规划与作业量统计上云。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>姿态采集 → PID 调姿 → 行进作业 → 上云统计。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：面向复杂地形的助农机器人，融合运动控制与农业作业，是机器人+农业交叉题。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、算法分析与设计、智能机器人技术实践、传感器与检测技术实验
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32</span><span class="ic-tag">PID</span><span class="ic-tag">助农</span><span class="ic-tag">机器人</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item purple">
+              <button class="proj-header">
+                <span class="ph-title">立体农业培育架搬运机器人</span>
+                <span class="ph-meta"><span>主控：STM32+树莓派</span><span>AI：导航</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig34.svg" alt="PlantUML 图 34" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "视觉/导航" as nav #d5e8d4
+rectangle "树莓派" as pi #dae8fc
+rectangle "STM32 底盘" as stm #dae8fc
+rectangle "升降夹取" as lift #ffe6cc
+rectangle "WiFi" as wifi #fff2cc
+nav --&gt; pi
+pi --&gt; stm
+stm --&gt; lift
+stm --&gt; wifi
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 立体农业培育架搬运机器人架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 底盘 + 树莓派导航 + 升降/夹取 + 视觉对位 + WiFi。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（架间搬运）</strong>：在立体培育架间自主导航，取放育苗盘，视觉对位。</li>
+                    <li><strong>方案 B（调度优化）</strong>：在方案 A 上做多车任务调度与培育进度管理。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>导航 → 对位 → 取放盘 → 调度 → 记录。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32+树莓派做立体农业搬运机器人，是设施农业自动化的物流节点。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、计算机视觉、算法分析与设计、嵌入式Linux应用开发、无线传感器网络
+                </div>
+                <div class="ic-tags"><span class="ic-tag">搬运</span><span class="ic-tag">导航</span><span class="ic-tag">立体农业</span><span class="ic-tag">STM32</span></div>
+              </div>
+            </div>
+
           </div>
         </section>
 
         <!-- ===================== 三、环境监测类 ===================== -->
         <section id="sec-3" class="idea-cat">
           <button class="cat-header open">
-            <span>三、环境监测类 <span class="cat-count">（7 项）</span></span>
+            <span>三、环境监测类 <span class="cat-count">（12 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
-            <div class="proj-item purple">
+            <div class="proj-item red">
               <button class="proj-header">
                 <span class="ph-title">LoRa 驱动的噪声污染智能预测与溯源系统</span>
                 <span class="ph-meta"><span>主控：STM32</span><span>通信：LoRa</span><span>难度：★★★★☆</span></span>
@@ -1491,7 +2148,7 @@ stm --&gt; g
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig22.svg" alt="PlantUML 图 22" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig35.svg" alt="PlantUML 图 35" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -1534,7 +2191,7 @@ cloud --&gt; map
               </div>
             </div>
 
-            <div class="proj-item red">
+            <div class="proj-item teal">
               <button class="proj-header">
                 <span class="ph-title">基于 STM32 的盆栽环境监测系统</span>
                 <span class="ph-meta"><span>主控：STM32</span><span>通信：蓝牙</span><span>难度：★★★☆☆</span></span>
@@ -1543,7 +2200,7 @@ cloud --&gt; map
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig23.svg" alt="PlantUML 图 23" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig36.svg" alt="PlantUML 图 36" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -1584,7 +2241,7 @@ stm --&gt; pump
               </div>
             </div>
 
-            <div class="proj-item teal">
+            <div class="proj-item blue">
               <button class="proj-header">
                 <span class="ph-title">室内空气质量守护者（甲醛/PM2.5 监测）</span>
                 <span class="ph-meta"><span>主控：ESP32</span><span>通信：WiFi</span><span>难度：★★★★☆</span></span>
@@ -1593,7 +2250,7 @@ stm --&gt; pump
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig24.svg" alt="PlantUML 图 24" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig37.svg" alt="PlantUML 图 37" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -1634,7 +2291,7 @@ esp --&gt; air
               </div>
             </div>
 
-            <div class="proj-item blue">
+            <div class="proj-item green">
               <button class="proj-header">
                 <span class="ph-title">无人机低空遥感的水质监测</span>
                 <span class="ph-meta"><span>主控：飞控+多光谱</span><span>通信：4G/图传</span><span>难度：★★★★★</span></span>
@@ -1643,7 +2300,7 @@ esp --&gt; air
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig25.svg" alt="PlantUML 图 25" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig38.svg" alt="PlantUML 图 38" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -1684,7 +2341,7 @@ link --&gt; cloud
               </div>
             </div>
 
-            <div class="proj-item green">
+            <div class="proj-item orange">
               <button class="proj-header">
                 <span class="ph-title">高速公路坍塌检测与预警系统</span>
                 <span class="ph-meta"><span>主控：STM32+边缘</span><span>通信：4G</span><span>难度：★★★★★</span></span>
@@ -1693,7 +2350,7 @@ link --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig26.svg" alt="PlantUML 图 26" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig39.svg" alt="PlantUML 图 39" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -1736,7 +2393,7 @@ cloud --&gt; scr
               </div>
             </div>
 
-            <div class="proj-item orange">
+            <div class="proj-item purple">
               <button class="proj-header">
                 <span class="ph-title">中学化学实验数据采集与分析平台</span>
                 <span class="ph-meta"><span>主控：ESP32</span><span>通信：WiFi</span><span>难度：★★★☆☆</span></span>
@@ -1745,7 +2402,7 @@ cloud --&gt; scr
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig27.svg" alt="PlantUML 图 27" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig40.svg" alt="PlantUML 图 40" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -1786,7 +2443,7 @@ web --&gt; db
               </div>
             </div>
 
-            <div class="proj-item purple">
+            <div class="proj-item red">
               <button class="proj-header">
                 <span class="ph-title">校园体能训练监测设备</span>
                 <span class="ph-meta"><span>主控：ESP32</span><span>通信：蓝牙</span><span>难度：★★★☆☆</span></span>
@@ -1795,7 +2452,7 @@ web --&gt; db
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig28.svg" alt="PlantUML 图 28" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig41.svg" alt="PlantUML 图 41" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -1836,13 +2493,263 @@ bt --&gt; app
               </div>
             </div>
 
+            <div class="proj-item teal">
+              <button class="proj-header">
+                <span class="ph-title">基于 YOLOv8 与无人机的智能森林防火系统</span>
+                <span class="ph-meta"><span>主控：飞控+边缘</span><span>AI：YOLOv8</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig42.svg" alt="PlantUML 图 42" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "机载摄像头" as cam #d5e8d4
+rectangle "YOLOv8" as ai #d3e0ea
+rectangle "飞控" as fc #dae8fc
+rectangle "4G" as g #fff2cc
+rectangle "地面站" as gs #e1d5e8
+cam --&gt; ai
+ai --&gt; fc
+fc --&gt; g
+g --&gt; gs
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 基于 YOLOv8 与无人机的智能森林防火系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>无人机 + 机载摄像头 + 边缘 AI(YOLOv8 火烟识别) + 图传 + 4G + 地面站。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（空中巡防）</strong>：无人机巡飞，边缘端识别火烟并定位，4G 回传预警。</li>
+                    <li><strong>方案 B（早期预警）</strong>：在方案 A 上做火点定位与蔓延预测，联动护林员 APP。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>航点巡飞 → 边缘识别 → 火点定位 → 4G 预警 → 处置。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：无人机+边缘 AI 做森林防火，是遥感、通信与应急物联网的空中应用。<br>
+                  <strong>课程对接</strong>：计算机视觉、无线传感器网络、算法分析与设计、云计算导论、嵌入式Linux应用开发
+                </div>
+                <div class="ic-tags"><span class="ic-tag">无人机</span><span class="ic-tag">YOLOv8</span><span class="ic-tag">森林防火</span><span class="ic-tag">边缘</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item blue">
+              <button class="proj-header">
+                <span class="ph-title">基于物联网的边坡位移与坍塌预警系统</span>
+                <span class="ph-meta"><span>主控：STM32+边缘</span><span>通信：4G</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig43.svg" alt="PlantUML 图 43" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "倾角/裂缝/GNSS" as s #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "4G" as g #fff2cc
+rectangle "预警云" as cloud #e1d5e8
+rectangle "情报屏" as scr #f8cecc
+s --&gt; stm
+stm --&gt; g
+g --&gt; cloud
+cloud --&gt; scr
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 基于物联网的边坡位移与坍塌预警系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 + 倾角/裂缝/GNSS 位移 + 边缘网关 + 4G + 云平台 + 情报屏。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（位移监测）</strong>：沿边坡布点监测位移与裂缝，超阈值 4G 预警，防坍塌。</li>
+                    <li><strong>方案 B（趋势预测）</strong>：在方案 A 上做位移趋势建模与多级预警发布。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>采位移/裂缝 → 边缘判异 → 4G 预警 → 情报发布。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：用传感网+边缘+通信做边坡安全监测，是物联网在基础设施安全的应用（区别于高速公路专项）。<br>
+                  <strong>课程对接</strong>：无线传感器网络、单片机原理及应用、算法分析与设计、云计算导论
+                </div>
+                <div class="ic-tags"><span class="ic-tag">边坡</span><span class="ic-tag">位移</span><span class="ic-tag">STM32</span><span class="ic-tag">预警</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item green">
+              <button class="proj-header">
+                <span class="ph-title">智能仓库防火监测装置</span>
+                <span class="ph-meta"><span>主控：ESP32</span><span>通信：WiFi</span><span>难度：★★★☆☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig44.svg" alt="PlantUML 图 44" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "烟/温/火" as s #d5e8d4
+rectangle "ESP32" as esp #dae8fc
+rectangle "告警/灭火" as act #ffe6cc
+rectangle "WiFi" as wifi #fff2cc
+rectangle "消防云" as cloud #e1d5e8
+s --&gt; esp
+esp --&gt; act
+esp --&gt; wifi
+wifi --&gt; cloud
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 智能仓库防火监测装置架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>ESP32 + 烟雾/温度/火焰传感 + 声光告警 + 灭火弹/排风 + WiFi + 云平台。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（火情告警）</strong>：多传感融合判定火情，本地声光告警并联动排风/灭火，WiFi 上云。</li>
+                    <li><strong>方案 B（分区联动）</strong>：在方案 A 上做多仓分区组网与消防台账。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>采烟/温/火 → 融合判定 → 告警/联动 → 上云。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：ESP32 做仓库防火监测，传感融合+联动处置，是消防物联网入门题。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、传感器与检测技术实验、嵌入式Linux应用开发、云计算导论
+                </div>
+                <div class="ic-tags"><span class="ic-tag">ESP32</span><span class="ic-tag">防火</span><span class="ic-tag">烟雾</span><span class="ic-tag">仓库</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item orange">
+              <button class="proj-header">
+                <span class="ph-title">基于 LSTM 的空气质量预测与预警系统</span>
+                <span class="ph-meta"><span>主控：ESP32+云</span><span>AI：LSTM</span><span>难度：★★★★☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig45.svg" alt="PlantUML 图 45" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "PM2.5/气象" as s #d5e8d4
+rectangle "ESP32" as esp #dae8fc
+rectangle "网关" as gw #fff2cc
+rectangle "LSTM 预测" as ai #d3e0ea
+rectangle "地图前端" as map #f8cecc
+s --&gt; esp
+esp --&gt; gw
+gw --&gt; ai
+ai --&gt; map
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 基于 LSTM 的空气质量预测与预警系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>ESP32 多站空气质量传感 + 网关 + 云平台 LSTM 预测 + 地图前端。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（网格监测）</strong>：多 ESP32 站点采 PM2.5/气象，上云做实时空气质量地图。</li>
+                    <li><strong>方案 B（时序预测）</strong>：在方案 A 上用 LSTM 做短时空气质量预测与超标预警。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>采空气数据 → 上云 → LSTM 预测 → 预警 → 地图展示。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：以边缘采集+云端 LSTM 预测做空气质量预警，是传感网+深度学习的综合题。<br>
+                  <strong>课程对接</strong>：无线传感器网络、算法分析与设计、单片机原理及应用、云计算导论、国产平台web应用开发
+                </div>
+                <div class="ic-tags"><span class="ic-tag">ESP32</span><span class="ic-tag">LSTM</span><span class="ic-tag">空气质量</span><span class="ic-tag">预测</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item purple">
+              <button class="proj-header">
+                <span class="ph-title">桥梁结构健康监测系统</span>
+                <span class="ph-meta"><span>主控：STM32</span><span>通信：4G</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig46.svg" alt="PlantUML 图 46" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "振动/应变" as s #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "4G" as g #fff2cc
+rectangle "损伤分析" as ai #d3e0ea
+rectangle "大屏" as scr #f8cecc
+s --&gt; stm
+stm --&gt; g
+g --&gt; ai
+ai --&gt; scr
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 桥梁结构健康监测系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 + 振动/应变/位移传感 + 边缘网关 + 4G + 云平台 + 大屏。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（结构监测）</strong>：布设振动应变节点监测桥梁健康，异常 4G 预警。</li>
+                    <li><strong>方案 B（损伤识别）</strong>：在方案 A 上做模态分析与损伤定位，长期健康画像。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>采振动/应变 → 边缘分析 → 4G 预警 → 健康画像。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：用物联网传感网做桥梁结构健康监测，是工程安全与信号处理的结合。<br>
+                  <strong>课程对接</strong>：无线传感器网络、单片机原理及应用、算法分析与设计、云计算导论
+                </div>
+                <div class="ic-tags"><span class="ic-tag">桥梁</span><span class="ic-tag">结构健康</span><span class="ic-tag">STM32</span><span class="ic-tag">监测</span></div>
+              </div>
+            </div>
+
           </div>
         </section>
 
         <!-- ===================== 四、健康医疗类 ===================== -->
         <section id="sec-4" class="idea-cat">
           <button class="cat-header open">
-            <span>四、健康医疗类 <span class="cat-count">（7 项）</span></span>
+            <span>四、健康医疗类 <span class="cat-count">（11 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
@@ -1855,7 +2762,7 @@ bt --&gt; app
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig29.svg" alt="PlantUML 图 29" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig47.svg" alt="PlantUML 图 47" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -1907,7 +2814,7 @@ bt --&gt; app
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig30.svg" alt="PlantUML 图 30" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig48.svg" alt="PlantUML 图 48" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -1957,7 +2864,7 @@ esp --&gt; g
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig31.svg" alt="PlantUML 图 31" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig49.svg" alt="PlantUML 图 49" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -2007,7 +2914,7 @@ cloud --&gt; app
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig32.svg" alt="PlantUML 图 32" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig50.svg" alt="PlantUML 图 50" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -2057,7 +2964,7 @@ esp --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig33.svg" alt="PlantUML 图 33" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig51.svg" alt="PlantUML 图 51" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -2107,7 +3014,7 @@ gps --&gt; app
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig34.svg" alt="PlantUML 图 34" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig52.svg" alt="PlantUML 图 52" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -2157,7 +3064,7 @@ bt --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig35.svg" alt="PlantUML 图 35" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig53.svg" alt="PlantUML 图 53" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -2198,17 +3105,217 @@ stm --&gt; bt
               </div>
             </div>
 
+            <div class="proj-item teal">
+              <button class="proj-header">
+                <span class="ph-title">激光雷达视觉室内导航智能轮椅</span>
+                <span class="ph-meta"><span>主控：STM32+树莓派</span><span>AI：SLAM</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig54.svg" alt="PlantUML 图 54" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "激光/视觉" as lidar #d5e8d4
+rectangle "树莓派" as pi #dae8fc
+rectangle "STM32 底盘" as stm #dae8fc
+rectangle "座椅传感" as seat #d5e8d4
+rectangle "家属APP" as app #f8cecc
+lidar --&gt; pi
+pi --&gt; stm
+seat --&gt; stm
+stm --&gt; app
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 激光雷达视觉室内导航智能轮椅架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 底盘 + 树莓派 + 激光雷达/视觉 + 座椅传感 + 4G + 家属APP。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（自主导航）</strong>：激光/视觉 SLAM 建图导航，避障并语音播报，辅助行动不便者。</li>
+                    <li><strong>方案 B（远程守护）</strong>：在方案 A 上做位置共享与电子围栏，家属 APP 查看。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>SLAM 建图 → 导航避障 → 语音播报 → 位置共享。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32+树莓派做导航轮椅，融合 SLAM 与关爱，是助残 AIoT 设备。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、计算机视觉、智能机器人技术实践、移动应用开发、嵌入式Linux应用开发
+                </div>
+                <div class="ic-tags"><span class="ic-tag">轮椅</span><span class="ic-tag">SLAM</span><span class="ic-tag">导航</span><span class="ic-tag">STM32</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item blue">
+              <button class="proj-header">
+                <span class="ph-title">智能急救医疗箱</span>
+                <span class="ph-meta"><span>主控：ESP32</span><span>通信：4G/GPS</span><span>难度：★★★★☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig55.svg" alt="PlantUML 图 55" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "药品 RFID" as rfid #d5e8d4
+rectangle "ESP32" as esp #dae8fc
+rectangle "半导体制冷" as cool #ffe6cc
+rectangle "GPS/4G" as gps #fff2cc
+rectangle "医疗云" as cloud #e1d5e8
+rfid --&gt; esp
+esp --&gt; cool
+esp --&gt; gps
+gps --&gt; cloud
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 智能急救医疗箱架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>ESP32 + 药品 RFID/称重 + 半导体制冷 + GPS + 4G + 云平台 + 屏。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（药品管理）</strong>：RFID/称重管理药品效期与存量，制冷保藏，GPS 定位随车。</li>
+                    <li><strong>方案 B（应急响应）</strong>：在方案 A 上做一键呼救与最近医院导航，急救记录上云。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>药品登记 → 效期/存量监测 → 制冷保藏 → 一键呼救 → 上云。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：ESP32 做智能急救箱，药品管理+定位+应急，是医疗物联网便携设备。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、传感器与检测技术实验、移动应用开发、云计算导论
+                </div>
+                <div class="ic-tags"><span class="ic-tag">ESP32</span><span class="ic-tag">医疗箱</span><span class="ic-tag">GPS</span><span class="ic-tag">急救</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item green">
+              <button class="proj-header">
+                <span class="ph-title">智慧药房服务机器人</span>
+                <span class="ph-meta"><span>主控：STM32+树莓派</span><span>AI：视觉</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig56.svg" alt="PlantUML 图 56" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "药柜视觉" as cam #d5e8d4
+rectangle "树莓派" as pi #dae8fc
+rectangle "STM32 底盘" as stm #dae8fc
+rectangle "取药臂" as arm #ffe6cc
+rectangle "HIS" as his #e1d5e8
+cam --&gt; pi
+pi --&gt; stm
+stm --&gt; arm
+stm --&gt; his
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 智慧药房服务机器人架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 底盘 + 树莓派视觉 + 药柜识别 + 机械臂取药 + WiFi + HIS 对接。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（自动发药）</strong>：视觉识别处方与药位，机械臂取药核对，提升发药效率。</li>
+                    <li><strong>方案 B（核对追溯）</strong>：在方案 A 上加双人核对与处方追溯，对接医院系统。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>接处方 → 视觉定位 → 取药核对 → 发放 → 追溯。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32+视觉做药房服务机器人，是医疗自动化与机器人结合的应用。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、计算机视觉、算法分析与设计、嵌入式Linux应用开发、数据库系统原理
+                </div>
+                <div class="ic-tags"><span class="ic-tag">药房</span><span class="ic-tag">机器人</span><span class="ic-tag">视觉</span><span class="ic-tag">STM32</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item orange">
+              <button class="proj-header">
+                <span class="ph-title">图像识别智能拐杖车</span>
+                <span class="ph-meta"><span>主控：ESP32</span><span>AI：视觉</span><span>难度：★★★★☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig57.svg" alt="PlantUML 图 57" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "摄像头" as cam #d5e8d4
+rectangle "超声波" as ult #d5e8d4
+rectangle "ESP32" as esp #dae8fc
+rectangle "GPS/4G" as gps #fff2cc
+rectangle "家属APP" as app #f8cecc
+cam --&gt; esp
+ult --&gt; esp
+esp --&gt; gps
+gps --&gt; app
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 图像识别智能拐杖车架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>ESP32 + 摄像头(障碍/台阶) + 超声波 + GPS + 语音 + 4G + APP。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（辅助行走）</strong>：视觉/超声识别障碍与台阶并语音提示，GPS 记录轨迹。</li>
+                    <li><strong>方案 B（跌倒守护）</strong>：在方案 A 上加 IMU 跌倒检测与一键求助，家属 APP 接收。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>视觉/超声采集 → 障碍提示 → GPS 轨迹 → 跌倒告警。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：ESP32 整合视觉与定位做智能拐杖车，是助行与安全的消费级物联网设备。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、计算机视觉、传感器与检测技术实验、移动应用开发
+                </div>
+                <div class="ic-tags"><span class="ic-tag">ESP32</span><span class="ic-tag">拐杖车</span><span class="ic-tag">视觉</span><span class="ic-tag">助行</span></div>
+              </div>
+            </div>
+
           </div>
         </section>
 
         <!-- ===================== 五、智能交通类 ===================== -->
         <section id="sec-5" class="idea-cat">
           <button class="cat-header open">
-            <span>五、智能交通类 <span class="cat-count">（5 项）</span></span>
+            <span>五、智能交通类 <span class="cat-count">（10 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
-            <div class="proj-item teal">
+            <div class="proj-item purple">
               <button class="proj-header">
                 <span class="ph-title">基于 STM32 的智慧停车场管理系统</span>
                 <span class="ph-meta"><span>主控：STM32</span><span>识别：车牌</span><span>难度：★★★★★</span></span>
@@ -2217,7 +3324,7 @@ stm --&gt; bt
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig36.svg" alt="PlantUML 图 36" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig58.svg" alt="PlantUML 图 58" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -2260,7 +3367,7 @@ stm --&gt; cloud
               </div>
             </div>
 
-            <div class="proj-item blue">
+            <div class="proj-item red">
               <button class="proj-header">
                 <span class="ph-title">智能电动汽车交流充电桩</span>
                 <span class="ph-meta"><span>主控：STM32</span><span>通信：CAN/4G</span><span>难度：★★★★★</span></span>
@@ -2269,7 +3376,7 @@ stm --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig37.svg" alt="PlantUML 图 37" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig59.svg" alt="PlantUML 图 59" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -2312,7 +3419,7 @@ g --&gt; cloud
               </div>
             </div>
 
-            <div class="proj-item green">
+            <div class="proj-item teal">
               <button class="proj-header">
                 <span class="ph-title">基于红外循迹与图像识别的智能酒店送餐车</span>
                 <span class="ph-meta"><span>主控：STM32+OpenMV</span><span>AI：视觉</span><span>难度：★★★★★</span></span>
@@ -2321,7 +3428,7 @@ g --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig38.svg" alt="PlantUML 图 38" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig60.svg" alt="PlantUML 图 60" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -2364,7 +3471,7 @@ stm --&gt; net
               </div>
             </div>
 
-            <div class="proj-item orange">
+            <div class="proj-item blue">
               <button class="proj-header">
                 <span class="ph-title">基于 NB-IoT 的可视化智能节能路灯系统 <span style="color:#dc2626;font-size:0.7em;">★ NB-IoT 新方向</span></span>
                 <span class="ph-meta"><span>主控：ESP32</span><span>通信：NB-IoT</span><span>难度：★★★★☆</span></span>
@@ -2373,7 +3480,7 @@ stm --&gt; net
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig39.svg" alt="PlantUML 图 39" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig61.svg" alt="PlantUML 图 61" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -2416,7 +3523,7 @@ cloud --&gt; map
               </div>
             </div>
 
-            <div class="proj-item purple">
+            <div class="proj-item green">
               <button class="proj-header">
                 <span class="ph-title">基于数字孪生的智慧停车系统</span>
                 <span class="ph-meta"><span>主控：边缘网关</span><span>通信：4G+WiFi</span><span>难度：★★★★★</span></span>
@@ -2425,7 +3532,7 @@ cloud --&gt; map
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig40.svg" alt="PlantUML 图 40" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig62.svg" alt="PlantUML 图 62" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -2466,17 +3573,267 @@ cloud --&gt; plan
               </div>
             </div>
 
+            <div class="proj-item orange">
+              <button class="proj-header">
+                <span class="ph-title">基于多传感器融合的智能自动泊车系统</span>
+                <span class="ph-meta"><span>主控：STM32+视觉</span><span>AI：融合</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig63.svg" alt="PlantUML 图 63" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "超声波阵" as ult #d5e8d4
+rectangle "摄像头" as cam #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "转向舵机" as steer #ffe6cc
+rectangle "APP" as app #f8cecc
+ult --&gt; stm
+cam --&gt; stm
+stm --&gt; steer
+stm --&gt; app
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 基于多传感器融合的智能自动泊车系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 + 超声波阵列 + 摄像头 + IMU + 舵机转向 + 屏 + WiFi。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（自动泊车）</strong>：超声波+视觉融合感知车位与障碍，STM32 控制转向泊入。</li>
+                    <li><strong>方案 B（记忆泊车）</strong>：在方案 A 上做路线记忆与遥控泊车，APP 监看。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>融合感知 → 规划路径 → 转向控制 → 泊入 → APP 监看。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32+多传感融合做自动泊车，是车载感知与控制的交叉实训。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、计算机视觉、算法分析与设计、传感器与检测技术实验
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32</span><span class="ic-tag">自动泊车</span><span class="ic-tag">多传感</span><span class="ic-tag">视觉</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item purple">
+              <button class="proj-header">
+                <span class="ph-title">基于 AI 的车载疲劳/瞌睡检测预警系统</span>
+                <span class="ph-meta"><span>主控：STM32+视觉</span><span>AI：多模态</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig64.svg" alt="PlantUML 图 64" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "人脸/眼 cam" as cam #d5e8d4
+rectangle "方向盘" as wheel #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "语音提醒" as spk #f8cecc
+rectangle "车队云" as cloud #e1d5e8
+cam --&gt; stm
+wheel --&gt; stm
+stm --&gt; spk
+stm --&gt; cloud
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 基于 AI 的车载疲劳/瞌睡检测预警系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 + 摄像头(眼/嘴) + 方向盘传感 + 语音提醒 + 4G + 云平台。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（瞌睡识别）</strong>：视觉识别闭眼/打哈欠+方向盘偏移融合判定疲劳，语音提醒上云。</li>
+                    <li><strong>方案 B（车队管理）</strong>：在方案 A 上加车队端汇总与驾驶行为画像。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>视觉/传感采集 → 疲劳判定 → 提醒 → 4G 告警 → 车队云。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32+视觉做车载疲劳检测，多模态融合+联网告警，是车载物联网安全应用。<br>
+                  <strong>课程对接</strong>：计算机视觉、单片机原理及应用、人工智能导论、算法分析与设计、无线传感器网络
+                </div>
+                <div class="ic-tags"><span class="ic-tag">疲劳检测</span><span class="ic-tag">视觉</span><span class="ic-tag">车载</span><span class="ic-tag">STM32</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item red">
+              <button class="proj-header">
+                <span class="ph-title">基于震动与触控的电动车安全守护系统</span>
+                <span class="ph-meta"><span>主控：STM32</span><span>通信：4G</span><span>难度：★★★★☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig65.svg" alt="PlantUML 图 65" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "震动" as vib #d5e8d4
+rectangle "电容触控" as touch #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "CO/倾角" as co #d5e8d4
+rectangle "4G" as g #fff2cc
+vib --&gt; stm
+touch --&gt; stm
+co --&gt; stm
+stm --&gt; g
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 基于震动与触控的电动车安全守护系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 + 震动传感 + 电容触控(手握) + CO/倾角 + 4G + 蜂鸣 + APP。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（安全监测）</strong>：震动+手握检测判断摔倒/脱手，CO 超标与倾角异常告警，4G 通知家属。</li>
+                    <li><strong>方案 B（主动防护）</strong>：在方案 A 上加刹车灯联动与骑行轨迹记录。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>采震动/触控/气体 → 异常判定 → 告警 → 4G 通知。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32 做电动车安全守护，多传感融合保障骑行安全，是出行物联网设备。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、传感器与检测技术实验、移动应用开发、无线传感器网络
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32</span><span class="ic-tag">电动车</span><span class="ic-tag">安全</span><span class="ic-tag">4G</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item teal">
+              <button class="proj-header">
+                <span class="ph-title">基于 STM32 的自动货物搬运机器小车</span>
+                <span class="ph-meta"><span>主控：STM32</span><span>通信：WiFi</span><span>难度：★★★★☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig66.svg" alt="PlantUML 图 66" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "循迹/避障" as line #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "升降托架" as lift #ffe6cc
+rectangle "称重/条码" as w #d5e8d4
+rectangle "WMS" as wms #e1d5e8
+line --&gt; stm
+stm --&gt; lift
+w --&gt; stm
+stm --&gt; wms
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 基于 STM32 的自动货物搬运机器小车架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 小车 + 循迹/避障 + 称重/条码 + 升降托架 + WiFi + WMS。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（厂内搬运）</strong>：STM32 驱小车按巡线取放货，称重/条码核对，WiFi 上报 WMS。</li>
+                    <li><strong>方案 B（多机调度）</strong>：在方案 A 上做多车任务调度与交通管理。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>接单 → 循迹 → 取放货 → 核对 → WMS 同步。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32 搬运小车做厂内物流，融合导航、识别与联网，是工业物联网 AGV 入门。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、算法分析与设计、嵌入式Linux应用开发、无线传感器网络、数据库系统原理
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32</span><span class="ic-tag">搬运</span><span class="ic-tag">AGV</span><span class="ic-tag">WMS</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item blue">
+              <button class="proj-header">
+                <span class="ph-title">智能倒车雷达与视觉盲区辅助系统</span>
+                <span class="ph-meta"><span>主控：STM32</span><span>通信：本地</span><span>难度：★★★☆☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig67.svg" alt="PlantUML 图 67" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "超声波阵" as ult #d5e8d4
+rectangle "盲区摄像头" as cam #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "OLED/语音" as oled #f8cecc
+rectangle "蜂鸣" as buzz #ffe6cc
+ult --&gt; stm
+cam --&gt; stm
+stm --&gt; oled
+stm --&gt; buzz
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 智能倒车雷达与视觉盲区辅助系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 + 超声波阵列 + 摄像头(盲区) + OLED/语音 + 蜂鸣 + 后装模块。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（倒车辅助）</strong>：超声波测距+视觉识别盲区行人，OLED/语音分级告警，纯本地。</li>
+                    <li><strong>方案 B（记录回放）</strong>：在方案 A 上加行车记录与碰撞预警上云。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>采超声/视觉 → 距离/盲区判定 → 分级告警 → 记录。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32 做倒车雷达与视觉盲区辅助，是车载安全与嵌入式控制的实用题。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、传感器与检测技术实验、计算机视觉、嵌入式Linux应用开发
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32</span><span class="ic-tag">倒车雷达</span><span class="ic-tag">视觉</span><span class="ic-tag">盲区</span></div>
+              </div>
+            </div>
+
           </div>
         </section>
 
         <!-- ===================== 六、工业控制类 ===================== -->
         <section id="sec-6" class="idea-cat">
           <button class="cat-header open">
-            <span>六、工业控制类 <span class="cat-count">（6 项）</span></span>
+            <span>六、工业控制类 <span class="cat-count">（10 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
-            <div class="proj-item red">
+            <div class="proj-item green">
               <button class="proj-header">
                 <span class="ph-title">基于 STM32 多功能的智能 PID 焊台系统</span>
                 <span class="ph-meta"><span>主控：STM32</span><span>算法：PID</span><span>难度：★★★★☆</span></span>
@@ -2485,7 +3842,7 @@ cloud --&gt; plan
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig41.svg" alt="PlantUML 图 41" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig68.svg" alt="PlantUML 图 68" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -2526,7 +3883,7 @@ enc --&gt; stm
               </div>
             </div>
 
-            <div class="proj-item teal">
+            <div class="proj-item orange">
               <button class="proj-header">
                 <span class="ph-title">基于机器视觉的智能物流管理机器人</span>
                 <span class="ph-meta"><span>主控：STM32+树莓派</span><span>AI：条码/识别</span><span>难度：★★★★★</span></span>
@@ -2535,7 +3892,7 @@ enc --&gt; stm
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig42.svg" alt="PlantUML 图 42" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig69.svg" alt="PlantUML 图 69" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -2578,7 +3935,7 @@ net --&gt; cloud
               </div>
             </div>
 
-            <div class="proj-item blue">
+            <div class="proj-item purple">
               <button class="proj-header">
                 <span class="ph-title">基于机器视觉的智能无序混合码垛机器臂系统</span>
                 <span class="ph-meta"><span>主控：STM32+工控机</span><span>AI：3D视觉</span><span>难度：★★★★★</span></span>
@@ -2587,7 +3944,7 @@ net --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig43.svg" alt="PlantUML 图 43" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig70.svg" alt="PlantUML 图 70" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -2628,7 +3985,7 @@ pc --&gt; mes
               </div>
             </div>
 
-            <div class="proj-item green">
+            <div class="proj-item red">
               <button class="proj-header">
                 <span class="ph-title">建筑工地特殊工种安全管理系统</span>
                 <span class="ph-meta"><span>主控：ESP32</span><span>通信：4G</span><span>难度：★★★★☆</span></span>
@@ -2637,7 +3994,7 @@ pc --&gt; mes
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig44.svg" alt="PlantUML 图 44" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig71.svg" alt="PlantUML 图 71" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -2680,7 +4037,7 @@ cloud --&gt; scr
               </div>
             </div>
 
-            <div class="proj-item orange">
+            <div class="proj-item teal">
               <button class="proj-header">
                 <span class="ph-title">中小企业 MES 系统推广（边缘采集版）</span>
                 <span class="ph-meta"><span>主控：边缘网关</span><span>通信：工业以太网</span><span>难度：★★★★★</span></span>
@@ -2689,7 +4046,7 @@ cloud --&gt; scr
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig45.svg" alt="PlantUML 图 45" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig72.svg" alt="PlantUML 图 72" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -2730,7 +4087,7 @@ db --&gt; cloud
               </div>
             </div>
 
-            <div class="proj-item purple">
+            <div class="proj-item blue">
               <button class="proj-header">
                 <span class="ph-title">V2X场景下基于信息融合的自动驾驶智能策略研究</span>
                 <span class="ph-meta"><span>主控：工控+AI</span><span>通信：C-V2X</span><span>难度：★★★★★</span></span>
@@ -2739,7 +4096,7 @@ db --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig46.svg" alt="PlantUML 图 46" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig73.svg" alt="PlantUML 图 73" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -2780,17 +4137,217 @@ fusion --&gt; sim
               </div>
             </div>
 
+            <div class="proj-item green">
+              <button class="proj-header">
+                <span class="ph-title">基于机器视觉的水果智能分拣系统</span>
+                <span class="ph-meta"><span>主控：STM32+K210</span><span>AI：分类</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig74.svg" alt="PlantUML 图 74" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "K210 视觉" as cam #d5e8d4
+rectangle "称重" as w #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "分拣气缸" as sort #ffe6cc
+rectangle "4G/WiFi" as net #fff2cc
+cam --&gt; stm
+w --&gt; stm
+stm --&gt; sort
+stm --&gt; net
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 基于机器视觉的水果智能分拣系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 + K210 视觉 + 称重 + 多通道分拣 + 传送带 + 4G/WiFi。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（视觉分拣）</strong>：K210 识别果种与瑕疵，STM32 控分拣气缸入对应仓。</li>
+                    <li><strong>方案 B（质量分级）</strong>：在方案 A 上按大小/糖度分级与产量统计上云。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>上料 → 视觉识别 → 称重分级 → 分拣入仓 → 上云。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32+K210 做水果智能分拣，视觉+执行+联网，是 AI+工业分拣范例。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、计算机视觉、传感器与检测技术实验、嵌入式Linux应用开发、软件工程
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32</span><span class="ic-tag">K210</span><span class="ic-tag">分拣</span><span class="ic-tag">视觉</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item orange">
+              <button class="proj-header">
+                <span class="ph-title">基于多模态识别的智能质检机械臂</span>
+                <span class="ph-meta"><span>主控：STM32+工控</span><span>AI：VLM</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig75.svg" alt="PlantUML 图 75" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "视觉/力觉" as cam #d5e8d4
+rectangle "工控机" as pc #dae8fc
+rectangle "六轴臂" as arm #ffe6cc
+rectangle "传送带" as conv #ffe6cc
+rectangle "MES" as mes #e1d5e8
+cam --&gt; pc
+pc --&gt; arm
+pc --&gt; conv
+pc --&gt; mes
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 基于多模态识别的智能质检机械臂架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>六轴机械臂 + 视觉/力觉 + 工控机(VLM 识别) + 传送对接 + 工业以太网。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（缺陷质检）</strong>：多模态识别工件表面/装配缺陷，机械臂分拣不良品。</li>
+                    <li><strong>方案 B（柔性换型）</strong>：在方案 A 上支持多产品快速换型与节拍优化。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>多模态采样 → 缺陷识别 → 机械臂分拣 → 数据回传。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：多模态识别+机械臂做智能质检，是工业 4.0 柔性质检代表，综合视觉与运动学。<br>
+                  <strong>课程对接</strong>：计算机视觉、算法分析与设计、单片机原理及应用、网络环境与编程、嵌入式Linux驱动开发
+                </div>
+                <div class="ic-tags"><span class="ic-tag">机械臂</span><span class="ic-tag">VLM</span><span class="ic-tag">质检</span><span class="ic-tag">工业</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item purple">
+              <button class="proj-header">
+                <span class="ph-title">基于机器视觉的焊缝缺陷检测系统</span>
+                <span class="ph-meta"><span>主控：STM32+工控</span><span>AI：视觉</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig76.svg" alt="PlantUML 图 76" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "工业相机" as cam #d5e8d4
+rectangle "工控机" as pc #dae8fc
+rectangle "STM32 标记" as stm #dae8fc
+rectangle "缺陷标记" as mark #ffe6cc
+rectangle "产线" as line #ffe6cc
+cam --&gt; pc
+pc --&gt; stm
+stm --&gt; mark
+stm --&gt; line
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 基于机器视觉的焊缝缺陷检测系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>工业相机 + 光源 + 工控机视觉 + STM32 标记机构 + 产线对接。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（焊缝检测）</strong>：相机采焊缝图像，视觉模型判裂纹/气孔，STM32 标记缺陷位。</li>
+                    <li><strong>方案 B（在线闭环）</strong>：在方案 A 上做实时反馈与工艺参数自适应。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>采焊缝图像 → 视觉判缺 → 标记 → 反馈产线。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：机器视觉做焊缝缺陷检测，是工业质检与图像处理的典型应用。<br>
+                  <strong>课程对接</strong>：计算机视觉、算法分析与设计、单片机原理及应用、嵌入式Linux应用开发
+                </div>
+                <div class="ic-tags"><span class="ic-tag">机器视觉</span><span class="ic-tag">焊缝</span><span class="ic-tag">质检</span><span class="ic-tag">STM32</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item red">
+              <button class="proj-header">
+                <span class="ph-title">快递智能分拣系统</span>
+                <span class="ph-meta"><span>主控：STM32+视觉</span><span>AI：条码/识别</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig77.svg" alt="PlantUML 图 77" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "条码/视觉" as cam #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "辊筒线" as conv #ffe6cc
+rectangle "转向分拣" as sort #ffe6cc
+rectangle "WMS" as wms #e1d5e8
+cam --&gt; stm
+stm --&gt; conv
+stm --&gt; sort
+stm --&gt; wms
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 快递智能分拣系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 + 条码/视觉相机 + 辊筒线 + 转向分拣 + WiFi + WMS。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（快速分拣）</strong>：视觉/条码识别包裹目的地，STM32 控辊筒转向入格口。</li>
+                    <li><strong>方案 B（高峰调度）</strong>：在方案 A 上做动态格口分配与吞吐优化。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>识别面单 → 解析目的地 → 辊筒分拣 → 入格 → WMS 同步。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32+视觉做快递分拣，是物流自动化与工业物联网的结合。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、计算机视觉、算法分析与设计、嵌入式Linux应用开发、数据库系统原理
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32</span><span class="ic-tag">快递</span><span class="ic-tag">分拣</span><span class="ic-tag">WMS</span></div>
+              </div>
+            </div>
+
           </div>
         </section>
 
         <!-- ===================== 七、消费电子类 ===================== -->
         <section id="sec-7" class="idea-cat">
           <button class="cat-header open">
-            <span>七、消费电子类 <span class="cat-count">（5 项）</span></span>
+            <span>七、消费电子类 <span class="cat-count">（8 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
-            <div class="proj-item red">
+            <div class="proj-item teal">
               <button class="proj-header">
                 <span class="ph-title">智能图像识别水果自动计价称重售卖机</span>
                 <span class="ph-meta"><span>主控：STM32+K210</span><span>AI：分类</span><span>难度：★★★★★</span></span>
@@ -2799,7 +4356,7 @@ fusion --&gt; sim
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig47.svg" alt="PlantUML 图 47" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig78.svg" alt="PlantUML 图 78" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -2840,7 +4397,7 @@ stm --&gt; net
               </div>
             </div>
 
-            <div class="proj-item teal">
+            <div class="proj-item blue">
               <button class="proj-header">
                 <span class="ph-title">基于 ESP32 的智能登山杖</span>
                 <span class="ph-meta"><span>主控：ESP32</span><span>通信：4G/GPS</span><span>难度：★★★★☆</span></span>
@@ -2849,7 +4406,7 @@ stm --&gt; net
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig48.svg" alt="PlantUML 图 48" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig79.svg" alt="PlantUML 图 79" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -2890,7 +4447,7 @@ esp --&gt; g
               </div>
             </div>
 
-            <div class="proj-item blue">
+            <div class="proj-item green">
               <button class="proj-header">
                 <span class="ph-title">儿童安行智能手环</span>
                 <span class="ph-meta"><span>主控：nRF/ESP32</span><span>通信：4G/蓝牙</span><span>难度：★★★★☆</span></span>
@@ -2899,7 +4456,7 @@ esp --&gt; g
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig49.svg" alt="PlantUML 图 49" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig80.svg" alt="PlantUML 图 80" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -2940,7 +4497,7 @@ fence --&gt; app
               </div>
             </div>
 
-            <div class="proj-item green">
+            <div class="proj-item orange">
               <button class="proj-header">
                 <span class="ph-title">基于 STM32 多功能的智能 PID 焊台系统</span>
                 <span class="ph-meta"><span>主控：STM32</span><span>算法：PID</span><span>难度：★★★★☆</span></span>
@@ -2949,7 +4506,7 @@ fence --&gt; app
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig50.svg" alt="PlantUML 图 50" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig81.svg" alt="PlantUML 图 81" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -2990,7 +4547,7 @@ stm --&gt; pc
               </div>
             </div>
 
-            <div class="proj-item orange">
+            <div class="proj-item purple">
               <button class="proj-header">
                 <span class="ph-title">智能监测污水无人小船</span>
                 <span class="ph-meta"><span>主控：STM32</span><span>通信：4G</span><span>难度：★★★★★</span></span>
@@ -2999,7 +4556,7 @@ stm --&gt; pc
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig51.svg" alt="PlantUML 图 51" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig82.svg" alt="PlantUML 图 82" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -3042,17 +4599,167 @@ g --&gt; gs
               </div>
             </div>
 
+            <div class="proj-item red">
+              <button class="proj-header">
+                <span class="ph-title">人脸识别智能储物柜</span>
+                <span class="ph-meta"><span>主控：STM32+云端</span><span>AI：人脸</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig83.svg" alt="PlantUML 图 83" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "摄像头" as cam #d5e8d4
+rectangle "人脸比对" as face #d3e0ea
+rectangle "STM32" as stm #dae8fc
+rectangle "电控锁" as lock #ffe6cc
+rectangle "身份云" as cloud #e1d5e8
+cam --&gt; face
+face --&gt; stm
+stm --&gt; lock
+stm --&gt; cloud
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 人脸识别智能储物柜架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 + 摄像头 + 人脸模组/云端 + 电控锁 + 4G/WiFi + 管理前端。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（刷脸存取）</strong>：摄像头采人脸，本地/云端比对开对应柜门，记录存取日志。</li>
+                    <li><strong>方案 B（临时共享）</strong>：在方案 A 上做临时授权与超时提醒，适用泳池/商场。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>采人脸 → 比对 → 开柜 → 记录 → 上云。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32+人脸做智能储物柜，生物识别+联网，是身份物联网的便民终端。<br>
+                  <strong>课程对接</strong>：计算机视觉、单片机原理及应用、数据库系统原理、云计算导论、嵌入式Linux应用开发
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32</span><span class="ic-tag">人脸</span><span class="ic-tag">储物柜</span><span class="ic-tag">生物识别</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item teal">
+              <button class="proj-header">
+                <span class="ph-title">语音+视觉智能分类垃圾桶</span>
+                <span class="ph-meta"><span>主控：STM32+K210</span><span>AI：分类</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig84.svg" alt="PlantUML 图 84" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "K210 视觉" as cam #d5e8d4
+rectangle "语音" as mic #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "分类仓" as bin #ffe6cc
+rectangle "运维云" as cloud #e1d5e8
+cam --&gt; stm
+mic --&gt; stm
+stm --&gt; bin
+stm --&gt; cloud
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 语音+视觉智能分类垃圾桶架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 + K210 视觉 + 语音交互 + 多分类仓 + 满溢传感 + 4G + 屏。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（自动分类）</strong>：K210 识别垃圾类别，STM32 开对应仓；语音可查询分类。</li>
+                    <li><strong>方案 B（宣教一体）</strong>：在方案 A 上加屏显科普与投放统计，助力垃圾分类。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>投物 → 视觉分类 → 开对应仓 → 满溢检测 → 4G 提醒。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32+K210 智能分类垃圾桶，视觉+语音+联网，是环保物联网惠民终端（区别于已有视觉垃圾箱，本版强化语音交互）。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、计算机视觉、传感器与检测技术实验、云计算导论、人工智能导论
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32</span><span class="ic-tag">K210</span><span class="ic-tag">分类</span><span class="ic-tag">垃圾桶</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item blue">
+              <button class="proj-header">
+                <span class="ph-title">盲人语音图像识别饮水机</span>
+                <span class="ph-meta"><span>主控：STM32</span><span>AI：视觉+语音</span><span>难度：★★★★☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig85.svg" alt="PlantUML 图 85" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "摄像头" as cam #d5e8d4
+rectangle "语音" as mic #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "出水控制" as valve #ffe6cc
+rectangle "语音播报" as spk #f8cecc
+cam --&gt; stm
+mic --&gt; stm
+stm --&gt; valve
+stm --&gt; spk
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 盲人语音图像识别饮水机架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 + 摄像头(杯位/水量) + 语音模块 + 出水控制 + 温度传感器 + 蜂鸣。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（语音取水）</strong>：语音指令选温水/热水，视觉识别杯位与水量自动出水，语音播报。</li>
+                    <li><strong>方案 B（安全防烫）</strong>：在方案 A 上加温度阈值与防干烧保护，盲文/语音双重提示。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>语音指令 → 视觉定位杯 → 出水控制 → 温度反馈 → 播报。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32 整合视觉与语音做盲人饮水机，是无障碍人机交互的暖心应用。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、计算机视觉、人工智能导论、传感器与检测技术实验
+                </div>
+                <div class="ic-tags"><span class="ic-tag">STM32</span><span class="ic-tag">盲人</span><span class="ic-tag">视觉</span><span class="ic-tag">语音</span></div>
+              </div>
+            </div>
+
           </div>
         </section>
 
         <!-- ===================== 八、机器人与无人机类 ===================== -->
         <section id="sec-8" class="idea-cat">
           <button class="cat-header open">
-            <span>八、机器人与无人机类 <span class="cat-count">（8 项）</span></span>
+            <span>八、机器人与无人机类 <span class="cat-count">（14 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
-            <div class="proj-item purple">
+            <div class="proj-item green">
               <button class="proj-header">
                 <span class="ph-title">基于 STM32F4 的救灾无人机</span>
                 <span class="ph-meta"><span>主控：STM32F4</span><span>通信：4G/图传</span><span>难度：★★★★★</span></span>
@@ -3061,7 +4768,7 @@ g --&gt; gs
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig52.svg" alt="PlantUML 图 52" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig86.svg" alt="PlantUML 图 86" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -3104,7 +4811,7 @@ g --&gt; gs
               </div>
             </div>
 
-            <div class="proj-item red">
+            <div class="proj-item orange">
               <button class="proj-header">
                 <span class="ph-title">基于 STM32 单片机的自平衡自行车研究</span>
                 <span class="ph-meta"><span>主控：STM32</span><span>算法：平衡</span><span>难度：★★★★★</span></span>
@@ -3113,7 +4820,7 @@ g --&gt; gs
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig53.svg" alt="PlantUML 图 53" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig87.svg" alt="PlantUML 图 87" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -3154,7 +4861,7 @@ stm --&gt; bt
               </div>
             </div>
 
-            <div class="proj-item teal">
+            <div class="proj-item purple">
               <button class="proj-header">
                 <span class="ph-title">基于 WiFi 的袖珍四轴无人机</span>
                 <span class="ph-meta"><span>主控：ESP32</span><span>通信：WiFi</span><span>难度：★★★★☆</span></span>
@@ -3163,7 +4870,7 @@ stm --&gt; bt
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig54.svg" alt="PlantUML 图 54" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig88.svg" alt="PlantUML 图 88" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -3202,7 +4909,7 @@ esp --&gt; wifi
               </div>
             </div>
 
-            <div class="proj-item blue">
+            <div class="proj-item red">
               <button class="proj-header">
                 <span class="ph-title">基于 STM32 的机械臂电子鼻协同式智能分拣系统</span>
                 <span class="ph-meta"><span>主控：STM32+气敏</span><span>AI：气味</span><span>难度：★★★★★</span></span>
@@ -3211,7 +4918,7 @@ esp --&gt; wifi
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig55.svg" alt="PlantUML 图 55" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig89.svg" alt="PlantUML 图 89" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -3252,7 +4959,7 @@ stm --&gt; conv
               </div>
             </div>
 
-            <div class="proj-item green">
+            <div class="proj-item teal">
               <button class="proj-header">
                 <span class="ph-title">基于激光 SLAM 的机器人</span>
                 <span class="ph-meta"><span>主控：树莓派/工控</span><span>AI：SLAM</span><span>难度：★★★★★</span></span>
@@ -3261,7 +4968,7 @@ stm --&gt; conv
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig56.svg" alt="PlantUML 图 56" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig90.svg" alt="PlantUML 图 90" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -3302,7 +5009,7 @@ pc --&gt; map
               </div>
             </div>
 
-            <div class="proj-item orange">
+            <div class="proj-item blue">
               <button class="proj-header">
                 <span class="ph-title">社区智能垃圾收集机器人</span>
                 <span class="ph-meta"><span>主控：STM32+树莓派</span><span>AI：视觉</span><span>难度：★★★★★</span></span>
@@ -3311,7 +5018,7 @@ pc --&gt; map
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig57.svg" alt="PlantUML 图 57" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig91.svg" alt="PlantUML 图 91" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -3352,7 +5059,7 @@ stm --&gt; cloud
               </div>
             </div>
 
-            <div class="proj-item purple">
+            <div class="proj-item green">
               <button class="proj-header">
                 <span class="ph-title">智能无序混合码垛机器臂系统研发及应用</span>
                 <span class="ph-meta"><span>主控：工控+STM32</span><span>AI：3D视觉</span><span>难度：★★★★★</span></span>
@@ -3361,7 +5068,7 @@ stm --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig58.svg" alt="PlantUML 图 58" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig92.svg" alt="PlantUML 图 92" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -3402,7 +5109,7 @@ ctrl --&gt; mes
               </div>
             </div>
 
-            <div class="proj-item red">
+            <div class="proj-item orange">
               <button class="proj-header">
                 <span class="ph-title">边缘翼——驱动三农发展新动能的无人机系统</span>
                 <span class="ph-meta"><span>主控：飞控+边缘</span><span>AI：边缘推理</span><span>难度：★★★★★</span></span>
@@ -3411,7 +5118,7 @@ ctrl --&gt; mes
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig59.svg" alt="PlantUML 图 59" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig93.svg" alt="PlantUML 图 93" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -3452,17 +5159,317 @@ fc --&gt; cloud
               </div>
             </div>
 
+            <div class="proj-item purple">
+              <button class="proj-header">
+                <span class="ph-title">灾后救援六足机器人</span>
+                <span class="ph-meta"><span>主控：STM32</span><span>通信：4G</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig94.svg" alt="PlantUML 图 94" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "摄像头" as cam #d5e8d4
+rectangle "气体/生命" as gas #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "机械臂" as arm #ffe6cc
+rectangle "4G" as g #fff2cc
+cam --&gt; stm
+gas --&gt; stm
+stm --&gt; arm
+stm --&gt; g
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 灾后救援六足机器人架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 六足底盘 + 摄像头 + 气体/生命探测 + 机械臂 + 4G + 地面站。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（废墟搜救）</strong>：六足适应复杂地形，搭载探测与机械臂清理通道，4G 回传画面。</li>
+                    <li><strong>方案 B（集群协同）</strong>：在方案 A 上做多机分区搜救与中继通信。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>行进 → 探测 → 清理/标记 → 4G 回传 → 指挥。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32 六足救援机器人，复杂地形通过+探测，是应急救援物联网节点。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、智能机器人技术实践、计算机视觉、无线传感器网络、嵌入式Linux应用开发
+                </div>
+                <div class="ic-tags"><span class="ic-tag">六足</span><span class="ic-tag">救援</span><span class="ic-tag">STM32</span><span class="ic-tag">探测</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item red">
+              <button class="proj-header">
+                <span class="ph-title">仿生爬壁机器人</span>
+                <span class="ph-meta"><span>主控：STM32</span><span>通信：WiFi</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig95.svg" alt="PlantUML 图 95" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "负压吸附" as suck #ffe6cc
+rectangle "视觉" as cam #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "电机驱动" as motor #ffe6cc
+rectangle "WiFi" as wifi #fff2cc
+suck --&gt; stm
+cam --&gt; stm
+stm --&gt; motor
+stm --&gt; wifi
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 仿生爬壁机器人架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 + 负压/吸附机构 + 视觉(表面缺陷) + 电机驱动 + WiFi + 屏。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（壁面作业）</strong>：负压吸附爬壁，搭载视觉检测墙面裂纹/污损，适合高楼外墙。</li>
+                    <li><strong>方案 B（自主巡检）</strong>：在方案 A 上做路径规划与缺陷地图生成。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>吸附爬壁 → 视觉检测 → 路径规划 → 缺陷地图。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32 仿生爬壁机器人，吸附+视觉，是特种作业机器人应用。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、计算机视觉、智能机器人技术实践、算法分析与设计
+                </div>
+                <div class="ic-tags"><span class="ic-tag">爬壁</span><span class="ic-tag">STM32</span><span class="ic-tag">视觉</span><span class="ic-tag">巡检</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item teal">
+              <button class="proj-header">
+                <span class="ph-title">智能雾化消毒机器人</span>
+                <span class="ph-meta"><span>主控：STM32+树莓派</span><span>AI：导航</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig96.svg" alt="PlantUML 图 96" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "导航" as nav #d5e8d4
+rectangle "树莓派" as pi #dae8fc
+rectangle "STM32 底盘" as stm #dae8fc
+rectangle "超声雾化" as mist #ffe6cc
+rectangle "调度云" as cloud #e1d5e8
+nav --&gt; pi
+pi --&gt; stm
+stm --&gt; mist
+stm --&gt; cloud
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 智能雾化消毒机器人架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 底盘 + 树莓派导航 + 超声雾化 + 人体感应 + 4G + 调度云。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（自主消毒）</strong>：自主导航全覆盖喷洒消毒，人体感应避让，4G 上报覆盖率。</li>
+                    <li><strong>方案 B（定时巡消）</strong>：在方案 A 上做多区定时任务与浓度监测。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>建图导航 → 雾化消毒 → 避人 → 覆盖上报。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32+树莓派做雾化消毒机器人，是公共卫生与移动机器人结合的应用。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、算法分析与设计、计算机视觉、无线传感器网络、云计算导论
+                </div>
+                <div class="ic-tags"><span class="ic-tag">消毒</span><span class="ic-tag">机器人</span><span class="ic-tag">STM32</span><span class="ic-tag">导航</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item blue">
+              <button class="proj-header">
+                <span class="ph-title">球形水果采摘移动机器人（SLAM）</span>
+                <span class="ph-meta"><span>主控：STM32+树莓派</span><span>AI：SLAM</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig97.svg" alt="PlantUML 图 97" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "深度相机" as cam #d5e8d4
+rectangle "树莓派" as pi #dae8fc
+rectangle "STM32 底盘" as stm #dae8fc
+rectangle "夹爪" as arm #ffe6cc
+rectangle "产量云" as cloud #e1d5e8
+cam --&gt; pi
+pi --&gt; stm
+stm --&gt; arm
+stm --&gt; cloud
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 球形水果采摘移动机器人（SLAM）架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 移动底盘 + 树莓派视觉 + 夹爪 + 深度相机 + 4G + 产量云。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（自主采摘）</strong>：SLAM 导航巡园，视觉识别成熟果并采摘入筐。</li>
+                    <li><strong>方案 B（产量统计）</strong>：在方案 A 上做采摘点位地图与产量统计上云。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>SLAM 巡园 → 视觉识别 → 采摘 → 计数 → 上云。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32+树莓派做球形水果采摘移动机器人，综合 SLAM、视觉与采摘。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、计算机视觉、智能机器人技术实践、算法分析与设计、嵌入式Linux应用开发
+                </div>
+                <div class="ic-tags"><span class="ic-tag">采摘</span><span class="ic-tag">SLAM</span><span class="ic-tag">机器人</span><span class="ic-tag">STM32</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item green">
+              <button class="proj-header">
+                <span class="ph-title">智能无人巡逻艇</span>
+                <span class="ph-meta"><span>主控：STM32</span><span>通信：4G</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig98.svg" alt="PlantUML 图 98" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "GPS/罗盘" as gps #d5e8d4
+rectangle "超声波" as ult #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "摄像头" as cam #d5e8d4
+rectangle "4G" as g #fff2cc
+gps --&gt; stm
+ult --&gt; stm
+cam --&gt; stm
+stm --&gt; g
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 智能无人巡逻艇架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 艇体 + GPS/电子罗盘 + 避障超声 + 摄像头 + 4G + 地面站。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（水域巡逻）</strong>：按航点自主巡逻，摄像头巡视岸线，异常 4G 回传。</li>
+                    <li><strong>方案 B（目标跟踪）</strong>：在方案 A 上做目标识别与跟踪报警。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>设航点 → 自主巡航 → 巡视 → 异常回传 → 指挥。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32 无人巡逻艇，水上自主巡航+监视，是水域安防物联网节点。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、算法分析与设计、无线传感器网络、计算机视觉、嵌入式Linux应用开发
+                </div>
+                <div class="ic-tags"><span class="ic-tag">巡逻艇</span><span class="ic-tag">STM32</span><span class="ic-tag">GPS</span><span class="ic-tag">水域</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item orange">
+              <button class="proj-header">
+                <span class="ph-title">图像识别水藻打捞船</span>
+                <span class="ph-meta"><span>主控：STM32</span><span>AI：视觉</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig99.svg" alt="PlantUML 图 99" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "摄像头" as cam #d5e8d4
+rectangle "STM32" as stm #dae8fc
+rectangle "收集泵" as pump #ffe6cc
+rectangle "超声波" as ult #d5e8d4
+rectangle "4G" as g #fff2cc
+cam --&gt; stm
+stm --&gt; pump
+ult --&gt; stm
+stm --&gt; g
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 图像识别水藻打捞船架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>STM32 船体 + 摄像头(水藻) + 收集网/泵 + 避障超声 + GPS + 4G。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（藻华打捞）</strong>：视觉识别水藻聚集区，STM32 驱船前往并泵收集，4G 回传。</li>
+                    <li><strong>方案 B（区域调度）</strong>：在方案 A 上做多船分区与清理进度地图。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>视觉识藻 → 导航前往 → 泵收集 → 避障 → 上云。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：STM32 水藻打捞船，视觉+水上作业，是水环境物联网移动平台（区别于污水监测小船）。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、计算机视觉、无线传感器网络、传感器与检测技术实验、算法分析与设计
+                </div>
+                <div class="ic-tags"><span class="ic-tag">打捞船</span><span class="ic-tag">水藻</span><span class="ic-tag">视觉</span><span class="ic-tag">STM32</span></div>
+              </div>
+            </div>
+
           </div>
         </section>
 
         <!-- ===================== 九、物联网通信类 ===================== -->
         <section id="sec-9" class="idea-cat">
           <button class="cat-header open">
-            <span>九、物联网通信类 <span class="cat-count">（7 项）</span></span>
+            <span>九、物联网通信类 <span class="cat-count">（9 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
-            <div class="proj-item teal">
+            <div class="proj-item purple">
               <button class="proj-header">
                 <span class="ph-title">基于 LoRa 的无线传感网森林火险监防系统 <span style="color:#dc2626;font-size:0.7em;">★ LoRa 新方向</span></span>
                 <span class="ph-meta"><span>主控：STM32</span><span>通信：LoRa</span><span>难度：★★★★☆</span></span>
@@ -3471,7 +5478,7 @@ fc --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig60.svg" alt="PlantUML 图 60" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig100.svg" alt="PlantUML 图 100" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -3512,7 +5519,7 @@ gw --&gt; cloud
               </div>
             </div>
 
-            <div class="proj-item blue">
+            <div class="proj-item red">
               <button class="proj-header">
                 <span class="ph-title">基于 NB-IoT 的智能节能路灯系统（乡村振兴） <span style="color:#dc2626;font-size:0.7em;">★ NB-IoT 新方向</span></span>
                 <span class="ph-meta"><span>主控：ESP32</span><span>通信：NB-IoT</span><span>难度：★★★★☆</span></span>
@@ -3521,7 +5528,7 @@ gw --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig61.svg" alt="PlantUML 图 61" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig101.svg" alt="PlantUML 图 101" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -3562,7 +5569,7 @@ nb --&gt; cloud
               </div>
             </div>
 
-            <div class="proj-item green">
+            <div class="proj-item teal">
               <button class="proj-header">
                 <span class="ph-title">RFID 智能购物车</span>
                 <span class="ph-meta"><span>主控：STM32</span><span>识别：RFID</span><span>难度：★★★★☆</span></span>
@@ -3571,7 +5578,7 @@ nb --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig62.svg" alt="PlantUML 图 62" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig102.svg" alt="PlantUML 图 102" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -3612,7 +5619,7 @@ stm --&gt; cloud
               </div>
             </div>
 
-            <div class="proj-item orange">
+            <div class="proj-item blue">
               <button class="proj-header">
                 <span class="ph-title">校园物联网开源社区</span>
                 <span class="ph-meta"><span>主控：ESP32/树莓派</span><span>通信：WiFi</span><span>难度：★★★☆☆</span></span>
@@ -3621,7 +5628,7 @@ stm --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig63.svg" alt="PlantUML 图 63" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig103.svg" alt="PlantUML 图 103" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -3662,7 +5669,7 @@ plat --&gt; web
               </div>
             </div>
 
-            <div class="proj-item purple">
+            <div class="proj-item green">
               <button class="proj-header">
                 <span class="ph-title">基于窄带物联网的智能环卫系统</span>
                 <span class="ph-meta"><span>主控：ESP32</span><span>通信：NB-IoT</span><span>难度：★★★★☆</span></span>
@@ -3671,7 +5678,7 @@ plat --&gt; web
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig64.svg" alt="PlantUML 图 64" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig104.svg" alt="PlantUML 图 104" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -3712,7 +5719,7 @@ gps --&gt; cloud
               </div>
             </div>
 
-            <div class="proj-item red">
+            <div class="proj-item orange">
               <button class="proj-header">
                 <span class="ph-title">物联网数据传输与加密</span>
                 <span class="ph-meta"><span>主控：ESP32/网关</span><span>通信：TLS/MQTT</span><span>难度：★★★★☆</span></span>
@@ -3721,7 +5728,7 @@ gps --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig65.svg" alt="PlantUML 图 65" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig105.svg" alt="PlantUML 图 105" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -3762,7 +5769,7 @@ gw --&gt; cloud
               </div>
             </div>
 
-            <div class="proj-item teal">
+            <div class="proj-item purple">
               <button class="proj-header">
                 <span class="ph-title">澜峙农业数字工厂</span>
                 <span class="ph-meta"><span>主控：边缘+云</span><span>通信：工业网</span><span>难度：★★★★★</span></span>
@@ -3771,7 +5778,7 @@ gw --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig66.svg" alt="PlantUML 图 66" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig106.svg" alt="PlantUML 图 106" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -3812,13 +5819,113 @@ cloud --&gt; ops
               </div>
             </div>
 
+            <div class="proj-item red">
+              <button class="proj-header">
+                <span class="ph-title">基于分布式光纤传感的周界安防系统</span>
+                <span class="ph-meta"><span>主控：STM32+解调</span><span>通信：4G</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig107.svg" alt="PlantUML 图 107" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "分布式光纤" as fiber #d5e8d4
+rectangle "振动解调" as demod #dae8fc
+rectangle "STM32" as stm #dae8fc
+rectangle "摄像头" as cam #d5e8d4
+rectangle "安防云" as cloud #e1d5e8
+fiber --&gt; demod
+demod --&gt; stm
+cam --&gt; stm
+stm --&gt; cloud
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 基于分布式光纤传感的周界安防系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>分布式光纤 + 振动解调单元 + STM32 处理 + 摄像头联动 + 4G + 云平台。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（光纤周界）</strong>：光纤感知沿线振动，定位入侵点，联动摄像头复核，4G 告警。</li>
+                    <li><strong>方案 B（智能判别）</strong>：在方案 A 上做行为分类(攀爬/剪切)降低误报。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>光纤采振动 → 解调定位 → 摄像头复核 → 4G 告警。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：分布式光纤传感做周界安防，长距离无源监测，是光电传感与物联网安全应用。<br>
+                  <strong>课程对接</strong>：单片机原理及应用、传感器与检测技术实验、无线传感器网络、云计算导论、算法分析与设计
+                </div>
+                <div class="ic-tags"><span class="ic-tag">光纤</span><span class="ic-tag">周界</span><span class="ic-tag">安防</span><span class="ic-tag">STM32</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item teal">
+              <button class="proj-header">
+                <span class="ph-title">基于无线传感网的智能垃圾箱系统</span>
+                <span class="ph-meta"><span>主控：ESP32</span><span>通信：LoRa/WiFi</span><span>难度：★★★★☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig108.svg" alt="PlantUML 图 108" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "满溢/气体" as fill #d5e8d4
+rectangle "ESP32" as esp #dae8fc
+rectangle "压缩" as comp #ffe6cc
+rectangle "LoRa/WiFi" as lora #fff2cc
+rectangle "环卫云" as cloud #e1d5e8
+fill --&gt; esp
+esp --&gt; comp
+esp --&gt; lora
+lora --&gt; cloud
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 基于无线传感网的智能垃圾箱系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>ESP32 + 满溢/温度/气体传感 + 压缩机构 + LoRa/WiFi + 云平台 + 调度前端。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（满溢监测）</strong>：多箱组网监测满溢与异味，平台规划收运路线。</li>
+                    <li><strong>方案 B（压缩减量）</strong>：在方案 A 上加内置压缩与太阳能供电，延长收运周期。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>满溢/气体采集 → 组网 → 上云 → 路线规划 → 收运。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：ESP32 无线传感网做智能垃圾箱，低功耗组网+压缩减量，是市政物联网应用（区别于 NB-IoT 环卫）。<br>
+                  <strong>课程对接</strong>：无线传感器网络、单片机原理及应用、传感器与检测技术实验、云计算导论、国产平台web应用开发
+                </div>
+                <div class="ic-tags"><span class="ic-tag">ESP32</span><span class="ic-tag">WSN</span><span class="ic-tag">垃圾箱</span><span class="ic-tag">LoRa</span></div>
+              </div>
+            </div>
+
           </div>
         </section>
 
         <!-- ===================== 十、数据采集与测控类 ===================== -->
         <section id="sec-10" class="idea-cat">
           <button class="cat-header open">
-            <span>十、数据采集与测控类 <span class="cat-count">（7 项）</span></span>
+            <span>十、数据采集与测控类 <span class="cat-count">（9 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
@@ -3831,7 +5938,7 @@ cloud --&gt; ops
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig67.svg" alt="PlantUML 图 67" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig109.svg" alt="PlantUML 图 109" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -3881,7 +5988,7 @@ ai --&gt; pc
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig68.svg" alt="PlantUML 图 68" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig110.svg" alt="PlantUML 图 110" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -3931,7 +6038,7 @@ stm --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig69.svg" alt="PlantUML 图 69" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig111.svg" alt="PlantUML 图 111" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -3981,7 +6088,7 @@ net --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig70.svg" alt="PlantUML 图 70" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig112.svg" alt="PlantUML 图 112" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -4031,7 +6138,7 @@ stm --&gt; pc
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig71.svg" alt="PlantUML 图 71" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig113.svg" alt="PlantUML 图 113" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -4081,7 +6188,7 @@ esp --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig72.svg" alt="PlantUML 图 72" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig114.svg" alt="PlantUML 图 114" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -4131,7 +6238,7 @@ stm --&gt; wms
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig73.svg" alt="PlantUML 图 73" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig115.svg" alt="PlantUML 图 115" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -4172,17 +6279,117 @@ esp --&gt; app
               </div>
             </div>
 
+            <div class="proj-item green">
+              <button class="proj-header">
+                <span class="ph-title">基于 WSN+GIS 的实验室安全管理系统</span>
+                <span class="ph-meta"><span>主控：ESP32</span><span>通信：WiFi</span><span>难度：★★★★☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig116.svg" alt="PlantUML 图 116" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "烟/温/气/门" as s #d5e8d4
+rectangle "ESP32" as esp #dae8fc
+rectangle "网关" as gw #fff2cc
+rectangle "GIS 地图" as gis #f8cecc
+rectangle "安全云" as cloud #e1d5e8
+s --&gt; esp
+esp --&gt; gw
+gw --&gt; gis
+gis --&gt; cloud
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 基于 WSN+GIS 的实验室安全管理系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>ESP32 多节点(烟/温/气/门禁) + 网关 + GIS 地图 + 云平台 + 大屏。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（安全监测）</strong>：多节点监测实验室环境与安全，GIS 地图定位异常，平台告警。</li>
+                    <li><strong>方案 B（准入联动）</strong>：在方案 A 上做门禁与危化品台账联动，闭环管理。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>多节点采集 → 网关汇聚 → GIS 定位 → 告警 → 大屏。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：ESP32 无线传感网+GIS 做实验室安全，是校园物联网与安全管理结合。<br>
+                  <strong>课程对接</strong>：无线传感器网络、单片机原理及应用、云计算导论、国产平台web应用开发、数据库系统原理
+                </div>
+                <div class="ic-tags"><span class="ic-tag">ESP32</span><span class="ic-tag">WSN</span><span class="ic-tag">GIS</span><span class="ic-tag">实验室</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item orange">
+              <button class="proj-header">
+                <span class="ph-title">基于物联网的机房环境监控系统</span>
+                <span class="ph-meta"><span>主控：ESP32</span><span>通信：WiFi</span><span>难度：★★★☆☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig117.svg" alt="PlantUML 图 117" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "温湿/水浸/烟" as s #d5e8d4
+rectangle "ESP32" as esp #dae8fc
+rectangle "网关" as gw #fff2cc
+rectangle "联动处置" as act #ffe6cc
+rectangle "监控云" as cloud #e1d5e8
+s --&gt; esp
+esp --&gt; gw
+esp --&gt; act
+gw --&gt; cloud
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 基于物联网的机房环境监控系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>ESP32 + 温湿度/水浸/烟感/门禁 + 网关 + 云平台 + 大屏。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（机房监测）</strong>：多传感监测机房温湿/水浸/烟感，异常平台告警，适合校园机房。</li>
+                    <li><strong>方案 B（联动处置）</strong>：在方案 A 上做空调/UPS 状态联动与巡检台账。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>采环境 → 网关汇聚 → 异常告警 → 联动处置。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：ESP32 做机房环境监控，传感+联网+联动，是基础设施物联网入门题。<br>
+                  <strong>课程对接</strong>：无线传感器网络、单片机原理及应用、传感器与检测技术实验、云计算导论
+                </div>
+                <div class="ic-tags"><span class="ic-tag">ESP32</span><span class="ic-tag">机房</span><span class="ic-tag">环境</span><span class="ic-tag">监控</span></div>
+              </div>
+            </div>
+
           </div>
         </section>
 
         <!-- ===================== 十一、其他类 ===================== -->
         <section id="sec-11" class="idea-cat">
           <button class="cat-header open">
-            <span>十一、其他类 <span class="cat-count">（5 项）</span></span>
+            <span>十一、其他类 <span class="cat-count">（7 项）</span></span>
             <span class="cat-arrow">▾</span>
           </button>
           <div class="cat-body open">
-            <div class="proj-item green">
+            <div class="proj-item purple">
               <button class="proj-header">
                 <span class="ph-title">基于 ESP32 的智能登山杖</span>
                 <span class="ph-meta"><span>主控：ESP32</span><span>通信：4G/北斗</span><span>难度：★★★★☆</span></span>
@@ -4191,7 +6398,7 @@ esp --&gt; app
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig74.svg" alt="PlantUML 图 74" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig118.svg" alt="PlantUML 图 118" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -4232,7 +6439,7 @@ esp --&gt; g
               </div>
             </div>
 
-            <div class="proj-item orange">
+            <div class="proj-item red">
               <button class="proj-header">
                 <span class="ph-title">基于 AI 图像识别分拣的智能垃圾箱</span>
                 <span class="ph-meta"><span>主控：STM32+K210</span><span>AI：分类</span><span>难度：★★★★★</span></span>
@@ -4241,7 +6448,7 @@ esp --&gt; g
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig75.svg" alt="PlantUML 图 75" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig119.svg" alt="PlantUML 图 119" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -4282,7 +6489,7 @@ stm --&gt; cloud
               </div>
             </div>
 
-            <div class="proj-item purple">
+            <div class="proj-item teal">
               <button class="proj-header">
                 <span class="ph-title">基于人脸识别的一体化集成系统</span>
                 <span class="ph-meta"><span>主控：STM32+云端</span><span>AI：人脸</span><span>难度：★★★★★</span></span>
@@ -4291,7 +6498,7 @@ stm --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig76.svg" alt="PlantUML 图 76" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig120.svg" alt="PlantUML 图 120" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -4332,7 +6539,7 @@ stm --&gt; cloud
               </div>
             </div>
 
-            <div class="proj-item red">
+            <div class="proj-item blue">
               <button class="proj-header">
                 <span class="ph-title">嵌入式人工智能技术应用的智能会议系统</span>
                 <span class="ph-meta"><span>主控：树莓派/ESP32</span><span>AI：语音/视觉</span><span>难度：★★★★★</span></span>
@@ -4341,7 +6548,7 @@ stm --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig77.svg" alt="PlantUML 图 77" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig121.svg" alt="PlantUML 图 121" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -4382,7 +6589,7 @@ pi --&gt; cloud
               </div>
             </div>
 
-            <div class="proj-item teal">
+            <div class="proj-item green">
               <button class="proj-header">
                 <span class="ph-title">智学萌宠养成记：智能硬件与编程启蒙课堂</span>
                 <span class="ph-meta"><span>主控：Micro:bit/ESP32</span><span>通信：蓝牙</span><span>难度：★★★☆☆</span></span>
@@ -4391,7 +6598,7 @@ pi --&gt; cloud
               <div class="proj-body">
                 <div class="arch">
                   <div class="plantuml-figure">
-  <img src="assets/diagrams/ideas-fig78.svg" alt="PlantUML 图 78" class="plantuml-img" loading="lazy" />
+  <img src="assets/diagrams/ideas-fig122.svg" alt="PlantUML 图 122" class="plantuml-img" loading="lazy" />
   <details class="plantuml-source">
     <summary>查看 PlantUML 源码</summary>
     <pre><code class="language-plantuml">@startuml
@@ -4432,8 +6639,110 @@ code --&gt; plat
               </div>
             </div>
 
+            <div class="proj-item orange">
+              <button class="proj-header">
+                <span class="ph-title">基于 WebGIS 与实景三维的智慧校园系统</span>
+                <span class="ph-meta"><span>主控：边缘网关</span><span>通信：WiFi</span><span>难度：★★★★★</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig123.svg" alt="PlantUML 图 123" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "多源传感" as s #d5e8d4
+rectangle "边缘网关" as edge #dae8fc
+rectangle "实景三维" as tw #d3e0ea
+rectangle "校园云" as cloud #e1d5e8
+rectangle "三维前端" as web #f8cecc
+s --&gt; edge
+edge --&gt; tw
+edge --&gt; cloud
+cloud --&gt; web
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 基于 WebGIS 与实景三维的智慧校园系统架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>边缘网关 + 多源传感 + 实景三维/WebGIS + 云平台 + 三维前端。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（三维校园）</strong>：汇聚校园传感数据，WebGIS+实景三维呈现能耗/安防/人流。</li>
+                    <li><strong>方案 B（智能运营）</strong>：在方案 A 上做能耗优化与事件推演。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>多源采集 → 边缘汇聚 → 三维呈现 → 运营分析。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：把 WebGIS 与实景三维用于智慧校园，端边云协同+三维可视化，是物联网与数字孪生融合。<br>
+                  <strong>课程对接</strong>：物联网工程导论、云计算导论、国产平台web应用开发、算法分析与设计、数据库系统原理
+                </div>
+                <div class="ic-tags"><span class="ic-tag">WebGIS</span><span class="ic-tag">实景三维</span><span class="ic-tag">智慧校园</span><span class="ic-tag">数字孪生</span></div>
+              </div>
+            </div>
+
+            <div class="proj-item purple">
+              <button class="proj-header">
+                <span class="ph-title">创客机器人科普教育套件</span>
+                <span class="ph-meta"><span>主控：Micro:bit/ESP32</span><span>通信：蓝牙</span><span>难度：★★★☆☆</span></span>
+                <span class="ph-arrow">▾</span>
+              </button>
+              <div class="proj-body">
+                <div class="arch">
+                  <div class="plantuml-figure">
+  <img src="assets/diagrams/ideas-fig124.svg" alt="PlantUML 图 124" class="plantuml-img" loading="lazy" />
+  <details class="plantuml-source">
+    <summary>查看 PlantUML 源码</summary>
+    <pre><code class="language-plantuml">@startuml
+skinparam defaultFontName "Microsoft YaHei"
+skinparam rectangle { RoundCorner 8 BorderColor #555 FontSize 13 }
+skinparam arrow { FontSize 11 Color #333 }
+left to right direction
+rectangle "教学板" as board #dae8fc
+rectangle "传感套件" as sense #d5e8d4
+rectangle "执行器" as act #ffe6cc
+rectangle "图形/Python" as code #f8cecc
+rectangle "科普平台" as plat #e1d5e8
+sense --&gt; board
+board --&gt; act
+board --&gt; code
+code --&gt; plat
+@enduml</code></pre>
+  </details>
+</div>
+                  <div class="figure-caption">图 创客机器人科普教育套件架构图</div>
+                </div>
+                <div class="proj-detail">
+                  <h5>硬件组成</h5>
+                  <p>Micro:bit/ESP32 教学板 + 传感器套件 + 执行器 + 图形化/Python + 科普平台。</p>
+                  <h5>实现方案</h5>
+                  <ul>
+                    <li><strong>方案 A（科普教具）</strong>：以机器人套件做图形化/Python 编程科普，做中学。</li>
+                    <li><strong>方案 B（课程平台）</strong>：在方案 A 上加科普课程与作品分享平台。</li>
+                  </ul>
+                  <h5>软件流程</h5>
+                  <p>任务发布 → 编程控制 → 硬件反馈 → 作品展示 → 分享。</p>
+                </div>
+                <div class="ic-impl">
+                  <strong>实现思路</strong>：面向中小学/社区的创客机器人科普套件，降低门槛，是 Python 与嵌入式入门的科普载体。<br>
+                  <strong>课程对接</strong>：Python语言程序设计、单片机原理及应用、物联网工程导论、移动应用开发、软件工程
+                </div>
+                <div class="ic-tags"><span class="ic-tag">Micro:bit</span><span class="ic-tag">科普</span><span class="ic-tag">机器人</span><span class="ic-tag">Python</span></div>
+              </div>
+            </div>
+
           </div>
         </section>
+
+
 
 
 
