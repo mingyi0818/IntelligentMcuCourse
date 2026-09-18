@@ -1,3 +1,6 @@
+# 本地 AI 工作区数据（不公开推送）
+.workbuddy/
+
 # IDE 与编辑器临时文件
 .trae/
 .vscode/
