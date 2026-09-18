@@ -1199,7 +1199,7 @@ C --&gt; G
 skinparam defaultFontName "Microsoft YaHei"
 top to bottom direction
 rectangle "物联网无线技术全景" as world {
-  rectangle "短距离（&amp;lt;100 m）" as short {
+  rectangle "短距离（&lt;100 m）" as short {
     rectangle "WiFi\n802.11\nESP8266/ESP32" as wifi
     rectangle "蓝牙 BLE\nnRF52832/HC-05" as ble
     rectangle "ZigBee\nCC2530/CC2652" as zig
@@ -1214,8 +1214,8 @@ rectangle "物联网无线技术全景" as world {
     rectangle "4G/5G Cat.1\nSIM7600" as cat1
   }
 }
-short --&amp;gt; mid
-mid --&amp;gt; cell
+short --&gt; mid
+mid --&gt; cell
 @enduml</code></pre>
   </details>
 </div>
@@ -1302,10 +1302,10 @@ component "NB-IoT 模组\nBC95 / SIM7000C\n(UART + AT)" as mod
 component "运营商基站\n(中国移动/电信/联通)" as bs
 component "物联网平台\nOneNET / 天翼物联" as plat
 component "应用 APP / 大屏" as app
-node --&amp;gt; mod : UART AT 指令
-mod --&amp;gt; bs : 授权蜂窝
-bs --&amp;gt; plat : 运营商核心网
-plat --&amp;gt; app : 数据推送/API
+node --&gt; mod : UART AT 指令
+mod --&gt; bs : 授权蜂窝
+bs --&gt; plat : 运营商核心网
+plat --&gt; app : 数据推送/API
 @enduml</code></pre>
   </details>
 </div>

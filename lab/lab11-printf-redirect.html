@@ -86,17 +86,17 @@
 skinparam defaultFontName "Microsoft YaHei"
 skinparam backgroundColor #ffffff
 left to right direction
-component "PC 串口助手\n(SSCOM 115200 8N1)" as PC
-component "CH340\nUSB转串口" as CH1
+component "PC 串口助手 (SSCOM 115200 8N1)" as PC
+component "CH340 USB转串口" as CH1
 component "P3.1/PA9 TXD" as TXD1
-component "单片机\nprintf 重定向" as MCU1
+component "单片机 printf 重定向" as MCU1
 component "P3.0/PA10 RXD" as RXD1
-PC --&amp;gt; CH1 : USB
-CH1 --&amp;gt; RXD1 : TXD
-RXD1 --&amp;gt; MCU1
-MCU1 --&amp;gt; TXD1 : printf 输出字节流
-TXD1 --&amp;gt; CH1
-CH1 --&amp;gt; PC : USB 回显
+PC --&gt; CH1 : USB
+CH1 --&gt; RXD1 : TXD
+RXD1 --&gt; MCU1
+MCU1 --&gt; TXD1 : printf 输出字节流
+TXD1 --&gt; CH1
+CH1 --&gt; PC : USB 回显
 note bottom of MCU1
   printf 调用链:
   printf → vfprintf → putchar/fputc

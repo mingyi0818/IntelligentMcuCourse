@@ -111,7 +111,7 @@ note left of S11
   4) HAL_FLASH_Lock()
   读取流程:
   Config_t *cfg = (Config_t*)0x080E0000;
-  if (cfg-&gt;magic==CONF &amp;amp;&amp;amp; crc32_check()) ok;
+  if (cfg-&gt;magic==CONF &amp;&amp; crc32_check()) ok;
 end note
 @enduml</code></pre>
   </details>
