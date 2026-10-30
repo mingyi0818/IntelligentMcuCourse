@@ -219172,6 +219172,8 @@ var EditorCanvas = class {
   suppressNextPinClick = false;
   highlightEls = [];
   hoveredId = null;
+  /** 上次自适应视图的 viewBox（判断用户是否手动缩放/平移过） */
+  lastFitVB = null;
   placingRot = 0;
   textFocused = false;
   /** 旋转已放置的元件（90 度步进），随后刷新渲染 */
@@ -219972,6 +219974,14 @@ var EditorCanvas = class {
     }
     this.zoom = W3 / w;
     this.applyViewBox(x, y, w, h2);
+    this.lastFitVB = { x: Math.round(x), y: Math.round(y), w: Math.round(w), h: Math.round(h2) };
+  }
+  /** 视图若还停在上次自适应的位置（用户没手动缩放/平移过），则重新自适应 */
+  refitIfUntouched() {
+    const vb = this.svg.viewBox.baseVal;
+    const cur = { x: Math.round(vb.x), y: Math.round(vb.y), w: Math.round(vb.width), h: Math.round(vb.height) };
+    const lf = this.lastFitVB;
+    if (!lf || Math.abs(cur.x - lf.x) < 4 && Math.abs(cur.y - lf.y) < 4 && Math.abs(cur.w - lf.w) < 4 && Math.abs(cur.h - lf.h) < 4) this.fitContent();
   }
   get zoomLevel() {
     return this.zoom;
@@ -225397,6 +225407,9 @@ var docDrawer = $16("#doc-drawer");
 function toggleDocDrawer(open) {
   const show2 = open ?? docDrawer.style.display === "none";
   docDrawer.style.display = show2 ? "flex" : "none";
+  setTimeout(() => {
+    if (currentTemplate) canvas.refitIfUntouched();
+  }, 0);
 }
 $16("#btn-doc").addEventListener("click", () => toggleDocDrawer());
 $16("#doc-close").addEventListener("click", () => toggleDocDrawer(false));
