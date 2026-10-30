@@ -229,12 +229,15 @@
     back.style.cssText = 'display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border:1px solid #1a73e8;border-radius:4px;background:#fff;color:#1a73e8;text-decoration:none;white-space:nowrap;font-size:12px';
     var refresh = function () {
       if (lang() === 'en') {
-        text.textContent = 'Public practice edition: simulation and progress stay in this browser. Online build, official grades and the AI assistant are provided by the campus edition.';
+        text.textContent = 'Note: this lab bench for the MCU smart course is maintained by the teaching team of Zeng Jingyuan. '
+          + 'In the GitHub public practice edition, simulation and progress stay in this browser; '
+          + 'online build, official grades and the AI assistant are provided by the campus edition.';
         link.textContent = 'Local build guide →';
         back.textContent = '🏠 Course home';
         back.title = 'Back to the Intelligent MCU course website';
       } else {
-        text.textContent = '公开练习版：仿真与进度保存在本机；在线编译、正式成绩与 AI 助教由校内完整版提供。';
+        text.textContent = '特别说明：本单片机智慧课程配套实验台由曾镜源教学团队维护，'
+          + 'GitHub 公开练习版的仿真与进度保存在本机；在线编译、正式成绩与 AI 助教由校内完整版提供。';
         link.textContent = '本地编译说明 →';
         back.textContent = '🏠 返回课程首页';
         back.title = '返回《单片机原理及应用》智慧课程首页';

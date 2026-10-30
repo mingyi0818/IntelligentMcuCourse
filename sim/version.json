@@ -1,9 +1,9 @@
 {
   "version": "static-2026-10-30",
-  "builtAt": "2026-10-30T08:42:30.152Z",
+  "builtAt": "2026-10-30T09:00:38.463Z",
   "assets": {
-    "app": "064ab6df",
-    "css": "ab8188ea",
+    "app": "c44771b1",
+    "css": "eecb8738",
     "loader": "0383162f"
   },
   "experiments": 22,

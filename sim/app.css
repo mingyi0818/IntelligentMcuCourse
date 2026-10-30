@@ -36,9 +36,21 @@ body {
   flex-wrap: wrap;
 }
 #topbar .title {
-  font-weight: bold;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.2;
+  margin-right: 12px;
+}
+#topbar .title .t-org {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #9fc0e4;
+  letter-spacing: .04em;
+}
+#topbar .title .t-name {
   font-size: 15px;
-  margin-right: 10px;
+  font-weight: bold;
 }
 #topbar button {
   padding: 5px 14px;
