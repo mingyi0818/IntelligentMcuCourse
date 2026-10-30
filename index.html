@@ -266,63 +266,61 @@
       letter-spacing: .05em;
     }
 
-    /* 6.2 首页浮动入口：缓慢漂移，可点击进入、可关闭 */
+    /* 6.2 首页浮动入口：缓慢漂移，可点击进入、可关闭（尺寸放大一倍、漂移速度放慢） */
     #sim-float {
       position: fixed;
-      left: 0;
-      top: 0;
+      right: 26px;
+      bottom: 26px;
       z-index: 900;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 16px;
+      gap: 12px;
+      padding: 17px 32px 17px 28px;
       border-radius: 999px;
       background: linear-gradient(135deg, #22c55e, #15803d);
       color: #fff !important;
-      font-size: 14px;
+      font-size: 28px;
       font-weight: 700;
+      letter-spacing: .02em;
+      white-space: nowrap;
       text-decoration: none !important;
-      box-shadow: 0 10px 26px rgba(21, 128, 61, .38);
-      animation: simDrift 34s ease-in-out infinite alternate;
+      box-shadow: 0 14px 34px rgba(21, 128, 61, .42);
+      transform: translate(0, 0);
       will-change: transform;
       transition: box-shadow .2s, filter .2s;
     }
-    #sim-float:hover { filter: brightness(1.06); box-shadow: 0 12px 30px rgba(21, 128, 61, .5); animation-play-state: paused; }
-    #sim-float .sf-ico { font-size: 17px; }
+    #sim-float:hover,
+    #sim-float:focus-visible { filter: brightness(1.07); box-shadow: 0 18px 44px rgba(21, 128, 61, .55); }
+    #sim-float:focus-visible { outline: 3px solid #86efac; outline-offset: 3px; }
+    #sim-float .sf-ico { font-size: 34px; line-height: 1; }
+    #sim-float .sf-txt { white-space: nowrap; }
     #sim-float .sf-close {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 20px;
-      height: 20px;
-      margin-left: 2px;
+      width: 40px;
+      height: 40px;
+      margin-left: 4px;
       border-radius: 50%;
       background: rgba(255, 255, 255, .22);
-      font-size: 14px;
+      font-size: 26px;
       line-height: 1;
       cursor: pointer;
     }
     #sim-float .sf-close:hover { background: rgba(255, 255, 255, .4); }
-    @keyframes simDrift {
-      0%   { transform: translate(4vw, 74vh); }
-      14%  { transform: translate(74vw, 62vh); }
-      28%  { transform: translate(66vw, 16vh); }
-      42%  { transform: translate(12vw, 22vh); }
-      56%  { transform: translate(8vw, 58vh); }
-      70%  { transform: translate(70vw, 30vh); }
-      84%  { transform: translate(30vw, 78vh); }
-      100% { transform: translate(4vw, 40vh); }
-    }
     @media (max-width: 640px) {
-      #sim-float { font-size: 13px; padding: 8px 12px; }
-      @keyframes simDrift {
-        0%   { transform: translate(4vw, 80vh); }
-        50%  { transform: translate(48vw, 30vh); }
-        100% { transform: translate(6vw, 62vh); }
+      #sim-float {
+        right: 14px;
+        bottom: 18px;
+        gap: 8px;
+        padding: 12px 18px 12px 16px;
+        font-size: 20px;
       }
+      #sim-float .sf-ico { font-size: 24px; }
+      #sim-float .sf-close { width: 30px; height: 30px; font-size: 20px; }
     }
     @media (prefers-reduced-motion: reduce) {
-      #sim-float { animation: none; transform: translate(72vw, 72vh); }
+      #sim-float { transform: none !important; }
     }
 
     /* 7. 课程信息：双列网格卡片 */
@@ -1178,8 +1176,8 @@
 </script>
 
 <!-- ============ 虚拟仿真浮动入口（可点击进入，可手动关闭） ============ -->
-<a id="sim-float" href="sim/index.html?exp=lab08_orchard" target="_blank" rel="noopener" title="进入单片机虚拟仿真实验系统">
-  <span class="sf-ico">🧪</span><span class="sf-txt">虚拟仿真实验</span>
+<a id="sim-float" href="sim/index.html?exp=lab08_orchard" target="_blank" rel="noopener" title="进入单片机虚拟仿真平台（STM32 / 8051）">
+  <span class="sf-ico">🧪</span><span class="sf-txt">进入虚拟仿真平台</span>
   <span class="sf-close" id="sim-float-close" role="button" tabindex="0" aria-label="关闭浮动入口" title="关闭此浮动入口">×</span>
 </a>
 <script>
@@ -1192,12 +1190,15 @@
   try { hiddenAt = Number(localStorage.getItem(KEY) || 0); } catch (e) { hiddenAt = 0; }
   if (hiddenAt && Date.now() - hiddenAt < RESHOW_DAYS * 86400000) { el.remove(); return; }
 
+  var stopped = false;
+
   function dismiss(ev) {
     if (ev) { ev.preventDefault(); ev.stopPropagation(); }
+    stopped = true;
     try { localStorage.setItem(KEY, String(Date.now())); } catch (e) { /* 隐私模式 */ }
     el.style.transition = 'opacity .18s, transform .18s';
     el.style.opacity = '0';
-    el.style.transform = 'scale(.9)';
+    el.style.transform = (el.style.transform || '') + ' scale(.92)';
     setTimeout(function () { el.remove(); }, 200);
   }
   var close = document.getElementById('sim-float-close');
@@ -1205,6 +1206,32 @@
   close.addEventListener('keydown', function (e) {
     if (e.key === 'Enter' || e.key === ' ') dismiss(e);
   });
+
+  // 缓慢漂移：周期 72s / 96s 叠加，路径近似不重复；鼠标悬停或键盘聚焦时暂停，方便点击
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+  var t0 = 0, pausedAt = 0, pausedMs = 0;
+  function pause() { if (!pausedAt) pausedAt = performance.now(); }
+  function resume() { if (pausedAt) { pausedMs += performance.now() - pausedAt; pausedAt = 0; } }
+  el.addEventListener('mouseenter', pause);
+  el.addEventListener('mouseleave', resume);
+  el.addEventListener('focus', pause);
+  el.addEventListener('blur', resume);
+
+  var X_PERIOD = 72, Y_PERIOD = 96;
+  function frame(now) {
+    if (stopped) return;
+    if (!t0) t0 = now;
+    var t = ((pausedAt || now) - t0 - pausedMs) / 1000;
+    var w = el.offsetWidth || 400, h = el.offsetHeight || 80;
+    var availX = Math.max(0, window.innerWidth - w - 52);
+    var availY = Math.max(0, window.innerHeight - h - 52);
+    var fx = 0.5 - 0.5 * Math.cos(t * 2 * Math.PI / X_PERIOD + 0.4);
+    var fy = 0.5 - 0.5 * Math.cos(t * 2 * Math.PI / Y_PERIOD + 2.2);
+    el.style.transform = 'translate(' + (-availX * fx).toFixed(1) + 'px,' + (-availY * fy).toFixed(1) + 'px)';
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
 })();
 </script>
 
