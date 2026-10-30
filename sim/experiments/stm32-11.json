@@ -1,0 +1,85 @@
+{
+  "id": "stm32-11",
+  "order": 11,
+  "arch": "stm32",
+  "title": "STM32 printf 重定向到串口",
+  "goal": "掌握 STM32 下 printf 的两种重定向写法（fputc / _write），理解 MicroLIB 与半主机模式，把单片机内部运行情况经 USART 输出到 PC 端",
+  "doc": "<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>实验平台（虚实结合）</b>：本实验在 <b>STM32F407 最小系统板</b> 上进行，使用 CubeIDE 生成工程并编译 HEX 后导入（同实验8）。printf 输出经 USART1 → USB 转 TTL 模块 → PC 串口终端显示。\n</div>\n<h3>任务：在 STM32 上重定向 printf</h3>\n<p>STM32 同样没有显示器，把 printf 重定向到 USART 后即可把内部运行情况发到 PC。与 51 不同，STM32 的重定向点取决于标准库：</p>\n<p><b>写法一（Keil MicroLIB / ARMCC）：重写 fputc</b></p>\n<pre>#include &lt;stdio.h&gt;\nint fputc(int ch, FILE *f) {\n    HAL_UART_Transmit(&amp;huart1, (uint8_t *)&amp;ch, 1, 0xFFFF);\n    return ch;\n}</pre>\n<p><b>写法二（GCC / CubeIDE 自带 newlib-nano）：重写 _write</b></p>\n<pre>int _write(int fd, char *ptr, int len) {\n    HAL_UART_Transmit(&amp;huart1, (uint8_t *)ptr, len, 0xFFFF);\n    return len;\n}</pre>\n<h3>CubeMX 配置步骤</h3>\n<ol><li>USART1 → Mode: Asynchronous，波特率 115200（或 9600，与终端一致）</li><li>时钟树保持 HSI 8MHz（SYSCLK = HSI，不进 PLL）——与平台仿真时钟一致，HAL_Delay 等延时在平台与实物板节奏相同</li>\n<li>生成代码后：HAL_UART_Init 已由 MX_USART1_UART_Init 完成</li>\n<li>Keil 用户勾选 <b>Use MicroLIB</b>（否则 printf 阻塞在半主机模式）</li>\n<li>printf 的内容经 USART1_TX (PA9) 输出</li></ol>\n<h3>接线与观察</h3>\n<table><tr><th>USB 转 TTL 模块</th><th>STM32F407</th></tr>\n<tr><td>RXD</td><td>PA9（USART1_TX）</td></tr>\n<tr><td>TXD</td><td>PA10（USART1_RX，用 scanf 时接）</td></tr>\n<tr><td>GND</td><td>GND（必须共地）</td></tr></table>\n<p>PC 端用串口助手（或本系统的串口终端接 CH340）即可看到 printf 输出。<b>面试考点</b>：MicroLIB 与半主机（semihosting）模式；_write 与 fputc 的区别；为什么重定向后 printf 才能用。</p>\n<h3>思考</h3>\n<p>1. CubeIDE（GCC）工程里只重写 fputc 为什么不生效？<br>2. HAL_UART_Transmit 的最后一个参数是什么含义？设 0 会怎样？</p>",
+  "code": "/* 参考代码（CubeIDE / HAL，USART1 115200）：\n   CubeMX 中使能 USART1 Asynchronous 后，在 main.c 或单独 debug.c 中加入： */\n\n#include <stdio.h>\n#include \"usart.h\"\n\n/* 写法二：GCC / newlib-nano（CubeIDE 推荐） */\nint _write(int fd, char *ptr, int len) {\n    HAL_UART_Transmit(&huart1, (uint8_t *)ptr, len, 0xFFFF);\n    return len;\n}\n\n/* 写法一：Keil MicroLIB（ARMCC）二选一\nint fputc(int ch, FILE *f) {\n    HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);\n    return ch;\n}\n*/\n\nint main(void) {\n    /* MX_USART1_UART_Init(); 已在 CubeMX 生成代码中调用 */\n    int cnt = 0;\n    while (1) {\n        printf(\"cnt=%d\\r\\n\", cnt++);\n        HAL_Delay(500);\n    }\n}\n",
+  "circuit": {
+    "crystalMHz": 8,
+    "elements": [
+      {
+        "type": "stm32f407",
+        "id": "mcu32",
+        "pos": [
+          300,
+          60
+        ]
+      },
+      {
+        "type": "vcc",
+        "id": "vdd",
+        "nets": {
+          "1": "n_vdd"
+        },
+        "pos": [
+          200,
+          80
+        ],
+        "label": "VDD 3.3V"
+      },
+      {
+        "type": "gnd",
+        "id": "vss",
+        "nets": {
+          "1": "n_vgnd"
+        },
+        "pos": [
+          200,
+          140
+        ],
+        "label": "GND"
+      },
+      {
+        "type": "serial-adp",
+        "id": "adp",
+        "label": "串口适配器",
+        "nets": {
+          "VCC": "n_vdd",
+          "GND": "n_vgnd",
+          "RXD": "n_pa9",
+          "TXD": "n_pa10"
+        },
+        "pos": [
+          40,
+          320
+        ],
+        "opts": {
+          "baud": 115200
+        }
+      }
+    ],
+    "pins": {
+      "VDD": "n_vdd",
+      "VSS": "n_vgnd",
+      "PA9": "n_pa9",
+      "PA10": "n_pa10"
+    }
+  },
+  "checklist": [
+    "CubeMX 使能 USART1（Asynchronous，115200），生成 CubeIDE 工程",
+    "实现 _write（GCC）或 fputc（Keil MicroLIB）重定向，Keil 用户勾选 MicroLIB",
+    "printf 输出 cnt 计数到 PC 串口终端，验证 RXD→PA9 交叉接线",
+    "回答思考题：GCC 工程只重写 fputc 为什么不生效；HAL_UART_Transmit 超时参数含义"
+  ],
+  "titleEn": "STM32 printf Redirection via UART",
+  "goalEn": "The two printf redirection styles on STM32 (fputc / _write); MicroLIB and semihosting; streaming internal state to the PC over USART.",
+  "docEn": "<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>Experiment platform (virtual&ndash;physical)</b>: this lab runs on the <b>STM32F407 minimal system board</b>; build the HEX with CubeIDE and import it (as in Lab 8). printf output goes over USART1 &rarr; USB-TTL adapter &rarr; PC terminal.\n</div>\n<h3>Task: redirect printf on STM32</h3>\n<p>STM32 has no display either; redirecting printf to USART lets the MCU stream its internal state to the PC. Unlike the 8051, the redirection hook depends on the C library:</p>\n<p><b>Style 1 (Keil MicroLIB / ARMCC): override fputc</b></p>\n<pre>#include &lt;stdio.h&gt;\nint fputc(int ch, FILE *f) {\n    HAL_UART_Transmit(&amp;huart1, (uint8_t *)&amp;ch, 1, 0xFFFF);\n    return ch;\n}</pre>\n<p><b>Style 2 (GCC / CubeIDE's newlib-nano): override _write</b></p>\n<pre>int _write(int fd, char *ptr, int len) {\n    HAL_UART_Transmit(&amp;huart1, (uint8_t *)ptr, len, 0xFFFF);\n    return len;\n}</pre>\n<h3>CubeMX configuration steps</h3>\n<ol><li>USART1 &rarr; Mode: Asynchronous, baud 115200 (or 9600 &mdash; match the terminal)</li><li>Keep the clock tree at HSI 8MHz (SYSCLK = HSI, no PLL) &mdash; matching the simulator clock, so HAL_Delay paces the same as the real board</li>\n<li>After generating code, HAL_UART_Init is done by MX_USART1_UART_Init</li>\n<li>Keil users: enable <b>Use MicroLIB</b> (otherwise printf blocks in semihosting mode)</li>\n<li>printf output leaves through USART1_TX (PA9)</li></ol>\n<h3>Wiring and observation</h3>\n<table><tr><th>USB-TTL adapter</th><th>STM32F407</th></tr>\n<tr><td>RXD</td><td>PA9 (USART1_TX)</td></tr>\n<tr><td>TXD</td><td>PA10 (USART1_RX, needed for scanf)</td></tr>\n<tr><td>GND</td><td>GND (common ground required)</td></tr></table>\n<p>On the PC, a serial terminal (or this system's serial terminal via CH340) shows the printf output. <b>Interview points</b>: MicroLIB vs. semihosting; _write vs. fputc; why printf only works after redirection.</p>\n<h3>Reflection</h3>\n<p>1. In a CubeIDE (GCC) project, why does overriding only fputc have no effect?<br>2. What does the last parameter of HAL_UART_Transmit mean &mdash; and what happens with 0?</p>",
+  "checklistEn": [
+    "Enable USART1 in CubeMX (Asynchronous, 115200) and generate a CubeIDE project",
+    "Implement _write (GCC) or fputc (Keil MicroLIB) redirection; Keil users enable MicroLIB",
+    "Print the cnt counter to the PC terminal; verify the RXD→PA9 crossed wiring",
+    "Answer the reflections: why overriding only fputc fails in GCC; the meaning of HAL_UART_Transmit's timeout"
+  ]
+}

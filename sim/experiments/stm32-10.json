@@ -1,0 +1,93 @@
+{
+  "id": "stm32-10",
+  "order": 10,
+  "arch": "stm32",
+  "title": "STM32 外部中断 EXTI",
+  "goal": "掌握 NVIC 优先级配置与 EXTI 边沿中断回调，理解中断与轮询的差异。",
+  "doc": "<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>实验平台（虚实结合）</b>：实物实验采用 <b>STC89C52RC 最小系统板</b>（<a href=\"https://item.jd.com/10120477932116.html\" target=\"_blank\">京东开发板</a>）与 <b>STM32F407 最小系统板</b>（<a href=\"https://item.jd.com/10120627001692.html?pcdk=9kVRmhKROXsjbvd2KnxUwZMRkCO6aOoXe2YbRyVP4L4CxtxfMrUycYlNEapEGe5X.qliT.8Idm\" target=\"_blank\">京东开发板</a>）。\n</div><h2>实验10 STM32 外部中断 EXTI</h2><h3>接线说明</h3><p>KEY1→PA0（下降沿触发 EXT0），PE0 接 D1 作中断响应指示。</p>\n<h3>CubeMX 配置</h3><ol><li>PA0 → GPIO_EXTI0，模式 Pull-up，触发 <b>Falling edge</b>；</li><li>NVIC → EXTI line0 interrupt 使能，抢占优先级 1；</li><li>PE0 → GPIO_Output。</li></ol>\n<h3>关键代码</h3><pre style=\"background:#f4f6f8;padding:8px;border-radius:4px;font-size:12px\">void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {\n  if (GPIO_Pin == GPIO_PIN_0) {\n    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_0);   // 每按一次翻转\n  }\n}\n/* main 中主循环可为空：响应完全由中断完成 */</pre>\n<h3>验收标准</h3><p>按 KEY1 一次 D1 翻转一次，主循环空转也能响应。</p>\n<h3>思考</h3><p>中断服务函数里为什么不宜调用 HAL_Delay？多个中断同时到来时 NVIC 如何排定顺序？</p><h3>工程与烧录流程（HEX 导入模式）</h3>\n<ol>\n<li><b>STM32CubeMX</b> 新建工程：MCU 选 <b>STM32F407ZGT6</b>（与开发板一致），时钟树 HSI 8MHz → SYSCLK 8MHz（不进 PLL，与平台仿真时钟一致）；</li>\n<li>按本实验要求配置外设（GPIO/TIM/USART…），Project Manager 选 <b>STM32CubeIDE</b> 或 <b>MDK-ARM V5</b> → Generate Code；</li>\n<li>用 <b>STM32CubeIDE</b>（勾选 Create flash image 生成 .hex）或 <b>Keil MDK</b>（Options → Output 勾选 Create HEX File）编译，得到 .hex；</li>\n<li>在<strong>本系统</strong>顶部「📂 加载 HEX」导入归档（可「💾 保存 HEX」提交），并用 STM32CubeProgrammer / mcuisp 烧录实物板验证；</li>\n<li><b>注意</b>：本平台内置 Cortex-M4 指令级内核，编译好的 HEX 可直接「📂 加载 HEX」导入并「▶ 运行」——GPIO/USART/SysTick/EXTI 的读写与中断均可观测；本实验聚焦 GPIO 与 USART 的寄存器级行为；定时器与模拟量采集由配套硬件实验完成。平台<strong>仿真时钟固定 8MHz</strong>（时钟按 8MHz 固定配置运行），请在 CubeMX 里保持 <b>HSI 8MHz 直驱 SYSCLK（不进 PLL）</b>，这样代码里的 HAL_Delay 等延时在平台上与实物节奏一致；若导入的固件按更高主频配置，其延时会在平台上按比例放慢，可用右上角倍速加快。</li>\n</ol>\n<p style=\"background:#fff8e1;padding:6px 8px;border-radius:4px;font-size:12px\">⚡ 本电路为预接线参考：VDD/VSS 已接电源端子，外设已按实验要求接好；可自由拆改、用 R 键旋转、双击设网络标号。</p>",
+  "code": "/* 本实验工程由 STM32CubeMX 生成：时钟树保持 HSI 8MHz（SYSCLK = HSI，不进 PLL），与平台仿真时钟一致，\n * 代码里的 HAL_Delay 等延时在平台（1× 实时）与实物板上节奏相同。\n * 在 STM32CubeIDE / Keil MDK 中编译生成 .hex 后，回到本平台「📂 加载 HEX」导入即可「▶ 运行」：\n * GPIO/USART/SysTick/EXTI 可观测；本实验聚焦 GPIO 与 USART 的寄存器级行为；定时器与模拟量采集由配套硬件实验完成。\n * 本编辑器用于 8051（STC89C52RC）实验的在线编写与编译；F407 固件请在 CubeIDE / Keil 侧编写。 */",
+  "circuit": {
+    "crystalMHz": 8,
+    "elements": [
+      {
+        "type": "stm32f407",
+        "id": "mcu32",
+        "pos": [
+          300,
+          60
+        ]
+      },
+      {
+        "type": "vcc",
+        "id": "vdd",
+        "nets": {
+          "1": "n_vdd"
+        },
+        "pos": [
+          200,
+          80
+        ],
+        "label": "VDD 3.3V"
+      },
+      {
+        "type": "gnd",
+        "id": "vss",
+        "nets": {
+          "1": "n_vgnd"
+        },
+        "pos": [
+          200,
+          140
+        ],
+        "label": "GND"
+      },
+      {
+        "type": "button",
+        "id": "btn1",
+        "label": "KEY1",
+        "nets": {
+          "1": "n_pa0",
+          "2": "GND"
+        },
+        "pos": [
+          180,
+          160
+        ]
+      },
+      {
+        "type": "pullup",
+        "id": "r1",
+        "label": "R1 10K",
+        "nets": {
+          "1": "n_pa0"
+        },
+        "pos": [
+          120,
+          120
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led1",
+        "label": "D1",
+        "nets": {
+          "A": "n_pe0",
+          "K": "GND"
+        },
+        "pos": [
+          640,
+          140
+        ]
+      }
+    ],
+    "pins": {
+      "VDD": "n_vdd",
+      "VSS": "n_vgnd",
+      "PA0": "n_pa0",
+      "PE0": "n_pe0"
+    }
+  },
+  "titleEn": "STM32 External Interrupt (EXTI)",
+  "goalEn": "NVIC priority configuration and the EXTI edge-interrupt callback; interrupts vs. polling.",
+  "docEn": "<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>Experiment platform (virtual&ndash;physical)</b>: the physical labs use the <b>STC89C52RC minimal system board</b> (<a href=\"https://item.jd.com/10120477932116.html\" target=\"_blank\">JD.com</a>) and the <b>STM32F407 minimal system board</b> (<a href=\"https://item.jd.com/10120627001692.html?pcdk=9kVRmhKROXsjbvd2KnxUwZMRkCO6aOoXe2YbRyVP4L4CxtxfMrUycYlNEapEGe5X.qliT.8Idm\" target=\"_blank\">JD.com</a>).\n</div>\n<h2>Lab 10 &mdash; STM32 external interrupt EXTI</h2><h3>Wiring</h3><p>KEY1&rarr;PA0 (EXTI0, falling edge); PE0 drives D1 as the interrupt-response indicator.</p>\n<h3>CubeMX configuration</h3><ol><li>PA0 &rarr; GPIO_EXTI0, mode Pull-up, trigger <b>Falling edge</b>;</li><li>NVIC &rarr; enable EXTI line0 interrupt, preemption priority 1;</li><li>PE0 &rarr; GPIO_Output.</li></ol>\n<h3>Key code</h3><pre style=\"background:#f4f6f8;padding:8px;border-radius:4px;font-size:12px\">void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {\n  if (GPIO_Pin == GPIO_PIN_0) {\n    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_0);   // toggle on every press\n  }\n}\n/* the main loop can stay empty: the response is entirely interrupt-driven */</pre>\n<h3>Acceptance</h3><p>Each press of KEY1 toggles D1 once; the response still works when the main loop is busy or empty.</p>\n<h3>Reflection</h3><p>Why should HAL_Delay be avoided inside an ISR? When several interrupts arrive together, how does NVIC order them?</p><h3>Build &amp; flash workflow (HEX import mode)</h3>\n<ol>\n<li><b>STM32CubeMX</b>: create a project for the <b>STM32F407ZGT6</b> (matching the board); clock tree HSI 8MHz &rarr; SYSCLK 8MHz (no PLL, matching the simulator clock);</li>\n<li>Configure the peripherals required by this lab (GPIO/TIM/USART&hellip;); in Project Manager choose <b>STM32CubeIDE</b> or <b>MDK-ARM V5</b> &rarr; Generate Code;</li>\n<li>Build with <b>STM32CubeIDE</b> (enable <i>Create flash image</i> to produce a .hex) or <b>Keil MDK</b> (Options &rarr; Output &rarr; <i>Create HEX File</i>);</li>\n<li>Import the .hex with \"📂 Load HEX\" in the toolbar (and \"💾 Save HEX\" to submit), then flash the real board with STM32CubeProgrammer / mcuisp to verify;</li>\n<li><b>Note</b>: this platform embeds an instruction-level Cortex-M4 core &mdash; the built HEX can be loaded and run directly; GPIO/USART/SysTick/EXTI reads, writes and interrupts are observable. This lab focuses on register-level GPIO and USART behavior; timer and analog acquisition are verified in the companion hardware labs. The <b>simulation clock is fixed at 8MHz</b> (the clock runs at a fixed 8MHz configuration). Keep <b>HSI 8MHz driving SYSCLK directly (no PLL)</b> in CubeMX so delays such as HAL_Delay pace the same as on the real board; firmware configured for a higher clock runs proportionally slower &mdash; use the speed selector to compensate.</li>\n</ol>\n<p style=\"background:#fff8e1;padding:6px 8px;border-radius:4px;font-size:12px\">⚡ This circuit is pre-wired as a reference: VDD/VSS are connected to the power terminals and peripherals are wired as required; feel free to modify it, rotate parts with R, and double-click to set net labels.</p>"
+}

@@ -1,0 +1,157 @@
+{
+  "id": "lab03",
+  "order": 3,
+  "title": "矩阵键盘扫描",
+  "goal": "掌握行列扫描法：行线输出扫描、列线读取判断，理解 4×4=16 个键只需 8 根线的原理。",
+  "doc": "\n<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>实验平台（虚实结合）</b>：本课程实物实验采用 <b>STC89C52RC 最小系统板</b>（<a href=\"https://item.jd.com/10120477932116.html\" target=\"_blank\">京东开发板</a>）与 <b>STM32F407 最小系统板</b>（<a href=\"https://item.jd.com/10120627001692.html?pcdk=9kVRmhKROXsjbvd2KnxUwZMRkCO6aOoXe2YbRyVP4L4CxtxfMrUycYlNEapEGe5X.qliT.8Idm\" target=\"_blank\">京东开发板</a>）。\n本虚拟仿真实验基于上述最小系统板构建，可灵活扩展外设（LED、按键、上拉电阻、蜂鸣器、矩阵键盘、数码管、LCD1602、串口适配器等），是实物实验的有益补充——虚实结合、线上线下实验类似但不完全重复。\n</div>\n<h3>实验原理</h3>\n<p>4×4 矩阵键盘：行线 R1~R4 接 P1.0~P1.3（输出），列线 C1~C4 接 P1.4~P1.7（输入）。\n扫描法：<b>逐行输出低电平</b>，读列线——若某列为 0，则该列与当前行交叉的键被按下。</p>\n<h3>接线表</h3>\n<table><tr><th>键盘</th><th>单片机</th></tr>\n<tr><td>R1~R4</td><td>P1.0 ~ P1.3</td></tr>\n<tr><td>C1~C4</td><td>P1.4 ~ P1.7</td></tr></table>\n<h3>实验步骤</h3>\n<ol><li>编译下载后，<b>用鼠标按住键盘上任意键</b></li>\n<li>观察 P2 口 8 个 LED：显示键号 1~16 的二进制值</li>\n<li>对照代码理解\"行扫描→读列→算键号→等释放\"四步</li></ol>\n<h3>思考</h3>\n<p>1. <code>P1 = ~(0x01 &lt;&lt; r)</code> 中取反的作用？<br>2. <code>while ((P1 &amp; 0xF0) != 0xF0)</code> 在等什么？去掉会怎样？</p>",
+  "code": "#include <stc89c52rc.h>\n\nvoid delay_ms(unsigned int ms) {\n    unsigned int i;\n    while (ms--)\n        for (i = 0; i < 92; i++)\n            __asm__(\"nop\");\n}\n\n/* 行扫描法：返回键号 1~16，无键返回 0 */\nunsigned char key_scan(void) {\n    unsigned char r, col;\n    unsigned char tmp;\n    for (r = 0; r < 4; r++) {\n        P1 = ~(0x01 << r);              /* 当前行输出 0，其余为 1 */\n        tmp = P1 & 0xF0;                /* 读高 4 位（列） */\n        if (tmp != 0xF0) {\n            delay_ms(10);               /* 消抖 */\n            tmp = P1 & 0xF0;\n            if (tmp != 0xF0) {\n                switch (tmp) {\n                    case 0xE0: col = 0; break;\n                    case 0xD0: col = 1; break;\n                    case 0xB0: col = 2; break;\n                    default:   col = 3; break;\n                }\n                while ((P1 & 0xF0) != 0xF0)\n                    ;                   /* 等待按键释放 */\n                return r * 4 + col + 1; /* 键号 1~16 */\n            }\n        }\n    }\n    return 0;\n}\n\nvoid main(void) {\n    unsigned char key;\n    P2 = 0x00;\n    while (1) {\n        key = key_scan();\n        if (key)\n            P2 = key;                   /* 键号以二进制显示在 LED 上 */\n    }\n}",
+  "circuit": {
+    "crystalMHz": 11.0592,
+    "elements": [
+      {
+        "type": "keypad4x4",
+        "id": "kbd",
+        "label": "4×4 矩阵键盘",
+        "nets": {
+          "R1": "n_r1",
+          "R2": "n_r2",
+          "R3": "n_r3",
+          "R4": "n_r4",
+          "C1": "n_c1",
+          "C2": "n_c2",
+          "C3": "n_c3",
+          "C4": "n_c4"
+        },
+        "pos": [
+          660,
+          140
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led1",
+        "label": "D1",
+        "nets": {
+          "A": "n_p2_0",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          340
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led2",
+        "label": "D2",
+        "nets": {
+          "A": "n_p2_1",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          360
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led3",
+        "label": "D3",
+        "nets": {
+          "A": "n_p2_2",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          380
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led4",
+        "label": "D4",
+        "nets": {
+          "A": "n_p2_3",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          400
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led5",
+        "label": "D5",
+        "nets": {
+          "A": "n_p2_4",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          420
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led6",
+        "label": "D6",
+        "nets": {
+          "A": "n_p2_5",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          440
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led7",
+        "label": "D7",
+        "nets": {
+          "A": "n_p2_6",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          460
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led8",
+        "label": "D8",
+        "nets": {
+          "A": "n_p2_7",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          480
+        ]
+      }
+    ],
+    "pins": {
+      "P1.0": "n_r1",
+      "P1.1": "n_r2",
+      "P1.2": "n_r3",
+      "P1.3": "n_r4",
+      "P1.4": "n_c1",
+      "P1.5": "n_c2",
+      "P1.6": "n_c3",
+      "P1.7": "n_c4",
+      "P2.0": "n_p2_0",
+      "P2.1": "n_p2_1",
+      "P2.2": "n_p2_2",
+      "P2.3": "n_p2_3",
+      "P2.4": "n_p2_4",
+      "P2.5": "n_p2_5",
+      "P2.6": "n_p2_6",
+      "P2.7": "n_p2_7"
+    }
+  },
+  "titleEn": "4×4 Matrix Keypad Scanning",
+  "goalEn": "Row–column scanning: drive the rows, read the columns — why 16 keys need only 8 wires.",
+  "docEn": "<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>Experiment platform (virtual&ndash;physical)</b>: the physical labs in this course use the <b>STC89C52RC minimal system board</b> (<a href=\"https://item.jd.com/10120477932116.html\" target=\"_blank\">JD.com</a>) and the <b>STM32F407 minimal system board</b> (<a href=\"https://item.jd.com/10120627001692.html?pcdk=9kVRmhKROXsjbvd2KnxUwZMRkCO6aOoXe2YbRyVP4L4CxtxfMrUycYlNEapEGe5X.qliT.8Idm\" target=\"_blank\">JD.com</a>).\nThis virtual experiment is built on the same boards and can be extended with peripherals (LEDs, buttons, pull-up resistors, buzzer, matrix keypad, 7-segment displays, LCD1602, UART adapter, etc.) &mdash; a useful complement to the physical labs: similar but not identical.\n</div>\n<h3>Principle</h3>\n<p>4×4 matrix keypad: row lines R1&ndash;R4 to P1.0&ndash;P1.3 (outputs), column lines C1&ndash;C4 to P1.4&ndash;P1.7 (inputs).\nScanning method: <b>drive one row low at a time</b> and read the columns &mdash; a 0 on a column means the key at that row/column crossing is pressed.</p>\n<h3>Wiring</h3>\n<table><tr><th>Keypad</th><th>MCU</th></tr>\n<tr><td>R1&ndash;R4</td><td>P1.0 ~ P1.3</td></tr>\n<tr><td>C1&ndash;C4</td><td>P1.4 ~ P1.7</td></tr></table>\n<h3>Steps</h3>\n<ol><li>After flashing, <b>hold any key on the keypad with the mouse</b></li>\n<li>Watch the 8 LEDs on port P2: they show the key number 1&ndash;16 in binary</li>\n<li>Follow the four steps in the code: scan row &rarr; read columns &rarr; compute key number &rarr; wait for release</li></ol>\n<h3>Reflection</h3>\n<p>1. What does the inversion do in <code>P1 = ~(0x01 &lt;&lt; r)</code>?<br>2. What is <code>while ((P1 &amp; 0xF0) != 0xF0)</code> waiting for &mdash; and what happens if it is removed?</p>"
+}

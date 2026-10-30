@@ -1,0 +1,67 @@
+{
+  "id": "stm32-13",
+  "order": 13,
+  "arch": "stm32",
+  "title": "STM32 PWM 呼吸灯",
+  "goal": "掌握 TIM PWM 输出配置与占空比调节（ARR/CCR 与分辨率）。",
+  "doc": "<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>实验平台（虚实结合）</b>：实物实验采用 <b>STC89C52RC 最小系统板</b>（<a href=\"https://item.jd.com/10120477932116.html\" target=\"_blank\">京东开发板</a>）与 <b>STM32F407 最小系统板</b>（<a href=\"https://item.jd.com/10120627001692.html?pcdk=9kVRmhKROXsjbvd2KnxUwZMRkCO6aOoXe2YbRyVP4L4CxtxfMrUycYlNEapEGe5X.qliT.8Idm\" target=\"_blank\">京东开发板</a>）。\n</div><h2>实验13 STM32 PWM 呼吸灯</h2><h3>接线说明</h3><p>PA5（TIM2_CH1）接 D1 阳极，阴极接 GND。</p>\n<h3>CubeMX 配置</h3><ol><li>TIM2 Channel1 → PWM Generation CH1；</li><li>Prescaler = 7（SYSCLK=8MHz 时定时器时钟 = 1MHz 计数）、ARR = 999 → PWM 频率 1kHz、约 10 位分辨率；</li><li>引脚自动分配为 AF 复用输出。</li></ol>\n<h3>关键代码</h3><pre style=\"background:#f4f6f8;padding:8px;border-radius:4px;font-size:12px\">HAL_TIM_PWM_Start(&amp;htim2, TIM_CHANNEL_1);\nfor (int d = 0; d &lt;= 999; d += 5) {\n  __HAL_TIM_SET_COMPARE(&amp;htim2, TIM_CHANNEL_1, d);\n  HAL_Delay(4);\n}\nfor (int d = 999; d &gt;= 0; d -= 5) {\n  __HAL_TIM_SET_COMPARE(&amp;htim2, TIM_CHANNEL_1, d);\n  HAL_Delay(4);\n}</pre>\n<h3>验收标准</h3><p>LED 呈平滑呼吸效果循环，无可视频闪（1kHz 远高于人眼分辨）。</p>\n<h3>思考</h3><p>PWM 频率降到 50Hz 会看到什么？占空比与 LED 平均亮度是什么关系？</p><h3>工程与烧录流程（HEX 导入模式）</h3>\n<ol>\n<li><b>STM32CubeMX</b> 新建工程：MCU 选 <b>STM32F407ZGT6</b>（与开发板一致），时钟树 HSI 8MHz → SYSCLK 8MHz（不进 PLL，与平台仿真时钟一致）；</li>\n<li>按本实验要求配置外设（GPIO/TIM/USART…），Project Manager 选 <b>STM32CubeIDE</b> 或 <b>MDK-ARM V5</b> → Generate Code；</li>\n<li>用 <b>STM32CubeIDE</b>（勾选 Create flash image 生成 .hex）或 <b>Keil MDK</b>（Options → Output 勾选 Create HEX File）编译，得到 .hex；</li>\n<li>在<strong>本系统</strong>顶部「📂 加载 HEX」导入归档（可「💾 保存 HEX」提交），并用 STM32CubeProgrammer / mcuisp 烧录实物板验证；</li>\n<li><b>注意</b>：本平台内置 Cortex-M4 指令级内核，编译好的 HEX 可直接「📂 加载 HEX」导入并「▶ 运行」——GPIO/USART/SysTick/EXTI 的读写与中断均可观测；本实验聚焦 GPIO 与 USART 的寄存器级行为；定时器与模拟量采集由配套硬件实验完成。平台<strong>仿真时钟固定 8MHz</strong>（时钟按 8MHz 固定配置运行），请在 CubeMX 里保持 <b>HSI 8MHz 直驱 SYSCLK（不进 PLL）</b>，这样代码里的 HAL_Delay 等延时在平台上与实物节奏一致；若导入的固件按更高主频配置，其延时会在平台上按比例放慢，可用右上角倍速加快。</li>\n</ol>\n<p style=\"background:#fff8e1;padding:6px 8px;border-radius:4px;font-size:12px\">⚡ 本电路为预接线参考：VDD/VSS 已接电源端子，外设已按实验要求接好；可自由拆改、用 R 键旋转、双击设网络标号。</p>",
+  "code": "/* 本实验工程由 STM32CubeMX 生成：时钟树保持 HSI 8MHz（SYSCLK = HSI，不进 PLL），与平台仿真时钟一致，\n * 代码里的 HAL_Delay 等延时在平台（1× 实时）与实物板上节奏相同。\n * 在 STM32CubeIDE / Keil MDK 中编译生成 .hex 后，回到本平台「📂 加载 HEX」导入即可「▶ 运行」：\n * GPIO/USART/SysTick/EXTI 可观测；本实验聚焦 GPIO 与 USART 的寄存器级行为；定时器与模拟量采集由配套硬件实验完成。\n * 本编辑器用于 8051（STC89C52RC）实验的在线编写与编译；F407 固件请在 CubeIDE / Keil 侧编写。 */",
+  "circuit": {
+    "crystalMHz": 8,
+    "elements": [
+      {
+        "type": "stm32f407",
+        "id": "mcu32",
+        "pos": [
+          300,
+          60
+        ]
+      },
+      {
+        "type": "vcc",
+        "id": "vdd",
+        "nets": {
+          "1": "n_vdd"
+        },
+        "pos": [
+          200,
+          80
+        ],
+        "label": "VDD 3.3V"
+      },
+      {
+        "type": "gnd",
+        "id": "vss",
+        "nets": {
+          "1": "n_vgnd"
+        },
+        "pos": [
+          200,
+          140
+        ],
+        "label": "GND"
+      },
+      {
+        "type": "led",
+        "id": "led1",
+        "label": "D1",
+        "nets": {
+          "A": "n_pa5",
+          "K": "GND"
+        },
+        "pos": [
+          640,
+          340
+        ]
+      }
+    ],
+    "pins": {
+      "VDD": "n_vdd",
+      "VSS": "n_vgnd",
+      "PA5": "n_pa5"
+    }
+  },
+  "titleEn": "STM32 PWM Breathing Light",
+  "goalEn": "TIM PWM output configuration and duty-cycle control (ARR/CCR and resolution).",
+  "docEn": "<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>Experiment platform (virtual&ndash;physical)</b>: the physical labs use the <b>STC89C52RC minimal system board</b> (<a href=\"https://item.jd.com/10120477932116.html\" target=\"_blank\">JD.com</a>) and the <b>STM32F407 minimal system board</b> (<a href=\"https://item.jd.com/10120627001692.html?pcdk=9kVRmhKROXsjbvd2KnxUwZMRkCO6aOoXe2YbRyVP4L4CxtxfMrUycYlNEapEGe5X.qliT.8Idm\" target=\"_blank\">JD.com</a>).\n</div>\n<h2>Lab 13 &mdash; STM32 PWM breathing light</h2><h3>Wiring</h3><p>PA5 (TIM2_CH1) drives the D1 anode; the cathode goes to GND.</p>\n<h3>CubeMX configuration</h3><ol><li>TIM2 Channel1 &rarr; PWM Generation CH1;</li><li>Prescaler = 7 (with SYSCLK=8MHz the timer counts at 1MHz), ARR = 999 &rarr; 1kHz PWM, about 10-bit resolution;</li><li>The pin is assigned as an AF (alternate-function) output automatically.</li></ol>\n<h3>Key code</h3><pre style=\"background:#f4f6f8;padding:8px;border-radius:4px;font-size:12px\">HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);\nfor (int d = 0; d &lt;= 999; d += 5) {\n  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, d);\n  HAL_Delay(4);\n}\nfor (int d = 999; d &gt;= 0; d -= 5) {\n  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, d);\n  HAL_Delay(4);\n}</pre>\n<h3>Acceptance</h3><p>The LED breathes smoothly with no visible flicker (1kHz is far above what the eye can resolve).</p>\n<h3>Reflection</h3><p>What would you see at 50Hz PWM? How does the duty cycle relate to the LED's average brightness?</p><h3>Build &amp; flash workflow (HEX import mode)</h3>\n<ol>\n<li><b>STM32CubeMX</b>: create a project for the <b>STM32F407ZGT6</b> (matching the board); clock tree HSI 8MHz &rarr; SYSCLK 8MHz (no PLL, matching the simulator clock);</li>\n<li>Configure the peripherals required by this lab (GPIO/TIM/USART&hellip;); in Project Manager choose <b>STM32CubeIDE</b> or <b>MDK-ARM V5</b> &rarr; Generate Code;</li>\n<li>Build with <b>STM32CubeIDE</b> (enable <i>Create flash image</i> to produce a .hex) or <b>Keil MDK</b> (Options &rarr; Output &rarr; <i>Create HEX File</i>);</li>\n<li>Import the .hex with \"📂 Load HEX\" in the toolbar (and \"💾 Save HEX\" to submit), then flash the real board with STM32CubeProgrammer / mcuisp to verify;</li>\n<li><b>Note</b>: this platform embeds an instruction-level Cortex-M4 core &mdash; the built HEX can be loaded and run directly; GPIO/USART/SysTick/EXTI reads, writes and interrupts are observable. This lab focuses on register-level GPIO and USART behavior; timer and analog acquisition are verified in the companion hardware labs. The <b>simulation clock is fixed at 8MHz</b> (the clock runs at a fixed 8MHz configuration). Keep <b>HSI 8MHz driving SYSCLK directly (no PLL)</b> in CubeMX so delays such as HAL_Delay pace the same as on the real board; firmware configured for a higher clock runs proportionally slower &mdash; use the speed selector to compensate.</li>\n</ol>\n<p style=\"background:#fff8e1;padding:6px 8px;border-radius:4px;font-size:12px\">⚡ This circuit is pre-wired as a reference: VDD/VSS are connected to the power terminals and peripherals are wired as required; feel free to modify it, rotate parts with R, and double-click to set net labels.</p>"
+}

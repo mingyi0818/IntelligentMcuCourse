@@ -15,6 +15,7 @@
       <a href="index.html">首页</a>
       <a href="syllabus.html">教学大纲</a>
       <a href="lab/index.html">实验指导</a>
+      <a href="/IntelligentMcuCourse/sim/index.html?exp=lab08_orchard" target="_blank" rel="noopener">虚拟仿真</a>
       <a href="exercises.html">练习题</a>
       <a href="resources.html" class="active">资源下载</a>
       <a href="sizheng.html">课程思政</a>
@@ -35,6 +36,13 @@
     <h1>资源下载</h1>
 
     <p>本页面汇集课程所需的全部可下载资源，包括代码工程、数据手册、工具链安装包、实验报告模板等。所有资源均托管在 GitHub 仓库内，可点击直接下载或克隆整个仓库后离线使用。</p>
+
+    <h2>虚拟仿真实验平台</h2>
+    <div class="info-box" style="background:#eef6ff;border:1px solid #cfe0f5;border-radius:8px;padding:14px 16px;margin-bottom:18px;">
+      <p style="margin:0 0 8px;"><strong>在线仿真：</strong><a href="sim/index.html?exp=lab08_orchard" target="_blank" rel="noopener">打开单片机虚拟仿真实验</a>（无需登录，可直接运行综合设计实验）。</p>
+      <p style="margin:0 0 8px;"><strong>本地编译：</strong>公开练习版不提供在线编译。进入实验后点击「⬇ 工程包」下载源代码与构建脚本，按包内 README 安装 SDCC 后运行 <code>build.bat</code>，再把生成的 <code>project.hex</code> 通过「📂 加载 HEX」导入仿真。</p>
+      <p style="margin:0;"><strong>SDCC 官方下载：</strong><a href="https://sdcc.sourceforge.net/" target="_blank" rel="noopener">https://sdcc.sourceforge.net/</a>。Windows 请选择 64 位安装包，安装时加入 PATH；安装后执行 <code>sdcc -v</code> 可检查版本。</p>
+    </div>
 
     <h2>一、代码工程</h2>
     <p>所有代码工程位于仓库 <code>/code</code> 目录，按平台与编号组织。每个工程包含 <code>main.c</code> 主程序、<code>platformio.ini</code>（PlatformIO 配置）和 <code>README.md</code>（接线与运行说明）。STC 工程可在 Keil C51 中新建工程后加入 <code>src/main.c</code>；STM32 工程可在 CubeMX 中按 README 描述重新生成各 IDE 工程。</p>

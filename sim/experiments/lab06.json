@@ -1,0 +1,150 @@
+{
+  "id": "lab06",
+  "order": 6,
+  "title": "串口通信（UART）",
+  "goal": "掌握串口方式 1 的波特率计算（T1 方式2 初值）、串口收发寄存器 SBUF 与 RI/TI 标志的使用。",
+  "doc": "\n<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>实验平台（虚实结合）</b>：本课程实物实验采用 <b>STC89C52RC 最小系统板</b>（<a href=\"https://item.jd.com/10120477932116.html\" target=\"_blank\">京东开发板</a>）与 <b>STM32F407 最小系统板</b>（<a href=\"https://item.jd.com/10120627001692.html?pcdk=9kVRmhKROXsjbvd2KnxUwZMRkCO6aOoXe2YbRyVP4L4CxtxfMrUycYlNEapEGe5X.qliT.8Idm\" target=\"_blank\">京东开发板</a>）。\n本虚拟仿真实验基于上述最小系统板构建，可灵活扩展外设（LED、按键、上拉电阻、蜂鸣器、矩阵键盘、数码管、LCD1602、串口适配器等），是实物实验的有益补充——虚实结合、线上线下实验类似但不完全重复。\n</div>\n<h3>实验原理</h3>\n<p>串口方式 1：10 位帧（起始位+8数据+停止位）。波特率由 T1 方式2（8位自动重装）产生：\n<code>波特率 = 2^SMOD / 32 × (fosc / 12) / (256 − TH1)</code>。\n11.0592MHz、SMOD=0、TH1=0xFD 时波特率恰为 <b>9600</b>——这就是 51 教材偏爱 11.0592MHz 晶振的原因。</p>\n<h3>收发流程</h3>\n<p><b>发送</b>：写 <code>SBUF = c</code> → 硬件移位发送 → 完成置 TI=1（软件清零）。<br>\n<b>接收</b>：硬件收到完整帧置 RI=1 → 读 <code>SBUF</code> 取数据（软件清零 RI）。</p>\n<h3>实验步骤</h3>\n<ol><li>核对预接线：适配器 RXD ↔ 单片机 P3.1（TXD）、适配器 TXD ↔ 单片机 P3.0（RXD）</li>\n<li>编译下载，串口监视器出现 <code>OK</code></li>\n<li>在监视器输入任意字符回车，单片机<b>原样回显</b></li>\n<li>同时观察 P1 LED：显示收到字节的二进制值（如字符 'A'=0x41）</li></ol>\n<h3>思考</h3>\n<p>1. TI 和 RI 为什么都要软件清零？<br>2. TH1 改为 0xFA 波特率变成多少？</p>",
+  "code": "#include <stc89c52rc.h>\n\nvoid uart_init(void) {\n    SCON = 0x50;                /* 方式1，允许接收 */\n    TMOD |= 0x20;               /* T1 方式2，8位自动重装 */\n    TH1 = 0xFD;                 /* 9600bps @11.0592MHz */\n    TL1 = 0xFD;\n    TR1 = 1;                    /* 启动 T1 */\n}\n\nvoid uart_send(unsigned char c) {\n    SBUF = c;                   /* 启动发送 */\n    while (!TI)\n        ;                       /* 等待发送完成 */\n    TI = 0;                     /* 软件清发送标志 */\n}\n\nvoid main(void) {\n    unsigned char c;\n    uart_init();\n    uart_send('O');\n    uart_send('K');\n    uart_send('\\r');\n    uart_send('\\n');\n    while (1) {\n        if (RI) {               /* 收到一个字节 */\n            RI = 0;\n            c = SBUF;           /* 取出数据 */\n            P1 = c;             /* LED 显示字节值 */\n            uart_send(c);       /* 原样回显 */\n        }\n    }\n}",
+  "circuit": {
+    "crystalMHz": 11.0592,
+    "elements": [
+      {
+        "type": "led",
+        "id": "led1",
+        "label": "D1",
+        "nets": {
+          "A": "n_p1_0",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          140
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led2",
+        "label": "D2",
+        "nets": {
+          "A": "n_p1_1",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          160
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led3",
+        "label": "D3",
+        "nets": {
+          "A": "n_p1_2",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          180
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led4",
+        "label": "D4",
+        "nets": {
+          "A": "n_p1_3",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          200
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led5",
+        "label": "D5",
+        "nets": {
+          "A": "n_p1_4",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          220
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led6",
+        "label": "D6",
+        "nets": {
+          "A": "n_p1_5",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          240
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led7",
+        "label": "D7",
+        "nets": {
+          "A": "n_p1_6",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          260
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led8",
+        "label": "D8",
+        "nets": {
+          "A": "n_p1_7",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          280
+        ]
+      },
+      {
+        "type": "serial-adp",
+        "id": "adp",
+        "label": "串口适配器",
+        "nets": {
+          "VCC": "VCC",
+          "GND": "GND",
+          "RXD": "n_p31",
+          "TXD": "n_p30"
+        },
+        "pos": [
+          20,
+          120
+        ],
+        "opts": {
+          "baud": 9600
+        }
+      }
+    ],
+    "pins": {
+      "P1.0": "n_p1_0",
+      "P1.1": "n_p1_1",
+      "P1.2": "n_p1_2",
+      "P1.3": "n_p1_3",
+      "P1.4": "n_p1_4",
+      "P1.5": "n_p1_5",
+      "P1.6": "n_p1_6",
+      "P1.7": "n_p1_7",
+      "P3.0": "n_p30",
+      "P3.1": "n_p31"
+    }
+  },
+  "titleEn": "UART Serial Communication",
+  "goalEn": "Mode-1 baud rate calculation (T1 mode-2 reload value) and the use of SBUF with the RI/TI flags.",
+  "docEn": "<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>Experiment platform (virtual&ndash;physical)</b>: the physical labs in this course use the <b>STC89C52RC minimal system board</b> (<a href=\"https://item.jd.com/10120477932116.html\" target=\"_blank\">JD.com</a>) and the <b>STM32F407 minimal system board</b> (<a href=\"https://item.jd.com/10120627001692.html?pcdk=9kVRmhKROXsjbvd2KnxUwZMRkCO6aOoXe2YbRyVP4L4CxtxfMrUycYlNEapEGe5X.qliT.8Idm\" target=\"_blank\">JD.com</a>).\nThis virtual experiment is built on the same boards and can be extended with peripherals (LEDs, buttons, pull-up resistors, buzzer, matrix keypad, 7-segment displays, LCD1602, UART adapter, etc.) &mdash; a useful complement to the physical labs: similar but not identical.\n</div>\n<h3>Principle</h3>\n<p>Serial mode 1: a 10-bit frame (start + 8 data + stop). The baud rate is generated by T1 in mode 2 (8-bit auto-reload):\n<code>baud = 2^SMOD / 32 &times; (fosc / 12) / (256 &minus; TH1)</code>.\nAt 11.0592MHz with SMOD=0 and TH1=0xFD the baud rate is exactly <b>9600</b> &mdash; that is why 51 textbooks prefer this crystal.</p>\n<h3>TX / RX flow</h3>\n<p><b>Transmit</b>: write <code>SBUF = c</code> &rarr; the hardware shifts the bits out &rarr; TI is set on completion (cleared in software).<br>\n<b>Receive</b>: RI is set when a complete frame arrives &rarr; read <code>SBUF</code> (clear RI in software).</p>\n<h3>Steps</h3>\n<ol><li>Check the pre-wiring: adapter RXD ↔ MCU P3.1 (TXD), adapter TXD ↔ MCU P3.0 (RXD)</li>\n<li>Build and flash; the serial monitor shows <code>OK</code></li>\n<li>Type any character in the monitor and press Enter &mdash; the MCU <b>echoes it back</b></li>\n<li>Watch the P1 LEDs at the same time: they show the received byte in binary (e.g. 'A' = 0x41)</li></ol>\n<h3>Reflection</h3>\n<p>1. Why must both TI and RI be cleared in software?<br>2. With TH1 = 0xFA, what is the new baud rate?</p>"
+}

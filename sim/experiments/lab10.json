@@ -1,0 +1,52 @@
+{
+  "id": "lab10",
+  "order": 10,
+  "title": "printf 串口调试：重定向标准输出（STC）",
+  "goal": "掌握无调试器单片机的标准调试手段：实现 putchar 重定向，把 printf 格式化输出经串口发送到 PC 端，实时观察单片机内部变量与运行状态",
+  "doc": "<h3>为什么需要 printf 调试？</h3>\n<p>STC89C52 这类单片机<b>没有在线调试器</b>（不能像 PC 程序那样打断点、单步、看变量）。工程师最常用的手段就是把 <b>stdio.h 的 printf</b> 重定向到串口——单片机内部运行情况（变量、状态、分支走向）实时发送到 PC 端串口助手/终端显示，是嵌入式调试的\"第一生产力\"。</p>\n<h3>原理：重定向 putchar</h3>\n<p>printf 内部逐字符调用 <code>putchar</code> 输出。只要自己实现一个\"把字符从串口发出去\"的 putchar，printf 的所有格式化能力（%d %x %s…）就全部搬到了单片机上：</p>\n<pre>int putchar(int c) {\n    SBUF = c;          /* 字节写入串口发送缓冲 */\n    while (!TI);       /* 等待发送完成 */\n    TI = 0;            /* 清发送中断标志 */\n    return c;\n}</pre>\n<h3>接线表（注意交叉！）</h3>\n<table><tr><th>USB 转串口适配器</th><th>单片机</th></tr>\n<tr><td>TXD</td><td>P3.0（RXD）</td></tr>\n<tr><td>RXD</td><td>P3.1（TXD）</td></tr>\n<tr><td>VCC / GND</td><td>VCC / GND</td></tr></table>\n<p><b>TXD/RXD 必须交叉接</b>——一方的发送接另一方的接收，这是串口接线最经典的错误点。</p>\n<h3>操作步骤</h3>\n<ol><li>按接线表连接适配器与单片机（双击适配器可设波特率，默认 9600）</li>\n<li>阅读参考代码：uart_init() 初始化串口，uart_putc/puts/putnum 打印三件套</li>\n<li>编译 → 烧录运行</li>\n<li>打开右侧<b>「PC 串口终端」</b>，波特率选 9600，应看到 count 计数持续输出</li>\n<li>修改代码：printf 输出你自己感兴趣的变量（循环次数、按键状态等）</li></ol>\n<h3>printf 格式速查</h3>\n<table><tr><th>占位符</th><th>含义</th></tr>\n<tr><td>%d / %u</td><td>有/无符号十进制（SDCC int 为 16 位）</td></tr>\n<tr><td>%x</td><td>十六进制</td></tr>\n<tr><td>%c / %s</td><td>字符 / 字符串</td></tr>\n<tr><td>\\r\\n</td><td>回车+换行（串口输出记得带，否则终端不换行）</td></tr></table>\n<h3>思考</h3>\n<p>1. 为什么 putchar 里要 <code>while(!TI); TI=0;</code>？去掉会怎样？<br>2. 在中断里调用 printf 安全吗？为什么工程上禁止？</p>\n<h3>关于标准库 printf（拓展）</h3>\n<p>真实工程里更常见的写法是重定向 <code>int putchar(int c)</code>，之后直接 <code>printf(\"count=%d\r\n\", cnt)</code>——\nprintf 内部逐字符调用 putchar，原理与 uart_putc 完全相同（<b>Keil/实物环境推荐此写法</b>）。\n本实验采用与 printf 同原理的逐字符发送函数，便于观察串口输出；掌握后可无缝迁移到标准库 printf。\n\"把字符从串口发出去\"的思想一模一样，学会了实物上换 printf 零成本。</p>",
+  "code": "#include <stc89c52rc.h>\n\n/* ============ 串口调试打印三件套（本仿真内核实测可用） ============\n   STC 单片机没有在线调试器——把内部变量经串口打印到 PC 是最常用调试手段。\n   标准库 printf 在 Keil/实物上可用；实验采用与 printf 同原理的逐字符打印函数：直接写 SBUF 发往串口，便于观察每一步输出。 */\nvoid uart_putc(char c) { SBUF = c; while (!TI); TI = 0; }\nvoid uart_puts(const char *s) { while (*s) uart_putc(*s++); }\nvoid uart_putnum(unsigned int v) {          /* 十进制输出（数字转 ASCII） */\n    char b[6]; char i = 0;\n    if (v == 0) { uart_putc('0'); return; }\n    while (v) { b[i++] = '0' + v % 10; v /= 10; }\n    while (i) uart_putc(b[--i]);\n}\nvoid uart_init(void) {\n    SCON = 0x50;                    /* 串口方式1，允许接收 */\n    TMOD &= 0x0F; TMOD |= 0x20;     /* T1 方式2 作波特率发生器 */\n    TH1 = 0xFD; TL1 = 0xFD;         /* 9600bps @11.0592MHz */\n    TR1 = 1;\n}\n\nvoid main(void) {\n    unsigned int cnt = 0;\n    unsigned char state = 0;\n    unsigned int d;\n    uart_init();\n    uart_puts(\"=== uart debug demo ===\\r\\n\");\n    while (1) {\n        cnt++;\n        state = cnt % 2;            /* 模拟一个内部状态 */\n        uart_puts(\"count=\"); uart_putnum(cnt);\n        uart_puts(\" state=\"); uart_putnum(state); uart_puts(\"\\r\\n\");\n        /* 实际工程中在这里打印关键变量/分支走向，PC 端一目了然 */\n        for (d = 0; d < 40000; d++) __asm__(\"nop\");   /* 粗略延时 */\n    }\n}\n",
+  "circuit": {
+    "crystalMHz": 11.0592,
+    "elements": [
+      {
+        "type": "serial-adp",
+        "id": "adp1",
+        "label": "串口适配器",
+        "nets": {
+          "VCC": "VCC",
+          "GND": "GND",
+          "RXD": "n_p31",
+          "TXD": "n_p30"
+        },
+        "pos": [
+          620,
+          120
+        ],
+        "opts": {
+          "baud": 9600
+        }
+      }
+    ],
+    "pins": {
+      "P3.0": "n_p30",
+      "P3.1": "n_p31"
+    }
+  },
+  "checklist": [
+    "接线：适配器 TXD→P3.0、RXD→P3.1（交叉！）、VCC/GND 对应连接",
+    "理解 putchar 重定向：说出 SBUF、TI 各自的作用",
+    "编译烧录后打开 PC 串口终端（9600），看到 count 持续递增输出",
+    "改写程序：printf 输出自己感兴趣的变量（如循环变量、模拟状态机状态）",
+    "思考题：中断里调用 printf 为什么不安全（提示：putchar 死等 TI 与中断重入）"
+  ],
+  "titleEn": "printf over UART: Redirecting Standard Output (STC)",
+  "goalEn": "The standard debugging method for MCUs without a debugger: implement putchar redirection so printf sends internal variables and status to the PC over the UART, in real time.",
+  "docEn": "\n<h3>Why printf debugging?</h3>\n<p>MCUs like the STC89C52 have <b>no on-line debugger</b> (no breakpoints, single-stepping or variable watches like a PC program). The engineer's favorite technique is to redirect <b>stdio.h's printf</b> to the serial port &mdash; the MCU's internal state (variables, status, branch taken) is streamed to a PC terminal in real time. It is the \"productivity tool\" of embedded debugging.</p>\n<h3>Principle: redirect putchar</h3>\n<p>printf calls <code>putchar</code> for every character. Implement a putchar that sends a character out of the UART, and all of printf's formatting power (%d %x %s&hellip;) moves onto the MCU:</p>\n<pre>int putchar(int c) {\n    SBUF = c;          /* write the byte to the UART TX buffer */\n    while (!TI);       /* wait until the byte is sent */\n    TI = 0;            /* clear the TX-complete flag */\n    return c;\n}</pre>\n<h3>Wiring (mind the crossover!)</h3>\n<table><tr><th>USB-UART adapter</th><th>MCU</th></tr>\n<tr><td>TXD</td><td>P3.0 (RXD)</td></tr>\n<tr><td>RXD</td><td>P3.1 (TXD)</td></tr>\n<tr><td>VCC / GND</td><td>VCC / GND</td></tr></table>\n<p><b>TXD/RXD must be crossed</b> &mdash; each side's transmit goes to the other's receive. This is the classic serial-wiring mistake.</p>\n<h3>Steps</h3>\n<ol><li>Wire the adapter to the MCU per the table (double-click the adapter to set the baud rate, default 9600)</li>\n<li>Read the reference code: uart_init() configures the UART; uart_putc/puts/putnum are the three print helpers</li>\n<li>Build &rarr; flash &amp; run</li>\n<li>Open the <b>\"PC Serial Terminal\"</b> on the right at 9600 &mdash; the count should stream continuously</li>\n<li>Modify the code to print variables you care about (loop counters, button states, etc.)</li></ol>\n<h3>printf format quick reference</h3>\n<table><tr><th>Placeholder</th><th>Meaning</th></tr>\n<tr><td>%d / %u</td><td>Signed / unsigned decimal (SDCC int is 16-bit)</td></tr>\n<tr><td>%x</td><td>Hexadecimal</td></tr>\n<tr><td>%c / %s</td><td>Character / string</td></tr>\n<tr><td>\\r\\n</td><td>CR+LF (remember it in serial output, or the terminal never wraps)</td></tr></table>\n<h3>Reflection</h3>\n<p>1. Why does putchar contain <code>while(!TI); TI=0;</code>? What breaks without it?<br>2. Is calling printf inside an ISR safe? Why is it banned in practice?</p>\n<h3>About the standard-library printf (extra)</h3>\n<p>In real projects the common idiom is to redirect <code>int putchar(int c)</code> and then call <code>printf(\"count=%d\\r\\n\", cnt)</code> directly &mdash;\nprintf calls putchar character by character; the idea is identical to uart_putc (<b>recommended on Keil / real hardware</b>).\nThis lab uses character-by-character UART output with the same principle as printf, which also makes each transmitted byte easy to observe; the pattern transfers directly to standard printf on hardware.\nthe idea \"send characters out of the UART\" is exactly the same, and switching to printf on real hardware costs nothing.</p>",
+  "checklistEn": [
+    "Wiring: adapter TXD→P3.0, RXD→P3.1 (crossed!), VCC/GND matched",
+    "Understand putchar redirection: explain the roles of SBUF and TI",
+    "After flashing, open the PC serial terminal (9600) and see the count increasing",
+    "Modify the program: print a variable you are interested in (loop counter, simulated state, etc.)",
+    "Reflection: why is calling printf inside an ISR unsafe? (hint: putchar busy-waits on TI and ISRs can re-enter)"
+  ]
+}

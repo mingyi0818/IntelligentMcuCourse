@@ -1,0 +1,7 @@
+Third-party notices
+===================
+Monaco Editor - MIT License - https://github.com/microsoft/monaco-editor
+SDCC - GPL - https://sdcc.sourceforge.net/ (not bundled in this static site)
+Fonts and other bundled assets retain their original licenses.
+
+The local build package links to the official SDCC distribution; it does not redistribute the toolchain.

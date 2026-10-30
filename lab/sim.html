@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>虚拟仿真实验 - 单片机原理及应用</title>
+<link rel="stylesheet" href="../assets/css/style.css?v=11">
+<style>
+  html, body { margin:0; padding:0; height:100%; }
+  .sim-shell { height:100vh; display:flex; flex-direction:column; background:#f5f6f8; }
+  .sim-head { display:flex; align-items:center; gap:16px; padding:10px 18px; background:#243447; color:#fff; flex-wrap:wrap; flex:0 0 auto; }
+  .sim-head a { color:#cfe0f5; text-decoration:none; font-size:13px; }
+  .sim-head a:hover { color:#fff; }
+  .sim-head strong { font-size:15px; }
+  .sim-head .spacer { flex:1; }
+  .sim-head .hint { color:#aebfd0; font-size:12px; }
+  .sim-frame { flex:1; width:100%; border:0; background:#f5f6f8; }
+  @media (max-width: 760px) {
+    .sim-head { padding:8px 12px; gap:10px; }
+    .sim-head .hint { width:100%; }
+  }
+</style>
+</head>
+<body>
+<div class="sim-shell">
+  <div class="sim-head">
+    <a href="../index.html">← 返回课程首页</a>
+    <strong>单片机虚拟仿真实验</strong>
+    <span class="hint">首次使用请先点击仿真区域，再按 Delete / R / Ctrl+Z</span>
+    <span class="spacer"></span>
+    <a href="../sim/index.html?exp=lab08_orchard" target="_blank" rel="noopener">新窗口打开 ↗</a>
+    <a href="../resources.html" target="_blank" rel="noopener">本地编译说明</a>
+  </div>
+  <iframe class="sim-frame" src="../sim/index.html?exp=lab08_orchard&embed=1" title="单片机虚拟仿真实验系统" allow="clipboard-read; clipboard-write"></iframe>
+</div>
+</body>
+</html>

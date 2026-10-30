@@ -1,0 +1,835 @@
+{
+  "generatedAt": "2026-10-30T05:42:09.613Z",
+  "experiments": {
+    "lab01": {
+      "expected": {
+        "P1.0": [
+          "led1:A"
+        ],
+        "P1.1": [
+          "led2:A"
+        ],
+        "P1.2": [
+          "led3:A"
+        ],
+        "P1.3": [
+          "led4:A"
+        ],
+        "P1.4": [
+          "led5:A"
+        ],
+        "P1.5": [
+          "led6:A"
+        ],
+        "P1.6": [
+          "led7:A"
+        ],
+        "P1.7": [
+          "led8:A"
+        ]
+      },
+      "labels": {
+        "led1": "D1",
+        "led2": "D2",
+        "led3": "D3",
+        "led4": "D4",
+        "led5": "D5",
+        "led6": "D6",
+        "led7": "D7",
+        "led8": "D8"
+      }
+    },
+    "lab02": {
+      "expected": {
+        "P1.0": [
+          "led1:A"
+        ],
+        "P1.1": [
+          "led2:A"
+        ],
+        "P1.2": [
+          "led3:A"
+        ],
+        "P1.3": [
+          "led4:A"
+        ],
+        "P1.4": [
+          "led5:A"
+        ],
+        "P1.5": [
+          "led6:A"
+        ],
+        "P1.6": [
+          "led7:A"
+        ],
+        "P1.7": [
+          "led8:A"
+        ],
+        "P2.0": [
+          "btn1:1",
+          "r1:1"
+        ],
+        "P2.1": [
+          "btn2:1",
+          "r2:1"
+        ]
+      },
+      "labels": {
+        "led1": "D1",
+        "led2": "D2",
+        "led3": "D3",
+        "led4": "D4",
+        "led5": "D5",
+        "led6": "D6",
+        "led7": "D7",
+        "led8": "D8",
+        "btn1": "K1",
+        "btn2": "K2",
+        "r1": "R1 10kΩ",
+        "r2": "R2 10kΩ"
+      }
+    },
+    "lab03": {
+      "expected": {
+        "P1.0": [
+          "kbd:R1"
+        ],
+        "P1.1": [
+          "kbd:R2"
+        ],
+        "P1.2": [
+          "kbd:R3"
+        ],
+        "P1.3": [
+          "kbd:R4"
+        ],
+        "P1.4": [
+          "kbd:C1"
+        ],
+        "P1.5": [
+          "kbd:C2"
+        ],
+        "P1.6": [
+          "kbd:C3"
+        ],
+        "P1.7": [
+          "kbd:C4"
+        ],
+        "P2.0": [
+          "led1:A"
+        ],
+        "P2.1": [
+          "led2:A"
+        ],
+        "P2.2": [
+          "led3:A"
+        ],
+        "P2.3": [
+          "led4:A"
+        ],
+        "P2.4": [
+          "led5:A"
+        ],
+        "P2.5": [
+          "led6:A"
+        ],
+        "P2.6": [
+          "led7:A"
+        ],
+        "P2.7": [
+          "led8:A"
+        ]
+      },
+      "labels": {
+        "kbd": "4×4 矩阵键盘",
+        "led1": "D1",
+        "led2": "D2",
+        "led3": "D3",
+        "led4": "D4",
+        "led5": "D5",
+        "led6": "D6",
+        "led7": "D7",
+        "led8": "D8"
+      }
+    },
+    "lab04": {
+      "expected": {
+        "P0.0": [
+          "seg:a",
+          "pu1:1"
+        ],
+        "P0.1": [
+          "seg:b",
+          "pu2:1"
+        ],
+        "P0.2": [
+          "seg:c",
+          "pu3:1"
+        ],
+        "P0.3": [
+          "seg:d",
+          "pu4:1"
+        ],
+        "P0.4": [
+          "seg:e",
+          "pu5:1"
+        ],
+        "P0.5": [
+          "seg:f",
+          "pu6:1"
+        ],
+        "P0.6": [
+          "seg:g",
+          "pu7:1"
+        ],
+        "P0.7": [
+          "seg:dp",
+          "pu8:1"
+        ],
+        "P2.0": [
+          "seg:D1"
+        ],
+        "P2.1": [
+          "seg:D2"
+        ],
+        "P2.2": [
+          "seg:D3"
+        ],
+        "P2.3": [
+          "seg:D4"
+        ]
+      },
+      "labels": {
+        "seg": "四位共阳数码管",
+        "pu1": "10K×8",
+        "pu2": "10K×8",
+        "pu3": "10K×8",
+        "pu4": "10K×8",
+        "pu5": "10K×8",
+        "pu6": "10K×8",
+        "pu7": "10K×8",
+        "pu8": "10K×8"
+      }
+    },
+    "lab05": {
+      "expected": {
+        "P1.0": [
+          "led1:A"
+        ],
+        "P1.1": [
+          "led2:A"
+        ],
+        "P1.2": [
+          "led3:A"
+        ],
+        "P1.3": [
+          "led4:A"
+        ],
+        "P1.4": [
+          "led5:A"
+        ],
+        "P1.5": [
+          "led6:A"
+        ],
+        "P1.6": [
+          "led7:A"
+        ],
+        "P1.7": [
+          "led8:A"
+        ]
+      },
+      "labels": {
+        "led1": "D1",
+        "led2": "D2",
+        "led3": "D3",
+        "led4": "D4",
+        "led5": "D5",
+        "led6": "D6",
+        "led7": "D7",
+        "led8": "D8"
+      }
+    },
+    "lab06": {
+      "expected": {
+        "P1.0": [
+          "led1:A"
+        ],
+        "P1.1": [
+          "led2:A"
+        ],
+        "P1.2": [
+          "led3:A"
+        ],
+        "P1.3": [
+          "led4:A"
+        ],
+        "P1.4": [
+          "led5:A"
+        ],
+        "P1.5": [
+          "led6:A"
+        ],
+        "P1.6": [
+          "led7:A"
+        ],
+        "P1.7": [
+          "led8:A"
+        ],
+        "P3.0": [
+          "adp:TXD"
+        ],
+        "P3.1": [
+          "adp:RXD"
+        ]
+      },
+      "labels": {
+        "led1": "D1",
+        "led2": "D2",
+        "led3": "D3",
+        "led4": "D4",
+        "led5": "D5",
+        "led6": "D6",
+        "led7": "D7",
+        "led8": "D8",
+        "adp": "串口适配器"
+      }
+    },
+    "lab07": {
+      "expected": {
+        "P2.0": [
+          "lcd:RS"
+        ],
+        "P2.1": [
+          "lcd:RW"
+        ],
+        "P2.2": [
+          "lcd:E"
+        ],
+        "P0.0": [
+          "lcd:D0",
+          "pu1:1"
+        ],
+        "P0.1": [
+          "lcd:D1",
+          "pu2:1"
+        ],
+        "P0.2": [
+          "lcd:D2",
+          "pu3:1"
+        ],
+        "P0.3": [
+          "lcd:D3",
+          "pu4:1"
+        ],
+        "P0.4": [
+          "lcd:D4",
+          "pu5:1"
+        ],
+        "P0.5": [
+          "lcd:D5",
+          "pu6:1"
+        ],
+        "P0.6": [
+          "lcd:D6",
+          "pu7:1"
+        ],
+        "P0.7": [
+          "lcd:D7",
+          "pu8:1"
+        ]
+      },
+      "labels": {
+        "lcd": "LCD1602",
+        "pu1": "10K×8",
+        "pu2": "10K×8",
+        "pu3": "10K×8",
+        "pu4": "10K×8",
+        "pu5": "10K×8",
+        "pu6": "10K×8",
+        "pu7": "10K×8",
+        "pu8": "10K×8"
+      }
+    },
+    "lab08_orchard": {
+      "expected": {
+        "P0.0": [
+          "lcd:D0",
+          "pu1:1"
+        ],
+        "P0.1": [
+          "lcd:D1",
+          "pu2:1"
+        ],
+        "P0.2": [
+          "lcd:D2",
+          "pu3:1"
+        ],
+        "P0.3": [
+          "lcd:D3",
+          "pu4:1"
+        ],
+        "P0.4": [
+          "lcd:D4",
+          "pu5:1"
+        ],
+        "P0.5": [
+          "lcd:D5",
+          "pu6:1"
+        ],
+        "P0.6": [
+          "lcd:D6",
+          "pu7:1"
+        ],
+        "P0.7": [
+          "lcd:D7",
+          "pu8:1"
+        ],
+        "P2.0": [
+          "soil1:CS"
+        ],
+        "P2.1": [
+          "soil1:CLK"
+        ],
+        "P2.2": [
+          "soil1:DI"
+        ],
+        "P2.3": [
+          "soil1:DO"
+        ],
+        "P2.4": [
+          "k1:1",
+          "puk1:1"
+        ],
+        "P2.5": [
+          "k2:1",
+          "puk2:1"
+        ],
+        "P2.6": [
+          "k3:1",
+          "puk3:1"
+        ],
+        "P2.7": [
+          "lcd:E"
+        ],
+        "P3.0": [
+          "adp:TXD"
+        ],
+        "P3.1": [
+          "adp:RXD"
+        ],
+        "P3.5": [
+          "pump1:1"
+        ],
+        "P3.6": [
+          "lcd:RS"
+        ],
+        "P3.7": [
+          "lcd:RW"
+        ]
+      },
+      "labels": {
+        "adp": "串口适配器",
+        "soil1": "土壤湿度传感器",
+        "k1": "KEY+",
+        "k2": "KEY-",
+        "k3": "KEYH+",
+        "puk1": "10KΩ",
+        "puk2": "10KΩ",
+        "puk3": "10KΩ",
+        "lcd": "LCD1602",
+        "pu1": "10KΩ",
+        "pu2": "10KΩ",
+        "pu3": "10KΩ",
+        "pu4": "10KΩ",
+        "pu5": "10KΩ",
+        "pu6": "10KΩ",
+        "pu7": "10KΩ",
+        "pu8": "10KΩ",
+        "pump1": "灌溉水泵"
+      }
+    },
+    "lab09": {
+      "expected": {
+        "P2.6": [
+          "sco1:CH1"
+        ],
+        "P2.7": [
+          "sco1:CH2"
+        ]
+      },
+      "labels": {
+        "sco1": "双通道示波器",
+        "gnd9": "地"
+      }
+    },
+    "lab10": {
+      "expected": {
+        "P3.0": [
+          "adp1:TXD"
+        ],
+        "P3.1": [
+          "adp1:RXD"
+        ]
+      },
+      "labels": {
+        "adp1": "串口适配器"
+      }
+    },
+    "stm32-08": {
+      "expected": {
+        "VDD": [
+          "vdd:1"
+        ],
+        "VSS": [
+          "vss:1"
+        ],
+        "PE0": [
+          "led1:A"
+        ],
+        "PE1": [
+          "led2:A"
+        ],
+        "PE2": [
+          "led3:A"
+        ],
+        "PE3": [
+          "led4:A"
+        ],
+        "PE4": [
+          "led5:A"
+        ],
+        "PE5": [
+          "led6:A"
+        ],
+        "PE6": [
+          "led7:A"
+        ],
+        "PE7": [
+          "led8:A"
+        ]
+      },
+      "labels": {
+        "mcu32": "stm32f407",
+        "vdd": "VDD 3.3V",
+        "vss": "GND",
+        "led1": "D1",
+        "led2": "D2",
+        "led3": "D3",
+        "led4": "D4",
+        "led5": "D5",
+        "led6": "D6",
+        "led7": "D7",
+        "led8": "D8"
+      }
+    },
+    "stm32-09": {
+      "expected": {
+        "VDD": [
+          "vdd:1"
+        ],
+        "VSS": [
+          "vss:1"
+        ],
+        "PA0": [
+          "btn1:1",
+          "r1:1"
+        ],
+        "PA1": [
+          "btn2:1",
+          "r2:1"
+        ],
+        "PE0": [
+          "led1:A"
+        ],
+        "PE1": [
+          "led2:A"
+        ]
+      },
+      "labels": {
+        "mcu32": "stm32f407",
+        "vdd": "VDD 3.3V",
+        "vss": "GND",
+        "btn1": "KEY1",
+        "btn2": "KEY2",
+        "r1": "R1 10K",
+        "r2": "R2 10K",
+        "led1": "D1",
+        "led2": "D2"
+      }
+    },
+    "stm32-10": {
+      "expected": {
+        "VDD": [
+          "vdd:1"
+        ],
+        "VSS": [
+          "vss:1"
+        ],
+        "PA0": [
+          "btn1:1",
+          "r1:1"
+        ],
+        "PE0": [
+          "led1:A"
+        ]
+      },
+      "labels": {
+        "mcu32": "stm32f407",
+        "vdd": "VDD 3.3V",
+        "vss": "GND",
+        "btn1": "KEY1",
+        "r1": "R1 10K",
+        "led1": "D1"
+      }
+    },
+    "stm32-11": {
+      "expected": {
+        "VDD": [
+          "vdd:1",
+          "adp:VCC"
+        ],
+        "VSS": [
+          "vss:1",
+          "adp:GND"
+        ],
+        "PA9": [
+          "adp:RXD"
+        ],
+        "PA10": [
+          "adp:TXD"
+        ]
+      },
+      "labels": {
+        "mcu32": "stm32f407",
+        "vdd": "VDD 3.3V",
+        "vss": "GND",
+        "adp": "串口适配器"
+      }
+    },
+    "stm32-12": {
+      "expected": {
+        "VDD": [
+          "vdd:1",
+          "adp:VCC"
+        ],
+        "VSS": [
+          "vss:1",
+          "adp:GND"
+        ],
+        "PA9": [
+          "adp:RXD"
+        ],
+        "PA10": [
+          "adp:TXD"
+        ],
+        "PE0": [
+          "led1:A"
+        ]
+      },
+      "labels": {
+        "mcu32": "stm32f407",
+        "vdd": "VDD 3.3V",
+        "vss": "GND",
+        "adp": "串口适配器",
+        "led1": "D1"
+      }
+    },
+    "stm32-13": {
+      "expected": {
+        "VDD": [
+          "vdd:1"
+        ],
+        "VSS": [
+          "vss:1"
+        ],
+        "PA5": [
+          "led1:A"
+        ]
+      },
+      "labels": {
+        "mcu32": "stm32f407",
+        "vdd": "VDD 3.3V",
+        "vss": "GND",
+        "led1": "D1"
+      }
+    },
+    "stm32f103-08": {
+      "expected": {
+        "VDD": [
+          "vdd:1"
+        ],
+        "VSS": [
+          "vss:1"
+        ],
+        "PB0": [
+          "led1:A"
+        ],
+        "PB1": [
+          "led2:A"
+        ],
+        "PB2": [
+          "led3:A"
+        ],
+        "PB3": [
+          "led4:A"
+        ],
+        "PB4": [
+          "led5:A"
+        ],
+        "PB5": [
+          "led6:A"
+        ],
+        "PB6": [
+          "led7:A"
+        ],
+        "PB7": [
+          "led8:A"
+        ]
+      },
+      "labels": {
+        "mcu32": "stm32f103c8t6",
+        "vdd": "VDD 3.3V",
+        "vss": "GND",
+        "led1": "D1",
+        "led2": "D2",
+        "led3": "D3",
+        "led4": "D4",
+        "led5": "D5",
+        "led6": "D6",
+        "led7": "D7",
+        "led8": "D8"
+      }
+    },
+    "stm32f103-09": {
+      "expected": {
+        "VDD": [
+          "vdd:1"
+        ],
+        "VSS": [
+          "vss:1"
+        ],
+        "PA0": [
+          "btn1:1",
+          "r1:1"
+        ],
+        "PA1": [
+          "btn2:1",
+          "r2:1"
+        ],
+        "PB0": [
+          "led1:A"
+        ],
+        "PB1": [
+          "led2:A"
+        ]
+      },
+      "labels": {
+        "mcu32": "stm32f103c8t6",
+        "vdd": "VDD 3.3V",
+        "vss": "GND",
+        "btn1": "KEY1",
+        "btn2": "KEY2",
+        "r1": "R1 10K",
+        "r2": "R2 10K",
+        "led1": "D1",
+        "led2": "D2"
+      }
+    },
+    "stm32f103-10": {
+      "expected": {
+        "VDD": [
+          "vdd:1"
+        ],
+        "VSS": [
+          "vss:1"
+        ],
+        "PA0": [
+          "btn1:1",
+          "r1:1"
+        ],
+        "PB0": [
+          "led1:A"
+        ]
+      },
+      "labels": {
+        "mcu32": "stm32f103c8t6",
+        "vdd": "VDD 3.3V",
+        "vss": "GND",
+        "btn1": "KEY1",
+        "r1": "R1 10K",
+        "led1": "D1"
+      }
+    },
+    "stm32f103-11": {
+      "expected": {
+        "VDD": [
+          "vdd:1",
+          "adp:VCC"
+        ],
+        "VSS": [
+          "vss:1",
+          "adp:GND"
+        ],
+        "PA9": [
+          "adp:RXD"
+        ],
+        "PA10": [
+          "adp:TXD"
+        ]
+      },
+      "labels": {
+        "mcu32": "stm32f103c8t6",
+        "vdd": "VDD 3.3V",
+        "vss": "GND",
+        "adp": "串口适配器"
+      }
+    },
+    "stm32f103-12": {
+      "expected": {
+        "VDD": [
+          "vdd:1",
+          "adp:VCC"
+        ],
+        "VSS": [
+          "vss:1",
+          "adp:GND"
+        ],
+        "PA9": [
+          "adp:RXD"
+        ],
+        "PA10": [
+          "adp:TXD"
+        ],
+        "PB0": [
+          "led1:A"
+        ]
+      },
+      "labels": {
+        "mcu32": "stm32f103c8t6",
+        "vdd": "VDD 3.3V",
+        "vss": "GND",
+        "adp": "串口适配器",
+        "led1": "D1"
+      }
+    },
+    "stm32f103-13": {
+      "expected": {
+        "VDD": [
+          "vdd:1"
+        ],
+        "VSS": [
+          "vss:1"
+        ],
+        "PA5": [
+          "led1:A"
+        ]
+      },
+      "labels": {
+        "mcu32": "stm32f103c8t6",
+        "vdd": "VDD 3.3V",
+        "vss": "GND",
+        "led1": "D1"
+      }
+    }
+  }
+}

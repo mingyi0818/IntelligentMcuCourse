@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>McuVirtualLab 单片机虚拟仿真实验系统</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%A1%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="app.css?v=ab8188ea">
+<style>
+#static-boot{position:fixed;inset:0;z-index:20000;background:#f5f6f8;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;color:#2c3e50;font-family:"Microsoft YaHei","PingFang SC",sans-serif;transition:opacity .18s ease}
+#static-boot .sp{width:34px;height:34px;border:3px solid #d5e2f3;border-top-color:#1a73e8;border-radius:50%;animation:sbspin .8s linear infinite}
+#static-boot b{font-size:15px;font-weight:600}#static-boot span{font-size:12px;color:#7f8c8d}
+@keyframes sbspin{to{transform:rotate(360deg)}}
+</style>
+<script src="static-boot.js?v=1f87564c"></script>
+</head>
+<body>
+<div id="static-boot"><div class="sp"></div><b>正在启动仿真内核…</b><span>首次载入需要几秒钟</span></div>
+  <div id="topbar">
+    <span class="title" data-i18n="app.title">⚡ 单片机虚拟仿真实验台</span>
+    <select id="exp-sel" data-i18n-title="top.exp" title="选择实验模板" style="max-width:230px"></select>
+    <button id="btn-doc" data-i18n="top.doc" data-i18n-title="top.docTip" title="打开/关闭实验讲义">📖 讲义</button>
+    <button id="btn-undo" disabled data-i18n="top.undo" data-i18n-title="top.undoTip" title="撤销上一步电路操作（Ctrl+Z）">↩ 撤销</button>
+    <button id="btn-redo" disabled data-i18n="top.redo" data-i18n-title="top.redoTip" title="重做（Ctrl+Y / Ctrl+Shift+Z）">↪ 重做</button>
+    <button id="btn-checkwire" data-i18n="top.checkwire" data-i18n-title="top.checkwireTip" title="对照参考接线检查当前电路（不打分不记录）">🔍 检查接线</button>
+    <button id="btn-hwmap" data-i18n="top.hwmap" data-i18n-title="top.hwmapTip" title="仿真电路与实物最小系统板的对照说明">📟 实物对照</button>
+    <span class="vsep"></span>
+    <button id="btn-compile" data-i18n="top.compile" data-i18n-title="top.compileTip" title="在页面里用内置 SDCC 编译当前代码">⚙ 编译</button>
+    <button id="btn-projpack" style="display:none" data-i18n="top.projpack" data-i18n-title="top.projpackTip" title="下载本实验工程包">⬇ 工程包</button>
+    <button id="btn-example" style="display:none" data-i18n="top.example" data-i18n-title="top.exampleTip" title="载入已通过验证的示例 HEX">📦 示例程序</button>
+    <button id="btn-loadhex" data-i18n="top.loadhex" data-i18n-title="top.loadhexTip" title="加载外部编译好的 HEX 文件（SDCC 命令行等）">📂 加载 HEX</button>
+    <input type="file" id="file-hex" accept=".hex,.ihx" style="display:none">
+    <button id="btn-savehex" disabled data-i18n="top.savehex" data-i18n-title="top.savehexTip" title="把最近一次编译/加载的 HEX 保存到本地文件">💾 保存 HEX</button>
+    <button id="btn-download" disabled data-i18n="top.download" title="🔥 烧录运行">🔥 烧录运行</button>
+    <span class="vsep"></span>
+    <button id="btn-run" data-i18n="top.run" title="▶ 运行">▶ 运行</button>
+    <button id="btn-pause" disabled data-i18n="top.pause" title="⏸ 暂停">⏸ 暂停</button>
+    <button id="btn-reset" data-i18n="top.reset" title="⟳ 复位">⟳ 复位</button>
+    <button id="btn-step" data-i18n="top.step" title="⤵ 单步">⤵ 单步</button>
+    <select id="speed-sel" data-i18n-title="top.speedTip" title="仿真速度（8051 实验为 11.0592MHz、STM32 实验为 8MHz；倍速用于加速长延时演示，如 ×16 相当于 128MHz）">
+      <option value="0.1">0.1×</option>
+      <option value="0.25">0.25×</option>
+      <option value="0.5">0.5×</option>
+      <option value="1" selected data-i18n="top.speedRealtime">1× 实时</option>
+      <option value="2">2×</option>
+      <option value="4">4×</option>
+      <option value="8">8×</option>
+      <option value="16">16×</option>
+      <option value="20">20×</option>
+    </select>
+    <span class="vsep"></span>
+    <button id="btn-newproj" data-i18n="top.newproj" data-i18n-title="top.newprojTip" title="清空画布，从零开始搭建电路">🆕 新建</button>
+    <button id="btn-saveproj" data-i18n="top.saveproj" data-i18n-title="top.saveprojTip" title="保存工程为文件（电路+接线+代码）">💾 保存工程</button>
+    <button id="btn-openproj" data-i18n="top.openproj" data-i18n-title="top.openprojTip" title="打开工程文件">📁 打开工程</button>
+    <input type="file" id="file-proj" accept=".mvl.json,.json" style="display:none">
+    <span class="spacer"></span>
+    <input type="text" id="student-name" data-i18n-ph="top.namePh" placeholder="输入姓名" style="width:90px">
+    <button id="btn-submit" data-i18n="top.submit" title="📤 提交作业">📤 提交作业</button>
+    <span class="vsep" id="sep-student-tools"></span>
+    <button id="btn-saveprog" class="tbtn" data-i18n="top.saveprog" data-i18n-title="top.saveprogTip" title="把当前电路和代码保存到服务器（每 2 秒也会自动保存）">💾 保存进度</button>
+    <button id="btn-my-grades" class="tbtn" style="display:none" data-i18n="top.mygrades" data-i18n-title="top.mygradesTip" title="查看我的成绩与教师反馈">📊 我的成绩</button>
+    <button id="btn-reset-circuit" class="tbtn" data-i18n="top.resetCircuit" data-i18n-title="top.resetCircuitTip" title="恢复到实验初始元件布局（清除你的全部接线，代码保留）">↺ 重置电路</button>
+    <button id="btn-reset-code" class="tbtn" data-i18n="top.resetCode" data-i18n-title="top.resetCodeTip" title="清空代码编辑器（电路保留）">↺ 重置代码</button>
+    <span id="user-chip"></span>
+    <button id="btn-teacher-panel" style="display:none" data-i18n="top.teacherPanel" data-i18n-title="top.teacherPanelTip" title="打开教师管理面板（名单/进度/提交）">🛠 教师面板</button>
+    <button id="btn-static-about" style="display:none" data-i18n="top.about" data-i18n-title="top.aboutTip" title="公开练习版说明">ℹ 关于</button>
+    <button id="btn-logout" data-i18n="top.logout" title="退出登录">退出</button>
+    <button id="btn-lang" title="切换界面语言 / Switch UI language">EN</button>
+    <span id="lan-info"></span>
+  </div>
+
+  <div id="main">
+    <div id="left">
+      <section class="side-sec" id="pal-sec">
+        <h3><span data-i18n="pal.title">元件库</span> <span class="hint" data-i18n="pal.hint">点击后在画布单击放置 · 右键/ESC 结束</span></h3>
+        <div id="palette"></div>
+      </section>
+    </div>
+    <div id="center">
+      <div id="vtabs">
+        <button id="btn-palette" data-i18n="pal.toggle" data-i18n-title="pal.toggleHide" title="收起元件库（画布获得更多空间）">◧ 元件库</button>
+        <button class="vtab active" data-vtab="circuit" data-i18n="vtab.circuit" data-i18n-title="vtab.circuitTip" title="电路设计：放置元件、接线、运行仿真">🔌 电路</button>
+        <button class="vtab" data-vtab="code" data-i18n="vtab.code" data-i18n-title="vtab.codeTip" title="代码编写：C 源码编辑与编译输出">💻 代码</button>
+      </div>
+      <div id="view-circuit">
+        <div id="canvas-box">
+          <div id="zoom-ctl">
+            <button id="zoom-in" data-i18n-title="zoom.inTip" title="放大（也可将指针移到画布上，滚轮向前滚）">＋</button>
+            <button id="zoom-out" data-i18n-title="zoom.outTip" title="缩小（也可将指针移到画布上，滚轮向后滚）">－</button>
+            <button id="zoom-fit" data-i18n-title="zoom.fitTip" title="自适应视图（画布空白处按住右键可上下左右拖动平移）">⤢</button>
+          </div>
+        </div>
+      </div>
+      <div id="view-code" style="display:none">
+        <div id="file-tabs">
+          <div id="file-tab-list"></div>
+          <button id="btn-file-add" data-i18n="files.add" data-i18n-title="files.addTip" title="新建 .c / .h 源文件（单目录多文件工程）">＋ 新建文件</button>
+          <button id="btn-snippets" data-i18n="files.snippets" data-i18n-title="files.snippetsTip" title="常用代码片段：延时/中断/定时器/数码管/串口">📋 片段库</button>
+        </div>
+        <div id="editor-box"></div>
+        <section id="build-out">
+          <div id="build-out-head" data-i18n-title="build.folding" title="点击折叠/展开"><span id="build-out-toggle">▼</span><b data-i18n="build.title">编译输出</b><span id="build-out-summary"></span></div>
+          <ul id="build-out-list"><li class="bo-empty" data-i18n="build.empty">编译结果将显示在这里（错误 / 警告 / 成功信息，点击错误行可跳转）</li></ul>
+        </section>
+      </div>
+    </div>
+    <div id="splitter-v" title="拖动调整右侧面板宽度 / Drag to resize the right panel"></div>
+    <div id="right">
+      <section id="serial-panel"></section>
+      <section id="watch-panel"></section>
+      <section id="reg-panel"></section>
+      <section id="scope-panel"></section>
+    </div>
+  </div>
+
+  <div id="doc-drawer" style="display:none">
+    <div id="doc-drawer-head">
+      <b data-i18n="doc.title">📖 实验讲义</b>
+      <span id="doc-drawer-title"></span>
+      <button id="doc-close" data-i18n="doc.close" data-i18n-title="doc.closeTip" title="关闭讲义">✕</button>
+    </div>
+    <div id="doc-drawer-body"><section id="exp-doc"></section></div>
+    <section id="doc-checklist" style="display:none"></section>
+  </div>
+
+  <div id="statusbar"><span id="status" data-i18n="status.init">初始化…</span><span id="status-hint" data-i18n="status.hint" style="float:right">提示：按住引脚拖放或两击接线 · 接线中点空白加转折点、光标靠近引脚自动吸附 · R 键旋转元件 · 双击元件/芯片改属性与网络标号 · 拖动导线可改走线 · 右键单击删除、右键拖动平移画布 · 滚轮向前放大/向后缩小</span></div>
+
+  <div id="flash-overlay">
+    <div id="flash-label" data-i18n="flash.flashing">🔥 正在烧录程序到 STC89C52RC …</div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div id="flash-track"><div id="flash-bar"></div></div>
+      <button id="flash-cancel" data-i18n="flash.cancel" data-i18n-title="flash.cancelTip" title="退出烧录等待/烧录过程">✕ 取消</button>
+    </div>
+  </div>
+
+  <script type="module" src="app.js?v=8eb3e6d7"></script>
+</body>
+</html>

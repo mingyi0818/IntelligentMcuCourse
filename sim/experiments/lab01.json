@@ -1,0 +1,144 @@
+{
+  "id": "lab01",
+  "order": 1,
+  "title": "流水灯与呼吸灯",
+  "goal": "掌握 51 单片机 I/O 数字输出与延时函数：用同一电路分别实现流水灯（基础任务）与呼吸灯（进阶任务，软件 PWM 调光），理解 PWM 占空比控制亮度的原理",
+  "doc": "\n<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>实验平台（虚实结合）</b>：本课程实物实验采用 <b>STC89C52RC 最小系统板</b>（<a href=\"https://item.jd.com/10120477932116.html\" target=\"_blank\">京东开发板</a>）与 <b>STM32F407 最小系统板</b>（<a href=\"https://item.jd.com/10120627001692.html?pcdk=9kVRmhKROXsjbvd2KnxUwZMRkCO6aOoXe2YbRyVP4L4CxtxfMrUycYlNEapEGe5X.qliT.8Idm\" target=\"_blank\">京东开发板</a>）。\n本虚拟仿真实验基于上述最小系统板构建，可灵活扩展外设（LED、按键、上拉电阻、蜂鸣器、矩阵键盘、数码管、LCD1602、串口适配器等），是实物实验的有益补充——虚实结合、线上线下实验类似但不完全重复。\n</div>\n<h3>实验原理</h3>\n<p>LED 正极（A）接单片机引脚、负极（K）接 GND。<b>引脚输出 1（高电平）时 LED 点亮</b>，输出 0 熄灭。\nP1 口是 8 位准双向口，直接写 <code>P1 = 0x01;</code> 即可让 P1.0 输出高电平。</p>\n<h3>接线表</h3>\n<table><tr><th>元件</th><th>连接</th></tr>\n<tr><td>D1~D8 正极</td><td>P1.0 ~ P1.7</td></tr>\n<tr><td>D1~D8 负极</td><td>GND</td></tr></table>\n<h3>实验步骤</h3>\n<ol><li>阅读样例代码，理解 <code>led &lt;&lt;= 1</code> 的移位效果</li>\n<li>点击「编译」→「下载烧录」→ 观察流水灯</li>\n<li>修改移位方向、延时时间，重新编译下载观察变化</li>\n<li>修改为<b>双向来回流水</b>（进阶）</li></ol>\n<h3>思考</h3>\n<p>1. 若把 <code>delay_ms</code> 的参数改大会看到什么？<br>2. 为什么 <code>led == 0</code> 时要重置为 <code>0x01</code>？</p>\n<h3>进阶任务：呼吸灯（同一电路、不同程序）</h3>\n<p>呼吸灯 = LED 亮度像呼吸一样缓慢渐亮再渐暗。51 单片机没有硬件 PWM，用<b>软件 PWM</b> 实现：\n在一个极短的 PWM 周期内，控制\"亮的时间\"（占空比）从 0 渐增到 100 再渐减到 0——人眼看到的就是平滑的呼吸效果。</p>\n<pre>unsigned char duty, r;\nwhile (1) {\n    for (duty = 0; duty &lt;= 30; duty++)        /* 渐亮：占空比 0→30 */\n        for (r = 0; r &lt; 20; r++) {\n            P1 = 0x00; delay_ms(duty);          /* 亮 duty 份 */\n            P1 = 0xFF; delay_ms(30 - duty);     /* 灭其余 */\n        }\n    for (duty = 30; duty &gt; 0; duty--)           /* 渐灭：占空比 30→0 */\n        for (r = 0; r &lt; 20; r++) {\n            P1 = 0x00; delay_ms(duty);\n            P1 = 0xFF; delay_ms(30 - duty);\n        }\n}</pre>\n<p><b>原理要点</b>：① 占空比 = 亮时间 / PWM 周期；② PWM 周期要短（几十 ms 内），变化才平滑；③ 呼吸范围只让部分 LED 亮（如 P1=0x01 只呼吸 D1）更直观。</p>\n<h3>思考（呼吸灯）</h3>\n<p>1. 为什么快速开关 LED 人眼看到的是\"变暗\"而不是\"闪烁\"？<br>2. 占空比上限从 30 改成 1 会有什么变化？</p>",
+  "code": "#include <stc89c52rc.h>\n\n/* 粗略毫秒延时（11.0592MHz，12T） */\nvoid delay_ms(unsigned int ms) {\n    unsigned int i;\n    while (ms--)\n        for (i = 0; i < 92; i++)\n            __asm__(\"nop\");\n}\n\nvoid main(void) {\n    unsigned char led = 0x01;          /* 点亮位：0000_0001 */\n    while (1) {\n        P1 = led;                      /* 输出到 LED（高电平点亮） */\n        delay_ms(200);\n        led <<= 1;                     /* 左移一位 */\n        if (led == 0) led = 0x01;      /* 移出后回到最低位 */\n    }\n}",
+  "circuit": {
+    "crystalMHz": 11.0592,
+    "elements": [
+      {
+        "type": "led",
+        "id": "led1",
+        "label": "D1",
+        "nets": {
+          "A": "n_p1_0",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          140
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led2",
+        "label": "D2",
+        "nets": {
+          "A": "n_p1_1",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          160
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led3",
+        "label": "D3",
+        "nets": {
+          "A": "n_p1_2",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          180
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led4",
+        "label": "D4",
+        "nets": {
+          "A": "n_p1_3",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          200
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led5",
+        "label": "D5",
+        "nets": {
+          "A": "n_p1_4",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          220
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led6",
+        "label": "D6",
+        "nets": {
+          "A": "n_p1_5",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          240
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led7",
+        "label": "D7",
+        "nets": {
+          "A": "n_p1_6",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          260
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led8",
+        "label": "D8",
+        "nets": {
+          "A": "n_p1_7",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          280
+        ]
+      }
+    ],
+    "pins": {
+      "P1.0": "n_p1_0",
+      "P1.1": "n_p1_1",
+      "P1.2": "n_p1_2",
+      "P1.3": "n_p1_3",
+      "P1.4": "n_p1_4",
+      "P1.5": "n_p1_5",
+      "P1.6": "n_p1_6",
+      "P1.7": "n_p1_7"
+    }
+  },
+  "checklist": [
+    "电源电路：电源端子 → 电源开关 → 芯片 VCC(40脚)，接地端子 → GND(20脚)",
+    "晶振已接到 XTAL1/XTAL2（19/18脚），否则程序无法运行",
+    "8 个 LED 的 A 脚分别接到 P1.0–P1.7，K 脚接 GND",
+    "基础任务：流水灯编译烧录成功，8 个 LED 依次流动",
+    "进阶任务：改写程序实现呼吸灯——至少一个 LED 平滑渐亮再渐暗"
+  ],
+  "titleEn": "LED Chasing & Breathing Light",
+  "goalEn": "Digital output and delay functions on the 8051: implement an LED chaser (basic) and a breathing light (advanced, software PWM) on the same circuit, and understand duty-cycle brightness control.",
+  "docEn": "<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>Experiment platform (virtual&ndash;physical)</b>: the physical labs in this course use the <b>STC89C52RC minimal system board</b> (<a href=\"https://item.jd.com/10120477932116.html\" target=\"_blank\">JD.com</a>) and the <b>STM32F407 minimal system board</b> (<a href=\"https://item.jd.com/10120627001692.html?pcdk=9kVRmhKROXsjbvd2KnxUwZMRkCO6aOoXe2YbRyVP4L4CxtxfMrUycYlNEapEGe5X.qliT.8Idm\" target=\"_blank\">JD.com</a>).\nThis virtual experiment is built on the same boards and can be extended with peripherals (LEDs, buttons, pull-up resistors, buzzer, matrix keypad, 7-segment displays, LCD1602, UART adapter, etc.) &mdash; a useful complement to the physical labs: similar but not identical.\n</div>\n<h3>Principle</h3>\n<p>The LED anode (A) connects to the MCU pin and the cathode (K) to GND. <b>Outputting 1 (high) lights the LED</b>; 0 turns it off.\nP1 is an 8-bit quasi-bidirectional port &mdash; writing <code>P1 = 0x01;</code> drives P1.0 high.</p>\n<h3>Wiring</h3>\n<table><tr><th>Part</th><th>Connection</th></tr>\n<tr><td>D1&ndash;D8 anodes</td><td>P1.0 ~ P1.7</td></tr>\n<tr><td>D1&ndash;D8 cathodes</td><td>GND</td></tr></table>\n<h3>Steps</h3>\n<ol><li>Read the sample code and understand the shift effect of <code>led &lt;&lt;= 1</code></li>\n<li>Click \"Build\" &rarr; \"Flash &amp; Run\" and watch the chasing LEDs</li>\n<li>Change the shift direction and the delay, rebuild and observe</li>\n<li>(Advanced) make the light <b>bounce back and forth</b></li></ol>\n<h3>Reflection</h3>\n<p>1. What do you see if the <code>delay_ms</code> argument is made much larger?<br>2. Why reset to <code>0x01</code> when <code>led == 0</code>?</p>\n<h3>Advanced: breathing light (same circuit, different program)</h3>\n<p>A breathing light fades an LED in and out slowly. The 8051 has no hardware PWM, so we use <b>software PWM</b>:\nwithin a short PWM period, sweep the \"on time\" (duty cycle) from 0 up to maximum and back &mdash; the eye perceives a smooth fade.</p>\n<pre>unsigned char duty, r;\nwhile (1) {\n    for (duty = 0; duty &lt;= 30; duty++)        /* fade in: duty 0&rarr;30 */\n        for (r = 0; r &lt; 20; r++) {\n            P1 = 0x00; delay_ms(duty);          /* on for duty units */\n            P1 = 0xFF; delay_ms(30 - duty);     /* off for the rest */\n        }\n    for (duty = 30; duty &gt; 0; duty--)           /* fade out: duty 30&rarr;0 */\n        for (r = 0; r &lt; 20; r++) {\n            P1 = 0x00; delay_ms(duty);\n            P1 = 0xFF; delay_ms(30 - duty);\n        }\n}</pre>\n<p><b>Key points</b>: &#9312; duty = on time / PWM period; &#9313; keep the PWM period short (tens of ms) so the fade is smooth; &#9314; letting only one LED breathe (e.g. P1=0x01, D1 only) is easier to observe.</p>\n<h3>Reflection (breathing light)</h3>\n<p>1. Why does fast switching look like \"dimming\" rather than \"flickering\"?<br>2. What changes if the duty cap drops from 30 to 1?</p>",
+  "checklistEn": [
+    "Power circuit: power terminal → power switch → MCU VCC (pin 40); ground terminal → GND (pin 20)",
+    "Crystal wired to XTAL1/XTAL2 (pins 19/18) — otherwise the program cannot run",
+    "The 8 LED anodes wired to P1.0–P1.7, cathodes to GND",
+    "Basic task: the chaser builds and flashes; 8 LEDs light in sequence",
+    "Advanced task: breathing light — at least one LED fades in and out smoothly"
+  ]
+}

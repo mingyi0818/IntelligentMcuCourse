@@ -1,0 +1,63 @@
+{
+  "id": "lab09",
+  "order": 9,
+  "title": "示波器专项：双通道示波器测量练习",
+  "goal": "掌握数字示波器的基本操作——通道开关、时基（秒/格）、垂直档位（伏/格）、AUTO 与 RUN/STOP，能用测量读数量出方波的峰峰值与频率",
+  "doc": "<h3>为什么要专门练示波器？</h3>\n<p>电子/嵌入式/硬件相关岗位的面试与笔试中，<b>“会不会用示波器”是高频考点</b>。本实验在仿真环境里复刻了真实数字示波器的核心操作（通道开关、时基、垂直档位、AUTO、RUN/STOP、测量读数），学会后迁移到真实示波器（如普源 Rigol DS1000Z、优利德 UNI-T、鼎阳 SDS 等）只需要熟悉按键位置。</p>\n<h3>电路与信号</h3>\n<p>单片机用<b>定时器0 中断</b>在 P1.0 输出<b>精确 5Hz 方波</b>（周期 200ms）→ CH1（黄）；P2.7 输出<b>精确 2Hz 方波</b>（周期 500ms）→ CH2（青）。真实工程产生标准测试信号就用定时器中断——软件延时循环的频率不准，这正是面试常考的细节。探头接地 GND 必须与电路共地——真实示波器不共地测出的波形是错的，这是面试常问点。</p>\n<h3>面板操作对照（仿真 ↔ 真实示波器）</h3>\n<table>\n<tr><th>本仿真台</th><th>真实示波器对应</th><th>作用</th></tr>\n<tr><td>RUN / STOP</td><td>Run/Stop 单键</td><td>开始/冻结采集，冻结后可从容读数</td></tr>\n<tr><td>AUTO</td><td>Auto 键</td><td>自动选时基与垂直档位，一键稳定显示</td></tr>\n<tr><td>CH1 / CH2</td><td>通道开关（1/2 键）</td><td>打开/关闭对应通道显示</td></tr>\n<tr><td>伏/格 − ＋</td><td>垂直 SCALE 旋钮</td><td>每格代表的电压（V/div），影响波形高度</td></tr>\n<tr><td>秒/格 − ＋</td><td>水平 SCALE 旋钮</td><td>每格代表的时间（s/div），影响周期疏密</td></tr>\n<tr><td>读数条 Vpp/Hz</td><td>Measure 自动测量</td><td>峰峰值幅度与频率直接读数</td></tr>\n</table>\n<h3>操作任务</h3>\n<ol>\n<li>接线：示波器的 CH1、CH2、GND 探头接口在机身<b>下方</b>——CH1→P2.6，CH2→P2.7，GND→正下方的接地端子（<b>必须共地</b>）。</li>\n<li>编译 → 烧录运行 → 点「Autoset」，应看到黄、青两路方波稳定显示。</li>\n<li>手动练习：旋转 HORIZONTAL 区「秒/格」旋钮（或点击旋钮左/右半）把时基调到 <b>200ms/格</b>，CH1 一个周期应恰好占 1 格（200ms），即 5Hz；再对照读数条验证。</li>\n<li>把时基调到 <b>500ms/格</b>，验证 CH2 一个周期恰好占 1 格（500ms，即 2Hz）。</li>\n<li>点「RUN」变「STOP」冻结波形，从读数条读出 CH1 的 Vpp 与频率。</li>\n<li>旋转 VERTICAL 区「伏/格」旋钮把档位从 2V 调到 1V，观察波形高度翻倍（幅度不变，只是刻度变了）——这是初学者最常犯的读数错误。再用「位置」旋钮上下平移波形、拖动观察触发电平橙色虚线。</li>\n</ol>\n<h3>迁移到真实示波器的注意事项</h3>\n<ul>\n<li>探头衰减档 ×1/×10：×10 档读数会自动补偿，但探头要补偿校准（方波过冲/圆角）。</li>\n<li>触发（Trigger）：真实示波器靠触发电平让波形“停稳”，本仿真台恒为 Auto 触发。</li>\n<li>带宽与采样率：测 1MHz 以上信号要关心示波器带宽，测单片机 IO（kHz 级）入门款完全够用。</li>\n<li>共地：探头地夹必须接被测电路地，测市电隔离电路时严禁地夹接火线。</li>\n</ul>",
+  "code": "#include <stc89c52rc.h>\n\n/* 定时器0 方式1：50ms 中断一次（11.0592MHz，机器周期 1.085us，50ms = 46080 周期，初值 65536-46080 = 0x4C00） */\nvoid Timer0_Init(void) {\n    TMOD &= 0xF0; TMOD |= 0x01;    /* 定时器0 方式1（16 位） */\n    TH0 = 0x4C; TL0 = 0x00;        /* 50ms 初值 */\n    ET0 = 1; EA = 1; TR0 = 1;      /* 开中断、启动 */\n}\n\nvoid main(void) {\n    Timer0_Init();\n    while (1);                      /* 全部工作在中断里完成 */\n}\n\nvoid Timer0_ISR(void) __interrupt(1) {\n    static unsigned char n1 = 0, n2 = 0;\n    TH0 = 0x4C; TL0 = 0x00;        /* 重装初值 */\n    if (++n1 >= 2) { n1 = 0; P2_6 = !P2_6; }   /* CH1: 每 100ms 翻转 → 精确 5Hz 方波 */\n    if (++n2 >= 5) { n2 = 0; P2_7 = !P2_7; }   /* CH2: 每 250ms 翻转 → 精确 2Hz 方波 */\n}\n",
+  "circuit": {
+    "crystalMHz": 11.0592,
+    "elements": [
+      {
+        "type": "scope2ch",
+        "id": "sco1",
+        "nets": {
+          "CH1": "n_p2_6",
+          "CH2": "n_p2_7",
+          "GND": "n_gnd9"
+        },
+        "pos": [
+          620,
+          120
+        ],
+        "label": "双通道示波器",
+        "opts": {
+          "mhz": "11.0592"
+        }
+      },
+      {
+        "type": "gnd",
+        "id": "gnd9",
+        "nets": {
+          "1": "n_gnd9"
+        },
+        "pos": [
+          800,
+          540
+        ],
+        "label": "地"
+      }
+    ],
+    "pins": {
+      "P2.6": "n_p2_6",
+      "P2.7": "n_p2_7"
+    }
+  },
+  "checklist": [
+    "接线：CH1→P2.6、CH2→P2.7、GND→正下方接地端子（探头与电路必须共地）",
+    "编译并烧录运行，点「Autoset」得到两路稳定波形",
+    "时基调到 200ms/格：CH1 一个周期恰好占 1 格（5Hz）；500ms/格 时 CH2 占 1 格（2Hz）",
+    "分别开关 CH1/CH2 通道，体会通道显示控制",
+    "RUN/STOP 冻结波形，读出 CH1 的 Vpp 与频率（理论值 5V / 5Hz）"
+  ],
+  "titleEn": "Oscilloscope Lab: 2-Channel Measurement Practice",
+  "goalEn": "Basic digital-oscilloscope operation — channel on/off, timebase (s/div), vertical scale (V/div), AUTO and RUN/STOP — and measuring the peak-to-peak voltage and frequency of square waves.",
+  "docEn": "\n<h3>Why practice the oscilloscope?</h3>\n<p>In interviews and written tests for electronics / embedded / hardware jobs, <b>\"can you use an oscilloscope\" is a frequent question</b>. This lab replicates the core operations of a real digital scope (channel on/off, timebase, vertical scale, AUTO, RUN/STOP, measurement readouts) in the simulator. Once learned, transferring to a real scope (Rigol DS1000Z, UNI-T, Siglent SDS, etc.) is just a matter of finding the buttons.</p>\n<h3>Circuit and signals</h3>\n<p>Using a <b>Timer-0 interrupt</b> the MCU outputs an <b>exact 5Hz square wave</b> (200ms period) on P1.0 &rarr; CH1 (yellow), and an <b>exact 2Hz square wave</b> (500ms period) on P2.7 &rarr; CH2 (cyan). Real engineering generates standard test signals with timer interrupts &mdash; software delay loops are not frequency-accurate; this is a favorite interview detail. The probe ground must share ground with the circuit &mdash; measurements without a common ground are wrong on a real scope, a classic interview question.</p>\n<h3>Panel mapping (simulator ↔ real scope)</h3>\n<table>\n<tr><th>This simulator</th><th>Real scope</th><th>Function</th></tr>\n<tr><td>RUN / STOP</td><td>Run/Stop button</td><td>Start / freeze acquisition; frozen waveforms can be read at leisure</td></tr>\n<tr><td>AUTO</td><td>Auto button</td><td>Automatically pick timebase and vertical scale for a stable display</td></tr>\n<tr><td>CH1 / CH2</td><td>Channel keys (1/2)</td><td>Show / hide the corresponding channel</td></tr>\n<tr><td>V/div − +</td><td>Vertical SCALE knob</td><td>Volts per division &mdash; affects waveform height</td></tr>\n<tr><td>s/div − +</td><td>Horizontal SCALE knob</td><td>Seconds per division &mdash; affects period spacing</td></tr>\n<tr><td>Vpp/Hz readout bar</td><td>Measure (auto)</td><td>Direct readout of amplitude and frequency</td></tr>\n</table>\n<h3>Operation tasks</h3>\n<ol>\n<li>Wiring: the scope probes CH1, CH2 and GND are at the <b>bottom</b> of the instrument &mdash; CH1&rarr;P2.6, CH2&rarr;P2.7, GND&rarr;the ground terminal right below (<b>common ground is mandatory</b>).</li>\n<li>Build &rarr; flash &rarr; click \"Autoset\": two stable square waves (yellow and cyan) should appear.</li>\n<li>Manual practice: turn the HORIZONTAL \"s/div\" knob (or click its left/right half) to <b>200ms/div</b> &mdash; one CH1 cycle should occupy exactly 1 division (200ms), i.e. 5Hz; verify with the readout bar.</li>\n<li>Set <b>500ms/div</b> and verify one CH2 cycle occupies exactly 1 division (500ms, i.e. 2Hz).</li>\n<li>Click \"RUN\" so it becomes \"STOP\" to freeze the waveform; read CH1's Vpp and frequency from the readout bar.</li>\n<li>Turn the VERTICAL \"V/div\" knob from 2V to 1V and watch the waveform double in height (the amplitude is unchanged &mdash; only the scale changed; a classic beginner misread). Use the \"position\" knob to shift the trace vertically, and drag to inspect the orange trigger-level dashed line.</li>\n</ol>\n<h3>Moving to a real oscilloscope</h3>\n<ul>\n<li>Probe attenuation ×1/×10: the ×10 setting compensates readings automatically, but the probe must be compensation-calibrated (square-wave overshoot/rounding).</li>\n<li>Trigger: a real scope stabilizes the trace with a trigger level; this simulator always uses Auto trigger.</li>\n<li>Bandwidth &amp; sample rate: only matters above ~1MHz; entry-level scopes are fine for kHz MCU I/O.</li>\n<li>Common ground: the probe ground clip must connect to the circuit ground; never clip it to a live mains wire.</li>\n</ul>",
+  "checklistEn": [
+    "Wiring: CH1→P2.6, CH2→P2.7, GND→the ground terminal right below (probe and circuit must share ground)",
+    "Build, flash and run; click \"Autoset\" to get two stable traces",
+    "At 200ms/div one CH1 cycle occupies exactly 1 division (5Hz); at 500ms/div CH2 occupies 1 division (2Hz)",
+    "Toggle CH1/CH2 on and off to practice channel display control",
+    "Freeze with RUN/STOP and read CH1's Vpp and frequency (theoretical 5V / 5Hz)"
+  ]
+}

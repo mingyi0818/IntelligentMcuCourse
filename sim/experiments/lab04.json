@@ -1,0 +1,152 @@
+{
+  "id": "lab04",
+  "order": 4,
+  "title": "四位数码管动态扫描",
+  "goal": "掌握共阳数码管的段码原理与动态扫描显示（分时点亮 + 视觉暂留）。",
+  "doc": "\n<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>实验平台（虚实结合）</b>：本课程实物实验采用 <b>STC89C52RC 最小系统板</b>（<a href=\"https://item.jd.com/10120477932116.html\" target=\"_blank\">京东开发板</a>）与 <b>STM32F407 最小系统板</b>（<a href=\"https://item.jd.com/10120627001692.html?pcdk=9kVRmhKROXsjbvd2KnxUwZMRkCO6aOoXe2YbRyVP4L4CxtxfMrUycYlNEapEGe5X.qliT.8Idm\" target=\"_blank\">京东开发板</a>）。\n本虚拟仿真实验基于上述最小系统板构建，可灵活扩展外设（LED、按键、上拉电阻、蜂鸣器、矩阵键盘、数码管、LCD1602、串口适配器等），是实物实验的有益补充——虚实结合、线上线下实验类似但不完全重复。\n</div>\n<h3>实验原理</h3>\n<p>共阳数码管：公共端（位选）接高电平选中，段（a~dp）<b>低电平点亮</b>。\n4 位数码管共用 8 根段线，靠<b>快速轮流点亮每一位</b>（每位约 2ms）实现\"同时显示\"——这是动态扫描。</p>\n<h3>接线表</h3>\n<table><tr><th>数码管</th><th>单片机</th></tr>\n<tr><td>a b c d e f g dp</td><td>P0.0 ~ P0.7</td></tr>\n<tr><td>位选 D1~D4</td><td>P2.0 ~ P2.3</td></tr></table>\n<h3>实验步骤</h3>\n<ol><li>编译下载，观察计数器递增显示</li>\n<li>把计数值改大观察显示范围</li>\n<li>对照段码表理解 <code>0xC0</code> 为什么显示 \"0\"（二进制 1100_0000 → a、b 段灭）</li></ol>\n<h3>思考</h3>\n<p>1. 若扫描间隔从 2ms 改为 50ms 会看到什么现象？<br>2. 段码表的值是怎么算出来的？试推导数字 \"1\" 的段码。<br>3. <b>为什么 P0 接数码管要加上拉排阻？</b>（P0 是漏极开路输出，输出 1 时引脚悬空）</p>",
+  "code": "#include <stc89c52rc.h>\n\n/* 共阳数码管段码表 0~9（段低电平点亮） */\nconst unsigned char code segTable[] = {\n    0xC0, 0xF9, 0xA4, 0xB0, 0x99,\n    0x92, 0x82, 0xF8, 0x80, 0x90\n};\n/* 位选（P2.0~P2.3 轮流输出低电平选中……共阳位选高有效时取反） */\nconst unsigned char code digBit[] = { 0x01, 0x02, 0x04, 0x08 };\n\nvoid delay_ms(unsigned int ms) {\n    unsigned int i;\n    while (ms--)\n        for (i = 0; i < 92; i++)\n            __asm__(\"nop\");\n}\n\nvoid display(unsigned int n) {\n    unsigned char buf[4];\n    unsigned char i;\n    buf[0] = n / 1000;\n    buf[1] = n / 100 % 10;\n    buf[2] = n / 10 % 10;\n    buf[3] = n % 10;\n    for (i = 0; i < 4; i++) {\n        P2 = digBit[i];             /* 选通第 i 位（共阳：高选中） */\n        P0 = segTable[buf[i]];      /* 送段码（低电平点亮） */\n        delay_ms(2);                /* 点亮 2ms */\n        P0 = 0xFF;                  /* 消隐 */\n    }\n}\n\nvoid main(void) {\n    unsigned int n = 0;\n    unsigned char tick = 0;\n    while (1) {\n        display(n);\n        if (++tick >= 15) {         /* 约 0.5 秒加 1 */\n            tick = 0;\n            n++;\n            if (n > 9999) n = 0;\n        }\n    }\n}",
+  "circuit": {
+    "crystalMHz": 11.0592,
+    "elements": [
+      {
+        "type": "seg4",
+        "id": "seg",
+        "label": "四位共阳数码管",
+        "opts": {
+          "commonType": "CA"
+        },
+        "nets": {
+          "a": "n_a",
+          "b": "n_b",
+          "c": "n_c",
+          "d": "n_d",
+          "e": "n_e",
+          "f": "n_f",
+          "g": "n_g",
+          "dp": "n_dp",
+          "D1": "n_d1",
+          "D2": "n_d2",
+          "D3": "n_d3",
+          "D4": "n_d4"
+        },
+        "pos": [
+          620,
+          80
+        ]
+      },
+      {
+        "type": "pullup",
+        "id": "pu1",
+        "label": "10K×8",
+        "nets": {
+          "1": "n_a"
+        },
+        "pos": [
+          740,
+          500
+        ]
+      },
+      {
+        "type": "pullup",
+        "id": "pu2",
+        "label": "10K×8",
+        "nets": {
+          "1": "n_b"
+        },
+        "pos": [
+          766,
+          500
+        ]
+      },
+      {
+        "type": "pullup",
+        "id": "pu3",
+        "label": "10K×8",
+        "nets": {
+          "1": "n_c"
+        },
+        "pos": [
+          792,
+          500
+        ]
+      },
+      {
+        "type": "pullup",
+        "id": "pu4",
+        "label": "10K×8",
+        "nets": {
+          "1": "n_d"
+        },
+        "pos": [
+          818,
+          500
+        ]
+      },
+      {
+        "type": "pullup",
+        "id": "pu5",
+        "label": "10K×8",
+        "nets": {
+          "1": "n_e"
+        },
+        "pos": [
+          844,
+          500
+        ]
+      },
+      {
+        "type": "pullup",
+        "id": "pu6",
+        "label": "10K×8",
+        "nets": {
+          "1": "n_f"
+        },
+        "pos": [
+          870,
+          500
+        ]
+      },
+      {
+        "type": "pullup",
+        "id": "pu7",
+        "label": "10K×8",
+        "nets": {
+          "1": "n_g"
+        },
+        "pos": [
+          896,
+          500
+        ]
+      },
+      {
+        "type": "pullup",
+        "id": "pu8",
+        "label": "10K×8",
+        "nets": {
+          "1": "n_dp"
+        },
+        "pos": [
+          922,
+          500
+        ]
+      }
+    ],
+    "pins": {
+      "P0.0": "n_a",
+      "P0.1": "n_b",
+      "P0.2": "n_c",
+      "P0.3": "n_d",
+      "P0.4": "n_e",
+      "P0.5": "n_f",
+      "P0.6": "n_g",
+      "P0.7": "n_dp",
+      "P2.0": "n_d1",
+      "P2.1": "n_d2",
+      "P2.2": "n_d3",
+      "P2.3": "n_d4"
+    }
+  },
+  "titleEn": "4-Digit 7-Segment Dynamic Scanning",
+  "goalEn": "Common-anode 7-segment codes and dynamic scanning (time-multiplexed lighting + persistence of vision).",
+  "docEn": "<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>Experiment platform (virtual&ndash;physical)</b>: the physical labs in this course use the <b>STC89C52RC minimal system board</b> (<a href=\"https://item.jd.com/10120477932116.html\" target=\"_blank\">JD.com</a>) and the <b>STM32F407 minimal system board</b> (<a href=\"https://item.jd.com/10120627001692.html?pcdk=9kVRmhKROXsjbvd2KnxUwZMRkCO6aOoXe2YbRyVP4L4CxtxfMrUycYlNEapEGe5X.qliT.8Idm\" target=\"_blank\">JD.com</a>).\nThis virtual experiment is built on the same boards and can be extended with peripherals (LEDs, buttons, pull-up resistors, buzzer, matrix keypad, 7-segment displays, LCD1602, UART adapter, etc.) &mdash; a useful complement to the physical labs: similar but not identical.\n</div>\n<h3>Principle</h3>\n<p>Common-anode display: the common pin (digit select) is driven high to enable a digit; segments a&ndash;dp <b>light when low</b>.\nThe 4 digits share 8 segment lines; <b>lighting each digit in turn very quickly</b> (about 2ms per digit) creates the illusion of simultaneous display &mdash; that is dynamic scanning.</p>\n<h3>Wiring</h3>\n<table><tr><th>Display</th><th>MCU</th></tr>\n<tr><td>a b c d e f g dp</td><td>P0.0 ~ P0.7</td></tr>\n<tr><td>Digit selects D1&ndash;D4</td><td>P2.0 ~ P2.3</td></tr></table>\n<h3>Steps</h3>\n<ol><li>Build and flash; watch the counter increment on the display</li>\n<li>Increase the count limit and observe the display range</li>\n<li>Use the segment table to work out why <code>0xC0</code> shows \"0\" (binary 1100_0000 &rarr; segments a and b off)</li></ol>\n<h3>Reflection</h3>\n<p>1. What would you see if the scan interval went from 2ms to 50ms?<br>2. How were the segment-table values derived? Try deriving the code for digit \"1\".<br>3. <b>Why does P0 need pull-up resistors to drive the display?</b> (P0 is open-drain; a pin floats when outputting 1)</p>"
+}

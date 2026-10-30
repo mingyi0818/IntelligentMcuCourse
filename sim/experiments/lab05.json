@@ -1,0 +1,130 @@
+{
+  "id": "lab05",
+  "order": 5,
+  "title": "定时器中断流水灯",
+  "goal": "掌握定时器 T0 方式 1 的初值计算与中断服务函数写法，理解\"主循环 + 中断\"的程序架构。",
+  "doc": "\n<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>实验平台（虚实结合）</b>：本课程实物实验采用 <b>STC89C52RC 最小系统板</b>（<a href=\"https://item.jd.com/10120477932116.html\" target=\"_blank\">京东开发板</a>）与 <b>STM32F407 最小系统板</b>（<a href=\"https://item.jd.com/10120627001692.html?pcdk=9kVRmhKROXsjbvd2KnxUwZMRkCO6aOoXe2YbRyVP4L4CxtxfMrUycYlNEapEGe5X.qliT.8Idm\" target=\"_blank\">京东开发板</a>）。\n本虚拟仿真实验基于上述最小系统板构建，可灵活扩展外设（LED、按键、上拉电阻、蜂鸣器、矩阵键盘、数码管、LCD1602、串口适配器等），是实物实验的有益补充——虚实结合、线上线下实验类似但不完全重复。\n</div>\n<h3>实验原理</h3>\n<p>T0 方式 1 为 16 位定时器，计满溢出触发中断。11.0592MHz、12T 模式下 1ms = 922 个机器周期。\n50ms 定时初值：<code>65536 − 46080 = 19456 = 0x4C00</code>（TH0=0x4C, TL0=0x00）。</p>\n<p>中断服务函数用 SDCC 语法：<code>void t0_isr(void) __interrupt(1)</code>（1 = 定时器0）。\n<b>主循环什么都不做</b>，流动全部由中断驱动——这就是前后台架构。</p>\n<h3>接线表</h3>\n<table><tr><th>元件</th><th>连接</th></tr><tr><td>D1~D8</td><td>P1.0 ~ P1.7</td></tr></table>\n<h3>实验步骤</h3>\n<ol><li>编译下载，LED 每 0.5 秒移动一位（中断驱动）</li>\n<li>把计数值改小观察加速</li>\n<li>在主循环里加一个 while 空转，观察流水<b>依然</b>流畅——体会中断的独立性</li></ol>\n<h3>思考</h3>\n<p>1. 为什么 ISR 里要重装初值？<br>2. 若把 <code>EA=1</code> 去掉会怎样？</p>",
+  "code": "#include <stc89c52rc.h>\n\nunsigned char led = 0x01;\nunsigned int tick = 0;\n\nvoid main(void) {\n    TMOD = 0x01;                /* T0 方式1，16 位定时 */\n    TH0 = 0x4C;                 /* 50ms 初值 @11.0592MHz */\n    TL0 = 0x00;\n    ET0 = 1;                    /* 允许 T0 中断 */\n    EA = 1;                     /* 开总中断 */\n    TR0 = 1;                    /* 启动 T0 */\n    while (1)\n        ;                       /* 主循环空转，全靠中断 */\n}\n\nvoid t0_isr(void) __interrupt(1) {\n    TH0 = 0x4C;                 /* 重装初值 */\n    TL0 = 0x00;\n    if (++tick >= 10) {         /* 10 × 50ms = 0.5s */\n        tick = 0;\n        P1 = led;\n        led <<= 1;\n        if (led == 0) led = 0x01;\n    }\n}",
+  "circuit": {
+    "crystalMHz": 11.0592,
+    "elements": [
+      {
+        "type": "led",
+        "id": "led1",
+        "label": "D1",
+        "nets": {
+          "A": "n_p1_0",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          140
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led2",
+        "label": "D2",
+        "nets": {
+          "A": "n_p1_1",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          160
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led3",
+        "label": "D3",
+        "nets": {
+          "A": "n_p1_2",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          180
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led4",
+        "label": "D4",
+        "nets": {
+          "A": "n_p1_3",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          200
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led5",
+        "label": "D5",
+        "nets": {
+          "A": "n_p1_4",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          220
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led6",
+        "label": "D6",
+        "nets": {
+          "A": "n_p1_5",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          240
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led7",
+        "label": "D7",
+        "nets": {
+          "A": "n_p1_6",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          260
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led8",
+        "label": "D8",
+        "nets": {
+          "A": "n_p1_7",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          280
+        ]
+      }
+    ],
+    "pins": {
+      "P1.0": "n_p1_0",
+      "P1.1": "n_p1_1",
+      "P1.2": "n_p1_2",
+      "P1.3": "n_p1_3",
+      "P1.4": "n_p1_4",
+      "P1.5": "n_p1_5",
+      "P1.6": "n_p1_6",
+      "P1.7": "n_p1_7"
+    }
+  },
+  "titleEn": "Timer-Interrupt LED Chaser",
+  "goalEn": "Timer T0 mode-1 reload value calculation and ISR syntax; the \"main loop + interrupt\" foreground/background architecture.",
+  "docEn": "<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>Experiment platform (virtual&ndash;physical)</b>: the physical labs in this course use the <b>STC89C52RC minimal system board</b> (<a href=\"https://item.jd.com/10120477932116.html\" target=\"_blank\">JD.com</a>) and the <b>STM32F407 minimal system board</b> (<a href=\"https://item.jd.com/10120627001692.html?pcdk=9kVRmhKROXsjbvd2KnxUwZMRkCO6aOoXe2YbRyVP4L4CxtxfMrUycYlNEapEGe5X.qliT.8Idm\" target=\"_blank\">JD.com</a>).\nThis virtual experiment is built on the same boards and can be extended with peripherals (LEDs, buttons, pull-up resistors, buzzer, matrix keypad, 7-segment displays, LCD1602, UART adapter, etc.) &mdash; a useful complement to the physical labs: similar but not identical.\n</div>\n<h3>Principle</h3>\n<p>T0 mode 1 is a 16-bit timer; overflow raises an interrupt. At 11.0592MHz in 12T mode, 1ms = 922 machine cycles.\nThe reload value for 50ms: <code>65536 &minus; 46080 = 19456 = 0x4C00</code> (TH0=0x4C, TL0=0x00).</p>\n<p>SDCC ISR syntax: <code>void t0_isr(void) __interrupt(1)</code> (1 = Timer 0).\n<b>The main loop does nothing</b> &mdash; the chase is entirely interrupt-driven. This is the foreground/background architecture.</p>\n<h3>Wiring</h3>\n<table><tr><th>Part</th><th>Connection</th></tr><tr><td>D1&ndash;D8</td><td>P1.0 ~ P1.7</td></tr></table>\n<h3>Steps</h3>\n<ol><li>Build and flash: the LED advances one position every 0.5s (interrupt-driven)</li>\n<li>Decrease the count and watch it speed up</li>\n<li>Add a busy <code>while</code> loop in <code>main</code> and observe that the chase <b>still</b> runs smoothly &mdash; feel the independence of interrupts</li></ol>\n<h3>Reflection</h3>\n<p>1. Why must the ISR reload the initial value?<br>2. What happens if <code>EA=1</code> is removed?</p>"
+}

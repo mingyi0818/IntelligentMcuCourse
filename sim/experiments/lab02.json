@@ -1,0 +1,196 @@
+{
+  "id": "lab02",
+  "order": 2,
+  "title": "按键控制流水灯",
+  "goal": "掌握数字输入的读取方法：按键低电平有效、软件消抖、按住运行/松开停止的控制逻辑。",
+  "doc": "\n<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>实验平台（虚实结合）</b>：本课程实物实验采用 <b>STC89C52RC 最小系统板</b>（<a href=\"https://item.jd.com/10120477932116.html\" target=\"_blank\">京东开发板</a>）与 <b>STM32F407 最小系统板</b>（<a href=\"https://item.jd.com/10120627001692.html?pcdk=9kVRmhKROXsjbvd2KnxUwZMRkCO6aOoXe2YbRyVP4L4CxtxfMrUycYlNEapEGe5X.qliT.8Idm\" target=\"_blank\">京东开发板</a>）。\n本虚拟仿真实验基于上述最小系统板构建，可灵活扩展外设（LED、按键、上拉电阻、蜂鸣器、矩阵键盘、数码管、LCD1602、串口适配器等），是实物实验的有益补充——虚实结合、线上线下实验类似但不完全重复。\n</div>\n<h3>实验原理</h3>\n<p>按键一端接 P2.0，另一端接 GND；<b>R1 为外部上拉电阻</b>（10kΩ 接 VCC），保证松开时引脚稳定为高电平（读出 1）。<b>按下按键时引脚被拉到低电平（读到 0）</b>。\n从原理图即可判断：松开=高（上拉），按下=低（直通 GND）。所以判断按键用 <code>if (P2_0 == 0)</code>。机械按键按下/弹起会有抖动，用 10ms 延时消抖。</p>\n<h3>接线表</h3>\n<table><tr><th>元件</th><th>连接</th></tr>\n<tr><td>K1 按键</td><td>P2.0 ↔ GND（R1 上拉至 VCC）—— P2.0 在芯片右侧偏下，走线避开 LED</td></tr>\n<tr><td>K2 按键</td><td>P2.1 ↔ GND（R2 上拉至 VCC）</td></tr>\n<tr><td>D1~D8</td><td>P1.0 ~ P1.7（同实验1）</td></tr></table>\n<h3>实验步骤</h3>\n<ol><li>编译下载后，<b>用鼠标按住 K1</b>：流水灯开始流动；松开熄灭</li>\n<li>按住 K2：流水方向反向</li>\n<li>阅读代码，理解按键扫描流程</li></ol>\n<h3>思考</h3>\n<p>1. 为什么判断按键用 <code>== 0</code> 而不是 <code>== 1</code>？<br>2. 若想\"按一下只移动一位\"（而非连续流动），程序应怎么改？</p>",
+  "code": "#include <stc89c52rc.h>\n\nvoid delay_ms(unsigned int ms) {\n    unsigned int i;\n    while (ms--)\n        for (i = 0; i < 92; i++)\n            __asm__(\"nop\");\n}\n\nvoid main(void) {\n    unsigned char led = 0x01;\n    bit dir = 0;                    /* 0=左移 1=右移 */\n    while (1) {\n        if (P2_0 == 0) {            /* K1 按下：流水运行 */\n            P1 = led;\n            delay_ms(150);\n            if (dir == 0) {\n                led <<= 1;\n                if (led == 0) led = 0x01;\n            } else {\n                led >>= 1;\n                if (led == 0) led = 0x80;\n            }\n        } else if (P2_1 == 0) {     /* K2 按住：反向 */\n            dir = 1;\n            P1 = 0x00;\n        } else {\n            dir = 0;\n            P1 = 0x00;              /* 松开熄灭 */\n        }\n    }\n}",
+  "circuit": {
+    "crystalMHz": 11.0592,
+    "elements": [
+      {
+        "type": "led",
+        "id": "led1",
+        "label": "D1",
+        "nets": {
+          "A": "n_p1_0",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          140
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led2",
+        "label": "D2",
+        "nets": {
+          "A": "n_p1_1",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          160
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led3",
+        "label": "D3",
+        "nets": {
+          "A": "n_p1_2",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          180
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led4",
+        "label": "D4",
+        "nets": {
+          "A": "n_p1_3",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          200
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led5",
+        "label": "D5",
+        "nets": {
+          "A": "n_p1_4",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          220
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led6",
+        "label": "D6",
+        "nets": {
+          "A": "n_p1_5",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          240
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led7",
+        "label": "D7",
+        "nets": {
+          "A": "n_p1_6",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          260
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led8",
+        "label": "D8",
+        "nets": {
+          "A": "n_p1_7",
+          "K": "GND"
+        },
+        "pos": [
+          560,
+          280
+        ]
+      },
+      {
+        "type": "button",
+        "id": "btn1",
+        "label": "K1",
+        "nets": {
+          "1": "n_p20",
+          "2": "GND"
+        },
+        "pos": [
+          660,
+          340
+        ]
+      },
+      {
+        "type": "button",
+        "id": "btn2",
+        "label": "K2",
+        "nets": {
+          "1": "n_p21",
+          "2": "GND"
+        },
+        "pos": [
+          700,
+          360
+        ]
+      },
+      {
+        "type": "pullup",
+        "id": "r1",
+        "label": "R1 10kΩ",
+        "nets": {
+          "1": "n_p20"
+        },
+        "pos": [
+          560,
+          300
+        ]
+      },
+      {
+        "type": "pullup",
+        "id": "r2",
+        "label": "R2 10kΩ",
+        "nets": {
+          "1": "n_p21"
+        },
+        "pos": [
+          600,
+          320
+        ]
+      }
+    ],
+    "pins": {
+      "P1.0": "n_p1_0",
+      "P1.1": "n_p1_1",
+      "P1.2": "n_p1_2",
+      "P1.3": "n_p1_3",
+      "P1.4": "n_p1_4",
+      "P1.5": "n_p1_5",
+      "P1.6": "n_p1_6",
+      "P1.7": "n_p1_7",
+      "P2.0": "n_p20",
+      "P2.1": "n_p21"
+    }
+  },
+  "checklist": [
+    "P2.0/P2.1 各接一只独立按键（另一脚接 GND）和 10kΩ 上拉电阻",
+    "8 个 LED 接 P1.0–P1.7（K 脚统一接 GND）",
+    "不按键时 LED 全灭；按住 K1 流水运行",
+    "按住 K2 能改变流水方向（或实现你自己的按键功能）",
+    "编译 0 错误，烧录运行验证两种按键行为"
+  ],
+  "titleEn": "Button-Controlled LED Chaser",
+  "goalEn": "Reading digital inputs: active-low buttons, software debouncing, run-while-pressed / stop-on-release control logic.",
+  "docEn": "<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>Experiment platform (virtual&ndash;physical)</b>: the physical labs in this course use the <b>STC89C52RC minimal system board</b> (<a href=\"https://item.jd.com/10120477932116.html\" target=\"_blank\">JD.com</a>) and the <b>STM32F407 minimal system board</b> (<a href=\"https://item.jd.com/10120627001692.html?pcdk=9kVRmhKROXsjbvd2KnxUwZMRkCO6aOoXe2YbRyVP4L4CxtxfMrUycYlNEapEGe5X.qliT.8Idm\" target=\"_blank\">JD.com</a>).\nThis virtual experiment is built on the same boards and can be extended with peripherals (LEDs, buttons, pull-up resistors, buzzer, matrix keypad, 7-segment displays, LCD1602, UART adapter, etc.) &mdash; a useful complement to the physical labs: similar but not identical.\n</div>\n<h3>Principle</h3>\n<p>One side of the button goes to P2.0, the other to GND; <b>R1 is an external pull-up</b> (10kΩ to VCC) so the pin reads 1 when released. <b>Pressing pulls the pin low (reads 0)</b>.\nYou can tell from the schematic: released = high (pull-up), pressed = low (straight to GND). That is why the code tests <code>if (P2_0 == 0)</code>. Mechanical buttons bounce on press/release; debounce with a 10ms delay.</p>\n<h3>Wiring</h3>\n<table><tr><th>Part</th><th>Connection</th></tr>\n<tr><td>K1 button</td><td>P2.0 ↔ GND (R1 pull-up to VCC) — P2.0 is on the right side of the chip, lower down; route around the LEDs</td></tr>\n<tr><td>K2 button</td><td>P2.1 ↔ GND (R2 pull-up to VCC)</td></tr>\n<tr><td>D1&ndash;D8</td><td>P1.0 ~ P1.7 (same as Lab 1)</td></tr></table>\n<h3>Steps</h3>\n<ol><li>After flashing, <b>hold K1 with the mouse</b>: the chaser starts; release to stop</li>\n<li>Hold K2: the running direction reverses</li>\n<li>Read the code and follow the button-scan flow</li></ol>\n<h3>Reflection</h3>\n<p>1. Why test <code>== 0</code> instead of <code>== 1</code>?<br>2. How would you change the program so \"one press moves one step\" instead of running continuously?</p>",
+  "checklistEn": [
+    "A button + 10kΩ pull-up on each of P2.0/P2.1 (other side to GND)",
+    "8 LEDs on P1.0–P1.7 (cathodes to GND)",
+    "All LEDs off when no button is pressed; the chaser runs while K1 is held",
+    "K2 reverses the direction (or your own button behavior)",
+    "Build with 0 errors; verify both button behaviors after flashing"
+  ]
+}

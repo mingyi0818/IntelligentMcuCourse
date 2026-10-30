@@ -1,0 +1,147 @@
+{
+  "id": "lab07",
+  "order": 7,
+  "title": "LCD1602 液晶显示",
+  "goal": "掌握 HD44780 时序：RS/RW/E 三根控制线的作用、指令与数据的区分、4 位/8 位接口，以及\"写指令→等忙→写数据\"的驱动流程。",
+  "doc": "\n<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>实验平台（虚实结合）</b>：本课程实物实验采用 <b>STC89C52RC 最小系统板</b>（<a href=\"https://item.jd.com/10120477932116.html\" target=\"_blank\">京东开发板</a>）与 <b>STM32F407 最小系统板</b>（<a href=\"https://item.jd.com/10120627001692.html?pcdk=9kVRmhKROXsjbvd2KnxUwZMRkCO6aOoXe2YbRyVP4L4CxtxfMrUycYlNEapEGe5X.qliT.8Idm\" target=\"_blank\">京东开发板</a>）。\n本虚拟仿真实验基于上述最小系统板构建，可灵活扩展外设（LED、按键、上拉电阻、蜂鸣器、矩阵键盘、数码管、LCD1602、串口适配器等），是实物实验的有益补充——虚实结合、线上线下实验类似但不完全重复。\n</div>\n<h3>实验原理</h3>\n<p>LCD1602 由 HD44780 控制器驱动，三根控制线：\n<b>RS</b>（0=指令/1=数据）、<b>RW</b>（0=写/1=读忙）、<b>E</b>（下降沿锁存数据）。\n数据显示在 DDRAM：第一行 0x00 起、第二行 0x40 起，各 16 字符可见。</p>\n<h3>典型写流程</h3>\n<pre>E=0 → RS/RW 就绪 → 数据放 P0 → E=1 → 延时 → E=0（锁存）</pre>\n<h3>接线表</h3>\n<table><tr><th>LCD1602</th><th>单片机</th></tr>\n<tr><td>RS / RW / E</td><td>P2.0 / P2.1 / P2.2</td></tr>\n<tr><td>D0~D7</td><td>P0.0 ~ P0.7</td></tr></table>\n<h3>实验步骤</h3>\n<ol><li>编译下载，第一行显示 <code>Hello MCU!</code>，第二行显示运行秒数</li>\n<li>修改显示内容为自己的学号姓名拼音</li>\n<li>阅读 lcd_cmd / lcd_dat，体会三根控制线的配合</li></ol>\n<h3>思考</h3>\n<p>1. 读忙函数 <code>lcd_wait</code> 里为什么要先把 P0 置 0xFF？<br>2. <code>0x80 + 地址</code> 是什么指令？第二行首地址是多少？<br>3. <b>P0 为什么必须外接上拉电阻？</b>（漏极开路，输出 1 时引脚悬空，读回无意义）</p>",
+  "code": "#include <stc89c52rc.h>\n\n/* 使用 stc89c52rc.h 中定义的位名（SDCC 语法，等价 Keil 的 sbit） */\n#define LCD_RS P2_0\n#define LCD_RW P2_1\n#define LCD_E  P2_2\n\n#define LCD_DAT P0\n\nvoid delay_ms(unsigned int ms) {\n    unsigned int i;\n    while (ms--)\n        for (i = 0; i < 92; i++)\n            __asm__(\"nop\");\n}\n\nvoid lcd_wait(void) {           /* 读忙（虚拟屏即时就绪，保留标准流程） */\n    unsigned char s;\n    LCD_DAT = 0xFF;             /* 准双向口读之前先写 1 */\n    LCD_RS = 0;\n    LCD_RW = 1;\n    do {\n        LCD_E = 1;\n        s = LCD_DAT;\n        LCD_E = 0;\n    } while (s & 0x80);\n}\n\nvoid lcd_cmd(unsigned char c) {\n    lcd_wait();\n    LCD_RS = 0; LCD_RW = 0;\n    LCD_DAT = c;\n    LCD_E = 1; delay_ms(1); LCD_E = 0;\n    delay_ms(1);\n}\n\nvoid lcd_dat(unsigned char d) {\n    lcd_wait();\n    LCD_RS = 1; LCD_RW = 0;\n    LCD_DAT = d;\n    LCD_E = 1; delay_ms(1); LCD_E = 0;\n    delay_ms(1);\n}\n\nvoid lcd_init(void) {\n    delay_ms(20);               /* 上电等待 */\n    lcd_cmd(0x38);              /* 8位接口，两行显示 */\n    lcd_cmd(0x0C);              /* 开显示，关光标 */\n    lcd_cmd(0x06);              /* 写后地址自动加一 */\n    lcd_cmd(0x01);              /* 清屏 */\n    delay_ms(2);\n}\n\nvoid lcd_str(unsigned char row, const char *s) {\n    lcd_cmd(0x80 + (row == 0 ? 0x00 : 0x40));\n    while (*s)\n        lcd_dat(*s++);\n}\n\nvoid main(void) {\n    unsigned char sec = 0;\n    lcd_init();\n    lcd_str(0, \"Hello MCU!\");\n    while (1) {\n        lcd_cmd(0xC0);        /* 第二行首 */\n        lcd_dat('R');\n        lcd_dat('u');\n        lcd_dat('n');\n        lcd_dat(':');\n        lcd_dat(' ' + sec / 100);\n        lcd_dat('0' + sec / 10 % 10);\n        lcd_dat('0' + sec % 10);\n        lcd_dat('s');\n        delay_ms(1000);\n        sec++;                /* unsigned char 255 后自动回 0 */\n    }\n}",
+  "circuit": {
+    "crystalMHz": 11.0592,
+    "elements": [
+      {
+        "type": "lcd1602",
+        "id": "lcd",
+        "label": "LCD1602",
+        "nets": {
+          "RS": "n_rs",
+          "RW": "n_rw",
+          "E": "n_e",
+          "D0": "n_d0",
+          "D1": "n_d1",
+          "D2": "n_d2",
+          "D3": "n_d3",
+          "D4": "n_d4",
+          "D5": "n_d5",
+          "D6": "n_d6",
+          "D7": "n_d7"
+        },
+        "pos": [
+          600,
+          220
+        ]
+      },
+      {
+        "type": "pullup",
+        "id": "pu1",
+        "label": "10K×8",
+        "nets": {
+          "1": "n_d0"
+        },
+        "pos": [
+          700,
+          440
+        ]
+      },
+      {
+        "type": "pullup",
+        "id": "pu2",
+        "label": "10K×8",
+        "nets": {
+          "1": "n_d1"
+        },
+        "pos": [
+          726,
+          440
+        ]
+      },
+      {
+        "type": "pullup",
+        "id": "pu3",
+        "label": "10K×8",
+        "nets": {
+          "1": "n_d2"
+        },
+        "pos": [
+          752,
+          440
+        ]
+      },
+      {
+        "type": "pullup",
+        "id": "pu4",
+        "label": "10K×8",
+        "nets": {
+          "1": "n_d3"
+        },
+        "pos": [
+          778,
+          440
+        ]
+      },
+      {
+        "type": "pullup",
+        "id": "pu5",
+        "label": "10K×8",
+        "nets": {
+          "1": "n_d4"
+        },
+        "pos": [
+          804,
+          440
+        ]
+      },
+      {
+        "type": "pullup",
+        "id": "pu6",
+        "label": "10K×8",
+        "nets": {
+          "1": "n_d5"
+        },
+        "pos": [
+          830,
+          440
+        ]
+      },
+      {
+        "type": "pullup",
+        "id": "pu7",
+        "label": "10K×8",
+        "nets": {
+          "1": "n_d6"
+        },
+        "pos": [
+          856,
+          440
+        ]
+      },
+      {
+        "type": "pullup",
+        "id": "pu8",
+        "label": "10K×8",
+        "nets": {
+          "1": "n_d7"
+        },
+        "pos": [
+          882,
+          440
+        ]
+      }
+    ],
+    "pins": {
+      "P2.0": "n_rs",
+      "P2.1": "n_rw",
+      "P2.2": "n_e",
+      "P0.0": "n_d0",
+      "P0.1": "n_d1",
+      "P0.2": "n_d2",
+      "P0.3": "n_d3",
+      "P0.4": "n_d4",
+      "P0.5": "n_d5",
+      "P0.6": "n_d6",
+      "P0.7": "n_d7"
+    }
+  },
+  "titleEn": "LCD1602 Character Display",
+  "goalEn": "HD44780 timing: the roles of RS/RW/E, command vs. data, the 4/8-bit interface, and the write-command &rarr; wait-busy &rarr; write-data driver flow.",
+  "docEn": "<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>Experiment platform (virtual&ndash;physical)</b>: the physical labs in this course use the <b>STC89C52RC minimal system board</b> (<a href=\"https://item.jd.com/10120477932116.html\" target=\"_blank\">JD.com</a>) and the <b>STM32F407 minimal system board</b> (<a href=\"https://item.jd.com/10120627001692.html?pcdk=9kVRmhKROXsjbvd2KnxUwZMRkCO6aOoXe2YbRyVP4L4CxtxfMrUycYlNEapEGe5X.qliT.8Idm\" target=\"_blank\">JD.com</a>).\nThis virtual experiment is built on the same boards and can be extended with peripherals (LEDs, buttons, pull-up resistors, buzzer, matrix keypad, 7-segment displays, LCD1602, UART adapter, etc.) &mdash; a useful complement to the physical labs: similar but not identical.\n</div>\n<h3>Principle</h3>\n<p>The LCD1602 is driven by an HD44780 controller with three control lines:\n<b>RS</b> (0 = command / 1 = data), <b>RW</b> (0 = write / 1 = read busy), <b>E</b> (data latched on the falling edge).\nText lives in DDRAM: row 1 starts at 0x00, row 2 at 0x40; 16 characters visible per row.</p>\n<h3>Typical write flow</h3>\n<pre>E=0 &rarr; RS/RW ready &rarr; data on P0 &rarr; E=1 &rarr; delay &rarr; E=0 (latch)</pre>\n<h3>Wiring</h3>\n<table><tr><th>LCD1602</th><th>MCU</th></tr>\n<tr><td>RS / RW / E</td><td>P2.0 / P2.1 / P2.2</td></tr>\n<tr><td>D0&ndash;D7</td><td>P0.0 ~ P0.7</td></tr></table>\n<h3>Steps</h3>\n<ol><li>Build and flash: row 1 shows <code>Hello MCU!</code>, row 2 shows the running seconds</li>\n<li>Change the text to your own name in pinyin</li>\n<li>Read lcd_cmd / lcd_dat and see how the three control lines cooperate</li></ol>\n<h3>Reflection</h3>\n<p>1. In the busy-wait function <code>lcd_wait</code>, why must P0 be set to 0xFF first?<br>2. What instruction is <code>0x80 + address</code>? What is the start address of row 2?<br>3. <b>Why must P0 have external pull-up resistors?</b> (open-drain &mdash; a pin floats when outputting 1, so reads are meaningless)</p>"
+}

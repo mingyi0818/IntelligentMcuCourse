@@ -1,0 +1,177 @@
+{
+  "id": "stm32-08",
+  "order": 8,
+  "arch": "stm32",
+  "title": "STM32 GPIO 流水灯与呼吸灯",
+  "goal": "掌握 STM32 GPIO 推挽输出配置与 HAL_GPIO_WritePin，理解与 51 准双向口输出方式的差异；进阶用 TIM PWM 或软件渐变实现呼吸灯",
+  "doc": "<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>实验平台（虚实结合）</b>：实物实验采用 <b>STC89C52RC 最小系统板</b>（<a href=\"https://item.jd.com/10120477932116.html\" target=\"_blank\">京东开发板</a>）与 <b>STM32F407 最小系统板</b>（<a href=\"https://item.jd.com/10120627001692.html?pcdk=9kVRmhKROXsjbvd2KnxUwZMRkCO6aOoXe2YbRyVP4L4CxtxfMrUycYlNEapEGe5X.qliT.8Idm\" target=\"_blank\">京东开发板</a>）。\n</div><h2>实验8 STM32 GPIO 流水灯</h2><h3>接线说明</h3><p>PE0~PE7 分别接 D1~D8（LED 阳极），LED 阴极统一接 GND；VDD/VSS 已接电源端子（3.3V）。仿真对照 STC 实验1。</p>\n<h3>CubeMX 配置</h3><ol><li>PE0~PE7 设为 GPIO_Output（Push-Pull / No pull / Low speed）；</li><li>RCC → HSI 8MHz（默认内部高速时钟，无需外部晶振与 PLL），SYSCLK = HSI = 8MHz——与平台仿真时钟一致；</li><li>SYS → Debug Serial Wire。</li></ol>\n<h3>关键代码</h3><pre style=\"background:#f4f6f8;padding:8px;border-radius:4px;font-size:12px\">for (int i = 0; i &lt; 8; i++) {\n  HAL_GPIO_WritePin(GPIOE, 1u &lt;&lt; i, GPIO_PIN_SET);   // 点亮（板级 LED 低电平点亮时改为 RESET）\n  HAL_Delay(120);\n  HAL_GPIO_WritePin(GPIOE, 1u &lt;&lt; i, GPIO_PIN_RESET);\n}</pre>\n<h3>验收标准</h3><p>8 只 LED 依次流水点亮，周期约 1 秒；可改 HAL_Delay 调整速度。</p>\n<h3>思考</h3><p>F407 推挽输出驱动 LED 与 51 的 P0（漏极开路需外接上拉）相比，硬件电路上有何区别？</p><h3>工程与烧录流程（HEX 导入模式）</h3>\n<ol>\n<li><b>STM32CubeMX</b> 新建工程：MCU 选 <b>STM32F407ZGT6</b>（与开发板一致），时钟树 HSI 8MHz → SYSCLK 8MHz（不进 PLL，与平台仿真时钟一致）；</li>\n<li>按本实验要求配置外设（GPIO/TIM/USART…），Project Manager 选 <b>STM32CubeIDE</b> 或 <b>MDK-ARM V5</b> → Generate Code；</li>\n<li>用 <b>STM32CubeIDE</b>（勾选 Create flash image 生成 .hex）或 <b>Keil MDK</b>（Options → Output 勾选 Create HEX File）编译，得到 .hex；</li>\n<li>在<strong>本系统</strong>顶部「📂 加载 HEX」导入归档（可「💾 保存 HEX」提交），并用 STM32CubeProgrammer / mcuisp 烧录实物板验证；</li>\n<li><b>注意</b>：本平台内置 Cortex-M4 指令级内核，编译好的 HEX 可直接「📂 加载 HEX」导入并「▶ 运行」——GPIO/USART/SysTick/EXTI 的读写与中断均可观测；本实验聚焦 GPIO 与 USART 的寄存器级行为；定时器与模拟量采集由配套硬件实验完成。平台<strong>仿真时钟固定 8MHz</strong>（时钟按 8MHz 固定配置运行），请在 CubeMX 里保持 <b>HSI 8MHz 直驱 SYSCLK（不进 PLL）</b>，这样代码里的 HAL_Delay 等延时在平台上与实物节奏一致；若导入的固件按更高主频配置，其延时会在平台上按比例放慢，可用右上角倍速加快。</li>\n</ol>\n<p style=\"background:#fff8e1;padding:6px 8px;border-radius:4px;font-size:12px\">⚡ 本电路为预接线参考：VDD/VSS 已接电源端子，外设已按实验要求接好；可自由拆改、用 R 键旋转、双击设网络标号。</p>\n<h3>进阶任务：呼吸灯（同一电路、不同程序）</h3>\n<p>STM32 相比 51 的最大优势之一是<b>硬件 PWM 外设</b>。呼吸灯推荐两种实现：</p>\n<p><b>方式一（推荐）：TIM 硬件 PWM</b>——CubeMX 里把 LED 所在引脚配为 TIM 通道 PWM 输出，主循环里渐变比较值：</p>\n<pre>for (duty = 0; duty &lt;= 999; duty++)          /* 渐亮 */\n    __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, duty);\nfor (duty = 999; duty &gt; 0; duty--)            /* 渐灭 */\n    __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, duty);</pre>\n<p><b>方式二（对照理解用）：GPIO 软件 PWM</b>——与 51 实验同一思路，HAL_GPIO_WritePin 快速切换 + 改变亮灭时间比例。</p>\n<p><b>原理要点</b>：硬件 PWM 由定时器自动产生，CPU 零开销；比较值 CCR 越大占空比越高（ARR 决定 PWM 周期）。</p>",
+  "code": "/* 本实验工程由 STM32CubeMX 生成：时钟树保持 HSI 8MHz（SYSCLK = HSI，不进 PLL），与平台仿真时钟一致，\n * 代码里的 HAL_Delay 等延时在平台（1× 实时）与实物板上节奏相同。\n * 在 STM32CubeIDE / Keil MDK 中编译生成 .hex 后，回到本平台「📂 加载 HEX」导入即可「▶ 运行」：\n * GPIO/USART/SysTick/EXTI 可观测；本实验聚焦 GPIO 与 USART 的寄存器级行为；定时器与模拟量采集由配套硬件实验完成。\n * 本编辑器用于 8051（STC89C52RC）实验的在线编写与编译；F407 固件请在 CubeIDE / Keil 侧编写。 */",
+  "circuit": {
+    "crystalMHz": 8,
+    "elements": [
+      {
+        "type": "stm32f407",
+        "id": "mcu32",
+        "pos": [
+          300,
+          60
+        ]
+      },
+      {
+        "type": "vcc",
+        "id": "vdd",
+        "nets": {
+          "1": "n_vdd"
+        },
+        "pos": [
+          200,
+          80
+        ],
+        "label": "VDD 3.3V"
+      },
+      {
+        "type": "gnd",
+        "id": "vss",
+        "nets": {
+          "1": "n_vgnd"
+        },
+        "pos": [
+          200,
+          140
+        ],
+        "label": "GND"
+      },
+      {
+        "type": "led",
+        "id": "led1",
+        "label": "D1",
+        "nets": {
+          "A": "n_pe0",
+          "K": "GND"
+        },
+        "pos": [
+          640,
+          140
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led2",
+        "label": "D2",
+        "nets": {
+          "A": "n_pe1",
+          "K": "GND"
+        },
+        "pos": [
+          640,
+          160
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led3",
+        "label": "D3",
+        "nets": {
+          "A": "n_pe2",
+          "K": "GND"
+        },
+        "pos": [
+          640,
+          180
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led4",
+        "label": "D4",
+        "nets": {
+          "A": "n_pe3",
+          "K": "GND"
+        },
+        "pos": [
+          640,
+          200
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led5",
+        "label": "D5",
+        "nets": {
+          "A": "n_pe4",
+          "K": "GND"
+        },
+        "pos": [
+          640,
+          220
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led6",
+        "label": "D6",
+        "nets": {
+          "A": "n_pe5",
+          "K": "GND"
+        },
+        "pos": [
+          640,
+          240
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led7",
+        "label": "D7",
+        "nets": {
+          "A": "n_pe6",
+          "K": "GND"
+        },
+        "pos": [
+          640,
+          260
+        ]
+      },
+      {
+        "type": "led",
+        "id": "led8",
+        "label": "D8",
+        "nets": {
+          "A": "n_pe7",
+          "K": "GND"
+        },
+        "pos": [
+          640,
+          280
+        ]
+      }
+    ],
+    "pins": {
+      "VDD": "n_vdd",
+      "VSS": "n_vgnd",
+      "PE0": "n_pe0",
+      "PE1": "n_pe1",
+      "PE2": "n_pe2",
+      "PE3": "n_pe3",
+      "PE4": "n_pe4",
+      "PE5": "n_pe5",
+      "PE6": "n_pe6",
+      "PE7": "n_pe7"
+    }
+  },
+  "checklist": [
+    "CubeIDE 中完成 GPIO 流水灯工程并编译生成 HEX",
+    "流水灯效果验证：8 个 LED 依次流动（实物或仿真导入）",
+    "进阶：改为呼吸灯——TIM PWM 占空比渐变（或软件 PWM），亮度平滑渐亮渐暗",
+    "对比 51 软件 PWM 与 STM32 硬件 PWM 的异同，记录在实验报告"
+  ],
+  "titleEn": "STM32 GPIO: LED Chasing & Breathing Light",
+  "goalEn": "STM32 GPIO push-pull output and HAL_GPIO_WritePin; how it differs from the 8051 quasi-bidirectional port; advanced: TIM PWM or software fade for a breathing light.",
+  "docEn": "<div class=\"platform-note\" style=\"background:#eef4fb;border:1px solid #cfe0f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\">\n<b>Experiment platform (virtual&ndash;physical)</b>: the physical labs use the <b>STC89C52RC minimal system board</b> (<a href=\"https://item.jd.com/10120477932116.html\" target=\"_blank\">JD.com</a>) and the <b>STM32F407 minimal system board</b> (<a href=\"https://item.jd.com/10120627001692.html?pcdk=9kVRmhKROXsjbvd2KnxUwZMRkCO6aOoXe2YbRyVP4L4CxtxfMrUycYlNEapEGe5X.qliT.8Idm\" target=\"_blank\">JD.com</a>).\n</div>\n<h2>Lab 8 &mdash; STM32 GPIO LED chaser</h2><h3>Wiring</h3><p>PE0&ndash;PE7 connect to D1&ndash;D8 (LED anodes); LED cathodes share GND; VDD/VSS are already on the power terminals (3.3V). Simulator counterpart of STC Lab 1.</p>\n<h3>CubeMX configuration</h3><ol><li>PE0&ndash;PE7 as GPIO_Output (Push-Pull / No pull / Low speed);</li><li>RCC &rarr; HSI 8MHz (default internal high-speed clock, no external crystal, no PLL), SYSCLK = HSI = 8MHz &mdash; matching the simulator clock;</li><li>SYS &rarr; Debug: Serial Wire.</li></ol>\n<h3>Key code</h3><pre style=\"background:#f4f6f8;padding:8px;border-radius:4px;font-size:12px\">for (int i = 0; i &lt; 8; i++) {\n  HAL_GPIO_WritePin(GPIOE, 1u &lt;&lt; i, GPIO_PIN_SET);   // on (use RESET if the board's LEDs are active-low)\n  HAL_Delay(120);\n  HAL_GPIO_WritePin(GPIOE, 1u &lt;&lt; i, GPIO_PIN_RESET);\n}</pre>\n<h3>Acceptance</h3><p>The 8 LEDs chase in sequence with a period of about 1 second; adjust HAL_Delay to change the speed.</p>\n<h3>Reflection</h3><p>Compared with the 8051's P0 (open-drain, needs external pull-ups), how does the F407 push-pull output change the drive circuit for LEDs?</p><h3>Build &amp; flash workflow (HEX import mode)</h3>\n<ol>\n<li><b>STM32CubeMX</b>: create a project for the <b>STM32F407ZGT6</b> (matching the board); clock tree HSI 8MHz &rarr; SYSCLK 8MHz (no PLL, matching the simulator clock);</li>\n<li>Configure the peripherals required by this lab (GPIO/TIM/USART&hellip;); in Project Manager choose <b>STM32CubeIDE</b> or <b>MDK-ARM V5</b> &rarr; Generate Code;</li>\n<li>Build with <b>STM32CubeIDE</b> (enable <i>Create flash image</i> to produce a .hex) or <b>Keil MDK</b> (Options &rarr; Output &rarr; <i>Create HEX File</i>);</li>\n<li>Import the .hex with \"📂 Load HEX\" in the toolbar (and \"💾 Save HEX\" to submit), then flash the real board with STM32CubeProgrammer / mcuisp to verify;</li>\n<li><b>Note</b>: this platform embeds an instruction-level Cortex-M4 core &mdash; the built HEX can be loaded and run directly; GPIO/USART/SysTick/EXTI reads, writes and interrupts are observable. This lab focuses on register-level GPIO and USART behavior; timer and analog acquisition are verified in the companion hardware labs. The <b>simulation clock is fixed at 8MHz</b> (the clock runs at a fixed 8MHz configuration). Keep <b>HSI 8MHz driving SYSCLK directly (no PLL)</b> in CubeMX so delays such as HAL_Delay pace the same as on the real board; firmware configured for a higher clock runs proportionally slower &mdash; use the speed selector to compensate.</li>\n</ol>\n<p style=\"background:#fff8e1;padding:6px 8px;border-radius:4px;font-size:12px\">⚡ This circuit is pre-wired as a reference: VDD/VSS are connected to the power terminals and peripherals are wired as required; feel free to modify it, rotate parts with R, and double-click to set net labels.</p>\n<h3>Advanced: breathing light (same circuit, different program)</h3>\n<p>One of STM32's biggest advantages over the 8051 is the <b>hardware PWM peripheral</b>. Two recommended implementations:</p>\n<p><b>Option 1 (recommended): TIM hardware PWM</b> &mdash; configure the LED pin as a TIM channel PWM output in CubeMX and sweep the compare value in the main loop:</p>\n<pre>for (duty = 0; duty &lt;= 999; duty++)          /* fade in */\n    __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, duty);\nfor (duty = 999; duty &gt; 0; duty--)            /* fade out */\n    __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, duty);</pre>\n<p><b>Option 2 (for contrast): GPIO software PWM</b> &mdash; same idea as the 8051 lab: fast HAL_GPIO_WritePin switching with a varying on/off ratio.</p>\n<p><b>Key points</b>: hardware PWM is generated by the timer with zero CPU cost; a larger CCR means a higher duty (ARR sets the PWM period).</p>",
+  "checklistEn": [
+    "Complete the GPIO chaser project in CubeIDE and build a HEX",
+    "Chaser verified: 8 LEDs light in sequence (on the board or via HEX import)",
+    "Advanced: breathing light — TIM PWM duty sweep (or software PWM), smooth fade in/out",
+    "Compare 8051 software PWM with STM32 hardware PWM in the lab report"
+  ]
+}

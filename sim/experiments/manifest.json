@@ -1,0 +1,247 @@
+{
+  "generatedAt": "2026-10-30T05:42:25.199Z",
+  "experiments": [
+    {
+      "id": "lab01",
+      "title": "流水灯与呼吸灯",
+      "titleEn": "LED Chasing & Breathing Light",
+      "order": 1,
+      "goal": "掌握 51 单片机 I/O 数字输出与延时函数：用同一电路分别实现流水灯（基础任务）与呼吸灯（进阶任务，软件 PWM 调光），理解 PWM 占空比控制亮度的原理",
+      "goalEn": "Digital output and delay functions on the 8051: implement an LED chaser (basic) and a breathing light (advanced, software PWM) on the same circuit, and understand duty-cycle brightness control.",
+      "arch": "8051",
+      "hasExample": true,
+      "hasProject": true
+    },
+    {
+      "id": "lab02",
+      "title": "按键控制流水灯",
+      "titleEn": "Button-Controlled LED Chaser",
+      "order": 2,
+      "goal": "掌握数字输入的读取方法：按键低电平有效、软件消抖、按住运行/松开停止的控制逻辑。",
+      "goalEn": "Reading digital inputs: active-low buttons, software debouncing, run-while-pressed / stop-on-release control logic.",
+      "arch": "8051",
+      "hasExample": true,
+      "hasProject": true
+    },
+    {
+      "id": "lab03",
+      "title": "矩阵键盘扫描",
+      "titleEn": "4×4 Matrix Keypad Scanning",
+      "order": 3,
+      "goal": "掌握行列扫描法：行线输出扫描、列线读取判断，理解 4×4=16 个键只需 8 根线的原理。",
+      "goalEn": "Row–column scanning: drive the rows, read the columns — why 16 keys need only 8 wires.",
+      "arch": "8051",
+      "hasExample": true,
+      "hasProject": true
+    },
+    {
+      "id": "lab04",
+      "title": "四位数码管动态扫描",
+      "titleEn": "4-Digit 7-Segment Dynamic Scanning",
+      "order": 4,
+      "goal": "掌握共阳数码管的段码原理与动态扫描显示（分时点亮 + 视觉暂留）。",
+      "goalEn": "Common-anode 7-segment codes and dynamic scanning (time-multiplexed lighting + persistence of vision).",
+      "arch": "8051",
+      "hasExample": true,
+      "hasProject": true
+    },
+    {
+      "id": "lab05",
+      "title": "定时器中断流水灯",
+      "titleEn": "Timer-Interrupt LED Chaser",
+      "order": 5,
+      "goal": "掌握定时器 T0 方式 1 的初值计算与中断服务函数写法，理解\"主循环 + 中断\"的程序架构。",
+      "goalEn": "Timer T0 mode-1 reload value calculation and ISR syntax; the \"main loop + interrupt\" foreground/background architecture.",
+      "arch": "8051",
+      "hasExample": true,
+      "hasProject": true
+    },
+    {
+      "id": "lab06",
+      "title": "串口通信（UART）",
+      "titleEn": "UART Serial Communication",
+      "order": 6,
+      "goal": "掌握串口方式 1 的波特率计算（T1 方式2 初值）、串口收发寄存器 SBUF 与 RI/TI 标志的使用。",
+      "goalEn": "Mode-1 baud rate calculation (T1 mode-2 reload value) and the use of SBUF with the RI/TI flags.",
+      "arch": "8051",
+      "hasExample": true,
+      "hasProject": true
+    },
+    {
+      "id": "lab07",
+      "title": "LCD1602 液晶显示",
+      "titleEn": "LCD1602 Character Display",
+      "order": 7,
+      "goal": "掌握 HD44780 时序：RS/RW/E 三根控制线的作用、指令与数据的区分、4 位/8 位接口，以及\"写指令→等忙→写数据\"的驱动流程。",
+      "goalEn": "HD44780 timing: the roles of RS/RW/E, command vs. data, the 4/8-bit interface, and the write-command &rarr; wait-busy &rarr; write-data driver flow.",
+      "arch": "8051",
+      "hasExample": true,
+      "hasProject": true
+    },
+    {
+      "id": "stm32-08",
+      "title": "STM32 GPIO 流水灯与呼吸灯",
+      "titleEn": "STM32 GPIO: LED Chasing & Breathing Light",
+      "order": 8,
+      "goal": "掌握 STM32 GPIO 推挽输出配置与 HAL_GPIO_WritePin，理解与 51 准双向口输出方式的差异；进阶用 TIM PWM 或软件渐变实现呼吸灯",
+      "goalEn": "STM32 GPIO push-pull output and HAL_GPIO_WritePin; how it differs from the 8051 quasi-bidirectional port; advanced: TIM PWM or software fade for a breathing light.",
+      "arch": "stm32",
+      "hasExample": false,
+      "hasProject": false
+    },
+    {
+      "id": "stm32f103-08",
+      "title": "STM32 GPIO 流水灯与呼吸灯（F103C8T6）",
+      "titleEn": "STM32 GPIO: LED Chasing & Breathing Light (F103C8T6)",
+      "order": 8.5,
+      "goal": "掌握 STM32 GPIO 推挽输出配置与 HAL_GPIO_WritePin，理解与 51 准双向口输出方式的差异；进阶用 TIM PWM 或软件渐变实现呼吸灯",
+      "goalEn": "<div style=\"background:#eefaf0;border:1px solid #bfe3c7;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\"><b>F103C8T6 variant</b>: the MCU is <b>STM32F103C8T6</b> (Blue Pill, LQFP48, Cortex-M3 72MHz, HSI 8MHz). Pins follow the same-position/different-name layout: PE0-PE7 in the F407 version correspond to PB0-PB7 here (identical symbol positions). Firmware must be regenerated after switching the device to STM32F103C8T6 in CubeMX/Keil (F1 and F4 register models differ; HEX images are not interchangeable).</div>STM32 GPIO push-pull output and HAL_GPIO_WritePin; how it differs from the 8051 quasi-bidirectional port; advanced: TIM PWM or software fade for a breathing light.",
+      "arch": "stm32",
+      "hasExample": false,
+      "hasProject": false
+    },
+    {
+      "id": "lab09",
+      "title": "示波器专项：双通道示波器测量练习",
+      "titleEn": "Oscilloscope Lab: 2-Channel Measurement Practice",
+      "order": 9,
+      "goal": "掌握数字示波器的基本操作——通道开关、时基（秒/格）、垂直档位（伏/格）、AUTO 与 RUN/STOP，能用测量读数量出方波的峰峰值与频率",
+      "goalEn": "Basic digital-oscilloscope operation — channel on/off, timebase (s/div), vertical scale (V/div), AUTO and RUN/STOP — and measuring the peak-to-peak voltage and frequency of square waves.",
+      "arch": "8051",
+      "hasExample": true,
+      "hasProject": true
+    },
+    {
+      "id": "stm32-09",
+      "title": "STM32 按键扫描",
+      "titleEn": "STM32 Button Scanning",
+      "order": 9,
+      "goal": "掌握 GPIO 输入读取与软件消抖，理解内部上拉与外部上拉的选择。",
+      "goalEn": "GPIO input reading and software debouncing; choosing between internal and external pull-ups.",
+      "arch": "stm32",
+      "hasExample": false,
+      "hasProject": false
+    },
+    {
+      "id": "stm32f103-09",
+      "title": "STM32 按键扫描（F103C8T6）",
+      "titleEn": "STM32 Button Scanning (F103C8T6)",
+      "order": 9.5,
+      "goal": "掌握 GPIO 输入读取与软件消抖，理解内部上拉与外部上拉的选择。",
+      "goalEn": "<div style=\"background:#eefaf0;border:1px solid #bfe3c7;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\"><b>F103C8T6 variant</b>: the MCU is <b>STM32F103C8T6</b> (Blue Pill, LQFP48, Cortex-M3 72MHz, HSI 8MHz). Pins follow the same-position/different-name layout: PE0-PE7 in the F407 version correspond to PB0-PB7 here (identical symbol positions). Firmware must be regenerated after switching the device to STM32F103C8T6 in CubeMX/Keil (F1 and F4 register models differ; HEX images are not interchangeable).</div>GPIO input reading and software debouncing; choosing between internal and external pull-ups.",
+      "arch": "stm32",
+      "hasExample": false,
+      "hasProject": false
+    },
+    {
+      "id": "lab10",
+      "title": "printf 串口调试：重定向标准输出（STC）",
+      "titleEn": "printf over UART: Redirecting Standard Output (STC)",
+      "order": 10,
+      "goal": "掌握无调试器单片机的标准调试手段：实现 putchar 重定向，把 printf 格式化输出经串口发送到 PC 端，实时观察单片机内部变量与运行状态",
+      "goalEn": "The standard debugging method for MCUs without a debugger: implement putchar redirection so printf sends internal variables and status to the PC over the UART, in real time.",
+      "arch": "8051",
+      "hasExample": true,
+      "hasProject": true
+    },
+    {
+      "id": "stm32-10",
+      "title": "STM32 外部中断 EXTI",
+      "titleEn": "STM32 External Interrupt (EXTI)",
+      "order": 10,
+      "goal": "掌握 NVIC 优先级配置与 EXTI 边沿中断回调，理解中断与轮询的差异。",
+      "goalEn": "NVIC priority configuration and the EXTI edge-interrupt callback; interrupts vs. polling.",
+      "arch": "stm32",
+      "hasExample": false,
+      "hasProject": false
+    },
+    {
+      "id": "stm32f103-10",
+      "title": "STM32 外部中断 EXTI（F103C8T6）",
+      "titleEn": "STM32 External Interrupt (EXTI) (F103C8T6)",
+      "order": 10.5,
+      "goal": "掌握 NVIC 优先级配置与 EXTI 边沿中断回调，理解中断与轮询的差异。",
+      "goalEn": "<div style=\"background:#eefaf0;border:1px solid #bfe3c7;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\"><b>F103C8T6 variant</b>: the MCU is <b>STM32F103C8T6</b> (Blue Pill, LQFP48, Cortex-M3 72MHz, HSI 8MHz). Pins follow the same-position/different-name layout: PE0-PE7 in the F407 version correspond to PB0-PB7 here (identical symbol positions). Firmware must be regenerated after switching the device to STM32F103C8T6 in CubeMX/Keil (F1 and F4 register models differ; HEX images are not interchangeable).</div>NVIC priority configuration and the EXTI edge-interrupt callback; interrupts vs. polling.",
+      "arch": "stm32",
+      "hasExample": false,
+      "hasProject": false
+    },
+    {
+      "id": "stm32-11",
+      "title": "STM32 printf 重定向到串口",
+      "titleEn": "STM32 printf Redirection via UART",
+      "order": 11,
+      "goal": "掌握 STM32 下 printf 的两种重定向写法（fputc / _write），理解 MicroLIB 与半主机模式，把单片机内部运行情况经 USART 输出到 PC 端",
+      "goalEn": "The two printf redirection styles on STM32 (fputc / _write); MicroLIB and semihosting; streaming internal state to the PC over USART.",
+      "arch": "stm32",
+      "hasExample": false,
+      "hasProject": false
+    },
+    {
+      "id": "stm32f103-11",
+      "title": "STM32 printf 重定向到串口（F103C8T6）",
+      "titleEn": "STM32 printf Redirection via UART (F103C8T6)",
+      "order": 11.5,
+      "goal": "掌握 STM32 下 printf 的两种重定向写法（fputc / _write），理解 MicroLIB 与半主机模式，把单片机内部运行情况经 USART 输出到 PC 端",
+      "goalEn": "<div style=\"background:#eefaf0;border:1px solid #bfe3c7;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\"><b>F103C8T6 variant</b>: the MCU is <b>STM32F103C8T6</b> (Blue Pill, LQFP48, Cortex-M3 72MHz, HSI 8MHz). Pins follow the same-position/different-name layout: PE0-PE7 in the F407 version correspond to PB0-PB7 here (identical symbol positions). Firmware must be regenerated after switching the device to STM32F103C8T6 in CubeMX/Keil (F1 and F4 register models differ; HEX images are not interchangeable).</div>The two printf redirection styles on STM32 (fputc / _write); MicroLIB and semihosting; streaming internal state to the PC over USART.",
+      "arch": "stm32",
+      "hasExample": false,
+      "hasProject": false
+    },
+    {
+      "id": "stm32-12",
+      "title": "STM32 串口通信 USART",
+      "titleEn": "STM32 USART Serial Communication",
+      "order": 12,
+      "goal": "掌握 USART1 参数配置、HAL 串口收发与 printf 重定向。",
+      "goalEn": "USART1 parameter configuration, HAL UART transmit/receive and printf redirection.",
+      "arch": "stm32",
+      "hasExample": false,
+      "hasProject": false
+    },
+    {
+      "id": "stm32f103-12",
+      "title": "STM32 串口通信 USART（F103C8T6）",
+      "titleEn": "STM32 USART Serial Communication (F103C8T6)",
+      "order": 12.5,
+      "goal": "掌握 USART1 参数配置、HAL 串口收发与 printf 重定向。",
+      "goalEn": "<div style=\"background:#eefaf0;border:1px solid #bfe3c7;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\"><b>F103C8T6 variant</b>: the MCU is <b>STM32F103C8T6</b> (Blue Pill, LQFP48, Cortex-M3 72MHz, HSI 8MHz). Pins follow the same-position/different-name layout: PE0-PE7 in the F407 version correspond to PB0-PB7 here (identical symbol positions). Firmware must be regenerated after switching the device to STM32F103C8T6 in CubeMX/Keil (F1 and F4 register models differ; HEX images are not interchangeable).</div>USART1 parameter configuration, HAL UART transmit/receive and printf redirection.",
+      "arch": "stm32",
+      "hasExample": false,
+      "hasProject": false
+    },
+    {
+      "id": "stm32-13",
+      "title": "STM32 PWM 呼吸灯",
+      "titleEn": "STM32 PWM Breathing Light",
+      "order": 13,
+      "goal": "掌握 TIM PWM 输出配置与占空比调节（ARR/CCR 与分辨率）。",
+      "goalEn": "TIM PWM output configuration and duty-cycle control (ARR/CCR and resolution).",
+      "arch": "stm32",
+      "hasExample": false,
+      "hasProject": false
+    },
+    {
+      "id": "stm32f103-13",
+      "title": "STM32 PWM 呼吸灯（F103C8T6）",
+      "titleEn": "STM32 PWM Breathing Light (F103C8T6)",
+      "order": 13.5,
+      "goal": "掌握 TIM PWM 输出配置与占空比调节（ARR/CCR 与分辨率）。",
+      "goalEn": "<div style=\"background:#eefaf0;border:1px solid #bfe3c7;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\"><b>F103C8T6 variant</b>: the MCU is <b>STM32F103C8T6</b> (Blue Pill, LQFP48, Cortex-M3 72MHz, HSI 8MHz). Pins follow the same-position/different-name layout: PE0-PE7 in the F407 version correspond to PB0-PB7 here (identical symbol positions). Firmware must be regenerated after switching the device to STM32F103C8T6 in CubeMX/Keil (F1 and F4 register models differ; HEX images are not interchangeable).</div>TIM PWM output configuration and duty-cycle control (ARR/CCR and resolution).",
+      "arch": "stm32",
+      "hasExample": false,
+      "hasProject": false
+    },
+    {
+      "id": "lab08_orchard",
+      "title": "果园土壤监测与自动灌溉（综合设计）",
+      "titleEn": "Orchard Soil Monitoring & Auto-Irrigation (Comprehensive)",
+      "order": 14,
+      "goal": "综合运用 ADC 串行读取、LCD 显示、按键设定与滞环控制，完成\"柚子果园土壤监测与自动灌溉\"综合设计任务，理解真实场景中的工程控制策略。",
+      "goalEn": "Combine serial ADC reading, LCD display, key setting and hysteresis control to complete a pomelo-orchard soil monitoring & auto-irrigation design task, and understand engineering control strategies in a real scenario.",
+      "arch": "8051",
+      "hasExample": true,
+      "hasProject": true
+    }
+  ]
+}
