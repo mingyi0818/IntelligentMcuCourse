@@ -226328,7 +226328,9 @@ async function loadExperiments() {
     }
   };
 }
+var expLoadSeq = 0;
 async function selectExperiment(id) {
+  const seq = ++expLoadSeq;
   const r = await fetch(`/api/experiments/${id}`).then((r2) => r2.json());
   if (!r.ok) return;
   setActiveExperiment(id);
@@ -226404,6 +226406,7 @@ async function selectExperiment(id) {
 async function autoPreloadExample() {
   if (!STATIC_MODE || !currentTemplate) return;
   const id = currentTemplate.id;
+  const seq = expLoadSeq;
   const isArm = currentTemplate.arch === "stm32";
   if (currentTemplate.hasExample === false) {
     setStatus(t("msg.preloadNone"));
@@ -226416,7 +226419,7 @@ async function autoPreloadExample() {
       return;
     }
     const text2 = await r.text();
-    if (currentTemplate?.id !== id) return;
+    if (seq !== expLoadSeq || currentTemplate?.id !== id) return;
     if (isArm) {
       if (!sim.loadHexArm(text2).size) {
         setStatus(t("msg.preloadNone"));
