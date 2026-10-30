@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>McuVirtualLab 单片机虚拟仿真实验系统</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%A1%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="app.css?v=ab8188ea">
 <style>
 #static-boot{position:fixed;inset:0;z-index:20000;background:#f5f6f8;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;color:#2c3e50;font-family:"Microsoft YaHei","PingFang SC",sans-serif;transition:opacity .18s ease}
 #static-boot .sp{width:34px;height:34px;border:3px solid #d5e2f3;border-top-color:#1a73e8;border-radius:50%;animation:sbspin .8s linear infinite}
 #static-boot b{font-size:15px;font-weight:600}#static-boot span{font-size:12px;color:#7f8c8d}
 @keyframes sbspin{to{transform:rotate(360deg)}}
 </style>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <script src="static-boot.js?v=1f87564c"></script>
 </head>
 <body>
@@ -133,6 +133,7 @@
     </div>
   </div>
 
-  <script type="module" src="app.js?v=8eb3e6d7"></script>
+  <script>window.__MVL_STATIC_BOOT__={"cdn":"https://cdn.jsdelivr.net/gh/mingyi0818/IntelligentMcuCourse@main/sim/","version":"f1662513","css":"app.css","app":"app.js"};</script>
+  <script src="boot-loader.js?v=ed4ce447"></script>
 </body>
 </html>

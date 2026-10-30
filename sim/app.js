@@ -216228,8 +216228,13 @@ function catName(zhCat) {
 }
 
 // src/ui/editor.ts
+var assetBase = () => {
+  const w = window;
+  if (!w.__MVL_STATIC__) return "/editor.worker.js";
+  return (w.__MVL_ASSET_BASE__ ?? "./") + "editor.worker.js";
+};
 self.MonacoEnvironment = {
-  getWorkerUrl: () => window.__MVL_STATIC__ ? "editor.worker.js" : "/editor.worker.js"
+  getWorkerUrl: assetBase
 };
 var CodeEditor = class {
   editor;
