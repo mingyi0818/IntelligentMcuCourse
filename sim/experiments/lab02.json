@@ -192,5 +192,6 @@
     "All LEDs off when no button is pressed; the chaser runs while K1 is held",
     "K2 reverses the direction (or your own button behavior)",
     "Build with 0 errors; verify both button behaviors after flashing"
-  ]
+  ],
+  "hasExample": true
 }

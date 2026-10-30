@@ -48,5 +48,6 @@
     "After flashing, open the PC serial terminal (9600) and see the count increasing",
     "Modify the program: print a variable you are interested in (loop counter, simulated state, etc.)",
     "Reflection: why is calling printf inside an ISR unsafe? (hint: putchar busy-waits on TI and ISRs can re-enter)"
-  ]
+  ],
+  "hasExample": true
 }

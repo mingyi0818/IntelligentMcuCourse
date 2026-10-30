@@ -173,5 +173,6 @@
     "Chaser verified: 8 LEDs light in sequence (on the board or via HEX import)",
     "Advanced: breathing light — TIM PWM duty sweep (or software PWM), smooth fade in/out",
     "Compare 8051 software PWM with STM32 hardware PWM in the lab report"
-  ]
+  ],
+  "hasExample": true
 }

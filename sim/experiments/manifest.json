@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-30T06:45:15.011Z",
+  "generatedAt": "2026-10-30T07:21:29.396Z",
   "experiments": [
     {
       "id": "lab01",
@@ -86,7 +86,7 @@
       "goal": "掌握 STM32 GPIO 推挽输出配置与 HAL_GPIO_WritePin，理解与 51 准双向口输出方式的差异；进阶用 TIM PWM 或软件渐变实现呼吸灯",
       "goalEn": "STM32 GPIO push-pull output and HAL_GPIO_WritePin; how it differs from the 8051 quasi-bidirectional port; advanced: TIM PWM or software fade for a breathing light.",
       "arch": "stm32",
-      "hasExample": false,
+      "hasExample": true,
       "hasProject": false
     },
     {
@@ -97,7 +97,7 @@
       "goal": "掌握 STM32 GPIO 推挽输出配置与 HAL_GPIO_WritePin，理解与 51 准双向口输出方式的差异；进阶用 TIM PWM 或软件渐变实现呼吸灯",
       "goalEn": "<div style=\"background:#eefaf0;border:1px solid #bfe3c7;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\"><b>F103C8T6 variant</b>: the MCU is <b>STM32F103C8T6</b> (Blue Pill, LQFP48, Cortex-M3 72MHz, HSI 8MHz). Pins follow the same-position/different-name layout: PE0-PE7 in the F407 version correspond to PB0-PB7 here (identical symbol positions). Firmware must be regenerated after switching the device to STM32F103C8T6 in CubeMX/Keil (F1 and F4 register models differ; HEX images are not interchangeable).</div>STM32 GPIO push-pull output and HAL_GPIO_WritePin; how it differs from the 8051 quasi-bidirectional port; advanced: TIM PWM or software fade for a breathing light.",
       "arch": "stm32",
-      "hasExample": false,
+      "hasExample": true,
       "hasProject": false
     },
     {
@@ -119,7 +119,7 @@
       "goal": "掌握 GPIO 输入读取与软件消抖，理解内部上拉与外部上拉的选择。",
       "goalEn": "GPIO input reading and software debouncing; choosing between internal and external pull-ups.",
       "arch": "stm32",
-      "hasExample": false,
+      "hasExample": true,
       "hasProject": false
     },
     {
@@ -130,7 +130,7 @@
       "goal": "掌握 GPIO 输入读取与软件消抖，理解内部上拉与外部上拉的选择。",
       "goalEn": "<div style=\"background:#eefaf0;border:1px solid #bfe3c7;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\"><b>F103C8T6 variant</b>: the MCU is <b>STM32F103C8T6</b> (Blue Pill, LQFP48, Cortex-M3 72MHz, HSI 8MHz). Pins follow the same-position/different-name layout: PE0-PE7 in the F407 version correspond to PB0-PB7 here (identical symbol positions). Firmware must be regenerated after switching the device to STM32F103C8T6 in CubeMX/Keil (F1 and F4 register models differ; HEX images are not interchangeable).</div>GPIO input reading and software debouncing; choosing between internal and external pull-ups.",
       "arch": "stm32",
-      "hasExample": false,
+      "hasExample": true,
       "hasProject": false
     },
     {
@@ -152,7 +152,7 @@
       "goal": "掌握 NVIC 优先级配置与 EXTI 边沿中断回调，理解中断与轮询的差异。",
       "goalEn": "NVIC priority configuration and the EXTI edge-interrupt callback; interrupts vs. polling.",
       "arch": "stm32",
-      "hasExample": false,
+      "hasExample": true,
       "hasProject": false
     },
     {
@@ -163,7 +163,7 @@
       "goal": "掌握 NVIC 优先级配置与 EXTI 边沿中断回调，理解中断与轮询的差异。",
       "goalEn": "<div style=\"background:#eefaf0;border:1px solid #bfe3c7;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\"><b>F103C8T6 variant</b>: the MCU is <b>STM32F103C8T6</b> (Blue Pill, LQFP48, Cortex-M3 72MHz, HSI 8MHz). Pins follow the same-position/different-name layout: PE0-PE7 in the F407 version correspond to PB0-PB7 here (identical symbol positions). Firmware must be regenerated after switching the device to STM32F103C8T6 in CubeMX/Keil (F1 and F4 register models differ; HEX images are not interchangeable).</div>NVIC priority configuration and the EXTI edge-interrupt callback; interrupts vs. polling.",
       "arch": "stm32",
-      "hasExample": false,
+      "hasExample": true,
       "hasProject": false
     },
     {
@@ -174,7 +174,7 @@
       "goal": "掌握 STM32 下 printf 的两种重定向写法（fputc / _write），理解 MicroLIB 与半主机模式，把单片机内部运行情况经 USART 输出到 PC 端",
       "goalEn": "The two printf redirection styles on STM32 (fputc / _write); MicroLIB and semihosting; streaming internal state to the PC over USART.",
       "arch": "stm32",
-      "hasExample": false,
+      "hasExample": true,
       "hasProject": false
     },
     {
@@ -185,7 +185,7 @@
       "goal": "掌握 STM32 下 printf 的两种重定向写法（fputc / _write），理解 MicroLIB 与半主机模式，把单片机内部运行情况经 USART 输出到 PC 端",
       "goalEn": "<div style=\"background:#eefaf0;border:1px solid #bfe3c7;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\"><b>F103C8T6 variant</b>: the MCU is <b>STM32F103C8T6</b> (Blue Pill, LQFP48, Cortex-M3 72MHz, HSI 8MHz). Pins follow the same-position/different-name layout: PE0-PE7 in the F407 version correspond to PB0-PB7 here (identical symbol positions). Firmware must be regenerated after switching the device to STM32F103C8T6 in CubeMX/Keil (F1 and F4 register models differ; HEX images are not interchangeable).</div>The two printf redirection styles on STM32 (fputc / _write); MicroLIB and semihosting; streaming internal state to the PC over USART.",
       "arch": "stm32",
-      "hasExample": false,
+      "hasExample": true,
       "hasProject": false
     },
     {
@@ -196,7 +196,7 @@
       "goal": "掌握 USART1 参数配置、HAL 串口收发与 printf 重定向。",
       "goalEn": "USART1 parameter configuration, HAL UART transmit/receive and printf redirection.",
       "arch": "stm32",
-      "hasExample": false,
+      "hasExample": true,
       "hasProject": false
     },
     {
@@ -207,7 +207,7 @@
       "goal": "掌握 USART1 参数配置、HAL 串口收发与 printf 重定向。",
       "goalEn": "<div style=\"background:#eefaf0;border:1px solid #bfe3c7;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:13px\"><b>F103C8T6 variant</b>: the MCU is <b>STM32F103C8T6</b> (Blue Pill, LQFP48, Cortex-M3 72MHz, HSI 8MHz). Pins follow the same-position/different-name layout: PE0-PE7 in the F407 version correspond to PB0-PB7 here (identical symbol positions). Firmware must be regenerated after switching the device to STM32F103C8T6 in CubeMX/Keil (F1 and F4 register models differ; HEX images are not interchangeable).</div>USART1 parameter configuration, HAL UART transmit/receive and printf redirection.",
       "arch": "stm32",
-      "hasExample": false,
+      "hasExample": true,
       "hasProject": false
     },
     {

@@ -140,5 +140,6 @@
     "The 8 LED anodes wired to P1.0–P1.7, cathodes to GND",
     "Basic task: the chaser builds and flashes; 8 LEDs light in sequence",
     "Advanced task: breathing light — at least one LED fades in and out smoothly"
-  ]
+  ],
+  "hasExample": true
 }

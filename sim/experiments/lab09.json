@@ -59,5 +59,6 @@
     "At 200ms/div one CH1 cycle occupies exactly 1 division (5Hz); at 500ms/div CH2 occupies 1 division (2Hz)",
     "Toggle CH1/CH2 on and off to practice channel display control",
     "Freeze with RUN/STOP and read CH1's Vpp and frequency (theoretical 5V / 5Hz)"
-  ]
+  ],
+  "hasExample": true
 }

@@ -81,5 +81,6 @@
     "Implement _write (GCC) or fputc (Keil MicroLIB) redirection; Keil users enable MicroLIB",
     "Print the cnt counter to the PC terminal; verify the RXD→PA9 crossed wiring",
     "Answer the reflections: why overriding only fputc fails in GCC; the meaning of HAL_UART_Transmit's timeout"
-  ]
+  ],
+  "hasExample": true
 }

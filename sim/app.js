@@ -215734,6 +215734,8 @@ var DICT = {
   "msg.staticNoProject": ["STM32 \u5DE5\u7A0B\u9700\u5728 CubeMX \u4E0E Keil/CubeIDE \u4E2D\u751F\u6210\u56FA\u4EF6\u540E\u5BFC\u5165 HEX\uFF1B8051 \u5B9E\u9A8C\u53EF\u4E0B\u8F7D\u672C\u5730\u7F16\u8BD1\u5DE5\u7A0B\u5305", "STM32 firmware must be built in CubeMX plus Keil/CubeIDE and imported as HEX; 8051 experiments support the downloadable local project"],
   "msg.staticSaved": ["\u2713 \u8FDB\u5EA6\u5DF2\u4FDD\u5B58\u5728\u672C\u673A\u6D4F\u89C8\u5668", "\u2713 Progress saved in this browser"],
   "msg.staticExampleLoaded": ["\u2713 \u5DF2\u8F7D\u5165\u793A\u4F8B\u7A0B\u5E8F\uFF0C\u53EF\u70B9\u51FB\u300C\u70E7\u5F55\u8FD0\u884C\u300D", '\u2713 Example program loaded \u2014 click "Flash & Run"'],
+  "msg.preloadReady": ["\u2713 \u5DF2\u9884\u8F7D\u793A\u4F8B\u7A0B\u5E8F\u5E76\u81EA\u52A8\u4E0A\u7535\uFF1A\u70B9\u51FB\u300C\u25B6 \u8FD0\u884C\u300D\u5373\u53EF\u67E5\u770B\u6548\u679C", "\u2713 Example firmware preloaded and powered on \u2014 click \u25B6 Run to watch it work"],
+  "msg.preloadNone": ["\u8BE5\u5B9E\u9A8C\u6682\u65E0\u9884\u7F6E\u56FA\u4EF6\uFF1A\u8BF7\u5728 CubeMX/Keil \u7F16\u8BD1\u540E\u7528\u300C\u{1F4C2} \u52A0\u8F7D HEX\u300D\u5BFC\u5165", "No bundled firmware for this lab: build it in CubeMX/Keil, then use Load HEX"],
   "static.note": ["\u516C\u5F00\u7EC3\u4E60\u7248\uFF1A\u4EFF\u771F\u4E0E\u8FDB\u5EA6\u4FDD\u5B58\u5728\u672C\u673A \xB7 \u5728\u7EBF\u7F16\u8BD1\u3001\u6B63\u5F0F\u6210\u7EE9\u3001AI \u52A9\u6559\u7531\u6821\u5185\u5B8C\u6574\u7248\u63D0\u4F9B", "Public practice edition: simulation and progress stay in this browser \xB7 online build, official grades and the AI assistant are provided by the campus edition"],
   "static.aboutTitle": ["\u5173\u4E8E\u516C\u5F00\u7EC3\u4E60\u7248", "About the public practice edition"],
   "static.aboutBody": ["<p><b>\u672C\u9875\u53EF\u4EE5\u76F4\u63A5\u5B8C\u6210\uFF1A</b>\u9009\u62E9\u5B9E\u9A8C\u3001\u642D\u5EFA\u7535\u8DEF\u3001\u8F7D\u5165\u793A\u4F8B\u6216\u672C\u5730\u7F16\u8BD1\u7684 HEX\u3001\u70E7\u5F55\u8FD0\u884C\u3001\u68C0\u67E5\u63A5\u7EBF\u3001\u4FDD\u5B58\u672C\u673A\u8FDB\u5EA6\u3002</p><p><b>\u672C\u5730\u7F16\u8BD1\uFF1A</b>\u4E0B\u8F7D\u5B9E\u9A8C\u5DE5\u7A0B\u5305\uFF0C\u6309 README \u5B89\u88C5 SDCC \u5E76\u8FD0\u884C build.bat\uFF0C\u7136\u540E\u628A\u751F\u6210\u7684 HEX \u5BFC\u5165\u672C\u9875\u3002</p><p><b>\u5B8C\u6574\u6559\u5B66\u529F\u80FD\uFF1A</b>\u5728\u7EBF\u7F16\u8BD1\u3001\u6B63\u5F0F\u8BC4\u5206\u3001\u73ED\u7EA7\u8FC7\u7A0B\u8BB0\u5F55\u3001\u6559\u5E08\u7AEF\u4E0E AI \u52A9\u6559\u7531\u6821\u5185\u5B8C\u6574\u7248\u63D0\u4F9B\u3002</p><p><b>\u6570\u636E\u8BF4\u660E\uFF1A</b>\u516C\u5F00\u7EC3\u4E60\u7248\u4E0D\u91C7\u96C6\u4E2A\u4EBA\u4FE1\u606F\uFF0C\u8FDB\u5EA6\u4EC5\u4FDD\u5B58\u5728\u5F53\u524D\u6D4F\u89C8\u5668\u3002</p>", "<p><b>Available here:</b> choose an experiment, build the circuit, load the example or a locally built HEX, flash and run, check wiring, and keep progress in this browser.</p><p><b>Local build:</b> download the project ZIP, install SDCC as described in README, run build.bat, then import the generated HEX.</p><p><b>Full teaching features:</b> online build, official grading, class process records, teacher console and the AI assistant are provided by the campus edition.</p><p><b>Data:</b> this practice edition collects no personal information; progress stays in this browser.</p>"],
@@ -224867,6 +224869,7 @@ var Simulator = class {
     this.circuit.beginRefresh();
     if (this.arch === "stm32" && this.armCpu) {
       this.refreshPortDrives();
+      this.circuit.runRound({ clocks: this.armCpu.clocks, pc: this.armCpu.r[15] });
       for (const [pin, net] of this.armPinNets) {
         if (!net || net.startsWith("__pin_")) continue;
         const port = GPIO_PORTS.indexOf(pin[1]);
@@ -224877,7 +224880,6 @@ var Simulator = class {
         this.armInLevels.set(pin, level);
         if (level !== prev) this.armCpu.gpioEdge(port, bit, level, prev);
       }
-      this.circuit.runRound({ clocks: this.armCpu.clocks, pc: this.armCpu.r[15] });
       return;
     }
     this.refreshPortDrives();
@@ -224925,12 +224927,12 @@ var Simulator = class {
   }
   // ---------- ARM（STM32）宿主接口 ----------
   armGpioIn(port, pin) {
-    const net = this.armPinNets.get(`${GPIO_PORTS[port]}${pin}`);
+    const net = this.armPinNets.get(`P${GPIO_PORTS[port]}${pin}`);
     if (!net || net.startsWith("__pin_")) return 1;
     return this.circuit.level(net) === 0 ? 0 : 1;
   }
   armGpioOut(port, pin, level) {
-    const net = this.armPinNets.get(`${GPIO_PORTS[port]}${pin}`);
+    const net = this.armPinNets.get(`P${GPIO_PORTS[port]}${pin}`);
     if (!net || net.startsWith("__pin_")) return;
     this.circuit.setCPUDrive(net, level, null);
     this.dirty = true;
@@ -226370,6 +226372,7 @@ async function selectExperiment(id) {
       setStatus(t("msg.restored", currentTemplate.order, expTitle(currentTemplate), new Date(p.updatedAt).toLocaleString()));
       updateButtons();
       resetHistory();
+      if (STATIC_MODE) void autoPreloadExample();
       return;
     }
   }
@@ -226396,6 +226399,57 @@ async function selectExperiment(id) {
   }
   updateButtons();
   resetHistory();
+  if (STATIC_MODE) void autoPreloadExample();
+}
+async function autoPreloadExample() {
+  if (!STATIC_MODE || !currentTemplate) return;
+  const id = currentTemplate.id;
+  const isArm = currentTemplate.arch === "stm32";
+  if (currentTemplate.hasExample === false) {
+    setStatus(t("msg.preloadNone"));
+    return;
+  }
+  try {
+    const r = await fetch(`hex/${encodeURIComponent(id)}.hex`, { cache: "no-store" });
+    if (!r.ok) {
+      if (currentTemplate?.id === id) setStatus(t("msg.preloadNone"));
+      return;
+    }
+    const text2 = await r.text();
+    if (currentTemplate?.id !== id) return;
+    if (isArm) {
+      if (!sim.loadHexArm(text2).size) {
+        setStatus(t("msg.preloadNone"));
+        return;
+      }
+    } else {
+      if (!parseHex(text2)) {
+        setStatus(t("msg.preloadNone"));
+        return;
+      }
+      sim.loadHex(text2);
+      sim.reset();
+    }
+    lastHex = text2;
+    compiled = null;
+    watchPanel.setSymbols({});
+    editor2.setDiagnostics([]);
+    $16("#btn-download").disabled = false;
+    $16("#btn-savehex").disabled = false;
+    const swEl = model.elements.find((e) => e.type === "switch");
+    if (swEl) {
+      const simEl = sim.elements.get(swEl.id);
+      if (simEl && !simEl.state.closed) {
+        simEl.state.closed = true;
+        swEl.opts = { ...swEl.opts ?? {}, closed: true };
+        sim.runElementsManual();
+      }
+    }
+    updateButtons();
+    setStatus(t("msg.preloadReady"));
+  } catch {
+    if (currentTemplate?.id === id) setStatus(t("msg.preloadNone"));
+  }
 }
 function renderDoc(exp) {
   return [
