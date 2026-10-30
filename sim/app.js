@@ -13947,7 +13947,7 @@ function addDisposableGenericMouseDownListener(node, handler, useCapture) {
 function runWhenWindowIdle(targetWindow, callback, timeout2) {
   return _runWhenIdle(targetWindow, callback, timeout2);
 }
-function getComputedStyle(el) {
+function getComputedStyle2(el) {
   return getWindow(el).getComputedStyle(el, null);
 }
 function getClientArea(element, fallback2) {
@@ -13979,7 +13979,7 @@ function getTopLeftOffset(element) {
   let left = element.offsetLeft;
   while ((element = element.parentNode) !== null && element !== element.ownerDocument.body && element !== element.ownerDocument.documentElement) {
     top -= element.scrollTop;
-    const c = isShadowRoot(element) ? null : getComputedStyle(element);
+    const c = isShadowRoot(element) ? null : getComputedStyle2(element);
     if (c) {
       left -= c.direction !== "rtl" ? element.scrollLeft : -element.scrollLeft;
     }
@@ -14018,7 +14018,7 @@ function getDomNodeZoomLevel(domNode) {
   let testElement = domNode;
   let zoom = 1;
   do {
-    const elementZoomLevel = getComputedStyle(testElement).zoom;
+    const elementZoomLevel = getComputedStyle2(testElement).zoom;
     if (elementZoomLevel !== null && elementZoomLevel !== void 0 && elementZoomLevel !== "1") {
       zoom *= elementZoomLevel;
     }
@@ -14722,7 +14722,7 @@ var init_dom = __esm({
         return parseFloat(value) || 0;
       }
       static getDimension(element, cssPropertyName, jsPropertyName) {
-        const computedStyle = getComputedStyle(element);
+        const computedStyle = getComputedStyle2(element);
         const value = computedStyle ? computedStyle.getPropertyValue(cssPropertyName) : "0";
         return _SizeUtils.convertToPixels(element, value);
       }
@@ -184560,7 +184560,7 @@ var FindWidget = class _FindWidget extends Widget {
       if (width2 < FIND_WIDGET_INITIAL_WIDTH) {
         return;
       }
-      const maxWidth = parseFloat(getComputedStyle(this._domNode).maxWidth) || 0;
+      const maxWidth = parseFloat(getComputedStyle2(this._domNode).maxWidth) || 0;
       if (width2 > maxWidth) {
         return;
       }
@@ -215705,6 +215705,7 @@ var DICT = {
   "chip.cubeHex": ["\u5DE5\u7A0B\u7528 CubeMX \u751F\u6210\xB7HEX \u5BFC\u5165", "CubeMX project \xB7 import HEX"],
   "chip.f103SamePos": ["PB0-PB7 \u4E0E F407 PE0-PE7 \u540C\u4F4D", "PB0-PB7 align with F407 PE0-PE7"],
   "chip.hint": ["\u53CC\u51FB\u8BBE\u5F15\u811A\u7F51\u7EDC\u6807\u53F7 \xB7 R \u952E\u65CB\u8F6C", "Double-click for net labels \xB7 R to rotate"],
+  "keypad.hint": ["\u70B9\u6309\u6B64\u952E\uFF08\u6309\u4F4F\u7EA6 0.1 \u79D2\uFF0C\u4FBF\u4E8E\u626B\u63CF\u7A0B\u5E8F\u8BFB\u5230\uFF09", "Click this key \u2014 hold ~0.1 s so the scan loop can read it"],
   "msg.selectedHint": ["\u5DF2\u9009\u4E2D {0}\uFF0C\u6309 Delete \u952E\u5220\u9664", "Selected {0} \u2014 press Delete to remove"],
   "msg.wiringFrom": ["\u4ECE {0} \u63A5\u7EBF\uFF1A\u79FB\u5230\u76EE\u6807\u5F15\u811A\u70B9\u51FB\u5B8C\u6210\uFF1B\u70B9\u7A7A\u767D\u52A0\u8F6C\u6298\u70B9\uFF1B\u53F3\u952E/ESC \u53D6\u6D88", "Wiring from {0}: click the target pin to finish; click empty space to add bends; right-click / ESC to cancel"],
   "msg.bendAdded": ["\u5DF2\u52A0\u8F6C\u6298\u70B9\uFF08\u5171 {0} \u4E2A\uFF09\u2014\u2014 \u70B9\u51FB\u76EE\u6807\u5F15\u811A\u5B8C\u6210\u63A5\u7EBF", "Bend added ({0} so far) \u2014 click the target pin to finish"],
@@ -216528,6 +216529,7 @@ var buzzer_default = {
 var KEYS = ["1", "2", "3", "A", "4", "5", "6", "B", "7", "8", "9", "C", "*", "0", "#", "D"];
 var CW = 30;
 var CH = 20;
+var HOVER_FILL = "#d4f5e0";
 var keypad4x4_default = {
   type: "keypad4x4",
   name: "4\xD74 \u77E9\u9635\u952E\u76D8",
@@ -216542,29 +216544,54 @@ var keypad4x4_default = {
     svg2("rect", { x: -6, y: -20, width: CW * 4 + 12, height: CH * 4 + 26, rx: 6, fill: "#ecf0f1", stroke: "#95a5a6" }, g);
     svg2("text", { x: CW * 2, y: -8, "font-size": 10, "text-anchor": "middle", fill: "#555", "pointer-events": "none" }, g).textContent = elLabel(el.label ?? "\u77E9\u9635\u952E\u76D8");
     const keyEls = [];
+    let hoverIdx = -1;
+    let pressedIdx = -1;
+    const paint = (idx) => {
+      const k = keyEls[idx];
+      if (!k) return;
+      k.setAttribute("fill", idx === pressedIdx ? "#e74c3c" : idx === hoverIdx ? HOVER_FILL : "#fff");
+    };
     const rt = {
       update(sim2) {
         const pressed = sim2.state.pressed;
-        keyEls.forEach((k, idx) => {
-          const r = Math.floor(idx / 4), c = idx % 4;
-          k.setAttribute("fill", pressed === `${r + 1},${c + 1}` ? "#e74c3c" : "#fff");
-        });
+        pressedIdx = -1;
+        if (typeof pressed === "string" && pressed.includes(",")) {
+          const [pr, pc] = pressed.split(",").map(Number);
+          if (pr >= 1 && pr <= 4 && pc >= 1 && pc <= 4) pressedIdx = (pr - 1) * 4 + (pc - 1);
+        }
+        keyEls.forEach((_k, idx) => paint(idx));
       }
     };
     KEYS.forEach((label, idx) => {
       const r = Math.floor(idx / 4), c = idx % 4;
       const kx = c * CW, ky = r * CH;
       const k = svg2("rect", { x: kx, y: ky, width: CW - 4, height: CH - 6, rx: 3, fill: "#fff", stroke: "#7f8c8d", cursor: "pointer" }, g);
+      keyEls.push(k);
+      k.addEventListener("pointerenter", () => {
+        hoverIdx = idx;
+        paint(idx);
+      });
       const t2 = svg2("text", { x: kx + (CW - 4) / 2, y: ky + 14, "font-size": 12, "text-anchor": "middle", "pointer-events": "none", fill: "#2c3e50" }, g);
       t2.textContent = label;
-      keyEls.push(k);
+      svg2("title", {}, k).textContent = t("keypad.hint");
       k.addEventListener("pointerdown", (ev) => {
         ev.preventDefault();
         ev.stopPropagation();
+        pressedIdx = idx;
+        hoverIdx = idx;
+        paint(idx);
         rt.onClick?.(r + 1, c + 1);
       });
-      k.addEventListener("pointerup", () => rt.onRelease?.());
-      k.addEventListener("pointerleave", () => rt.onRelease?.());
+      const up = () => {
+        if (hoverIdx === idx) {
+          hoverIdx = -1;
+        }
+        paint(idx);
+        rt.onRelease?.();
+      };
+      k.addEventListener("pointerup", up);
+      k.addEventListener("pointerleave", up);
+      k.addEventListener("pointercancel", up);
     });
     for (let r = 1; r <= 4; r++) {
       const py = (r - 1) * 20;
@@ -219139,6 +219166,8 @@ var EditorCanvas = class {
   dragState = null;
   /** 轻触按键（press 型）：正在按住的元件，window pointerup 时补发 release */
   pressEl = null;
+  /** 矩阵键盘：正在按下的按键所属元件（松手/指针移出窗口都要补发 release） */
+  pressedKeyEl = null;
   pinDragFrom = null;
   suppressNextPinClick = false;
   highlightEls = [];
@@ -219463,6 +219492,16 @@ var EditorCanvas = class {
     if (!mod2) return;
     const g = svg2("g", {});
     const rt = mod2.draw(g, el);
+    if (mod2.interact === "keys") {
+      rt.onClick = (r, c) => {
+        this.pressedKeyEl = el;
+        this.onElementEvent(el, "press", r, c);
+      };
+      rt.onRelease = () => {
+        this.pressedKeyEl = null;
+        this.onElementEvent(el, "release");
+      };
+    }
     g.setAttribute("transform", `translate(${el.pos[0]},${el.pos[1]})${el.rot ? ` rotate(${el.rot})` : ""}`);
     g.style.cursor = mod2.interact === "keys" ? "default" : "move";
     g.addEventListener("mouseenter", () => {
@@ -219744,6 +219783,11 @@ var EditorCanvas = class {
       this.onElementEvent(this.pressEl, "release");
       this.pressEl = null;
     }
+    if (this.pressedKeyEl) {
+      const el = this.pressedKeyEl;
+      this.pressedKeyEl = null;
+      this.onElementEvent(el, "release");
+    }
     if (this.mode === "dragging" && this.dragState) {
       if (this.dragState.moved) this.onChange();
       this.dragState = null;
@@ -219898,7 +219942,10 @@ var EditorCanvas = class {
       y -= (300 - h2) / 2;
       h2 = 300;
     }
-    const rect = this.svg.getBoundingClientRect();
+    const full = this.svg.getBoundingClientRect();
+    const cover = this.drawerCoverPx(full);
+    const visW = Math.max(160, full.width - cover);
+    const rect = { width: visW, height: full.height };
     if (rect.width > 0 && rect.height > 0) {
       const va = w / h2, ra = rect.width / rect.height;
       if (ra > va) {
@@ -219918,12 +219965,27 @@ var EditorCanvas = class {
         x = cx - w / 2;
         y = cy - h2 / 2;
       }
+      if (cover > 0 && full.width > 0) {
+        const extra = full.width / visW - 1;
+        if (extra > 1e-3) w += w * extra;
+      }
     }
     this.zoom = W3 / w;
     this.applyViewBox(x, y, w, h2);
   }
   get zoomLevel() {
     return this.zoom;
+  }
+  /** 右侧讲义抽屉遮住画布的像素宽度（抽屉未打开时为 0） */
+  drawerCoverPx(full) {
+    const d = document.getElementById("doc-drawer");
+    if (!d) return 0;
+    const cs = getComputedStyle(d);
+    if (cs.display === "none" || cs.visibility === "hidden") return 0;
+    const r = d.getBoundingClientRect();
+    if (r.width <= 0) return 0;
+    const overlap = full.right - Math.max(full.left, r.left);
+    return Math.max(0, Math.min(overlap, full.width * 0.6));
   }
   /** 当前视图是否已偏离原始位置（供状态栏/测试判断平移生效） */
   get viewOrigin() {
@@ -226133,6 +226195,9 @@ function rebuildSim() {
   scope.refreshSources();
   updateButtons();
 }
+var keypadPressAt = /* @__PURE__ */ new Map();
+var keypadReleaseTimers = /* @__PURE__ */ new Map();
+var KEYPAD_MIN_HOLD_MS = 120;
 function onElementEvent(el, action, r, c) {
   const simEl = sim.elements.get(el.id);
   if (!simEl) return;
@@ -226140,9 +226205,31 @@ function onElementEvent(el, action, r, c) {
     simEl.state.pressed = action === "press";
     sim.runElementsManual();
   } else if (el.type === "keypad4x4") {
-    if (action === "press" && r && c) simEl.state.pressed = `${r},${c}`;
-    if (action === "release") simEl.state.pressed = null;
-    sim.runElementsManual();
+    const pending = keypadReleaseTimers.get(el.id);
+    if (pending) {
+      clearTimeout(pending);
+      keypadReleaseTimers.delete(el.id);
+    }
+    if (action === "press" && r && c) {
+      simEl.state.pressed = `${r},${c}`;
+      keypadPressAt.set(el.id, performance.now());
+      sim.runElementsManual();
+    } else if (action === "release") {
+      const held = performance.now() - (keypadPressAt.get(el.id) ?? 0);
+      if (held < KEYPAD_MIN_HOLD_MS) {
+        keypadReleaseTimers.set(el.id, setTimeout(() => {
+          keypadReleaseTimers.delete(el.id);
+          const cur = sim.elements.get(el.id);
+          if (cur) {
+            cur.state.pressed = null;
+            sim.runElementsManual();
+          }
+        }, KEYPAD_MIN_HOLD_MS - held));
+      } else {
+        simEl.state.pressed = null;
+        sim.runElementsManual();
+      }
+    }
   } else if (el.type === "switch" && action === "click") {
     if (canvas.lastDragMoved) return;
     simEl.state.closed = !simEl.state.closed;

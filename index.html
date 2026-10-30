@@ -266,7 +266,8 @@
       letter-spacing: .05em;
     }
 
-    /* 6.2 首页浮动入口：缓慢漂移，可点击进入、可关闭（尺寸放大一倍、漂移速度放慢） */
+    /* 6.2 首页浮动入口：缓慢漂移，可点击进入、可关闭（尺寸放大一倍、漂移速度放慢）
+       半透明 + 背景模糊：不完全遮挡底下内容；白色文字加深色描边/投影保证可读 */
     #sim-float {
       position: fixed;
       right: 26px;
@@ -277,22 +278,30 @@
       gap: 12px;
       padding: 17px 32px 17px 28px;
       border-radius: 999px;
-      background: linear-gradient(135deg, #22c55e, #15803d);
+      background: linear-gradient(135deg, rgba(16, 122, 62, .62), rgba(9, 62, 35, .74));
+      -webkit-backdrop-filter: blur(10px) saturate(150%);
+      backdrop-filter: blur(10px) saturate(150%);
+      border: 1px solid rgba(255, 255, 255, .5);
       color: #fff !important;
       font-size: 28px;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: .02em;
       white-space: nowrap;
       text-decoration: none !important;
-      box-shadow: 0 14px 34px rgba(21, 128, 61, .42);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, .6), 0 0 2px rgba(0, 0, 0, .45);
+      -webkit-text-stroke: .6px rgba(0, 0, 0, .25);
+      box-shadow: 0 14px 34px rgba(9, 62, 35, .34);
       transform: translate(0, 0);
       will-change: transform;
-      transition: box-shadow .2s, filter .2s;
+      transition: box-shadow .2s, background .2s, filter .2s;
     }
     #sim-float:hover,
-    #sim-float:focus-visible { filter: brightness(1.07); box-shadow: 0 18px 44px rgba(21, 128, 61, .55); }
+    #sim-float:focus-visible {
+      background: linear-gradient(135deg, rgba(22, 152, 78, .8), rgba(11, 74, 42, .88));
+      box-shadow: 0 18px 44px rgba(9, 62, 35, .46);
+    }
     #sim-float:focus-visible { outline: 3px solid #86efac; outline-offset: 3px; }
-    #sim-float .sf-ico { font-size: 34px; line-height: 1; }
+    #sim-float .sf-ico { font-size: 34px; line-height: 1; -webkit-text-stroke: 0; text-shadow: none; }
     #sim-float .sf-txt { white-space: nowrap; }
     #sim-float .sf-close {
       display: inline-flex;
@@ -302,12 +311,14 @@
       height: 40px;
       margin-left: 4px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, .22);
+      background: rgba(255, 255, 255, .26);
       font-size: 26px;
       line-height: 1;
       cursor: pointer;
+      -webkit-text-stroke: 0;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, .5);
     }
-    #sim-float .sf-close:hover { background: rgba(255, 255, 255, .4); }
+    #sim-float .sf-close:hover { background: rgba(255, 255, 255, .45); }
     @media (max-width: 640px) {
       #sim-float {
         right: 14px;
