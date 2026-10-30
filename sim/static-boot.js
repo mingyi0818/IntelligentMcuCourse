@@ -250,6 +250,8 @@
     var topbar = document.getElementById('topbar');
     if (topbar && topbar.parentNode) topbar.parentNode.insertBefore(bar, topbar.nextSibling);
     window.addEventListener('mvl:langchange', refresh);
+    // 说明条改变了顶栏区域高度：通知应用重新摆放讲义抽屉
+    try { window.dispatchEvent(new Event('mvl:noticeadded')); } catch (e) { /* 老浏览器忽略 */ }
   }
 
   function boot() {

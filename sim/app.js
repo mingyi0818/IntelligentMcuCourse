@@ -225405,12 +225405,31 @@ function showCodeView() {
   switchView("code");
 }
 var docDrawer = $16("#doc-drawer");
+function positionDocDrawer() {
+  let top = 0;
+  for (const id of ["topbar", "static-note"]) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+    const r = el.getBoundingClientRect();
+    if (r.height > 0) top = Math.max(top, r.bottom);
+  }
+  docDrawer.style.top = `${Math.round(top)}px`;
+}
 function toggleDocDrawer(open) {
   const show2 = open ?? docDrawer.style.display === "none";
   docDrawer.style.display = show2 ? "flex" : "none";
+  if (show2) positionDocDrawer();
   setTimeout(() => {
     if (currentTemplate) canvas.refitIfUntouched();
   }, 0);
+}
+window.addEventListener("resize", () => {
+  if (docDrawer.style.display !== "none") positionDocDrawer();
+});
+for (const ev of ["mvl:noticeadded", "load"]) {
+  window.addEventListener(ev, () => {
+    if (docDrawer.style.display !== "none") positionDocDrawer();
+  });
 }
 $16("#btn-doc").addEventListener("click", () => toggleDocDrawer());
 $16("#doc-close").addEventListener("click", () => toggleDocDrawer(false));
