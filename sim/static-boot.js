@@ -222,18 +222,28 @@
     link.target = '_blank';
     link.rel = 'noopener';
     link.style.cssText = 'color:#1a73e8;text-decoration:none;white-space:nowrap';
+    // 返回智慧课程首页（静态公开版必备：本页可能由课程站以外的方式打开）
+    var back = document.createElement('a');
+    back.id = 'btn-back-course';
+    back.href = '../index.html';
+    back.style.cssText = 'display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border:1px solid #1a73e8;border-radius:4px;background:#fff;color:#1a73e8;text-decoration:none;white-space:nowrap;font-size:12px';
     var refresh = function () {
       if (lang() === 'en') {
         text.textContent = 'Public practice edition: simulation and progress stay in this browser. Online build, official grades and the AI assistant are provided by the campus edition.';
         link.textContent = 'Local build guide →';
+        back.textContent = '🏠 Course home';
+        back.title = 'Back to the Intelligent MCU course website';
       } else {
         text.textContent = '公开练习版：仿真与进度保存在本机；在线编译、正式成绩与 AI 助教由校内完整版提供。';
         link.textContent = '本地编译说明 →';
+        back.textContent = '🏠 返回课程首页';
+        back.title = '返回《单片机原理及应用》智慧课程首页';
       }
     };
     refresh();
     bar.appendChild(text);
     bar.appendChild(link);
+    bar.appendChild(back);
     var topbar = document.getElementById('topbar');
     if (topbar && topbar.parentNode) topbar.parentNode.insertBefore(bar, topbar.nextSibling);
     window.addEventListener('mvl:langchange', refresh);

@@ -246,6 +246,85 @@
     }
     body.home .quick-link .ql-title { font-size: 1.15em; }
 
+    /* 6.1 虚拟仿真入口卡片：首页第一优先，视觉上明显区分 */
+    body.home .quick-link-sim {
+      border: 1px solid #16a34a;
+      background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 70%);
+      box-shadow: 0 6px 18px rgba(22, 163, 74, .12);
+    }
+    body.home .quick-link-sim .ql-title { color: #15803d; }
+    body.home .quick-link-sim::before {
+      content: "推荐";
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 2px 10px;
+      background: #16a34a;
+      color: #fff;
+      font-size: .72em;
+      border-bottom-left-radius: 8px;
+      letter-spacing: .05em;
+    }
+
+    /* 6.2 首页浮动入口：缓慢漂移，可点击进入、可关闭 */
+    #sim-float {
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 900;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #22c55e, #15803d);
+      color: #fff !important;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none !important;
+      box-shadow: 0 10px 26px rgba(21, 128, 61, .38);
+      animation: simDrift 34s ease-in-out infinite alternate;
+      will-change: transform;
+      transition: box-shadow .2s, filter .2s;
+    }
+    #sim-float:hover { filter: brightness(1.06); box-shadow: 0 12px 30px rgba(21, 128, 61, .5); animation-play-state: paused; }
+    #sim-float .sf-ico { font-size: 17px; }
+    #sim-float .sf-close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      margin-left: 2px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .22);
+      font-size: 14px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    #sim-float .sf-close:hover { background: rgba(255, 255, 255, .4); }
+    @keyframes simDrift {
+      0%   { transform: translate(4vw, 74vh); }
+      14%  { transform: translate(74vw, 62vh); }
+      28%  { transform: translate(66vw, 16vh); }
+      42%  { transform: translate(12vw, 22vh); }
+      56%  { transform: translate(8vw, 58vh); }
+      70%  { transform: translate(70vw, 30vh); }
+      84%  { transform: translate(30vw, 78vh); }
+      100% { transform: translate(4vw, 40vh); }
+    }
+    @media (max-width: 640px) {
+      #sim-float { font-size: 13px; padding: 8px 12px; }
+      @keyframes simDrift {
+        0%   { transform: translate(4vw, 80vh); }
+        50%  { transform: translate(48vw, 30vh); }
+        100% { transform: translate(6vw, 62vh); }
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #sim-float { animation: none; transform: translate(72vw, 72vh); }
+    }
+
     /* 7. 课程信息：双列网格卡片 */
     body.home .info-grid {
       display: grid;
@@ -633,7 +712,7 @@
       <a href="index.html" class="active">首页</a>
       <a href="syllabus.html">教学大纲</a>
       <a href="lab/index.html">实验指导</a>
-      <a href="/IntelligentMcuCourse/sim/index.html?exp=lab08_orchard" target="_blank" rel="noopener">虚拟仿真</a>
+      <a href="sim/index.html?exp=lab08_orchard" target="_blank" rel="noopener">虚拟仿真</a>
       <a href="exercises.html">练习题</a>
       <a href="resources.html">资源下载</a>
       <a href="sizheng.html">课程思政</a>
@@ -729,6 +808,10 @@
   <!-- ============ 快速入口 ============ -->
   <h2 class="section-title">快速入口</h2>
   <div class="quick-links">
+    <a class="quick-link quick-link-sim" href="sim/index.html?exp=lab08_orchard" target="_blank" rel="noopener">
+      <div class="ql-title">🧪 虚拟仿真实验</div>
+      <div class="ql-desc">浏览器内搭电路、烧录运行：22 个实验（STC89C52RC / STM32 双平台），免登录</div>
+    </a>
     <a class="quick-link" href="syllabus.html">
       <div class="ql-title">教学大纲</div>
       <div class="ql-desc">课程目标、章节学时、32 次课映射表、考核方式</div>
@@ -740,10 +823,6 @@
     <a class="quick-link" href="exercises.html">
       <div class="ql-title">在线练习题</div>
       <div class="ql-desc">1079 道题，单选/多选/判断/简答四类</div>
-    </a>
-    <a class="quick-link" href="resources.html">
-      <div class="ql-title">资源下载</div>
-      <div class="ql-desc">代码工程、课件 PPT、数据手册、工具链安装包</div>
     </a>
     <a class="quick-link" href="faq.html">
       <div class="ql-title">常见问题 FAQ</div>
@@ -1095,6 +1174,37 @@
   } else {
     init();
   }
+})();
+</script>
+
+<!-- ============ 虚拟仿真浮动入口（可点击进入，可手动关闭） ============ -->
+<a id="sim-float" href="sim/index.html?exp=lab08_orchard" target="_blank" rel="noopener" title="进入单片机虚拟仿真实验系统">
+  <span class="sf-ico">🧪</span><span class="sf-txt">虚拟仿真实验</span>
+  <span class="sf-close" id="sim-float-close" role="button" tabindex="0" aria-label="关闭浮动入口" title="关闭此浮动入口">×</span>
+</a>
+<script>
+(function () {
+  var KEY = 'mvl:simFloatHiddenAt';
+  var RESHOW_DAYS = 7;              // 关闭后 7 天再出现，避免长期占屏
+  var el = document.getElementById('sim-float');
+  if (!el) return;
+  var hiddenAt = 0;
+  try { hiddenAt = Number(localStorage.getItem(KEY) || 0); } catch (e) { hiddenAt = 0; }
+  if (hiddenAt && Date.now() - hiddenAt < RESHOW_DAYS * 86400000) { el.remove(); return; }
+
+  function dismiss(ev) {
+    if (ev) { ev.preventDefault(); ev.stopPropagation(); }
+    try { localStorage.setItem(KEY, String(Date.now())); } catch (e) { /* 隐私模式 */ }
+    el.style.transition = 'opacity .18s, transform .18s';
+    el.style.opacity = '0';
+    el.style.transform = 'scale(.9)';
+    setTimeout(function () { el.remove(); }, 200);
+  }
+  var close = document.getElementById('sim-float-close');
+  close.addEventListener('click', dismiss);
+  close.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') dismiss(e);
+  });
 })();
 </script>
 

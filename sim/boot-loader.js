@@ -18,6 +18,30 @@
   var appFile = cfg.app || 'app.js';
   var injected = false;
 
+  // 首屏等待反馈：核心程序约 1.6MB（含编辑器），慢网络下需要较长时间。
+  // 给出已等待秒数并在超时后提供刷新入口，避免用户以为页面卡死。
+  function startProgress() {
+    var tip = document.querySelector('#static-boot span');
+    if (!tip) return function () {};
+    var t0 = Date.now();
+    var warned = false;
+    var timer = setInterval(function () {
+      var s = Math.round((Date.now() - t0) / 1000);
+      if (s >= 45 && !warned) {
+        warned = true;
+        tip.innerHTML = '仍在载入（已等待 ' + s + ' 秒）：当前网络较慢，可继续等待或'
+          + '<a href="javascript:location.reload()" style="color:#1a73e8;margin-left:4px">刷新重试</a>';
+        return;
+      }
+      if (warned) return;
+      tip.textContent = s < 6
+        ? '正在载入核心程序（约 1.6 MB）…'
+        : '正在载入核心程序（约 1.6 MB），已等待 ' + s + ' 秒；首次访问较慢，之后会使用浏览器缓存';
+    }, 1000);
+    return function () { clearInterval(timer); };
+  }
+  var stopProgress = startProgress();
+
   function inject(base) {
     if (injected) return;
     injected = true;
@@ -43,6 +67,12 @@
       inject('./');
     };
     document.body.appendChild(script);
+    // 应用就绪后会移除 #static-boot，此时停止等待计时
+    var watch = setInterval(function () {
+      if (document.getElementById('static-boot')) return;
+      stopProgress();
+      clearInterval(watch);
+    }, 400);
   }
 
   var remote = /^https?:$/.test(location.protocol) && cdn && !/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname);
