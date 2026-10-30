@@ -63,8 +63,13 @@
         if (!r.ok) throw new Error('cdn probe ' + r.status);
         return r.json();
       })
-      .then(function () {
+      .then(function (j) {
         if (settled) return;
+        // 版本一致性校验：jsDelivr 对分支有缓存，若其版本与本次构建不一致，
+        // 混用新旧 app.js/index.html 可能出错，此时宁可用本站资源。
+        if (j && j.assets && j.assets.app && ver && j.assets.app !== ver) {
+          throw new Error('cdn stale');
+        }
         settled = true;
         clearTimeout(timer);
         inject(cdn);
