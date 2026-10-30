@@ -50,7 +50,19 @@
     link.rel = 'stylesheet';
     link.href = base + cssFile + (ver ? '?v=' + ver : '');
     document.head.appendChild(link);
-
+    // 样式表看门狗：CDN 与 app.js 并发下载时，样式表偶发长时间挂起（页面会全裸奔）。
+    // 4 秒还没挂上就补一份本站 CSS，谁先到用谁，重复加载无副作用。
+    if (base !== './') {
+      var cssOk = false;
+      link.onload = function () { cssOk = true; };
+      setTimeout(function () {
+        if (cssOk || link.sheet) return;
+        var local = document.createElement('link');
+        local.rel = 'stylesheet';
+        local.href = './' + cssFile + (ver ? '?v=' + ver : '');
+        document.head.appendChild(local);
+      }, 4000);
+    }
     var script = document.createElement('script');
     script.type = 'module';
     script.src = base + appFile + (ver ? '?v=' + ver : '');
